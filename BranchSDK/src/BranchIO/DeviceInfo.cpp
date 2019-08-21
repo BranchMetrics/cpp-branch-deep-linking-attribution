@@ -4,7 +4,6 @@
 
 #include <Poco/Environment.h>
 #include <Poco/Net/NetworkInterface.h>
-#include <Poco/Net/IPAddress.h>
 
 #include "BranchIO/Branch.h"
 #include "BranchIO/Defines.h"

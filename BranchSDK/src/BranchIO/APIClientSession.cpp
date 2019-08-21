@@ -2,7 +2,6 @@
 
 #include "BranchIO/APIClientSession.h"
 
-#include <Poco/Dynamic/Var.h>
 #include <Poco/Exception.h>
 #include <Poco/Net/Context.h>
 #include <Poco/Net/HTTPCredentials.h>
@@ -15,6 +14,7 @@
 
 #include <string>
 
+#include "BranchIO/Defines.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Log.h"
 

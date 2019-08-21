@@ -2,7 +2,6 @@
 
 #include "BranchIO/Request.h"
 
-#include <Poco/Thread.h>
 #include <Poco/URI.h>
 #include <algorithm>
 #include <string>
