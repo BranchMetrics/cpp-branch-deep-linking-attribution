@@ -22,8 +22,7 @@ class BranchioConan(ConanFile):
         "analytics"
     )
     author = "Branch Metrics, Inc <sdk-team@branch.io>"
-    # TODO(jdee): Update this once a final repo name is determined.
-    url = "https://github.com/BranchMetrics/sdk303_cpp"
+    url = "https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution"
     # TODO(jdee): Find an appropriate URL for this field, either docs or
     # marketing.
     # homepage = "https://docs.branch.io/cpp-sdk"
