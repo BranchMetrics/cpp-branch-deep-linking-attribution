@@ -1,0 +1,1 @@
+include(cmake/gcc.cmake)

@@ -1,0 +1,78 @@
+version: 2
+jobs:
+  build:
+    working_directory: /tmp/code
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            apt-get -y update
+            apt-get install -y vim
+            apt-get install -y g++
+            apt-get install -y python
+            apt-get install -y git
+            apt-get install -y doxygen
+            apt-get install -y texlive-font-utils
+      - run:
+          name: Install CMake & Conan
+          command: |
+            apt-get install -y python-pip
+            pip install cmake # Latest version from pip rather than apt
+            pip install conan
+      - run:
+          name: Configure Ubuntu Extra Step
+          command: |
+            conan profile new default --detect  # Generates default profile detecting GCC and sets old ABI
+            conan profile update settings.compiler.libcxx=libstdc++11 default  # Sets libcxx to C++11 ABI
+      - run:
+          name: Pre Build
+          command: |
+            mkdir build && cd build
+            mkdir Debug
+            mkdir Release
+      - run:
+          name: Build Debug
+          command: |
+            cd build/Debug
+            conan install ../.. -s build_type=Debug --build gtest
+            cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DSKIP_INSTALL_ALL=true
+            cmake --build . -- -j8
+      - run:
+          name: Build Release
+          command: |
+            cd build/Release
+            conan install ../.. -s build_type=Release --build gtest
+            cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSKIP_INSTALL_ALL=true
+            cmake --build . -- -j8
+      - run:
+          name: Lint
+          command: |
+            pushd .
+            cd BranchSDK/src
+            ../tools/cpplint.py --linelength=120 --filter=-build/namespaces,-runtime/references --recursive --repository=. BranchIO/*.*
+            popd
+      - run:
+          name: Generate Documentation
+          command: |
+            pushd .
+            cd BranchSDK
+            doxygen Doxyfile
+            cd docs
+            tar -cvf nativesdk.tar html
+            popd
+      - run:
+          name: Unit Tests
+          command: |
+            cd build/Debug && ctest -C Debug
+            cd ../Release && ctest -C Release
+      - run:
+          name: run Debug hello sample
+          command: ./build/Debug/bin/hello ${BRANCH_KEY}
+      - run:
+          name: run Release example
+          command: echo "0" | ./build/Release/bin/example -k {BRANCH_KEY} -p
+      - store_artifacts:
+          path: ./BranchSDK/docs/nativesdk.tar

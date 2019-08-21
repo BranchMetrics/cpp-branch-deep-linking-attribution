@@ -1,0 +1,59 @@
+#!/bin/sh
+if [ ! -f "./build" ]; then mkdir build; fi
+
+BUILD_CONFIGURATION=$1
+if [ "$BUILD_CONFIGURATION" = "" ]
+then
+  BUILD_CONFIGURATION=Release
+fi
+
+cd build
+if [ ! -f "./$BUILD_CONFIGURATION" ]; then mkdir "./$BUILD_CONFIGURATION"; fi
+
+cd $BUILD_CONFIGURATION
+
+BUILD_SHARED_LIBS=False
+# BUILD_SHARED_LIBS=True # TODO(jdee): Not working
+
+conan install ../../conanfile.py -o "*:shared=$BUILD_SHARED_LIBS"
+cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DSKIP_INSTALL_ALL=true -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS
+# 8 threads available for parallel building
+cmake --build . -- -j8
+if [ $? != 0 ]
+then
+  echo 'Build failed. Not running unit tests.'
+  exit 1
+fi
+
+ctest -C $BUILD_CONFIGURATION
+if [ $? != 0 ]
+then
+  echo 'Unit tests failed.'
+  exit 1
+fi
+cd ../..
+
+# Install into the Conan cache
+GIT_BRANCH=master
+conan create . branch/testing --build outdated -o "*:shared=$BUILD_SHARED_LIBS" -o "BranchIO:git_branch=$GIT_BRANCH" -s build_type=$BUILD_CONFIGURATION
+if [ $? != 0 ]
+then
+  echo 'conan create failed.'
+  exit 1
+fi
+
+# Lint
+pushd .
+cd BranchSDK/src
+../tools/cpplint.py --linelength=120 --filter=-build/namespaces,-runtime/references --recursive --repository=. ./BranchIO/*.*
+if [ $? != 0 ]
+then
+  echo 'Linting failed.'
+  exit 1
+fi
+popd
+
+# build docs
+cd BranchSDK
+doxygen
+cd ..

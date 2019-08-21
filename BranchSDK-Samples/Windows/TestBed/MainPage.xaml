@@ -1,0 +1,56 @@
+﻿<Page
+    x:Class="UWP101.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWP101"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <StackPanel  Margin="20,30,20,30">
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Image Width="100" Source="Assets/Square150x150Logo.scale-200.png"/>
+            <TextBlock
+                FontSize="{ThemeResource HubHeaderThemeFontSize}"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Margin="20,0,0,0">
+                Branch TestBed
+            </TextBlock>
+        </StackPanel>
+        <TextBlock
+            x:Name="branchDescription"
+            FontSize="{ThemeResource TextStyleLargeFontSize}"
+            HorizontalAlignment="Center"
+            Margin="0,10,0,10"/>
+        <Button
+            FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
+            HorizontalAlignment="Center"
+            Click="sendOpenRequest"
+            Margin="0,10,0,10"
+            BorderThickness="1"
+            BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}">
+            Open
+        </Button>
+        <TextBox
+            IsReadOnly="True"
+            x:Name="responseText"
+            FontSize="{ThemeResource TextStyleLargeFontSize}"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Margin="10,10,10,10"
+            Width="800"
+            Height="600"
+            Header="Output"
+            Text="[Ready for request]"
+            BorderThickness="1"
+            AcceptsReturn="True"
+            HorizontalContentAlignment="Center"
+            Background="{ThemeResource TextBoxBackgroundThemeBrush}"
+            Foreground="{ThemeResource TextBoxForegroundThemeBrush}"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            TextChanged="responseTextUpdated"
+            />
+    </StackPanel>
+</Page>
