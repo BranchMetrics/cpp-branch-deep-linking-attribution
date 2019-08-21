@@ -34,7 +34,9 @@ fi
 cd ../..
 
 # Install into the Conan cache
-GIT_BRANCH=master
+# TODO(jdee): Revert to master branch
+# GIT_BRANCH=master
+GIT_BRANCH=initial_revision
 conan create . branch/testing --build outdated -o "*:shared=$BUILD_SHARED_LIBS" -o "BranchIO:git_branch=$GIT_BRANCH" -s build_type=$BUILD_CONFIGURATION
 if [ $? != 0 ]
 then

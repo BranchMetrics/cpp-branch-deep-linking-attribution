@@ -30,7 +30,9 @@ class BranchioConan(ConanFile):
     # ----- Package settings and options -----
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "git_branch": "ANY"}
-    default_options = {"shared": False, "git_branch": "master"}
+    # TODO(jdee): Revert to master branch
+    # default_options = {"shared": False, "git_branch": "master"}
+    default_options = {"shared": False, "git_branch": "initial_revision"}
     generators = "cmake"
     exports_sources = "BranchIO"
 
