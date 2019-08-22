@@ -8,6 +8,7 @@
 
 		<Feature Id="ProductFeature" Title="BranchInstaller" Level="1">
 			<ComponentGroupRef Id="BranchHeaders" />
+			<ComponentGroupRef Id="ThirdPartyHeaders" />
 		</Feature>
 	</Product>
 
@@ -63,5 +64,11 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\StandardEvent.h" />
       </Component>
 		</ComponentGroup>
+    <ComponentGroup Id="ThirdPartyHeaders">
+      <Component Id="ZlibHeaders" Guid="5C41F39D-3CE8-4CF1-BE36-4619DFBA1F83" Directory="INCLUDEFOLDER" >
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zconf.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zlib.h" />
+      </Component>
+    </ComponentGroup>
 	</Fragment>
 </Wix>
