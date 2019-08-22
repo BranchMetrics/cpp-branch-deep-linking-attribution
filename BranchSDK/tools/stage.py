@@ -1,14 +1,18 @@
 #! /usr/bin/env python
 
-import json, os, re, shutil
+import json, os, shutil
 from os import makedirs
 
 # Recursively copy src directory into dst directory
 # excludes is a list of patterns to exclude
 def copyall(src, dst, excludes=[]):
-    exclude_res = [re.compile(r) for r in excludes]
+    # ignores is a function to be passed to copytree
     ignores = shutil.ignore_patterns(*["*" + r + "*" for r in excludes])
-    files = [f for f in os.listdir(src) if [r for r in exclude_res if r.search(f)] == []]
+    all_files = os.listdir(src)
+    # rejects is a set of all files matching the excludes
+    rejects = ignores(src, all_files)
+    files = [f for f in all_files if f not in rejects]
+
     for f in files:
         path = src + "/" + f
         if os.path.isdir(path):
