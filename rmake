@@ -73,7 +73,7 @@ fi
 # TODO(jdee): Revert to master branch
 # GIT_BRANCH=master
 conan create ../.. branch/testing \
-  --json build/${BUILD_TYPE}/conan-install.json \
+  --json conan-install.json \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
   --options "BranchIO:git_branch=$GIT_BRANCH" \
