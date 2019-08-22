@@ -35,7 +35,7 @@ fi
 
 if [ $BUILD_SHARED_LIBS != True -a $BUILD_SHARED_LIBS != False ]
 then
-  echo "Invalid build configuration \"$BUILD_TYPE\". Please specify Debug or Release."
+  echo "Invalid value for BUILD_SHARED_LIBS \"$BUILD_SHARED_LIBS\". Please specify True or False."
   exit 1
 fi
 
