@@ -51,19 +51,19 @@ jobs:
           name: Install Debug (Conan cache)
           command: |
             cd build/Debug
-            conan create ../.. branch/testing |
-              --json conan-install.json |
-              --build outdated |
-              --settings build_type=Debug |
+            conan create ../.. branch/testing \
+              --json conan-install.json \
+              --build outdated \
+              --settings build_type=Debug \
               --options "BranchIO:git_branch=${CIRCLE_BRANCH}"
       - run:
           name: Install Release (Conan cache)
           command: |
             cd build/Release
-            conan create ../.. branch/testing |
-              --json conan-install.json |
-              --build outdated |
-              --settings build_type=Release |
+            conan create ../.. branch/testing \
+              --json conan-install.json \
+              --build outdated \
+              --settings build_type=Release \
               --options "BranchIO:git_branch=${CIRCLE_BRANCH}"
       - run:
           name: Stage Debug
