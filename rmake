@@ -62,8 +62,6 @@ then
 fi
 
 # Install into the Conan cache
-# TODO(jdee): Revert to master branch
-# GIT_BRANCH=master
 conan create ../.. branch/testing \
   --json conan-install.json \
   --build outdated \
