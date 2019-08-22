@@ -50,6 +50,11 @@ fi
 
 echo "Building stage from conan cache"
 ../../BranchSDK/tools/stage.py
+if [ $? != 0 ]
+then
+  echo 'stage.py failed.'
+  exit 1
+fi
 
 cd ../..
 
