@@ -1,14 +1,18 @@
 #! /usr/bin/env python
 
-import json, os, shutil
+import json, os, re, shutil
 from os import makedirs
 
 # Recursively copy src directory into dst directory
-def copyall(src, dst):
-    for f in os.listdir(src):
+# excludes is a list of patterns (REs) to exclude
+def copyall(src, dst, excludes=[]):
+    exclude_res = [re.compile(r) for r in excludes]
+    ignores = shutil.ignore_patterns(*["*" + r + "*" for r in excludes])
+    files = [f for f in os.listdir(src) if [r for r in exclude_res if r.match(f)] == []]
+    for f in files:
         path = src + "/" + f
         if os.path.isdir(path):
-            shutil.copytree(path, dst + "/" + f)
+            shutil.copytree(path, dst + "/" + f, ignore=ignores)
         else:
             shutil.copy(path, dst)
 
@@ -25,6 +29,10 @@ shutil.rmtree("stage", ignore_errors=True)
 makedirs("stage/include")
 makedirs("stage/lib")
 
+# Skip Poco's MongoDB and SQLiteData modules, which we don't require.
+# Also CppUnit, which one of our deps uses.
+excludes = ["CppUnit", "MongoDB", "SQLiteData"]
+
 for item in installed:
     recipe = item["recipe"]
     print(recipe["id"])
@@ -35,5 +43,5 @@ for item in installed:
         rootpath = package["cpp_info"]["rootpath"]
         print(" " + rootpath)
 
-        copyall(rootpath + "/include", "stage/include")
-        copyall(rootpath + "/lib", "stage/lib")
+        copyall(rootpath + "/include", "stage/include", excludes=excludes)
+        copyall(rootpath + "/lib", "stage/lib", excludes=excludes)
