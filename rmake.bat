@@ -97,9 +97,9 @@ cd %BUILD_SUBDIR%
 
 REM Build/install dependencies needed for this SDK
 conan install ..\..\conanfile.py^
-  -s build_type=%BUILD_TYPE%^
-  -s arch=%TARGET_ARCH%^
-  -o *:shared=%BUILD_SHARED_LIBS%^
+  --settings build_type=%BUILD_TYPE%^
+  --settings arch=%TARGET_ARCH%^
+  --options *:shared=%BUILD_SHARED_LIBS%^
   --build outdated
 
 if ERRORLEVEL 1 (
@@ -133,12 +133,13 @@ if ERRORLEVEL 1 (
   exit /b -1
 )
 
-cd ..\..
-
 REM Install into the Conan cache
-conan create . branch/testing^
-  -s build_type=%BUILD_TYPE%^
-  -s arch=%TARGET_ARCH%^
-  -o *:shared=%BUILD_SHARED_LIBS%^
-  -o BranchIO:git_branch=%GIT_BRANCH%^
+conan create ..\.. branch/testing^
+  --json conan-install.json^
+  --settings build_type=%BUILD_TYPE%^
+  --settings arch=%TARGET_ARCH%^
+  --options *:shared=%BUILD_SHARED_LIBS%^
+  --options BranchIO:git_branch=%GIT_BRANCH%^
   --build outdated
+
+cd ..\..
