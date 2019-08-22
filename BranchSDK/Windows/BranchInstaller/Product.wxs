@@ -20,6 +20,9 @@
             <Directory Id="BRANCHIOINCLUDEFOLDER" Name="BranchIO">
               <Directory Id="BRANCHIOEVENTINCLUDEFOLDER" Name="Event" />
             </Directory>
+            <Directory Id="OPENSSLINCLUDEFOLDER" Name="openssl">
+              
+            </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
         </Directory>
@@ -69,6 +72,84 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zconf.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zlib.h" />
       </Component>
+      <Component Id="OpenSSLHeaders" Guid="132C3819-E72D-4452-93BA-EF3D7D8508A4" Directory="OPENSSLINCLUDEFOLDER" >
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\aes.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\applink.c" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1_mac.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1t.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bio.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\blowfish.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bn.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\buffer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\camellia.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cast.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cmac.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cms.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\comp.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\conf.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\conf_api.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\crypto.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\des.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\des_old.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dh.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dsa.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dso.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dtls1.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\e_os2.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ebcdic.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ec.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ecdh.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ecdsa.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\engine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\err.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\evp.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\hmac.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\idea.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\krb5_asn.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\kssl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\lhash.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\md4.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\md5.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\mdc2.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\modes.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\obj_mac.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\objects.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ocsp.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\opensslconf.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\opensslv.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ossl_typ.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pem.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pem2.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pkcs12.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pkcs7.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pqueue.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rand.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rc2.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rc4.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ripemd.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rsa.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\safestack.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\seed.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\sha.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\srp.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\srtp.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ssl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ssl2.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ssl23.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ssl3.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\stack.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\symhacks.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\tls1.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ts.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\txt_db.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ui.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ui_compat.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\whrlpool.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509_vfy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509v3.h" />
+       </Component>
     </ComponentGroup>
 	</Fragment>
 </Wix>
