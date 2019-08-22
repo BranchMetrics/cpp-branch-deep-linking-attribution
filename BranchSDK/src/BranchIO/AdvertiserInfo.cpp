@@ -1,10 +1,11 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
 #include "BranchIO/AdvertiserInfo.h"
+#include "Defines.h"
 
 namespace BranchIO {
 
-AdvertiserInfo::AdvertiserInfo() : PropertyManager() {
+AdvertiserInfo::AdvertiserInfo() : PropertyManager(), trackingDisabled(false), trackingLimited(false) {
 }
 
 AdvertiserInfo::~AdvertiserInfo() {
@@ -16,6 +17,34 @@ AdvertiserInfo::addId(AdIdType type, const std::string &value) {
 
     PropertyManager::addProperty(key, value);
     return *this;
+}
+
+AdvertiserInfo &
+AdvertiserInfo::disableTracking() {
+    trackingDisabled = true;
+    return *this;
+}
+
+AdvertiserInfo &
+AdvertiserInfo::enableTracking() {
+    trackingDisabled = false;
+    return *this;
+}
+
+AdvertiserInfo &
+AdvertiserInfo::limitAdTracking(bool is_lat) {
+    trackingLimited = is_lat;
+    return *this;
+}
+
+bool
+AdvertiserInfo::isTrackingDisabled() const {
+    return trackingDisabled;
+}
+
+bool
+AdvertiserInfo::isTrackingLimited() const {
+    return trackingLimited;
 }
 
 const char *

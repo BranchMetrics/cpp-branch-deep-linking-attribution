@@ -157,6 +157,9 @@ void Event::packageV1Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject
     jsonObject += packagingInfo.getSessionInfo().toJSON();
     jsonObject += packagingInfo.getDeviceInfo().toJSON();
     jsonObject += packagingInfo.getAppInfo().toJSON();
+
+    // Ad Tracking Limited
+    jsonObject.set(Defines::JSONKEY_APP_LAT_V1, (packagingInfo.getAdvertiserInfo().isTrackingLimited() ? 1 : 0));
 }
 
 void Event::packageV2Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject) const {
@@ -182,9 +185,12 @@ void Event::packageV2Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject
     userData += deviceInfo;
     userData += appInfo;
 
-    if (adInfo.size() > 0) {
+    // Advertising Ids
+    bool isAdTrackingLimited = packagingInfo.getAdvertiserInfo().isTrackingLimited();
+    if (!isAdTrackingLimited && adInfo.size() > 0) {
         userData.set(JSONKEY_ADVERTISING_IDS, adInfo);
     }
+    userData.set(Defines::JSONKEY_APP_LAT_V2, (isAdTrackingLimited ? 1 : 0));
 
     jsonObject.set(JSONKEY_USER_DATA, userData);
 }
