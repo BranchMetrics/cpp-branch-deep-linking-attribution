@@ -54,7 +54,8 @@ jobs:
             conan create ../.. branch/testing |
               --json conan-install.json |
               --build outdated |
-              --settings build_type=Debug
+              --settings build_type=Debug |
+              --options "BranchIO:git_branch=${CIRCLE_BRANCH}"
       - run:
           name: Install Release (Conan cache)
           command: |
@@ -62,7 +63,8 @@ jobs:
             conan create ../.. branch/testing |
               --json conan-install.json |
               --build outdated |
-              --settings build_type=Release
+              --settings build_type=Release |
+              --options "BranchIO:git_branch=${CIRCLE_BRANCH}"
       - run:
           name: Stage Debug
           command: |
