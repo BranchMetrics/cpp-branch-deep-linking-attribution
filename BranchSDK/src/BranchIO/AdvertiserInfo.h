@@ -38,11 +38,50 @@ class BRANCHIO_DLL_EXPORT AdvertiserInfo : public PropertyManager {
      * Add an advertiser/hardware ID
      * @param type Advertiser Id Type
      * @param value Advertiser Id Value
-     * @return this object for chainging buider methods
+     * @return this object for chaining builder methods
      */
     AdvertiserInfo &addId(AdIdType type, const std::string &value);
 
+    /**
+     * Method to disable the Tracking state. If disabled SDK will not track any user data or state.
+     * The SDK will not send any network calls except for deep linking when tracking is disabled.
+     * Tracking is "on" by default.
+     * @return this object for chaining builder methods
+     */
+    AdvertiserInfo &disableTracking();
+
+    /**
+     * Method to enable the Tracking state. If disabled SDK will not track any user data or state.
+     * The SDK will not send any network calls except for deep linking when tracking is disabled.
+     * Tracking is "on" by default.
+     * @return this object for chaining builder methods
+     */
+    AdvertiserInfo &enableTracking();
+
+    /**
+     * "Limit Ad Tracking" (LAT) enables users to opt-out and therefore restrict advertisers from targeting based on user behavior.
+     * @param is_lat true if the User has chosen to limit ad tracking
+     * @return
+     */
+    AdvertiserInfo &limitAdTracking(bool is_lat);
+
+ public:
+    /**
+     * Determine if tracking has been marked as disabled.
+     * @return true if Tracking has been marked as disabled.
+     */
+    bool isTrackingDisabled() const;
+
+    /**
+     * Determine if tracking has been marked as limited.
+     * @return true if Tracking has been marked as limited.
+     */
+    bool isTrackingLimited() const;
+
  private:
+    bool trackingDisabled;
+    bool trackingLimited;
+
     const char *toXString(AdvertiserInfo::AdIdType idType) const;
 };
 

@@ -68,13 +68,14 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param event Event to send
      * @param callback Callback to fire with success or failure notification.
      */
-    void sendEvent(const Event &event, IRequestCallback *callback);
+    virtual void sendEvent(const Event &event, IRequestCallback *callback);
 
     /**
      * @return the SDK Version
      */
     static const std::string &getVersion();
 
+ public:
     /**
      * @todo(andyp): Revisit Scope.
      * @return the Branch Key used to initialize Branch.

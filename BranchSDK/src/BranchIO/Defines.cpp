@@ -35,6 +35,8 @@ const char *Defines::JSONKEY_DEVICE_SCREEN_WIDTH = "screen_width";
 
 const char *Defines::JSONKEY_APP_DEVELOPER_IDENTITY = "developer_identity";
 const char *Defines::JSONKEY_APP_ENVIRONMENT = "environment";
+const char *Defines::JSONKEY_APP_LAT_V1 = "lat_val";
+const char *Defines::JSONKEY_APP_LAT_V2 = "limit_ad_tracking";
 const char *Defines::JSONKEY_APP_LINK_URL = "app_link_url";
 const char *Defines::JSONKEY_APP_PACKAGE_NAME = "package_name";
 const char *Defines::JSONKEY_APP_SDK = "sdk";

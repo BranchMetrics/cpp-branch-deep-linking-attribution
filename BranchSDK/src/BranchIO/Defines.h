@@ -41,6 +41,8 @@ class BRANCHIO_DLL_EXPORT Defines {
 
     static const char *JSONKEY_APP_DEVELOPER_IDENTITY;   ///< App Developer Identity
     static const char *JSONKEY_APP_ENVIRONMENT;          ///< App Environment
+    static const char *JSONKEY_APP_LAT_V1;               ///< Limit App Tracking, V1
+    static const char *JSONKEY_APP_LAT_V2;               ///< Limit App Tracking, V2
     static const char *JSONKEY_APP_LINK_URL;             ///< App Link Url
     static const char *JSONKEY_APP_PACKAGE_NAME;         ///< App Package Name
     static const char *JSONKEY_APP_SDK;                  ///< SDK
