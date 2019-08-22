@@ -7,7 +7,7 @@ from os import makedirs
 # excludes is a list of patterns to exclude
 def copyall(src, dst, excludes=[]):
     # ignores is a function to be passed to copytree
-    ignores = shutil.ignore_patterns(*["*" + r + "*" for r in excludes])
+    ignores = shutil.ignore_patterns(*excludes)
     all_files = os.listdir(src)
     # rejects is a set of all files matching the excludes
     rejects = ignores(src, all_files)
@@ -35,7 +35,7 @@ makedirs("stage/lib")
 
 # Skip Poco's MongoDB and SQLiteData modules, which we don't require.
 # Also CppUnit, which one of our deps uses.
-excludes = ["CppUnit", "MongoDB", "DataSQLite"]
+excludes = ["CppUnit", "*MongoDB*", "*DataSQLite*"]
 
 for item in installed:
     recipe = item["recipe"]
