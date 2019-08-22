@@ -1,12 +1,12 @@
 @echo off
 
-REM rmake [build_type [git_branch [build_shared_libs]]]
+REM rmake [build_type [build_shared_libs]]
 REM default: rmake Debug master False
 REM examples:
 REM rmake
 REM rmake Debug
-REM rmake Release my-branch
-REM rmake Debug master True
+REM rmake Release
+REM rmake Debug True
 REM
 REM Builds are done in build\<build_type> (for x86) or build\<build_type>x64 (for x64)
 REM e.g. build\Debugx64, build\Release. Target architecture is determined by environment.
@@ -16,12 +16,6 @@ REM ----- Argument parsing -----
 REM BUILD_TYPE (1st arg): Debug or Release. Default is Debug.
 set BUILD_TYPE=%1
 if "%BUILD_TYPE%" == "" set BUILD_TYPE=Debug
-
-REM GIT_BRANCH (2nd arg): Any branch from the github repo to use with conan create.
-REM Default is master.
-set GIT_BRANCH=%2
-if "%GIT_BRANCH%" == "" set GIT_BRANCH=master
-REM This will be validated by the conan create step at the end, in case the branch doesn't exist.
 
 REM BUILD_SHARED_LIBS (3rd arg): True or False. Determines whether to build DLLs instead of
 REM static libs (all deps, including this SDK). Default is False.
@@ -61,7 +55,6 @@ echo rmake.bat configuration:
 echo  BUILD_TYPE        %BUILD_TYPE%
 echo  TARGET_ARCH       %TARGET_ARCH%
 echo  BUILD_SHARED_LIBS %BUILD_SHARED_LIBS%
-echo  GIT_BRANCH        %GIT_BRANCH%
 echo.
 
 REM Determine some derived params for conan, cmake, etc.
@@ -147,7 +140,7 @@ conan create ..\.. branch/testing^
   --settings arch=%TARGET_ARCH%^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
-  --options BranchIO:git_branch=%GIT_BRANCH%^
+  --options BranchIO:source_folder=%CD%\..\..^
   --build outdated
 
 echo Building stage from conan cache
