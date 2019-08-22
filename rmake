@@ -1,12 +1,12 @@
 #!/bin/sh
 
-# rmake [build_type [git_branch [build_shared_libs]]]
-# default: rmake Debug master False
+# rmake [build_type [build_shared_libs]]
+# default: rmake Debug False
 # examples:
 # rmake
 # rmake Debug
-# rmake Release my-branch
-# rmake Debug master True
+# rmake Release
+# rmake Debug True
 
 BUILD_TYPE=$1
 if [ "$BUILD_TYPE" = "" ]
@@ -14,14 +14,7 @@ then
   BUILD_TYPE=Debug
 fi
 
-GIT_BRANCH=$2
-if [ "$GIT_BRANCH" = "" ]
-then
-  # TODO(jdee): Revert to master branch
-  GIT_BRANCH=initial_revision
-fi
-
-BUILD_SHARED_LIBS=$3
+BUILD_SHARED_LIBS=$2
 if [ "$BUILD_SHARED_LIBS" = "" ]
 then
   BUILD_SHARED_LIBS=False
@@ -42,7 +35,6 @@ fi
 echo "rmake configuration:"
 echo " BUILD_TYPE        $BUILD_TYPE"
 echo " BUILD_SHARED_LIBS $BUILD_SHARED_LIBS"
-echo " GIT_BRANCH        $GIT_BRANCH"
 echo
 
 if [ ! -f "./build" ]; then mkdir build 2>/dev/null; fi
@@ -76,7 +68,7 @@ conan create ../.. branch/testing \
   --json conan-install.json \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
-  --options "BranchIO:git_branch=$GIT_BRANCH" \
+  --options "BranchIO:source_folder=`pwd`/../.." \
   --settings build_type=$BUILD_TYPE
 if [ $? != 0 ]
 then

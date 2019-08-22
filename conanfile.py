@@ -1,5 +1,5 @@
 from conans import ConanFile, CMake, tools
-import os
+import os, shutil
 
 class BranchioConan(ConanFile):
     # ----- Package metadata -----
@@ -29,10 +29,8 @@ class BranchioConan(ConanFile):
 
     # ----- Package settings and options -----
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "git_branch": "ANY"}
-    # TODO(jdee): Revert to master branch
-    # default_options = {"shared": False, "git_branch": "master"}
-    default_options = {"shared": False, "git_branch": "initial_revision"}
+    options = {"shared": [True, False], "git_branch": "ANY", "source_folder": "ANY"}
+    default_options = {"shared": False, "git_branch": "master", "source_folder": None}
     generators = "cmake"
     exports_sources = "BranchIO"
 
@@ -41,24 +39,20 @@ class BranchioConan(ConanFile):
     build_requires = "gtest/1.8.1@bincrafters/stable"
 
     def source(self):
-        # TODO(jdee): Need to support installation from local source instead of GitHub.
-        # For now, can only install GH branches using the git_branch option, e.g.:
+        if self.options.source_folder:
+            folder = str(self.options.source_folder)
+            self.output.info("Copying from source_folder " + folder)
+            self.copyall(folder, ".", excludes=["build"])
+        else:
+            # TODO(jdee): Use tags from github once we have some. For now, check
+            # out branches from the repo.
+            git = tools.Git(folder=".")
+            self.output.info("Checking out branch %s" % self.options.git_branch)
 
-        # conan install -o BranchIO:git_branch=master
-
-        # Or in conanfile.txt:
-
-        # [Options]
-        # BranchIO:git_branch=master
-
-        # This is the proper way to set this up for distro, using a GitHub branch.
-        git = tools.Git(folder=".")
-        self.output.info("Checking out branch %s" % self.options.git_branch)
-
-        # Allow specification of repo URL using BRANCHIO_GIT_URL env. var.
-        git_url_env_var = os.environ.get('BRANCHIO_GIT_URL')
-        git_url = git_url_env_var if git_url_env_var else self.url
-        git.clone(git_url, branch=self.options.git_branch)
+            # Allow specification of repo URL using BRANCHIO_GIT_URL env. var.
+            git_url_env_var = os.environ.get('BRANCHIO_GIT_URL')
+            git_url = git_url_env_var if git_url_env_var else self.url
+            git.clone(git_url, branch=self.options.git_branch)
 
     def build(self):
         library_type = "shared" if self.options.shared else "static"
@@ -107,3 +101,25 @@ class BranchioConan(ConanFile):
             self.cpp_info.libs.extend(["kernel32", "advapi32"])
             if self.options.shared:
                 self.cpp_info.defines.append("BRANCHIO_DLL")
+
+    # Recursively copy src directory into dst directory
+    # excludes is a list of patterns to exclude
+    def copyall(self, src, dst, excludes=[]):
+        # ignores is a function to be passed to copytree
+        ignores = shutil.ignore_patterns(*excludes)
+        all_files = os.listdir(src)
+        # rejects is a set of all files matching the excludes
+        rejected = ignores(src, all_files)
+        files = [f for f in all_files if f not in rejected]
+
+        for f in files:
+            path = src + "/" + f
+            if os.path.isdir(path) and os.path.exists(dst + "/" +f):
+                # copytree fails if the destination directory already exists.
+                # That's the purpose of this function. Call it recursively in
+                # this case.
+                copyall(path, dst + "/" +f, excludes=excludes)
+            elif os.path.isdir(path):
+                shutil.copytree(path, dst + "/" + f, ignore=ignores)
+            else:
+                shutil.copy(path, dst)
