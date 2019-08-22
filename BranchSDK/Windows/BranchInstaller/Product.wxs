@@ -1,30 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="BranchInstaller" Language="1033" Version="1.0.0.0" Manufacturer="" UpgradeCode="29b1dc08-2190-48f0-bc3c-7455381f2156">
+	<Product Id="*" Name="BranchIO" Language="1033" Version="0.1.0" Manufacturer="Branch Metrics, Inc." UpgradeCode="29b1dc08-2190-48f0-bc3c-7455381f2156">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
 		<MediaTemplate />
 
 		<Feature Id="ProductFeature" Title="BranchInstaller" Level="1">
-			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentGroupRef Id="BranchHeaders" />
 		</Feature>
 	</Product>
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="BranchInstaller" />
+				<Directory Id="INSTALLFOLDER" Name="Branch SDK">
+          <Directory Id="INCLUDEFOLDER" Name="include">
+            <Directory Id="BRANCHIOINCLUDEFOLDER" Name="BranchIO">
+              <Directory Id="BRANCHIOEVENTINCLUDEFOLDER" Name="Event" />
+            </Directory>
+          </Directory>
+          <Directory Id="LIBFOLDER" Name="lib" />
+        </Directory>
 			</Directory>
 		</Directory>
 	</Fragment>
 
 	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
-			<!-- <Component Id="ProductComponent"> -->
-				<!-- TODO: Insert files, registry keys, and other resources here. -->
-			<!-- </Component> -->
+		<ComponentGroup Id="BranchHeaders">
+			<Component Id="BranchHeaders" Guid="53ADD60F-E45A-4770-8743-7C926CE0A5EA" Directory="BRANCHIOINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AdvertiserInfo.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\APIClientSession.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AppInfo.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Branch.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Defines.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\DeviceInfo.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\dll.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\fwd.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\IClientSession.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\IPackagingInfo.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\IRequestCallback.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\IStorage.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\IStringConvertible.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\JSONObject.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Log.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\MacAddress.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\PackagingInfo.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\PropertyManager.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Request.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\RequestManager.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\SessionInfo.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Sleeper.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Storage.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\UnixStorage.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Version.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\WindowsStorage.h" />
+			</Component>
+      <Component Id="BranchEventHeaders" Guid="0744EAEF-F630-4C37-BF49-D6777450846B" Directory="BRANCHIOEVENTINCLUDEFOLDER" >
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\CustomEvent.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\Event.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\SessionEvent.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\StandardEvent.h" />
+      </Component>
 		</ComponentGroup>
 	</Fragment>
 </Wix>
