@@ -66,7 +66,16 @@ class BRANCHIO_DLL_EXPORT AdvertiserInfo : public PropertyManager {
     AdvertiserInfo &limitAdTracking(bool is_lat);
 
  public:
+    /**
+     * Determine if tracking has been marked as disabled.
+     * @return true if Tracking has been marked as disabled.
+     */
     bool isTrackingDisabled() const;
+
+    /**
+     * Determine if tracking has been marked as limited.
+     * @return true if Tracking has been marked as limited.
+     */
     bool isTrackingLimited() const;
 
  private:

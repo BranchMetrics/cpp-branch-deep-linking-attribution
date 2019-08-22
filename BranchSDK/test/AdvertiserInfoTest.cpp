@@ -54,17 +54,35 @@ TEST_F(AdvertiserInfoTest, TestPackaging)
     info.addId(AdvertiserInfo::AdIdType::WINDOWS_ADVERTISING_ID, "id_windows");
     info.addId(AdvertiserInfo::AdIdType::XBOX_MSAI, "id_xbox");
 
-    JSONObject jsonObject;
-
     StandardEvent event(StandardEvent::Type::PURCHASE);
 
+    JSONObject jsonObject;
     event.package(packagingInfo, jsonObject);
 
     cout << "TestPackaging: " << jsonObject.stringify() << endl;
 
-    //*
     JSONObject userData = jsonObject.extract("user_data");
     JSONObject advertising_ids = userData.extract("advertising_ids");
     ASSERT_EQ("id_windows", advertising_ids.get("WINDOWS_ADVERTISING_ID"));
-    // */
+}
+
+TEST_F(AdvertiserInfoTest, TestLAT_true)
+{
+    AppInfo appInfo;
+    PackagingInfo packagingInfo("key_live_xxx");
+
+    AdvertiserInfo &info = packagingInfo.getAdvertiserInfo();
+    info.addId(AdvertiserInfo::AdIdType::WINDOWS_ADVERTISING_ID, "id_windows");
+    info.addId(AdvertiserInfo::AdIdType::XBOX_MSAI, "id_xbox");
+    info.limitAdTracking(true);
+
+    StandardEvent event(StandardEvent::Type::PURCHASE);
+
+    JSONObject jsonObject;
+    event.package(packagingInfo, jsonObject);
+
+    cout << "TestLAT_true: " << jsonObject.stringify() << endl;
+
+    JSONObject userData = jsonObject.extract("user_data");
+    ASSERT_FALSE(userData.has("advertising_ids"));
 }
