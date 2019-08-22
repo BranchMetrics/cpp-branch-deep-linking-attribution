@@ -15,7 +15,12 @@ def copyall(src, dst, excludes=[]):
 
     for f in files:
         path = src + "/" + f
-        if os.path.isdir(path):
+        if os.path.isdir(path) and os.path.exists(dst + "/" +f):
+            # copytree fails if the destination directory already exists.
+            # That's the purpose of this function. Call it recursively in
+            # this case.
+            copyall(path, dst + "/" +f, excludes=excludes)
+        elif os.path.isdir(path):
             shutil.copytree(path, dst + "/" + f, ignore=ignores)
         else:
             shutil.copy(path, dst)
