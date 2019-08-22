@@ -95,10 +95,17 @@ cd build
 mkdir %BUILD_SUBDIR% 2> NUL
 cd %BUILD_SUBDIR%
 
+if %BUILD_TYPE% == Debug (
+  set RUNTIME=MDd
+) else (
+  set RUNTIME=MD
+)
+
 REM Build/install dependencies needed for this SDK
 conan install ..\..\conanfile.py^
   --settings build_type=%BUILD_TYPE%^
   --settings arch=%TARGET_ARCH%^
+  --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
   --build outdated
 
@@ -138,6 +145,7 @@ conan create ..\.. branch/testing^
   --json conan-install.json^
   --settings build_type=%BUILD_TYPE%^
   --settings arch=%TARGET_ARCH%^
+  --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
   --options BranchIO:git_branch=%GIT_BRANCH%^
   --build outdated
