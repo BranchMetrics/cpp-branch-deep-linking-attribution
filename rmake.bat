@@ -103,7 +103,7 @@ conan install ..\..\conanfile.py^
   --build outdated
 
 if ERRORLEVEL 1 (
-  echo "conan install failed"
+  echo conan install failed.
   cd ..\..
   exit /b -1
 )
@@ -111,7 +111,7 @@ if ERRORLEVEL 1 (
 cmake ..\.. -G "Visual Studio 16 2019" -A %CMAKE_TARGET_ARCH% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DSKIP_INSTALL_ALL=true -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
 
 if ERRORLEVEL 1 (
-  echo "cmake configure failed"
+  echo cmake configure failed.
   cd ..\..
   exit /b -1
 )
@@ -120,7 +120,7 @@ REM 8 threads available for parallel builds
 cmake --build . -- /m:8
 
 if ERRORLEVEL 1 (
-  echo "cmake build failed"
+  echo cmake build failed.
   cd ..\..
   exit /b -1
 )
@@ -128,7 +128,7 @@ if ERRORLEVEL 1 (
 ctest -C %BUILD_TYPE%
 
 if ERRORLEVEL 1 (
-  echo "unit tests failed"
+  echo Unit tests failed.
   cd ..\..
   exit /b -1
 )
@@ -141,5 +141,14 @@ conan create ..\.. branch/testing^
   --options *:shared=%BUILD_SHARED_LIBS%^
   --options BranchIO:git_branch=%GIT_BRANCH%^
   --build outdated
+
+echo Building stage from conan cache
+python ..\..\BranchSDK\tools\stage.py
+
+if ERRORLEVEL 1 (
+  echo stage.py failed.
+  cd ..\..
+  exit /b -1
+)
 
 cd ..\..

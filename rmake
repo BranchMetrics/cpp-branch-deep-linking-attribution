@@ -31,13 +31,12 @@ then
   echo 'Unit tests failed.'
   exit 1
 fi
-cd ../..
 
 # Install into the Conan cache
 # TODO(jdee): Revert to master branch
 # GIT_BRANCH=master
 GIT_BRANCH=initial_revision
-conan create . branch/testing \
+conan create ../.. branch/testing \
   --json build/${BUILD_CONFIGURATION}/conan-install.json \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
@@ -48,6 +47,11 @@ then
   echo 'conan create failed.'
   exit 1
 fi
+
+echo "Building stage from conan cache"
+../../BranchSDK/tools/stage.py
+
+cd ../..
 
 # Lint
 pushd .

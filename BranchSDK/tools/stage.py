@@ -10,8 +10,8 @@ def copyall(src, dst, excludes=[]):
     ignores = shutil.ignore_patterns(*excludes)
     all_files = os.listdir(src)
     # rejects is a set of all files matching the excludes
-    rejects = ignores(src, all_files)
-    files = [f for f in all_files if f not in rejects]
+    rejected = ignores(src, all_files)
+    files = [f for f in all_files if f not in rejected]
 
     for f in files:
         path = src + "/" + f
@@ -45,7 +45,7 @@ for item in installed:
 
     for package in item["packages"]:
         rootpath = package["cpp_info"]["rootpath"]
-        print(" " + rootpath)
+        print(" " + rootpath + " -> stage")
 
         copyall(rootpath + "/include", "stage/include", excludes=excludes)
         copyall(rootpath + "/lib", "stage/lib", excludes=excludes)
