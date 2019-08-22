@@ -21,6 +21,7 @@
 #include <cstdlib>
 #include <exception>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace Poco;

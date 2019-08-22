@@ -2,11 +2,8 @@
 
 #include "BranchIO/AppInfo.h"
 
-#include <Poco/Environment.h>
-
 #include "BranchIO/Defines.h"
 #include "BranchIO/JSONObject.h"
-
 
 namespace BranchIO {
 

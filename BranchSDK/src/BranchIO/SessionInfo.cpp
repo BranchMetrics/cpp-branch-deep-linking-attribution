@@ -3,7 +3,6 @@
 #include "BranchIO/SessionInfo.h"
 
 #include "BranchIO/Defines.h"
-#include "BranchIO/JSONObject.h"
 #include "BranchIO/Storage.h"
 
 using std::string;
