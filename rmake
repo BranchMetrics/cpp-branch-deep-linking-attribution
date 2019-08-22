@@ -1,22 +1,58 @@
 #!/bin/sh
-if [ ! -f "./build" ]; then mkdir build; fi
 
-BUILD_CONFIGURATION=$1
-if [ "$BUILD_CONFIGURATION" = "" ]
+# rmake [build_type [git_branch [build_shared_libs]]]
+# default: rmake Debug master False
+# examples:
+# rmake
+# rmake Debug
+# rmake Release my-branch
+# rmake Debug master True
+
+BUILD_TYPE=$1
+if [ "$BUILD_TYPE" = "" ]
 then
-  BUILD_CONFIGURATION=Release
+  BUILD_TYPE=Debug
 fi
 
+GIT_BRANCH=$2
+if [ "$GIT_BRANCH" = "" ]
+then
+  GIT_BRANCH=master
+fi
+
+BUILD_SHARED_LIBS=$3
+if [ "$BUILD_SHARED_LIBS" = "" ]
+then
+  BUILD_SHARED_LIBS=False
+fi
+
+if [ $BUILD_TYPE != Debug -a $BUILD_TYPE != Release ]
+then
+  echo "Invalid build configuration \"$BUILD_TYPE\". Please specify Debug or Release."
+  exit 1
+fi
+
+if [ $BUILD_SHARED_LIBS != True -a $BUILD_SHARED_LIBS != False ]
+then
+  echo "Invalid build configuration \"$BUILD_TYPE\". Please specify Debug or Release."
+  exit 1
+fi
+
+echo "rmake configuration:"
+echo " BUILD_TYPE        $BUILD_TYPE"
+echo " BUILD_SHARED_LIBS $BUILD_SHARED_LIBS"
+echo " GIT_BRANCH        $GIT_BRANCH"
+echo
+
+if [ ! -f "./build" ]; then mkdir build 2>/dev/null; fi
+
 cd build
-if [ ! -f "./$BUILD_CONFIGURATION" ]; then mkdir "./$BUILD_CONFIGURATION"; fi
+if [ ! -f "./$BUILD_TYPE" ]; then mkdir "./$BUILD_TYPE" 2>/dev/null; fi
 
-cd $BUILD_CONFIGURATION
-
-BUILD_SHARED_LIBS=False
-# BUILD_SHARED_LIBS=True # TODO(jdee): Not working
+cd $BUILD_TYPE
 
 conan install ../../conanfile.py --options "*:shared=$BUILD_SHARED_LIBS"
-cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION -DSKIP_INSTALL_ALL=true -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS
+cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSKIP_INSTALL_ALL=true -DBUILD_SHARED_LIBS=$BUILD_SHARED_LIBS
 # 8 threads available for parallel building
 cmake --build . -- -j8
 if [ $? != 0 ]
@@ -25,7 +61,7 @@ then
   exit 1
 fi
 
-ctest -C $BUILD_CONFIGURATION
+ctest -C $BUILD_TYPE
 if [ $? != 0 ]
 then
   echo 'Unit tests failed.'
@@ -35,13 +71,12 @@ fi
 # Install into the Conan cache
 # TODO(jdee): Revert to master branch
 # GIT_BRANCH=master
-GIT_BRANCH=initial_revision
 conan create ../.. branch/testing \
-  --json build/${BUILD_CONFIGURATION}/conan-install.json \
+  --json build/${BUILD_TYPE}/conan-install.json \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
   --options "BranchIO:git_branch=$GIT_BRANCH" \
-  --settings build_type=$BUILD_CONFIGURATION
+  --settings build_type=$BUILD_TYPE
 if [ $? != 0 ]
 then
   echo 'conan create failed.'
