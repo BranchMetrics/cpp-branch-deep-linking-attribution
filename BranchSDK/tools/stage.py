@@ -4,11 +4,11 @@ import json, os, re, shutil
 from os import makedirs
 
 # Recursively copy src directory into dst directory
-# excludes is a list of patterns (REs) to exclude
+# excludes is a list of patterns to exclude
 def copyall(src, dst, excludes=[]):
     exclude_res = [re.compile(r) for r in excludes]
     ignores = shutil.ignore_patterns(*["*" + r + "*" for r in excludes])
-    files = [f for f in os.listdir(src) if [r for r in exclude_res if r.match(f)] == []]
+    files = [f for f in os.listdir(src) if [r for r in exclude_res if r.search(f)] == []]
     for f in files:
         path = src + "/" + f
         if os.path.isdir(path):
@@ -31,7 +31,7 @@ makedirs("stage/lib")
 
 # Skip Poco's MongoDB and SQLiteData modules, which we don't require.
 # Also CppUnit, which one of our deps uses.
-excludes = ["CppUnit", "MongoDB", "SQLiteData"]
+excludes = ["CppUnit", "MongoDB", "DataSQLite"]
 
 for item in installed:
     recipe = item["recipe"]
