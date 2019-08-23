@@ -3,7 +3,7 @@
 
 #include <gmock/gmock.h>
 
-#include <BranchIO/IClientSession.h>
+#include <BranchIO/Internal/IClientSession.h>
 
 struct MockClientSession : public virtual BranchIO::IClientSession
 {

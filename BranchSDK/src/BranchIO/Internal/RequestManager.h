@@ -10,10 +10,10 @@
 #include <Poco/Task.h>
 #include <Poco/Thread.h>
 
-#include "BranchIO/APIClientSession.h"
+#include "APIClientSession.h"
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/fwd.h"
-#include "BranchIO/Request.h"
+#include "Request.h"
 
 namespace BranchIO {
 

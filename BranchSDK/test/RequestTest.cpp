@@ -1,7 +1,7 @@
 #include "MockClientSession.h"
 #include "ResponseCounter.h"
 #include <BranchIO/Event/StandardEvent.h>
-#include <BranchIO/Request.h>
+#include <BranchIO/Internal/Request.h>
 
 using namespace std;
 using namespace BranchIO;

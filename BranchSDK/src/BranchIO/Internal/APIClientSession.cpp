@@ -1,6 +1,6 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#include "BranchIO/APIClientSession.h"
+#include "APIClientSession.h"
 
 #include <Poco/Exception.h>
 #include <Poco/Net/Context.h>

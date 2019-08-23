@@ -12,7 +12,7 @@
 #include <BranchIO/Event/Event.h>
 #include <BranchIO/Event/CustomEvent.h>
 #include <BranchIO/Event/StandardEvent.h>
-#include <BranchIO/Request.h>
+#include <BranchIO/Internal/Request.h>
 #include <BranchIO/IRequestCallback.h>
 #include <BranchIO/Log.h>
 

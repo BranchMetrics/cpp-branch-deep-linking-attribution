@@ -1,12 +1,12 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#include "BranchIO/Request.h"
+#include "Request.h"
 
 #include <Poco/URI.h>
 #include <algorithm>
 #include <string>
 
-#include "BranchIO/IClientSession.h"
+#include "IClientSession.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Log.h"
 
