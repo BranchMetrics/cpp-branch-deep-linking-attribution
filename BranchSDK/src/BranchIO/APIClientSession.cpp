@@ -89,7 +89,7 @@ APIClientSession::post(
         string requestBody = jsonPayload.stringify();
 
         request.setContentLength(requestBody.length());
-        request.setContentType("application/json; utf-8");
+        request.setContentType("application/json; charset=utf-8");
 
         /* ----- Send the request and body ----- */
 

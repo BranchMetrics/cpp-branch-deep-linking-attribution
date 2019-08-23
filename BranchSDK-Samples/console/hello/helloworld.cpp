@@ -50,8 +50,11 @@ int main(int argc, char *argv[])
     testEvent2.setAdType(BranchIO::Event::AdType::BANNER);
     branch->sendEvent(testEvent2, &callback);
 
-    callback.waitForResponses(3, 370000); // ms
-    BRANCH_LOG_I("Expected 3 responses. Got " << callback.getResponseCount() << ".");
+    // Close the Branch Session
+    branch->closeSession(&callback);
+
+    callback.waitForResponses(4, 370000); // ms
+    BRANCH_LOG_I("Expected 4 responses. Got " << callback.getResponseCount() << ".");
 
     return 0;
 }
