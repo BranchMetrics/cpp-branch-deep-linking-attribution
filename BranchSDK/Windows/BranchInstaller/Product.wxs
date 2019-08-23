@@ -8,8 +8,12 @@
 
 		<Feature Id="ProductFeature" Title="BranchInstaller" Level="1">
 			<ComponentGroupRef Id="BranchHeaders" />
-			<ComponentGroupRef Id="ThirdPartyHeaders" />
-		</Feature>
+      <ComponentGroupRef Id="BranchLibrariesX64"/>
+      <ComponentGroupRef Id="BranchLibrariesX86"/>
+      <ComponentGroupRef Id="ThirdPartyHeaders" />
+      <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
+      <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>
+    </Feature>
 	</Product>
 
 	<Fragment>
@@ -37,7 +41,16 @@
               <Directory Id="POCOZIPINCLUDEFOLDER" Name="Zip" />
             </Directory>
           </Directory>
-          <Directory Id="LIBFOLDER" Name="lib" />
+          <Directory Id="LIBFOLDER" Name="lib">
+            <Directory Id="X64LIBFOLDER" Name="x64">
+              <Directory Id="X64DEBUGLIBFOLDER" Name="Debug" />
+              <Directory Id="X64RELEASELIBFOLDER" Name="Release" />
+            </Directory>
+            <Directory Id="X86LIBFOLDER" Name="x86">
+              <Directory Id="X86DEBUGLIBFOLDER" Name="Debug" />
+              <Directory Id="X86RELEASELIBFOLDER" Name="Release" />
+            </Directory>
+          </Directory>
         </Directory>
 			</Directory>
 		</Directory>
@@ -882,5 +895,96 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Zip\ZipUtil.h" />
       </Component>
     </ComponentGroup>
-	</Fragment>
+    <ComponentGroup Id="BranchLibrariesX64">
+      <Component Id="BranchLibrariesDebugX64" Directory="X64DEBUGLIBFOLDER">
+        <File Id="BranchDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\BranchIO.lib" />
+      </Component>
+      <Component Id="BranchLibrariesReleaseX64" Directory="X64RELEASELIBFOLDER">
+        <File Id="BranchReleaseX64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\BranchIO.lib" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="ThirdPartyLibrariesX64">
+      <Component Id="ThirdPartyLibrariesDebugX64" Guid="449B5F29-CB50-4F6E-BD37-72DDC4EA7A1A" Directory="X64DEBUGLIBFOLDER">
+        <File Id="ZlibDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\zlib.lib" />
+        <File Id="EayDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\libeay32.lib" />
+        <File Id="SslEayDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\ssleay32.lib" />
+        <File Id="PocoCryptoDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoCryptomdd.lib" />
+        <File Id="PocoDataDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoDatamdd.lib" />
+        <File Id="PocoEncodingsDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoEncodingsmdd.lib" />
+        <File Id="PocoFoundationDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoFoundationmdd.lib" />
+        <File Id="PocoJSONDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJSONmdd.lib" />
+        <File Id="PocoNetDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetmdd.lib" />
+        <File Id="PocoNetSSLDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLmdd.lib" />
+        <File Id="PocoNetSSLWinDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLWinmdd.lib" />
+        <File Id="PocoRedisDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoRedismdd.lib" />
+        <File Id="PocoUtilDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.lib" />
+        <File Id="PocoXMLDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.lib" />
+        <File Id="PocoZipDebugX64Library" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoZipmdd.lib" />
+      </Component>
+      <Component Id="ThirdPartyLibrariesReleaseX64" Guid="B9081EC9-DB7A-4438-A376-69B07289788D" Directory="X64RELEASELIBFOLDER">
+        <File Id="ZlibReleaseX64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\zlib.lib" />
+        <File Id="EayReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\libeay32.lib" />
+        <File Id="SslEayReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\ssleay32.lib" />
+        <File Id="PocoCryptoReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoCryptomd.lib" />
+        <File Id="PocoDataReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoDatamd.lib" />
+        <File Id="PocoEncodingsReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoEncodingsmd.lib" />
+        <File Id="PocoFoundationReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoFoundationmd.lib" />
+        <File Id="PocoJSONReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoJSONmd.lib" />
+        <File Id="PocoNetReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetmd.lib" />
+        <File Id="PocoNetSSLReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetSSLmd.lib" />
+        <File Id="PocoNetSSLWinReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetSSLWinmd.lib" />
+        <File Id="PocoRedisReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoRedismd.lib" />
+        <File Id="PocoUtilReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoUtilmd.lib" />
+        <File Id="PocoXMLReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoXMLmd.lib" />
+        <File Id="PocoZipReleasex64Library" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoZipmd.lib" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="BranchLibrariesX86">
+      <Component Id="BranchLibrariesDebugX86" Directory="X86DEBUGLIBFOLDER">
+        <File Id="BranchDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\BranchIO.lib" />
+      </Component>
+      <Component Id="BranchLibrariesReleaseX86" Directory="X86RELEASELIBFOLDER">
+        <File Id="BranchReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\BranchIO.lib" />
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="ThirdPartyLibrariesX86">
+      <Component Id="ThirdPartyLibrariesDebugX86" Guid="CF58867B-0A36-4B14-A16D-5966B66714FC" Directory="X86DEBUGLIBFOLDER">
+        <File Id="ZlibDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\zlib.lib" />
+        <File Id="EayDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\libeay32.lib" />
+        <File Id="SslEayDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\ssleay32.lib" />
+        <File Id="PocoCryptoDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoCryptomdd.lib" />
+        <File Id="PocoDataDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoDatamdd.lib" />
+        <File Id="PocoEncodingsDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoEncodingsmdd.lib" />
+        <File Id="PocoFoundationDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoFoundationmdd.lib" />
+        <File Id="PocoJSONDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJSONmdd.lib" />
+        <File Id="PocoNetDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetmdd.lib" />
+        <File Id="PocoNetSSLDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLmdd.lib" />
+        <File Id="PocoNetSSLWinDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLWinmdd.lib" />
+        <File Id="PocoRedisDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoRedismdd.lib" />
+        <File Id="PocoUtilDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.lib" />
+        <File Id="PocoXMLDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.lib" />
+        <File Id="PocoZipDebugX86Library" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoZipmdd.lib" />
+      </Component>
+      <Component Id="ThirdPartyLibrariesReleaseX86" Guid="90A1FAC9-380E-47EB-B12E-76E9F900CC9B" Directory="X86RELEASELIBFOLDER">
+        <File Id="ZlibReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\zlib.lib" />
+        <File Id="EayReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\libeay32.lib" />
+        <File Id="SslEayReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\ssleay32.lib" />
+        <File Id="PocoCryptoReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoCryptomd.lib" />
+        <File Id="PocoDataReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoDatamd.lib" />
+        <File Id="PocoEncodingsReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoEncodingsmd.lib" />
+        <File Id="PocoFoundationReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoFoundationmd.lib" />
+        <File Id="PocoJSONReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoJSONmd.lib" />
+        <File Id="PocoNetReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetmd.lib" />
+        <File Id="PocoNetSSLReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetSSLmd.lib" />
+        <File Id="PocoNetSSLWinReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetSSLWinmd.lib" />
+        <File Id="PocoRedisReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoRedismd.lib" />
+        <File Id="PocoUtilReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoUtilmd.lib" />
+        <File Id="PocoXMLReleaseX86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoXMLmd.lib" />
+        <File Id="PocoZipReleasex86Library" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoZipmd.lib" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
 </Wix>
