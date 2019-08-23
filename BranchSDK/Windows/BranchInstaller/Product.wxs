@@ -26,8 +26,8 @@
               <Directory Id="POCODATAINCLUDEFOLDER" Name="Data">
                 <Directory Id="POCODATAMYSQLINCLUDEFOLDER" Name="MySQL" />
                 <Directory Id="POCODATAODBCINCLUDEFOLDER" Name="ODBC" />
-                <Directory Id="POCODATASQLITEINCLUDEFOLDER" Name="SQLite" />
               </Directory>
+              <Directory Id="POCODOMINCLUDEFOLDER" Name="DOM" />
             </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
@@ -558,7 +558,7 @@
         <File Id="PocoMySQLStatementExecutorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\StatementExecutor.h" />
         <File Id="PocoMySQLUtilityHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Utility.h" />
       </Component>
-      <Component Id="PocoDataODBCHeaders" Guid="" Directory="POCODATAODBCINCLUDEFOLDER" >
+      <Component Id="PocoDataODBCHeaders" Guid="62EDF387-BABD-4E28-AE64-E7E74C73DB2B" Directory="POCODATAODBCINCLUDEFOLDER" >
         <File Id="PocoODBCBinderHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Binder.h" />
         <File Id="PocoODBCConnectionHandleHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\ConnectionHandle.h" />
         <File Id="PocoODBCConnectorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Connector.h" />
@@ -579,6 +579,49 @@
         <File Id="PocoODBCUnicode_UNIXODBCHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Unicode_UNIXODBC.h" />
         <File Id="PocoODBCUnicode_WIN32Header" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Unicode_WIN32.h" />
         <File Id="PocoODBCUtilityHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Utility.h" />
+      </Component>
+      <Component Id="PocoDOMHeaders" Guid="0DA22599-5B64-4E9E-8DDB-906A5159B6C9" Directory="POCODOMINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\AbstractContainerNode.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\AbstractNode.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Attr.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\AttrMap.h" />
+        <File Id="PocoDOMAutoPtrHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\AutoPtr.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\CDATASection.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\CharacterData.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\ChildNodesList.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Comment.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Document.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DocumentEvent.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DocumentFragment.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DocumentType.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DOMBuilder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DOMException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DOMImplementation.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DOMObject.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DOMParser.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DOMSerializer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DOMWriter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\DTDMap.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Element.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\ElementsByTagNameList.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Entity.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\EntityReference.h" />
+        <File Id="PocoDOMEventHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Event.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\EventDispatcher.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\EventException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\EventListener.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\EventTarget.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\MutationEvent.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\NamedNodeMap.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Node.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\NodeAppender.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\NodeFilter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\NodeIterator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\NodeList.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Notation.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\ProcessingInstruction.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Text.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Treewalker.h" />
       </Component>
     </ComponentGroup>
 	</Fragment>
