@@ -29,6 +29,9 @@ prompt beyond the system prompting for permission to update.
 
 ## Building against the installed SDK
 
+See [BranchDemo](../../../BranchSDK-Samples/Windows/BranchDemo) for an
+example of a project building against the installed MSI.
+
 The SDK will be installed in C:\Program Files (x86)\Branch SDK.
 
 Add C:\Program Files (x86)\Branch SDK\include to Additional Include Directories
