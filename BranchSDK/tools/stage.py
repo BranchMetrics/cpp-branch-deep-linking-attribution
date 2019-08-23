@@ -40,7 +40,7 @@ makedirs("stage/lib")
 
 # Skip Poco's MongoDB and SQLiteData modules, which we don't require.
 # Also CppUnit, which one of our deps uses.
-excludes = ["CppUnit", "*gtest*", "*gmock*", "*MongoDB*", "*DataSQLite*"]
+excludes = ["CppUnit", "*gtest*", "*gmock*", "*MongoDB*", "*SQLite*"]
 
 for item in installed:
     recipe = item["recipe"]
