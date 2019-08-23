@@ -12,8 +12,8 @@
 #include "BranchIO/AppInfo.h"
 #include "BranchIO/DeviceInfo.h"
 #include "BranchIO/Event/Event.h"
-#include "BranchIO/PackagingInfo.h"
 #include "BranchIO/IRequestCallback.h"
+#include "BranchIO/PackagingInfo.h"
 #include "BranchIO/SessionInfo.h"
 
 namespace BranchIO {

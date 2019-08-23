@@ -8,7 +8,7 @@
 #include <string>
 
 #include "BranchIO/IStringConvertible.h"
-#include "BranchIO/JSONObject.h"
+#include "BranchIO/Internal/JSONObject.h"
 
 namespace BranchIO {
 

@@ -4,7 +4,7 @@
 #define BRANCHIO_IREQUESTCALLBACK_H__
 
 #include <string>
-#include "BranchIO/JSONObject.h"
+#include "BranchIO/Internal/JSONObject.h"
 
 namespace BranchIO {
 

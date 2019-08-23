@@ -5,7 +5,7 @@
 #include "BranchIO/Defines.h"
 #include "BranchIO/DeviceInfo.h"
 #include "BranchIO/IPackagingInfo.h"
-#include "BranchIO/JSONObject.h"
+#include "BranchIO/Internal/JSONObject.h"
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/AdvertiserInfo.h"
 

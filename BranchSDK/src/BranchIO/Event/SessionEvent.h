@@ -6,7 +6,7 @@
 #include <string>
 
 #include "BranchIO/Event/Event.h"
-#include "BranchIO/JSONObject.h"
+#include "BranchIO/Internal/JSONObject.h"
 
 namespace BranchIO {
 

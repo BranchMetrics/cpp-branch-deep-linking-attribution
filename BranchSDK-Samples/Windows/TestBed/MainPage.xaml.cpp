@@ -9,7 +9,7 @@
 #include <sstream>
 #include <BranchIO/AppInfo.h>
 #include <BranchIO/Branch.h>
-#include <BranchIO/JSONObject.h>
+#include <BranchIO/Internal/JSONObject.h>
 
 using namespace UWP101;
 

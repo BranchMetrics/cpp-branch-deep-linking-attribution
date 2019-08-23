@@ -1,6 +1,6 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#include "BranchIO/JSONObject.h"
+#include "JSONObject.h"
 
 #include <Poco/JSON/Parser.h>
 #include <Poco/StreamCopier.h>

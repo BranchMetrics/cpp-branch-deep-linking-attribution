@@ -1,7 +1,7 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
 #include "BranchIO/PropertyManager.h"
-#include "BranchIO/JSONObject.h"
+#include "BranchIO/Internal/JSONObject.h"
 
 using namespace Poco;
 
