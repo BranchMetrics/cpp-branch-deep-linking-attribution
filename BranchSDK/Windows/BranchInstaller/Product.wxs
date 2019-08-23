@@ -32,6 +32,7 @@
               <Directory Id="POCOJSONINCLUDEFOLDER" Name="JSON" />
               <Directory Id="POCONETINCLUDEFOLDER" Name="Net" />
               <Directory Id="POCOSAXINCLUDEFOLDER" Name="SAX" />
+              <Directory Id="POCOUTILINCLUDEFOLDER" Name="Util" />
             </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
@@ -438,7 +439,7 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ThreadPool.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ThreadTarget.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\TimedNotificationQueue.h" />
-        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timer.h" />
+        <File Id="PocoTimerHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timer.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timespan.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timestamp.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timezone.h" />
@@ -799,6 +800,41 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLFilter.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLFilterImpl.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLReader.h" />
+      </Component>
+      <Component Id="PocoUtilHeaders" Guid="76122409-C411-4164-B96F-B7519214E333" Directory="POCOUTILINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\AbstractConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Application.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\ConfigurationMapper.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\ConfigurationView.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\FilesystemConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\HelpFormatter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\IniFileConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\IntValidator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\JSONConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\LayeredConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\LoggingConfigurator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\LoggingSubsystem.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\MapConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Option.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\OptionCallback.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\OptionException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\OptionProcessor.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\OptionSet.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\PropertyFileConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\RegExpValidator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\ServerApplication.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Subsystem.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\SystemConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Timer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\TimerTask.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\TimerTaskAdapter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Units.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Util.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Validator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\WinRegistryConfiguration.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\WinRegistryKey.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\WinService.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\XMLConfiguration.h" />
       </Component>
     </ComponentGroup>
 	</Fragment>
