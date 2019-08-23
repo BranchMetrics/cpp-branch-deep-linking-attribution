@@ -74,7 +74,8 @@ libeay32.lib
 crypt32.lib
 msi.lib
 ws2_32.lib
-zlib.lib```
+zlib.lib
+```
 
 Release:
 ```
