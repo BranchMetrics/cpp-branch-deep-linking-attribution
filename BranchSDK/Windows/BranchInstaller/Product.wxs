@@ -31,6 +31,7 @@
               <Directory Id="POCODYNAMICINCLUDEFOLDER" Name="Dynamic" />
               <Directory Id="POCOJSONINCLUDEFOLDER" Name="JSON" />
               <Directory Id="POCONETINCLUDEFOLDER" Name="Net" />
+              <Directory Id="POCOSAXINCLUDEFOLDER" Name="SAX" />
             </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
@@ -232,7 +233,7 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WIN32U.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WINCE.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Error.h" />
-        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ErrorHandler.h" />
+        <File Id="PocoSAXErrorHandlerHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ErrorHandler.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Event.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Event_POSIX.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Event_VX.h" />
@@ -716,7 +717,6 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\MulticastSocket.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\MultipartReader.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\MultipartWriter.h" />
-
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NameValueCollection.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\Net.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NetException.h" />
@@ -777,6 +777,28 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\WebSocket.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\WebSocketImpl.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\X509Certificate.h" />
+      </Component>
+      <Component Id="PocoSAXHeaders" Guid="827E5766-4AB5-41BA-BA02-9ED3F64EAF61" Directory="POCOSAXINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\Attributes.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\AttributesImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\ContentHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\DeclHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\DefaultHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\DTDHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\EntityResolver.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\EntityResolverImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\ErrorHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\InputSource.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\LexicalHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\Locator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\LocatorImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\NamespaceSupport.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\SAXException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\SAXParser.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\WhitespaceFilter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLFilter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLFilterImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLReader.h" />
       </Component>
     </ComponentGroup>
 	</Fragment>
