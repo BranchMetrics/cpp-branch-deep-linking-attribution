@@ -95,6 +95,7 @@ class BranchioConan(ConanFile):
         # TODO(jdee): Finish this off. Possibly rename libs on Windows (BranchIOMDd.lib, etc.).
         self.copy("*.h", dst="include/BranchIO", src="BranchSDK/src/BranchIO")
         self.copy("*.h", dst="include/BranchIO/Event", src="BranchSDK/src/BranchIO/Event")
+        self.copy("*.h", dst="include/BranchIO/Internal", src="BranchSDK/src/BranchIO/Internal")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.dylib*", dst="lib", keep_path=False, symlinks=True)
