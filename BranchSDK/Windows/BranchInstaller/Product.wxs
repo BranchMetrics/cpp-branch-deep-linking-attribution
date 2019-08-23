@@ -23,6 +23,11 @@
             <Directory Id="OPENSSLINCLUDEFOLDER" Name="openssl"/>
             <Directory Id="POCOFOUNDATIONINCLUDEFOLDER" Name="Poco" >
               <Directory Id="POCOCRYPTOINCLUDEFOLDER" Name="Crypto" />
+              <Directory Id="POCODATAINCLUDEFOLDER" Name="Data">
+                <Directory Id="POCODATAMYSQLINCLUDEFOLDER" Name="MySQL" />
+                <Directory Id="POCODATAODBCINCLUDEFOLDER" Name="ODBC" />
+                <Directory Id="POCODATASQLITEINCLUDEFOLDER" Name="SQLite" />
+              </Directory>
             </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
@@ -482,7 +487,6 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\ECKeyImpl.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\EVPPKey.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\KeyPair.h" />
-
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\KeyPairImpl.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\OpenSSLInitializer.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\PkCS12Container.h" />
@@ -491,7 +495,90 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\RSAKey.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\RSAKeyImpl.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\X509Certificate.h" />
-
+      </Component>
+      <Component Id="PocoDataHeaders" Guid="A886766E-9BCD-4C9C-8FF0-837DF0221292" Directory="POCODATAINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractBinder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractBinding.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractExtraction.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractExtractor.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractPreparation.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractPreparator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractSessionImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Binding.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Bulk.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\BulkBinding.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\BulkExtraction.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Column.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Connector.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Constants.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Data.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\DataException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Date.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\DynamicDateTime.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\DynamicLOB.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Extraction.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Limit.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\LOB.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\LOBStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MetaColumn.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PooledSessionHolder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PooledSessionImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Position.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Preparation.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Range.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\RecordSet.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Row.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\RowFilter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\RowFormatter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\RowIterator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Session.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\SessionFactory.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\SessionImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\SessionPool.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\SessionPoolContainer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\SimpleRowFormatter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\SQLChannel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Statement.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\StatementCreator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\StatementImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Time.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Transaction.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\TypeHandler.h" />
+      </Component>
+      <Component Id="PocoDataMySQLHeaders" Guid="" Directory="POCODATAMYSQLINCLUDEFOLDER" >
+        <File Id="PocoMySQLBinderHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Binder.h" />
+        <File Id="PocoMySQLConnectorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Connector.h" />
+        <File Id="PocoMySQLExtractorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Extractor.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\MySQL.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\MySQLException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\MySQLStatementImpl.h" />
+        <File Id="PocoMySQLResultMetadataHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\ResultMetadata.h" />
+        <File Id="PocoMySQLSessionHandleHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\SessionHandle.h" />
+        <File Id="PocoMySQLSessionImplHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\SessionImpl.h" />
+        <File Id="PocoMySQLStatementExecutorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\StatementExecutor.h" />
+        <File Id="PocoMySQLUtilityHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Utility.h" />
+      </Component>
+      <Component Id="PocoDataODBCHeaders" Guid="" Directory="POCODATAODBCINCLUDEFOLDER" >
+        <File Id="PocoODBCBinderHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Binder.h" />
+        <File Id="PocoODBCConnectionHandleHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\ConnectionHandle.h" />
+        <File Id="PocoODBCConnectorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Connector.h" />
+        <File Id="PocoODBCDiagnosticsHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Diagnostics.h" />
+        <File Id="PocoODBCEnvironmentHandleHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\EnvironmentHandle.h" />
+        <File Id="PocoODBCErrorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Error.h" />
+        <File Id="PocoODBCExtractorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Extractor.h" />
+        <File Id="PocoODBCHandleHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Handle.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\ODBC.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\ODBCException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\ODBCMetaColumn.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\ODBCStatementImpl.h" />
+        <File Id="PocoODBCParameterHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Parameter.h" />
+        <File Id="PocoODBCPreparatorHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Preparator.h" />
+        <File Id="PocoODBCTypeInfoHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\TypeInfo.h" />
+        <File Id="PocoODBCSessionImplHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\SessionImpl.h" />
+        <File Id="PocoODBCUnicodeHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Unicode.h" />
+        <File Id="PocoODBCUnicode_UNIXODBCHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Unicode_UNIXODBC.h" />
+        <File Id="PocoODBCUnicode_WIN32Header" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Unicode_WIN32.h" />
+        <File Id="PocoODBCUtilityHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Utility.h" />
       </Component>
     </ComponentGroup>
 	</Fragment>
