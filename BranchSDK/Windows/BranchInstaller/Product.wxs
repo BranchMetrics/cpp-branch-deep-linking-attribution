@@ -28,6 +28,7 @@
                 <Directory Id="POCODATAODBCINCLUDEFOLDER" Name="ODBC" />
               </Directory>
               <Directory Id="POCODOMINCLUDEFOLDER" Name="DOM" />
+              <Directory Id="POCODYNAMICINCLUDEFOLDER" Name="Dynamic" />
             </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
@@ -622,6 +623,13 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\ProcessingInstruction.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Text.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Treewalker.h" />
+      </Component>
+      <Component Id="PocoDynamicHeaders" Guid="" Directory="POCODYNAMICINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Pair.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Struct.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Var.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\VarHolder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\VarIterator.h" />
       </Component>
     </ComponentGroup>
 	</Fragment>
