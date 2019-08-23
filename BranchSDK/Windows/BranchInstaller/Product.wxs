@@ -6,8 +6,8 @@
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
     <Media Id="1" Cabinet="cab1.cab" EmbedCab="yes" />
 
-    <Icon Id="branch.png" SourceFile="branch-badge-dark.png"/>
-    <Property Id="ARPPRODUCTICON" Value="branch.png" />
+    <Icon Id="branch.ico" SourceFile="branch-badge-dark.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="branch.ico" />
 
 		<Feature Id="ProductFeature" Title="BranchInstaller" Level="1">
 			<ComponentGroupRef Id="BranchHeaders" />
