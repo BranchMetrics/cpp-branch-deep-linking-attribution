@@ -20,7 +20,8 @@
             <Directory Id="BRANCHIOINCLUDEFOLDER" Name="BranchIO">
               <Directory Id="BRANCHIOEVENTINCLUDEFOLDER" Name="Event" />
             </Directory>
-            <Directory Id="OPENSSLINCLUDEFOLDER" Name="openssl">
+            <Directory Id="OPENSSLINCLUDEFOLDER" Name="openssl"/>
+            <Directory Id="POCOFOUNDATIONINCLUDEFOLDER" Name="Poco" >
               
             </Directory>
           </Directory>
@@ -62,7 +63,7 @@
 			</Component>
       <Component Id="BranchEventHeaders" Guid="0744EAEF-F630-4C37-BF49-D6777450846B" Directory="BRANCHIOEVENTINCLUDEFOLDER" >
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\CustomEvent.h" />
-        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\Event.h" />
+        <File Id="BranchEventHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\Event.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\SessionEvent.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\StandardEvent.h" />
       </Component>
@@ -81,7 +82,7 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bio.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\blowfish.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bn.h" />
-        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\buffer.h" />
+        <File Id="OpenSSLBufferHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\buffer.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\camellia.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cast.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cmac.h" />
@@ -149,7 +150,167 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509_vfy.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509v3.h" />
-       </Component>
+      </Component>
+      <Component Id="PocoFoundationHeaders" Guid="25150E0C-3122-4898-A450-EAF90BA61FA1" Directory="POCOFOUNDATIONINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractCache.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractDelegate.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractEvent.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractObserver.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractPriorityDelegate.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractStrategy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AccessExpirationDecorator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AccessExpireCache.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AccessExpireLRUCache.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AccessExpireStrategy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ActiveDispatcher.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ActiveMethod.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ActiveResult.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ActiveRunnable.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ActiveStarter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Activity.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\alignment.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Any.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ArchiveStrategy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Array.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Ascii.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ASCIIEncoding.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AsyncChannel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AtomicCounter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AutoPtr.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AutoReleasePool.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Base32Decoder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Base32Encoder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Base64Decoder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Base64Encoder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\BasicEvent.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\BinaryReader.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\BinaryWriter.h" />
+        <File Id="PocoBufferHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Buffer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\BufferAllocator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\BufferedBidirectionalStreamBuf.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\BufferedStreamBuf.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Bugcheck.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ByteOrder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Channel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Checksum.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ClassLibrary.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ClassLoader.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Clock.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\condition.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Config.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Configurable.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ConsoleChannel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\CountingStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTime.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTimeFormat.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTimeFormatter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Delegate.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DigestEngine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DigestStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator_UNIX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator_WIN32U.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIteratorStrategy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryWatcher.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DynamicAny.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DynamicAnyHolder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DynamicFactory.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DynamicStruct.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_UNIX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_VX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WIN32U.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WINCE.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Error.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ErrorHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Event.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Event_POSIX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Event_VX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Event_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\EventArgs.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\EventChannel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\EventLogChannel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Exception.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ExpirationDecorator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Expire.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ExpireCache.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ExpireLRUCache.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ExpireStrategy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FIFOBuffer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FIFOEvent.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FIFOStrategy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_UNIX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_VX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_WIN32U.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_WINCE.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FileChannel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FileStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FileStream_POSIX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FileStream_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FileStreamFactory.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Format.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Formatter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FormattingChannel.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Foundation.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FPEnvironment.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FPEnvironment_C99.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FPEnvironment_DEC.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FPEnvironment_DUMMY.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FPEnvironment_QNX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FPEnvironment_SUN.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FPEnvironment_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FunctionDelegate.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FunctionPriorityDelegate.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Glob.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Hash.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HashFunction.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HashMap.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HashSet.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HashStatistic.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HashTable.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HexBinaryDecoder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HexBinaryEncoder.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\HMACEngine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\InflatingStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Instantiator.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSONString.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\KeyValueArgs.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Latin1Encoding.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Latin2Encoding.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Latin9Encoding.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LinearHashTable.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LineEndingConverter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ListMap.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LocalDateTime.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile_STD.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile_WIN32U.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Logger.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LoggingFactory.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LoggingRegistry.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LRUCache.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LRUStrategy.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Manifest.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\MD4Engine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\MD5Engine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\MemoryPool.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\MemoryStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Message.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\MetaObject.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\MetaProgramming.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Mutex.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Mutex_POSIX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Mutex_VX.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Mutex_WIN32.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Mutex_WINCE.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedEvent.h" />
+      </Component>
     </ComponentGroup>
 	</Fragment>
 </Wix>
