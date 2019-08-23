@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="BranchIO" Language="1033" Version="0.1.0" Manufacturer="Branch Metrics, Inc." UpgradeCode="29b1dc08-2190-48f0-bc3c-7455381f2156">
+	<Product Id="*" Name="Branch C++ SDK for Windows" Language="1033" Version="0.1.0" Manufacturer="Branch Metrics, Inc." UpgradeCode="29b1dc08-2190-48f0-bc3c-7455381f2156">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
@@ -229,6 +229,7 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTime.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTimeFormat.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTimeFormatter.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTimeParser.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Delegate.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DigestEngine.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DigestStream.h" />
@@ -434,6 +435,7 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\StreamConverter.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\StreamCopier.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\StreamTokenizer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\String.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SynchronizedObject.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SyslogChannel.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Task.h" />
