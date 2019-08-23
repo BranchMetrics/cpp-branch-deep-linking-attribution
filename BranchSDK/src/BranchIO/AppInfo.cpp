@@ -3,7 +3,7 @@
 #include "BranchIO/AppInfo.h"
 
 #include "BranchIO/Defines.h"
-#include "BranchIO/Internal/JSONObject.h"
+#include "JSONObject.h"
 
 namespace BranchIO {
 

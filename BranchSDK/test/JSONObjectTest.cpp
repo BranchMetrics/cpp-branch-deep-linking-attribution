@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <BranchIO/Internal/JSONObject.h>
+#include <BranchIO/JSONObject.h>
 
 using namespace std;
 using namespace BranchIO;

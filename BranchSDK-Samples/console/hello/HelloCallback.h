@@ -1,7 +1,7 @@
 #include <Poco/Condition.h>
 
 #include <BranchIO/IRequestCallback.h>
-#include <BranchIO/Internal/JSONObject.h>
+#include <BranchIO/JSONObject.h>
 
 /**
  * Callback for HelloWorld.
