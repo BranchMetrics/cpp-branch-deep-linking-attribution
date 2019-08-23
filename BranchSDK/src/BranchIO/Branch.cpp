@@ -10,7 +10,7 @@
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Log.h"
 #include "BranchIO/SessionInfo.h"
-#include "BranchIO/Storage.h"
+#include "BranchIO/Internal/Storage.h"
 #include "BranchIO/Version.h"
 #include "BranchIO/RequestManager.h"
 

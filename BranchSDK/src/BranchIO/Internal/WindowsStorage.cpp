@@ -5,7 +5,7 @@
 #include <cassert>
 #include <vector>
 
-#include "BranchIO/WindowsStorage.h"
+#include "BranchIO/Internal/WindowsStorage.h"
 
 using namespace std;
 using namespace Poco;

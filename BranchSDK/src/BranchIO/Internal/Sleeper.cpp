@@ -2,7 +2,7 @@
 
 #include <Poco/Clock.h>
 
-#include "Sleeper.h"
+#include "BranchIO/Internal/Sleeper.h"
 
 using namespace std;
 using namespace Poco;

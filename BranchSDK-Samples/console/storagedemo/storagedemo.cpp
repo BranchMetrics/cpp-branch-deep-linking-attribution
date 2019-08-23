@@ -1,5 +1,5 @@
 #include <BranchIO/Log.h>
-#include <BranchIO/Storage.h>
+#include <BranchIO/Internal/Storage.h>
 #include <Poco/Exception.h>
 #include <exception>
 

@@ -2,7 +2,7 @@
 
 #include <exception>
 
-#include "MacAddress.h"
+#include "BranchIO/Internal/MacAddress.h"
 
 using namespace std;
 
