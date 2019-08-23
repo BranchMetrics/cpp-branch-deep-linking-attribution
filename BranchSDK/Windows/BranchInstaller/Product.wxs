@@ -29,6 +29,7 @@
               </Directory>
               <Directory Id="POCODOMINCLUDEFOLDER" Name="DOM" />
               <Directory Id="POCODYNAMICINCLUDEFOLDER" Name="Dynamic" />
+              <Directory Id="POCOJSONINCLUDEFOLDER" Name="JSON" />
             </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
@@ -624,13 +625,28 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Text.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Treewalker.h" />
       </Component>
-      <Component Id="PocoDynamicHeaders" Guid="" Directory="POCODYNAMICINCLUDEFOLDER">
+      <Component Id="PocoDynamicHeaders" Guid="EDA9A7AF-2DF8-4087-9C97-782F636382DC" Directory="POCODYNAMICINCLUDEFOLDER">
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Pair.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Struct.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Var.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\VarHolder.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\VarIterator.h" />
       </Component>
+      <Component Id="PocoJSONHeaders" Guid="13E70283-58F6-4DE8-BBED-15F942436BC3" Directory="POCOJSONINCLUDEFOLDER">
+        <File Id="PocoJSONArrayHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Array.h" />
+        <File Id="PocoJSONHandlerHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Handler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\JSON.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\JSONException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Object.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\ParseHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Parser.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\ParserImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\PrintHandler.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Query.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Stringifier.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Template.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\TemplateCache.h" />
+       </Component>
     </ComponentGroup>
 	</Fragment>
 </Wix>
