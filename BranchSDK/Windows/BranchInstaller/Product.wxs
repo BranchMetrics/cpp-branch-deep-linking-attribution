@@ -22,7 +22,7 @@
             </Directory>
             <Directory Id="OPENSSLINCLUDEFOLDER" Name="openssl"/>
             <Directory Id="POCOFOUNDATIONINCLUDEFOLDER" Name="Poco" >
-              
+              <Directory Id="POCOCRYPTOINCLUDEFOLDER" Name="Crypto" />
             </Directory>
           </Directory>
           <Directory Id="LIBFOLDER" Name="lib" />
@@ -433,7 +433,6 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timespan.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timestamp.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Timezone.h" />
-
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Token.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Tuple.h" />
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\TypeList.h" />
@@ -466,6 +465,33 @@
         <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\WindowsConsoleChannel.h" />
         <File Id="PocoZConfHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\zconf.h" />
         <File Id="PocoZlibHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\zlib.h" />
+      </Component>
+      <Component Id="PocoCryptoHeaders" Guid="A945829F-6DEF-449D-A911-266C7DA18E3E" Directory="POCOCRYPTOINCLUDEFOLDER">
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\Cipher.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CipherFactory.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CipherImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CipherKey.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CipherKeyImpl.h" />
+        <File Id="PocoCryptoHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\Crypto.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CryptoException.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CryptoStream.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CryptoTransform.h" />
+        <File Id="PocoDigestEngineHeader" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\DigestEngine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\ECDSADigestEngine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\ECKey.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\ECKeyImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\EVPPKey.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\KeyPair.h" />
+
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\KeyPairImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\OpenSSLInitializer.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\PkCS12Container.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\RSACipherImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\RSADigestEngine.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\RSAKey.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\RSAKeyImpl.h" />
+        <File Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\X509Certificate.h" />
+
       </Component>
     </ComponentGroup>
 	</Fragment>
