@@ -62,11 +62,13 @@ class SessionCallback : public IRequestCallback {
     virtual void onSuccess(int id, JSONObject jsonResponse) {
         // @todo(andyp): Update Branch State
         if (_context != NULL) {
-            // If keys exist, we set them on the Branch Context.
-            // If keys don't exist -- that effecively wipes out the state (on purpose).
-            _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
-            _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
-            _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+            // If keys exist, we set them on the Session Context.
+            // If keys don't exist -- that effectively wipes out the state (on purpose).
+            if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
+                _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
+                _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+            }
 
             // Data comes back as String-encoded JSON...  let's fix that up
             if (jsonResponse.has("data")) {
