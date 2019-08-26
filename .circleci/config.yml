@@ -47,6 +47,37 @@ jobs:
             conan install ../.. -s build_type=Release --build gtest
             cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSKIP_INSTALL_ALL=true
             cmake --build . -- -j8
+      # TODO(jdee): Determine why this fails.
+      # - run:
+      #    name: Install Debug (Conan cache)
+      #    command: |
+      #      cd build/Debug
+      #      conan create ../.. branch/testing \
+      #        --json conan-install.json \
+      #        --build outdated \
+      #        --settings build_type=Debug \
+      #        --options "*:shared=False" \
+      #        --options "BranchIO:source_folder=`pwd`/../.."
+      # - run:
+      #    name: Install Release (Conan cache)
+      #    command: |
+      #      cd build/Release
+      #      conan create ../.. branch/testing \
+      #        --json conan-install.json \
+      #        --build outdated \
+      #        --settings build_type=Release \
+      #        --options "*:shared=False" \
+      #        --options "BranchIO:source_folder=`pwd`/../.."
+      # - run:
+      #    name: Stage Debug
+      #    command: |
+      #      cd build/Debug
+      #      ../../BranchSDK/tools/stage.py
+      # - run:
+      #    name: Stage Release
+      #    command: |
+      #      cd build/Release
+      #      ../../BranchSDK/tools/stage.py
       - run:
           name: Lint
           command: |

@@ -1,12 +1,12 @@
 @echo off
 
-REM rmake [build_type [git_branch [build_shared_libs]]]
+REM rmake [build_type [build_shared_libs]]
 REM default: rmake Debug master False
 REM examples:
 REM rmake
 REM rmake Debug
-REM rmake Release my-branch
-REM rmake Debug master True
+REM rmake Release
+REM rmake Debug True
 REM
 REM Builds are done in build\<build_type> (for x86) or build\<build_type>x64 (for x64)
 REM e.g. build\Debugx64, build\Release. Target architecture is determined by environment.
@@ -16,12 +16,6 @@ REM ----- Argument parsing -----
 REM BUILD_TYPE (1st arg): Debug or Release. Default is Debug.
 set BUILD_TYPE=%1
 if "%BUILD_TYPE%" == "" set BUILD_TYPE=Debug
-
-REM GIT_BRANCH (2nd arg): Any branch from the github repo to use with conan create.
-REM Default is master.
-set GIT_BRANCH=%2
-if "%GIT_BRANCH%" == "" set GIT_BRANCH=master
-REM This will be validated by the conan create step at the end, in case the branch doesn't exist.
 
 REM BUILD_SHARED_LIBS (3rd arg): True or False. Determines whether to build DLLs instead of
 REM static libs (all deps, including this SDK). Default is False.
@@ -61,7 +55,6 @@ echo rmake.bat configuration:
 echo  BUILD_TYPE        %BUILD_TYPE%
 echo  TARGET_ARCH       %TARGET_ARCH%
 echo  BUILD_SHARED_LIBS %BUILD_SHARED_LIBS%
-echo  GIT_BRANCH        %GIT_BRANCH%
 echo.
 
 REM Determine some derived params for conan, cmake, etc.
@@ -95,15 +88,22 @@ cd build
 mkdir %BUILD_SUBDIR% 2> NUL
 cd %BUILD_SUBDIR%
 
+if %BUILD_TYPE% == Debug (
+  set RUNTIME=MDd
+) else (
+  set RUNTIME=MD
+)
+
 REM Build/install dependencies needed for this SDK
 conan install ..\..\conanfile.py^
-  -s build_type=%BUILD_TYPE%^
-  -s arch=%TARGET_ARCH%^
-  -o *:shared=%BUILD_SHARED_LIBS%^
+  --settings build_type=%BUILD_TYPE%^
+  --settings arch=%TARGET_ARCH%^
+  --settings compiler.runtime=%RUNTIME%^
+  --options *:shared=%BUILD_SHARED_LIBS%^
   --build outdated
 
 if ERRORLEVEL 1 (
-  echo "conan install failed"
+  echo conan install failed.
   cd ..\..
   exit /b -1
 )
@@ -111,7 +111,7 @@ if ERRORLEVEL 1 (
 cmake ..\.. -G "Visual Studio 16 2019" -A %CMAKE_TARGET_ARCH% -DCMAKE_BUILD_TYPE=%BUILD_TYPE% -DSKIP_INSTALL_ALL=true -DBUILD_SHARED_LIBS=%BUILD_SHARED_LIBS%
 
 if ERRORLEVEL 1 (
-  echo "cmake configure failed"
+  echo cmake configure failed.
   cd ..\..
   exit /b -1
 )
@@ -120,7 +120,7 @@ REM 8 threads available for parallel builds
 cmake --build . -- /m:8
 
 if ERRORLEVEL 1 (
-  echo "cmake build failed"
+  echo cmake build failed.
   cd ..\..
   exit /b -1
 )
@@ -128,17 +128,28 @@ if ERRORLEVEL 1 (
 ctest -C %BUILD_TYPE%
 
 if ERRORLEVEL 1 (
-  echo "unit tests failed"
+  echo Unit tests failed.
+  cd ..\..
+  exit /b -1
+)
+
+REM Install into the Conan cache
+conan create ..\.. branch/testing^
+  --json conan-install.json^
+  --settings build_type=%BUILD_TYPE%^
+  --settings arch=%TARGET_ARCH%^
+  --settings compiler.runtime=%RUNTIME%^
+  --options *:shared=%BUILD_SHARED_LIBS%^
+  --options BranchIO:source_folder=%CD%\..\..^
+  --build outdated
+
+echo Building stage from conan cache
+python ..\..\BranchSDK\tools\stage.py
+
+if ERRORLEVEL 1 (
+  echo stage.py failed.
   cd ..\..
   exit /b -1
 )
 
 cd ..\..
-
-REM Install into the Conan cache
-conan create . branch/testing^
-  -s build_type=%BUILD_TYPE%^
-  -s arch=%TARGET_ARCH%^
-  -o *:shared=%BUILD_SHARED_LIBS%^
-  -o BranchIO:git_branch=%GIT_BRANCH%^
-  --build outdated
