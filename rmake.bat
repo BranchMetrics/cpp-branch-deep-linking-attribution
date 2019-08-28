@@ -20,7 +20,7 @@ if "%BUILD_TYPE%" == "" set BUILD_TYPE=Debug
 
 REM CONAN_PROFILE (2nd arg): Any valid conan profile. Default is Debug.
 set CONAN_PROFILE=%2
-if "%CONAN_PROFILE" == "" set CONAN_PROFILE=default
+if "%CONAN_PROFILE%" == "" set CONAN_PROFILE=default
 
 REM BUILD_SHARED_LIBS (3rd arg): True or False. Determines whether to build DLLs instead of
 REM static libs (all deps, including this SDK). Default is False.
@@ -35,10 +35,10 @@ if NOT "%BUILD_TYPE%" == "Debug" IF NOT "%BUILD_TYPE%" == "Release" (
 )
 
 SET profile_match=No
-FOR /F %%profile IN ('conan profile list') DO IF %%profile == %CONAN_PROFILE% SET profile_match=Yes
+FOR /F %%p IN ('conan profile list') DO IF %%p == %CONAN_PROFILE% SET profile_match=Yes
 if "%profile_match%" == "No" (
-  echo Invalid conan profile "%CONAN_PROFILE" (2nd arg^). Please use one of the following:
-  for /f %%p in ('conan profile list') @echo %%p
+  echo Invalid conan profile "%CONAN_PROFILE%" (2nd arg^). Please use one of the following:
+  for /f %%p in ('conan profile list') do @echo %%p
   exit /b 1
 )
 
