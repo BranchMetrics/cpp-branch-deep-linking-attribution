@@ -67,6 +67,7 @@ if "%TARGET_ARCH%" == "" (
 echo rmake.bat configuration:
 echo  BUILD_TYPE        %BUILD_TYPE%
 echo  TARGET_ARCH       %TARGET_ARCH%
+echo  CONAN_PROFILE     %CONAN_PROFILE%
 echo  BUILD_SHARED_LIBS %BUILD_SHARED_LIBS%
 echo.
 

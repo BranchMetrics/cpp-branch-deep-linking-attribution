@@ -35,8 +35,8 @@ fi
 
 echo "rmake configuration:"
 echo " BUILD_TYPE        $BUILD_TYPE"
-echo " BUILD_SHARED_LIBS $BUILD_SHARED_LIBS"
 echo " CONAN_PROFILE     $CONAN_PROFILE"
+echo " BUILD_SHARED_LIBS $BUILD_SHARED_LIBS"
 echo
 
 if [ ! -f "./build" ]; then mkdir build 2>/dev/null; fi
