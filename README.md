@@ -2,6 +2,7 @@
 
 [Platform prerequisites]: #platform-prerequisites
 [Install CMake and Conan]: #install-cmake-and-conan
+[Set up Branch remote]: #set-up-branch-remote
 [Installation with Conan]: #installation-with-conan
 [Integration]: #integration
 [Sample apps]: #sample-apps
@@ -9,7 +10,7 @@
 ## Contents
 - [Platform prerequisites]
 - [Install CMake and Conan]
-- [Installation with Conan]
+- [Set up Branch remote]
 - [Integration]
 - [Sample apps]
 
@@ -51,13 +52,13 @@ Note that cmake may be installed in different ways. This SDK requires version
 3.12 or later. On Ubuntu, `apt-get install cmake` will only provide 3.10, so
 `pip install cmake` is required.
 
-## Set up branch remote
+## Set up Branch remote
 
 _This step will no longer be necessary once the package is contributed to
 conan-center._
 
 Add the Branch Conan repository. You can call it anything at all. Here it is
-`branch`:
+called `branch`:
 
 ```
 conan remote add branch https://api.bintray.com/conan/branchsdk/cpp-branch-deep-linking-attribution
