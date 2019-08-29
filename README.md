@@ -13,8 +13,8 @@
 ## Contents
 - [Platform prerequisites]
 - [Install CMake and Conan]
-- [Set up Branch remote]
 - [Set up a default Conan profile]
+- [Set up Branch remote]
 - [Integration]
 - [Sample apps]
 
@@ -56,6 +56,17 @@ Note that cmake may be installed in different ways. This SDK requires version
 3.12 or later. On Ubuntu, `apt-get install cmake` will only provide 3.10, so
 `pip install cmake` is required.
 
+## Set up a default conan profile
+
+Before installing software with Conan, you have to create a default profile.
+Run the following command once to create a profile called default.
+
+```
+conan profile new default --detect
+```
+
+See https://docs.conan.io for detailed information on using Conan.
+
 ## Set up Branch remote
 
 _This step will no longer be necessary once the package is contributed to
@@ -67,17 +78,6 @@ called `branch`:
 ```
 conan remote add branch https://api.bintray.com/conan/branchsdk/cpp-branch-deep-linking-attribution
 ```
-
-## Set up a default conan profile
-
-Before installing software with Conan, you have to create a default profile.
-Run the following command once to create a profile called default.
-
-```
-conan profile new default --detect
-```
-
-See https://docs.conan.io for detailed information on using Conan.
 
 ## Integration
 
@@ -107,6 +107,9 @@ when building OpenSSL from source.
 ### Visual Studio
 
 The [Conan Visual Studio Extension](https://marketplace.visualstudio.com/items?itemName=conan-io.conan-vs-extension) automatically integrates the dependencies from your conanfile.txt into a Visual Studio project. Version 1.2.1 or later is required.
+
+See [BranchDemo](./BranchSDK-Samples/Windows/BranchDemo) for a working example
+and more information on using the Conan Visual Studio extension.
 
 **Note:**
 
