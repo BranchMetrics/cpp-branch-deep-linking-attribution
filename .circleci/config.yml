@@ -37,14 +37,22 @@ jobs:
           name: Build Debug
           command: |
             cd build/Debug
-            conan install ../.. -s build_type=Debug --build gtest
+            conan install ../.. \
+                --settings build_type=Debug \
+                --build gtest \
+                --options Poco:enable_mongodb=False \
+                --options Poco:enable_data_sqlite=False
             cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DSKIP_INSTALL_ALL=true
             cmake --build . -- -j8
       - run:
           name: Build Release
           command: |
             cd build/Release
-            conan install ../.. -s build_type=Release --build gtest
+            conan install ../.. \
+                --settings build_type=Release \
+                --build gtest \
+                --options Poco:enable_mongodb=False \
+                --options Poco:enable_data_sqlite=False
             cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSKIP_INSTALL_ALL=true
             cmake --build . -- -j8
       # TODO(jdee): Determine why this fails.
