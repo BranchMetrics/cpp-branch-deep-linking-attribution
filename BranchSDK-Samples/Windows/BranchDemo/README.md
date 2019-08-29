@@ -53,6 +53,10 @@ your Windows 10 host (not necessarily your project):
 ```
 [requires]
 BranchIO/0.1.0@branch/testing
+
+[options]
+Poco:enable_mongodb=False
+Poco:enable_data_sqlite=False
 ```
 
 After you [add the Branch remote](#set-up-branch-remote) and [set up a default profile](#set-up-a-default-conan-profile), just run:
