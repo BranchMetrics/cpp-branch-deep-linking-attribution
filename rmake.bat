@@ -1,16 +1,15 @@
 @echo off
 
-REM rmake [BUILD_TYPE [CONAN_PROFILE [BUILD_SHARED_LIBS]]]
-REM default: rmake Debug default False
+REM rmake [BUILD_TYPE [CONAN_CHANNEL [CONAN_PROFILE [BUILD_SHARED_LIBS]]]]
+REM default: rmake Debug testing default False
 REM examples:
 REM rmake
 REM rmake Debug
 REM rmake Release
-REM rmake Debug my-profile
-REM rmake Release my-profile True
-REM
-REM Builds are done in build\<build_type> (for x86) or build\<build_type>x64 (for x64)
-REM e.g. build\Debugx64, build\Release. Target architecture is determined by environment.
+REM rmake Debug testing
+REM rmake Release stable
+REM rmake Debug stable my-profile
+REM rmake Release stable default True
 
 REM ----- Argument parsing -----
 
@@ -18,11 +17,15 @@ REM BUILD_TYPE (1st arg): Debug or Release. Default is Debug.
 set BUILD_TYPE=%1
 if "%BUILD_TYPE%" == "" set BUILD_TYPE=Debug
 
-REM CONAN_PROFILE (2nd arg): Any valid conan profile. Default is Debug.
+REM CONAN_PROFILE (2nd arg): Any string, e.g. stable, alpha, beta. Default is testing.
+set CONAN_CHANNEL=%2
+if "%CONAN_CHANNEL%" == "" set CONAN_CHANNEL=testing
+
+REM CONAN_PROFILE (3nd arg): Any valid conan profile. Default is Debug.
 set CONAN_PROFILE=%2
 if "%CONAN_PROFILE%" == "" set CONAN_PROFILE=default
 
-REM BUILD_SHARED_LIBS (3rd arg): True or False. Determines whether to build DLLs instead of
+REM BUILD_SHARED_LIBS (4th arg): True or False. Determines whether to build DLLs instead of
 REM static libs (all deps, including this SDK). Default is False.
 set BUILD_SHARED_LIBS=%3
 if "%BUILD_SHARED_LIBS%" == "" set BUILD_SHARED_LIBS=False
@@ -67,6 +70,7 @@ if "%TARGET_ARCH%" == "" (
 echo rmake.bat configuration:
 echo  BUILD_TYPE        %BUILD_TYPE%
 echo  TARGET_ARCH       %TARGET_ARCH%
+echo  CONAN_CHANNEL     %CONAN_CHANNEL%
 echo  CONAN_PROFILE     %CONAN_PROFILE%
 echo  BUILD_SHARED_LIBS %BUILD_SHARED_LIBS%
 echo.
@@ -150,7 +154,7 @@ if ERRORLEVEL 1 (
 )
 
 REM Install into the Conan cache
-conan create ..\.. branch/testing^
+conan create ..\.. branch/%CONAN_CHANNEL%^
   --json conan-install.json^
   --settings build_type=%BUILD_TYPE%^
   --settings arch=%TARGET_ARCH%^

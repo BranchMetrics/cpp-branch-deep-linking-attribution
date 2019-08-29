@@ -1,17 +1,20 @@
 #!/bin/sh
 
-# rmake [BUILD_TYPE [CONAN_PROFILE [BUILD_SHARED_LIBS]]]
-# default: rmake Debug default False
+# rmake [BUILD_TYPE [CONAN_CHANNEL [CONAN_PROFILE [BUILD_SHARED_LIBS]]]]
+# default: rmake Debug testing default False
 # examples:
 # rmake
 # rmake Debug
 # rmake Release
-# rmake Debug my-profile
-# rmake Release my-profile True
+# rmake Debug testing
+# rmake Release stable
+# rmake Debug stable my-profile
+# rmake Release stable default True
 
 BUILD_TYPE=${1:-Debug}
-CONAN_PROFILE=${2:-default}
-BUILD_SHARED_LIBS=${3:-False}
+CONAN_CHANNEL=${2:-testing}
+CONAN_PROFILE=${3:-default}
+BUILD_SHARED_LIBS=${4:-False}
 
 if [ $BUILD_TYPE != Debug -a $BUILD_TYPE != Release ]
 then
@@ -27,6 +30,8 @@ then
   exit 1
 fi
 
+# CONAN_CHANNEL can be pretty well any string
+
 if [ $BUILD_SHARED_LIBS != True -a $BUILD_SHARED_LIBS != False ]
 then
   echo "Invalid value for BUILD_SHARED_LIBS \"$BUILD_SHARED_LIBS\". Please specify True or False."
@@ -35,6 +40,7 @@ fi
 
 echo "rmake configuration:"
 echo " BUILD_TYPE        $BUILD_TYPE"
+echo " CONAN_CHANNEL     $CONAN_CHANNEL"
 echo " CONAN_PROFILE     $CONAN_PROFILE"
 echo " BUILD_SHARED_LIBS $BUILD_SHARED_LIBS"
 echo
@@ -72,7 +78,7 @@ then
 fi
 
 # Install into the Conan cache
-conan create ../.. branch/testing \
+conan create ../.. branch/$CONAN_CHANNEL \
   --json conan-install.json \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
