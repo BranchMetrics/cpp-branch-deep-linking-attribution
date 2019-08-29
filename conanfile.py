@@ -57,10 +57,10 @@ class BranchioConan(ConanFile):
             # Install a release from a tag (default)
             tag_name = "v%s" % self.version
             self.output.info("Building from tag %s" % tag_name)
-            zip_name = "cpp-branch-deep-linking-%s.zip" % tag_name
+            zip_name = "%s.zip" % tag_name
             tools.download("%s/archive/%s" % (self.url, zip_name), zip_name)
             tools.unzip(zip_name)
-            shutil.move("cpp-branch-deep-linking-%s" % tag_name, ".")
+            self.copyall(tag_name, ".")
             os.unlink(zip_name)
 
     def build(self):
