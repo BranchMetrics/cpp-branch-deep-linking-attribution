@@ -33,7 +33,7 @@ class BranchioConan(ConanFile):
     exports_sources = "BranchIO"
 
     # ----- Package dependencies -----
-    requires = "Poco/1.9.0@pocoproject/stable"
+    requires = "Poco/1.9.3@pocoproject/stable"
     build_requires = "gtest/1.8.1@bincrafters/stable"
 
     def source(self):
