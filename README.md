@@ -51,49 +51,17 @@ Note that cmake may be installed in different ways. This SDK requires version
 3.12 or later. On Ubuntu, `apt-get install cmake` will only provide 3.10, so
 `pip install cmake` is required.
 
-## Installation with Conan
+## Set up branch remote
 
-**(Pending release of the SDK. This step will not be needed once the Conan
-recipe is published.)**
+_This step will no longer be necessary once the package is contributed to
+conan-center._
 
-Use `conan create` to install into the Conan cache, e.g.
-`conan create . branch/testing`. This will be correctly done for you using the
-`rmake` scripts in the repo.
+Add the Branch Conan repository. You can call it anything at all. Here it is
+`branch`:
 
-Windows:
 ```
-rmake
-rmake Debug
-rmake Release
+conan remote add branch https://api.bintray.com/conan/branchsdk/cpp-branch-deep-linking-attribution
 ```
-Debug is the default. Note that you must use an x86 or x64 Native Tools Command
-Prompt for this purpose. Choose the environment corresponding to the
-architecture you wish to build (32 or 64 bits).
-
-Unix:
-```bash
-./rmake
-./rmake Debug
-./rmake Release
-```
-Release is the default.
-
-Note that on Unix doxygen is also required for rmake to finish cleanly. It will,
-however, build and install the SDK in the Conan cache before failing to
-generate the documentation. To install doxygen:
-
-macOS:
-```bash
-brew install doxygen
-```
-
-Ubuntu:
-```
-sudo apt-get install doxygen
-```
-
-Doxygen is only required when working with the repo. It is not required for
-apps using the SDK.
 
 ## Integration
 
@@ -101,10 +69,10 @@ Add the following to your conanfile.txt:
 
 ```
 [requires]
-BranchIO/0.0.1@branch/testing
+BranchIO/0.1.0@branch/testing
 ```
 
-And then `conan install`.
+And then `conan install . --build outdated`.
 
 ### Visual Studio
 
