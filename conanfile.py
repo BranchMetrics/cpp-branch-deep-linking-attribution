@@ -61,7 +61,7 @@ class BranchioConan(ConanFile):
             tools.download("%s/archive/%s" % (self.url, zip_name), zip_name)
             tools.unzip(zip_name)
             shutil.move("cpp-branch-deep-linking-%s" % tag_name, ".")
-            os.unlink(zip_name)s
+            os.unlink(zip_name)
 
     def build(self):
         library_type = "shared" if self.options.shared else "static"
