@@ -50,15 +50,15 @@ AdvertiserInfo::isTrackingLimited() const {
 const char *
 AdvertiserInfo::toXString(AdIdType idType) const {
     switch (idType) {
-        case IDFA:                      return "IDFA"; break;
-        case GOOGLE_ADVERTISING_ID:     return "GOOGLE_ADVERTISING_ID"; break;
-        case WINDOWS_ADVERTISING_ID:    return "WINDOWS_ADVERTISING_ID"; break;
-        case ROKU_RIDA:                 return "ROKU_RIDA"; break;
-        case SAMSUNG_IFA:               return "SAMSUNG_IFA"; break;
-        case LG_IFA:                    return "LG_IFA"; break;
-        case PANASONIC_IFA:             return "PANASONIC_IFA"; break;
-        case PLAYSTATION_IFA:           return "PLAYSTATION_IFA"; break;
-        case XBOX_MSAI:                 return "XBOX_MSAI"; break;
+        case IDFA:                      return "idfa"; break;
+        case GOOGLE_ADVERTISING_ID:     return "google_advertising_id"; break;
+        case WINDOWS_ADVERTISING_ID:    return "windows_advertising_id"; break;
+        case ROKU_RIDA:                 return "roku_rida"; break;
+        case SAMSUNG_IFA:               return "samsung_ifa"; break;
+        case LG_IFA:                    return "lg_ifa"; break;
+        case PANASONIC_IFA:             return "panasonic_ifa"; break;
+        case PLAYSTATION_IFA:           return "playstation_ifa"; break;
+        case XBOX_MSAI:                 return "xbox_msai"; break;
     }
 
     return "";
