@@ -27,6 +27,8 @@ jobs:
           command: |
             conan profile new default --detect  # Generates default profile detecting GCC and sets old ABI
             conan profile update settings.compiler.libcxx=libstdc++11 default  # Sets libcxx to C++11 ABI
+            conan profile update options.Poco:enable_data_sqlite=False default # Suppress Poco DataSQLite module
+            conan profile update options.Poco:enable_mongodb=False default     # Suppress Poco MongoDB module
       - run:
           name: Pre Build
           command: |
@@ -37,22 +39,14 @@ jobs:
           name: Build Debug
           command: |
             cd build/Debug
-            conan install ../.. \
-                --settings build_type=Debug \
-                --build outdated \
-                --options Poco:enable_mongodb=False \
-                --options Poco:enable_data_sqlite=False
+            conan install ../.. --settings build_type=Debug --build outdated
             cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DSKIP_INSTALL_ALL=true
             cmake --build . -- -j8
       - run:
           name: Build Release
           command: |
             cd build/Release
-            conan install ../.. \
-                --settings build_type=Release \
-                --build outdated \
-                --options Poco:enable_mongodb=False \
-                --options Poco:enable_data_sqlite=False
+            conan install ../.. --settings build_type=Release --build outdated
             cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release -DSKIP_INSTALL_ALL=true
             cmake --build . -- -j8
       # TODO(jdee): Determine why this fails.
