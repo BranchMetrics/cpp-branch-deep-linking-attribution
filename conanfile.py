@@ -60,7 +60,7 @@ class BranchioConan(ConanFile):
             zip_name = "%s.zip" % tag_name
             tools.download("%s/archive/%s" % (self.url, zip_name), zip_name)
             tools.unzip(zip_name)
-            self.copyall(tag_name, ".")
+            self.copyall("cpp-branch-deep-linking-attribution-%s" % tag_name, ".")
             os.unlink(zip_name)
 
     def build(self):
