@@ -30,7 +30,7 @@ class BranchioConan(ConanFile):
     # ----- Package settings and options -----
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False], "git_branch": "ANY", "source_folder": "ANY"}
-    default_options = {"shared": False, "git_branch": "master", "source_folder": None}
+    default_options = {"shared": False, "git_branch": None, "source_folder": None}
     generators = "cmake"
     exports_sources = "BranchIO"
 
@@ -40,12 +40,12 @@ class BranchioConan(ConanFile):
 
     def source(self):
         if self.options.source_folder:
+            # Install from local source (via rmake)
             folder = str(self.options.source_folder)
             self.output.info("Copying from source_folder " + folder)
             self.copyall(folder, ".", excludes=["build"])
-        else:
-            # TODO(jdee): Use tags from github once we have some. For now, check
-            # out branches from the repo.
+        elif self.options.git_branch:
+            # Install from a git branch in the repo
             git = tools.Git(folder=".")
             self.output.info("Checking out branch %s" % self.options.git_branch)
 
@@ -53,6 +53,15 @@ class BranchioConan(ConanFile):
             git_url_env_var = os.environ.get('BRANCHIO_GIT_URL')
             git_url = git_url_env_var if git_url_env_var else self.url
             git.clone(git_url, branch=self.options.git_branch)
+        else:
+            # Install a release from a tag (default)
+            tag_name = "v%s" % self.version
+            self.output.info("Building from tag %s" % tag_name)
+            zip_name = "%s.zip" % tag_name
+            tools.download("%s/archive/%s" % (self.url, zip_name), zip_name)
+            tools.unzip(zip_name)
+            self.copyall("cpp-branch-deep-linking-attribution-%s" % self.version, ".")
+            os.unlink(zip_name)
 
     def build(self):
         library_type = "shared" if self.options.shared else "static"
@@ -86,7 +95,6 @@ class BranchioConan(ConanFile):
         CMake(self).test()
 
     def package(self):
-        # TODO(jdee): Finish this off. Possibly rename libs on Windows (BranchIOMDd.lib, etc.).
         self.copy("*.h", dst="include/BranchIO", src="BranchSDK/src/BranchIO")
         self.copy("*.h", dst="include/BranchIO/Event", src="BranchSDK/src/BranchIO/Event")
         self.copy("*.lib", dst="lib", keep_path=False)

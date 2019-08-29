@@ -1,12 +1,13 @@
 @echo off
 
-REM rmake [build_type [build_shared_libs]]
-REM default: rmake Debug master False
+REM rmake [BUILD_TYPE [CONAN_PROFILE [BUILD_SHARED_LIBS]]]
+REM default: rmake Debug default False
 REM examples:
 REM rmake
 REM rmake Debug
 REM rmake Release
-REM rmake Debug True
+REM rmake Debug my-profile
+REM rmake Release my-profile True
 REM
 REM Builds are done in build\<build_type> (for x86) or build\<build_type>x64 (for x64)
 REM e.g. build\Debugx64, build\Release. Target architecture is determined by environment.
@@ -17,6 +18,10 @@ REM BUILD_TYPE (1st arg): Debug or Release. Default is Debug.
 set BUILD_TYPE=%1
 if "%BUILD_TYPE%" == "" set BUILD_TYPE=Debug
 
+REM CONAN_PROFILE (2nd arg): Any valid conan profile. Default is Debug.
+set CONAN_PROFILE=%2
+if "%CONAN_PROFILE%" == "" set CONAN_PROFILE=default
+
 REM BUILD_SHARED_LIBS (3rd arg): True or False. Determines whether to build DLLs instead of
 REM static libs (all deps, including this SDK). Default is False.
 set BUILD_SHARED_LIBS=%3
@@ -26,6 +31,14 @@ REM ----- Argument validation ------
 
 if NOT "%BUILD_TYPE%" == "Debug" IF NOT "%BUILD_TYPE%" == "Release" (
   echo Invalid argument "%BUILD_TYPE%" for BUILD_TYPE (1st arg^). Must be Debug or Release.
+  exit /b 1
+)
+
+SET profile_match=No
+FOR /F %%p IN ('conan profile list') DO IF %%p == %CONAN_PROFILE% SET profile_match=Yes
+if "%profile_match%" == "No" (
+  echo Invalid conan profile "%CONAN_PROFILE%" (2nd arg^). Please use one of the following:
+  for /f %%p in ('conan profile list') do @echo %%p
   exit /b 1
 )
 
@@ -54,6 +67,7 @@ if "%TARGET_ARCH%" == "" (
 echo rmake.bat configuration:
 echo  BUILD_TYPE        %BUILD_TYPE%
 echo  TARGET_ARCH       %TARGET_ARCH%
+echo  CONAN_PROFILE     %CONAN_PROFILE%
 echo  BUILD_SHARED_LIBS %BUILD_SHARED_LIBS%
 echo.
 
@@ -100,6 +114,8 @@ conan install ..\..\conanfile.py^
   --settings arch=%TARGET_ARCH%^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
+  --options Poco:enable_mongodb=False^
+  --options Poco:enable_data_sqlite=False^
   --build outdated
 
 if ERRORLEVEL 1 (
@@ -141,6 +157,8 @@ conan create ..\.. branch/testing^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
   --options BranchIO:source_folder=%CD%\..\..^
+  --options Poco:enable_mongodb=False^
+  --options Poco:enable_data_sqlite=False^
   --build outdated
 
 echo Building stage from conan cache
