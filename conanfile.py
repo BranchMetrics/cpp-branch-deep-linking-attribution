@@ -23,9 +23,7 @@ class BranchioConan(ConanFile):
     )
     author = "Branch Metrics, Inc <sdk-team@branch.io>"
     url = "https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution"
-    # TODO(jdee): Find an appropriate URL for this field, either docs or
-    # marketing.
-    # homepage = "https://docs.branch.io/cpp-sdk"
+    homepage = "https://docs.branch.io/apps/windows-cpp/"
 
     # ----- Package settings and options -----
     settings = "os", "compiler", "build_type", "arch"
@@ -91,7 +89,8 @@ class BranchioConan(ConanFile):
 
     def test(self):
         # TODO(jdee): This isn't necessarily the right idea. The idea is to use a project
-        # that imports this one to test that we've been installed correctly.
+        # that imports this one to test that we've been installed correctly. Should build
+        # the examples here and just the SDK above.
         CMake(self).test()
 
     def package(self):
