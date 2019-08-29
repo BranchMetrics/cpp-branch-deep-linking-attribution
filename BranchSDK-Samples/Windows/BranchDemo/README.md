@@ -47,7 +47,7 @@ Binary builds of the packages this SDK depends on are available from the Branch
 Conan repository, but not from conan-center. If you use the Visual Studio
 extension out of the box, it will always initially build OpenSSL, Poco and
 gtest for any configuration that is not yet in the cache. To speed up this
-process considerably, first put the following two-line conanfile.txt anywhere at all on
+process considerably, first put the following conanfile.txt anywhere at all on
 your Windows 10 host (not necessarily your project):
 
 ```
