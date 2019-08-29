@@ -29,15 +29,15 @@ TEST_F(AdvertiserInfoTest, TestAddId)
     info.addId(AdvertiserInfo::AdIdType::XBOX_MSAI, "id_xbox");
 
     JSONObject jsonObject = info.toJSON();
-    ASSERT_EQ("id_idfa", jsonObject.get("IDFA"));
-    ASSERT_EQ("id_google", jsonObject.get("GOOGLE_ADVERTISING_ID"));
-    ASSERT_EQ("id_windows", jsonObject.get("WINDOWS_ADVERTISING_ID"));
-    ASSERT_EQ("id_roku", jsonObject.get("ROKU_RIDA"));
-    ASSERT_EQ("id_samsung", jsonObject.get("SAMSUNG_IFA"));
-    ASSERT_EQ("id_lg", jsonObject.get("LG_IFA"));
-    ASSERT_EQ("id_panasonic", jsonObject.get("PANASONIC_IFA"));
-    ASSERT_EQ("id_playstation", jsonObject.get("PLAYSTATION_IFA"));
-    ASSERT_EQ("id_xbox", jsonObject.get("XBOX_MSAI"));
+    ASSERT_EQ("id_idfa", jsonObject.get("idfa"));
+    ASSERT_EQ("id_google", jsonObject.get("google_advertising_id"));
+    ASSERT_EQ("id_windows", jsonObject.get("windows_advertising_id"));
+    ASSERT_EQ("id_roku", jsonObject.get("roku_rida"));
+    ASSERT_EQ("id_samsung", jsonObject.get("samsung_ifa"));
+    ASSERT_EQ("id_lg", jsonObject.get("lg_ifa"));
+    ASSERT_EQ("id_panasonic", jsonObject.get("panasonic_ifa"));
+    ASSERT_EQ("id_playstation", jsonObject.get("playstation_ifa"));
+    ASSERT_EQ("id_xbox", jsonObject.get("xbox_msai"));
 
     info.clear();
     jsonObject = info.toJSON();
@@ -63,7 +63,7 @@ TEST_F(AdvertiserInfoTest, TestPackaging)
 
     JSONObject userData = jsonObject.extract("user_data");
     JSONObject advertising_ids = userData.extract("advertising_ids");
-    ASSERT_EQ("id_windows", advertising_ids.get("WINDOWS_ADVERTISING_ID"));
+    ASSERT_EQ("id_windows", advertising_ids.get("windows_advertising_id"));
 }
 
 TEST_F(AdvertiserInfoTest, TestLAT_true)
