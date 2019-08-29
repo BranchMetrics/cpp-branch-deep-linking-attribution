@@ -48,6 +48,8 @@ cd $BUILD_TYPE
 
 conan install ../../conanfile.py \
     --options "*:shared=$BUILD_SHARED_LIBS" \
+    --options "Poco:enable_mongodb=False" \
+    --options "Poco:enable_data_sqlite=False" \
     --profile $CONAN_PROFILE \
     --build outdated
 cmake ../.. -G "Unix Makefiles" \
@@ -75,6 +77,8 @@ conan create ../.. branch/testing \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
   --options "BranchIO:source_folder=`pwd`/../.." \
+  --options "Poco:enable_mongodb=False" \
+  --options "Poco:enable_data_sqlite=False" \
   --settings build_type=$BUILD_TYPE \
   --profile $CONAN_PROFILE
 if [ $? != 0 ]
