@@ -22,7 +22,7 @@ set CONAN_CHANNEL=%2
 if "%CONAN_CHANNEL%" == "" set CONAN_CHANNEL=testing
 
 REM CONAN_PROFILE (3nd arg): Any valid conan profile. Default is Debug.
-set CONAN_PROFILE=%2
+set CONAN_PROFILE=%3
 if "%CONAN_PROFILE%" == "" set CONAN_PROFILE=default
 
 REM BUILD_SHARED_LIBS (4th arg): True or False. Determines whether to build DLLs instead of
