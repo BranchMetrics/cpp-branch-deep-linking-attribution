@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-	<Product Id="*" Name="Branch C++ SDK for Windows" Language="1033" Version="0.1.0" Manufacturer="Branch Metrics, Inc." UpgradeCode="29b1dc08-2190-48f0-bc3c-7455381f2156">
+	<Product Id="*" Name="Branch C++ SDK for Windows" Language="1033" Version="0.2.1" Manufacturer="Branch Metrics, Inc." UpgradeCode="29b1dc08-2190-48f0-bc3c-7455381f2156">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
