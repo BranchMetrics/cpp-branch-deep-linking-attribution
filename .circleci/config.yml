@@ -39,7 +39,7 @@ jobs:
           name: Build Debug
           command: |
             cd build/Debug
-            conan install ../.. --settings build_type=Debug --build outdated
+            conan install ../../conanfile.txt --settings build_type=Debug --build outdated
             cmake ../.. -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DSKIP_INSTALL_ALL=true
             cmake --build . -- -j8
       - run:
