@@ -113,7 +113,7 @@ if %BUILD_TYPE% == Debug (
 )
 
 REM Build/install dependencies needed for this SDK
-conan install ..\..\conanfile.py^
+conan install ..\..\conanfile.txt^
   --settings build_type=%BUILD_TYPE%^
   --settings arch=%TARGET_ARCH%^
   --settings compiler.runtime=%RUNTIME%^

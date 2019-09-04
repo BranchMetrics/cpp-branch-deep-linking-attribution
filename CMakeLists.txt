@@ -1,7 +1,13 @@
 cmake_minimum_required(VERSION 3.12)
 
-# TODO(jdee): Set the version in one place and pass it around.
-project(root VERSION 0.1.0 LANGUAGES CXX)
+set(VERSION_MAJOR 0)
+set(VERSION_MINOR 1)
+set(VERSION_REVISION 0)
+set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
+
+project(root VERSION ${VERSION} LANGUAGES CXX)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/conanfile.py.in" "${CMAKE_CURRENT_SOURCE_DIR}/conanfile.py")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/BranchSDK/src/BranchIO/Version.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/BranchSDK/src/BranchIO/Version.h")
 
 # Determines handling of RPATH and related variables when building dylibs on Mac.
 # TODO(jdee): Review this. RPATH is an issue on Unix right now.

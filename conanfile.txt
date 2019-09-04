@@ -1,0 +1,12 @@
+[requires]
+Poco/1.9.3@pocoproject/stable
+
+[build_requires]
+gtest/1.8.1@bincrafters/stable
+
+[generators]
+cmake
+
+[options]
+Poco:enable_mongodb=False
+Poco:enable_data_sqlite=False
