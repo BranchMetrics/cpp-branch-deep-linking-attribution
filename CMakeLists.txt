@@ -8,6 +8,7 @@ set(VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_REVISION}")
 project(root VERSION ${VERSION} LANGUAGES CXX)
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/conanfile.py.in" "${CMAKE_CURRENT_SOURCE_DIR}/conanfile.py")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/BranchSDK/src/BranchIO/Version.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/BranchSDK/src/BranchIO/Version.h")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/BranchSDK/Doxyfile.in" "${CMAKE_CURRENT_SOURCE_DIR}/BranchSDK/Doxyfile")
 
 # Determines handling of RPATH and related variables when building dylibs on Mac.
 # TODO(jdee): Review this. RPATH is an issue on Unix right now.
