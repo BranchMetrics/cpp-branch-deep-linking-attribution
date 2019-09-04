@@ -13,7 +13,6 @@ class APIClientSession;
 class AppInfo;
 class Branch;
 class DeviceInfo;
-class Event;
 struct IClientSession;
 struct IPackagingInfo;
 class IRequestCallback;
@@ -22,6 +21,12 @@ class JSONObject;
 class Request;
 class SessionInfo;
 class AdvertiserInfo;
+
+namespace Event {
+
+class Event;
+
+}  // namespace Event
 
 }  // namespace BranchIO
 

@@ -41,13 +41,13 @@ int main(int argc, char *argv[])
     branch->openSession("https://hello-branch.app.link/0urbx9YcQR", &callback);
 
     // Send a Branch Standard Event
-    BranchIO::StandardEvent testEvent1(BranchIO::StandardEvent::Type::PURCHASE);
+    BranchIO::Event::StandardEvent testEvent1(BranchIO::Event::StandardEvent::Type::PURCHASE);
     testEvent1.setTransactionId("1234");
     branch->sendEvent(testEvent1, &callback);
 
     // Send a Custom Event
-    BranchIO::CustomEvent testEvent2("Test2");
-    testEvent2.setAdType(BranchIO::Event::AdType::BANNER);
+    BranchIO::Event::CustomEvent testEvent2("Test2");
+    testEvent2.setAdType(BranchIO::Event::Event::AdType::BANNER);
     branch->sendEvent(testEvent2, &callback);
 
     // Close the Branch Session

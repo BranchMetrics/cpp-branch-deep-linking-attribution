@@ -5,6 +5,8 @@
 
 namespace BranchIO {
 
+namespace Event {
+
 // Branch Standard Events
 const char *SE_ADD_TO_CART = "ADD_TO_CART";
 const char *SE_ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
@@ -86,5 +88,7 @@ StandardEvent::toString(StandardEvent::Type eventType) {
 
     return Defines::NO_BRANCH_VALUE;
 }
+
+}  // namespace Event
 
 }  // namespace BranchIO

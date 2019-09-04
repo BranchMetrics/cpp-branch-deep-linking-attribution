@@ -7,6 +7,8 @@
 
 namespace BranchIO {
 
+namespace Event {
+
 /**
  * Class for creating Standard Branch events for tracking and analytical purpose.
  */
@@ -61,6 +63,8 @@ class BRANCHIO_DLL_EXPORT StandardEvent : public Event {
      */
     explicit StandardEvent(StandardEvent::Type eventType);
 };
+
+}
 
 }  // namespace BranchIO
 

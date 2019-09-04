@@ -10,6 +10,8 @@
 
 namespace BranchIO {
 
+namespace Event {
+
 /**
  * (Internal) Session Management Event
  */
@@ -75,6 +77,8 @@ class BRANCHIO_DLL_EXPORT SessionCloseEvent: public SessionEvent {
     explicit SessionCloseEvent(JSONObject::Ptr jsonPtr = NULL) :
         SessionEvent(Defines::APIEndpoint::REGISTER_CLOSE, "Close", jsonPtr) {}
 };
+
+}
 
 }  // namespace BranchIO
 

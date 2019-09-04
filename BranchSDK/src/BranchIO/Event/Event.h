@@ -10,6 +10,8 @@
 
 namespace BranchIO {
 
+namespace Event {
+
 typedef std::string CurrencyType;
 
 /**
@@ -181,6 +183,8 @@ class BRANCHIO_DLL_EXPORT Event : public PropertyManager {
     // Custom Data is rendered as a sibling to the event data
     JSONObject::Ptr mCustomData;
 };
+
+}
 
 }  // namespace BranchIO
 

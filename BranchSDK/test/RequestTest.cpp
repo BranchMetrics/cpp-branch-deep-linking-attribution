@@ -7,6 +7,8 @@ using namespace std;
 using namespace BranchIO;
 using namespace testing;
 
+using namespace BranchIO::Event;
+
 class RequestTest : public ::testing::Test
 {
 protected:

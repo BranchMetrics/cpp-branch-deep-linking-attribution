@@ -68,7 +68,7 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param event Event to send
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void sendEvent(const Event &event, IRequestCallback *callback);
+    virtual void sendEvent(const Event::Event &event, IRequestCallback *callback);
 
     /**
      * @return the SDK Version

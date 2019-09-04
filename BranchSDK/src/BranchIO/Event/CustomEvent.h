@@ -9,6 +9,8 @@
 
 namespace BranchIO {
 
+namespace Event {
+
 /**
  * Class for creating custom Branch events for tracking and analytical purpose.
  */
@@ -22,6 +24,8 @@ class BRANCHIO_DLL_EXPORT CustomEvent : public Event {
      */
     explicit CustomEvent(const std::string &eventName);
 };
+
+}  // namespace Event
 
 }  // namespace BranchIO
 

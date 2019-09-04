@@ -11,6 +11,8 @@
 
 namespace BranchIO {
 
+namespace Event {
+
 // Top Level JSON Blocks
 static const char *JSONKEY_NAME = "name";
 static const char *JSONKEY_CUSTOM_DATA = "custom_data";
@@ -218,5 +220,6 @@ Event::package(IPackagingInfo &packagingInfo, JSONObject &jsonPackage) const {
 
 }
 
+}
 
 }  // namespace BranchIO

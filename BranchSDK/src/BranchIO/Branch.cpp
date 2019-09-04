@@ -150,7 +150,7 @@ Branch::~Branch() {
 void
 Branch::openSession(const std::string &linkUrl, IRequestCallback *callback) {
     SessionCallback *sessionCallback = new SessionCallback(&_packagingInfo, callback);
-    SessionOpenEvent event;
+    Event::SessionOpenEvent event;
 
     if (linkUrl.length() > 0) {
         event.setLinkUrl(linkUrl);
@@ -162,12 +162,12 @@ Branch::openSession(const std::string &linkUrl, IRequestCallback *callback) {
 void
 Branch::closeSession(IRequestCallback *callback) {
     SessionCallback *sessionCallback = new SessionCallback(&_packagingInfo, callback);
-    SessionCloseEvent event;
+    Event::SessionCloseEvent event;
     sendEvent(event, sessionCallback);
 }
 
 void
-Branch::sendEvent(const Event &event, IRequestCallback *callback) {
+Branch::sendEvent(const Event::Event &event, IRequestCallback *callback) {
     if (getAdvertiserInfo().isTrackingDisabled()) {
         if (callback != NULL) {
             callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");

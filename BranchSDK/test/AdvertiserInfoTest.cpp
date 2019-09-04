@@ -9,6 +9,7 @@
 
 using namespace BranchIO;
 using namespace std;
+using BranchIO::Event::StandardEvent;
 
 class AdvertiserInfoTest : public ::testing::Test
 {

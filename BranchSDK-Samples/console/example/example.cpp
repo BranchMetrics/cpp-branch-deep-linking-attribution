@@ -27,6 +27,8 @@ using Poco::Util::AbstractOptionCallback;
 
 using namespace std;
 using namespace BranchIO;
+using BranchIO::Event::CustomEvent;
+using BranchIO::Event::StandardEvent;
 
 // Configuration File Key for the Branch Credentials
 #define KEY_BRANCH "branch_key"
@@ -266,7 +268,7 @@ protected:
         cout << "handleSendCustomEvent()" << endl;
 
         CustomEvent event("handleSendCustomEvent");
-        event.setAdType(Event::AdType::BANNER);
+        event.setAdType(Event::Event::AdType::BANNER);
 
         _branchInstance->sendEvent(event, this);
     }
