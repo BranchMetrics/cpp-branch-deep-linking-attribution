@@ -86,7 +86,7 @@ contents:
 
 ```
 [requires]
-BranchIO/0.1.0@branch/testing
+BranchIO/0.2.0@branch/alpha
 
 [options]
 Poco:enable_mongodb=False
@@ -126,7 +126,7 @@ your Windows 10 host (not necessarily your project):
 
 ```
 [requires]
-BranchIO/0.1.0@branch/testing
+BranchIO/0.2.0@branch/alpha
 
 [options]
 Poco:enable_mongodb=False
