@@ -118,8 +118,6 @@ conan install ..\..\conanfile.txt^
   --settings arch=%TARGET_ARCH%^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
-  --options Poco:enable_mongodb=False^
-  --options Poco:enable_data_sqlite=False^
   --build outdated
 
 if ERRORLEVEL 1 (
