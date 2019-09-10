@@ -15,14 +15,14 @@ int main(int argc, char *argv[])
     Log::setLevel(Log::Verbose);
     std::cout << "Hello " << BranchIO::Branch::getVersion() << std::endl;
 
-    std::string branchKey;
+    // Branch Key
+   std::string branchKey = "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap";
+
+    // Branch link
+    std::string branchLink;
 
     if (argc > 1) {
-        branchKey = argv[1];
-    }
-    if (branchKey.empty()) {
-        std::cerr << "Missing BranchKey" << std::endl;
-        return -1;
+        branchLink = argv[1];
     }
 
     BranchIO::AppInfo appInfo;
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
     HelloCallback callback;
 
     // Open a Branch Session
-    branch->openSession("https://hello-branch.app.link/0urbx9YcQR", &callback);
+    branch->openSession(branchLink, &callback);
 
     // Send a Branch Standard Event
     BranchIO::StandardEvent testEvent1(BranchIO::StandardEvent::Type::PURCHASE);

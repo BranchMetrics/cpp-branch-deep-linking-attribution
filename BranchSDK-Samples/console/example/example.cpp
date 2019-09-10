@@ -30,6 +30,7 @@ using namespace BranchIO;
 
 // Configuration File Key for the Branch Credentials
 #define KEY_BRANCH "branch_key"
+#define KEY_LINK "branch_link"
 
 class ExampleApp : public Application, public IRequestCallback
 {
@@ -219,8 +220,10 @@ protected:
     }
 
     void handleSendInstallEvent(const std::string &name, const std::string &value) {
+        auto branch_link = config().getString(KEY_LINK);
+
         cout << "handleSendInstallEvent()" << endl;
-        _branchInstance->openSession("https://hello-branch.app.link/0urbx9YcQR", this);
+        _branchInstance->openSession(branch_link, this);
     }
 
     void handleSendOpenEvent(const std::string &name, const std::string &value) {
