@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
     std::cout << "Hello " << BranchIO::Branch::getVersion() << std::endl;
 
     // Branch Key
-   std::string branchKey = "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap";
+    std::string branchKey = "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap";
 
     // Branch link
     std::string branchLink;
