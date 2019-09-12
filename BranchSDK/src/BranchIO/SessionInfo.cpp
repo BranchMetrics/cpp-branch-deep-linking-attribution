@@ -14,7 +14,6 @@ SessionInfo::SessionInfo() {
      * Load these fields from storage if present.
      */
     load(Defines::JSONKEY_SESSION_FINGERPRINT);
-    load(Defines::JSONKEY_SESSION_IDENTITY);
 }
 
 SessionInfo::~SessionInfo() {
@@ -28,7 +27,6 @@ SessionInfo::setFingerprintId(const std::string &deviceFingerprint) {
 
 SessionInfo&
 SessionInfo::setIdentityId(const std::string &identityId) {
-    save(Defines::JSONKEY_SESSION_IDENTITY, identityId);
     return doAddProperty(Defines::JSONKEY_SESSION_IDENTITY, identityId);
 }
 
