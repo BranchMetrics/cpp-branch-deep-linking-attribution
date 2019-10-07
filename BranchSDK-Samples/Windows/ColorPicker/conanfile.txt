@@ -1,0 +1,6 @@
+[requires]
+BranchIO/0.1.0@branch/testing
+
+[options]
+# master is the default. Uncomment and modify to use a different branch
+# BranchIO:git_branch=master
