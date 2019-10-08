@@ -26,7 +26,7 @@ Using the ColorPicker App
 ### Basic Usage
 
 Running the application out of the box will demonstrate Branch initialization.   
-Debug Output will show in the debugger when Branch responsds with the **Open** request.
+Debug Output will show in the debugger when Branch responds with the **Open** request.
 
 The window background is a nice shade of blue by default.
 
@@ -38,7 +38,7 @@ inidicating "TUTORIAL_COMPLETE".
 
 Clicking on a branch link prior to opening the application can show what happens when the application
 responds to the **Open** request and the data that comes from Branch has the __extra_color__ value.
-If the sample detects the __extra_color__ in the open response, it will parse the color and change the
+If the sample detects the __extra_color__ in the response, it will parse the color and change the
 background on start.
 
 
