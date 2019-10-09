@@ -52,11 +52,11 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @return this object formatted as a JSONObject.
      * @todo(andyp): Revisit Scope
      */
-    JSONObject toJSON() const;
+    virtual JSONObject toJSON() const;
 
     /**
      * Add a string value property to the set.
-     * Note that if the value is empty, this effecively removes the key.
+     * Note that if the value is empty, this effectively removes the key.
      * @param name Key name
      * @param value Key value
      * @return This object for chaining builder methods
