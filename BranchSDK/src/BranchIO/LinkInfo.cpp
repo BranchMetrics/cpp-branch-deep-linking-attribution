@@ -29,6 +29,12 @@ LinkInfo::~LinkInfo() = default;
 
 LinkInfo &
 LinkInfo::addControlParameter(const std::string &key, const std::string &value) {
+    JSONObject jsonObject;
+    if (this->has(JSONKEY_DATA)) {
+        jsonObject = this->extract(JSONKEY_DATA);
+    }
+    jsonObject.set(key, value);
+    this->set(JSONKEY_DATA, jsonObject);
     return *this;
 }
 
