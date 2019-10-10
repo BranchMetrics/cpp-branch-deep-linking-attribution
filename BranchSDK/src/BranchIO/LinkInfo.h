@@ -45,7 +45,9 @@ class BRANCHIO_DLL_EXPORT LinkInfo : public PropertyManager {
      * @param value A string with the value for the parameter
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& addControlParameter(const std::string &key, const std::string &value);
+    virtual LinkInfo& addControlParameter(const char *key, const std::string &value);
+    virtual LinkInfo& addControlParameter(const char *key, int value);
+    virtual LinkInfo& addControlParameter(const char *key, const PropertyManager &value);
 
     /**
      * Adds a tag to the collection associated with a deep link.
@@ -138,6 +140,9 @@ class BRANCHIO_DLL_EXPORT LinkInfo : public PropertyManager {
      * @return This object for chaining builder methods
      */
     LinkInfo& doAddProperty(const char *name, int value);
+
+ private:
+    PropertyManager _controlParams;
 };
 
 }  // namespace BranchIO

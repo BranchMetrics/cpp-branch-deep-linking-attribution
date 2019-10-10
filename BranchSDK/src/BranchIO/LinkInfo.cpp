@@ -28,13 +28,24 @@ LinkInfo::LinkInfo(const JSONObject &jsonObject) : PropertyManager(jsonObject) {
 LinkInfo::~LinkInfo() = default;
 
 LinkInfo &
-LinkInfo::addControlParameter(const std::string &key, const std::string &value) {
-    JSONObject jsonObject;
-    if (this->has(JSONKEY_DATA)) {
-        jsonObject = this->extract(JSONKEY_DATA);
-    }
-    jsonObject.set(key, value);
-    this->set(JSONKEY_DATA, jsonObject);
+LinkInfo::addControlParameter(const char *key, const std::string &value) {
+    // TODO(andyp): Need a shadow copy of the control parameters as Poco is not giving up its internals.
+    _controlParams.addProperty(key, value);
+    addProperty(JSONKEY_DATA, _controlParams);
+    return *this;
+}
+
+LinkInfo &
+LinkInfo::addControlParameter(const char *key, int value) {
+    _controlParams.addProperty(key, value);
+    addProperty(JSONKEY_DATA, _controlParams);
+    return *this;
+}
+
+LinkInfo&
+LinkInfo::addControlParameter(const char *key, const PropertyManager &value) {
+    _controlParams.addProperty(key, value);
+    addProperty(JSONKEY_DATA, _controlParams);
     return *this;
 }
 

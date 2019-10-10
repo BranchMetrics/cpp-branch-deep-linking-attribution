@@ -54,18 +54,5 @@ TEST_F(PropertyManagerTest, TestWriteSubProperty)
 
     mgr.addProperty("SubObject", subObject);
 
-    cout << "TestSubJSON1:\t" << mgr.toString();
-}
-
-TEST_F(PropertyManagerTest, TestReadSubProperty)
-{
-    PropertyManager mgr;
-    mgr.addProperty("Foo", "Bar");
-
-    PropertyManager subObject;
-    subObject.addProperty("MyKey1", "MyValue1");
-
-    mgr.addProperty("SubObject", subObject);
-
-    cout << "TestSubJSON1:\t" << mgr.toString();
+    cout << "TestWriteSubProperty:\t" << mgr.toString() << endl;
 }

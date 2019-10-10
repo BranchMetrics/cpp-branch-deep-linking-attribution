@@ -34,7 +34,7 @@ TEST_F(LinkInfoTest, TestStringSetters) {
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
     }
 
-    // cout << "***TestStringSetters***" << jsonObject->stringify() << endl;
+    // cout << "TestStringSetters\t" << jsonObject->stringify() << endl;
 }
 
 TEST_F(LinkInfoTest, TestIntegerSetters) {
@@ -56,14 +56,13 @@ TEST_F(LinkInfoTest, TestIntegerSetters) {
     }
 }
 
-TEST_F(LinkInfoTest, TestTags) {
+TEST_F(LinkInfoTest, TestControlParams) {
     LinkInfo info;
-
-    //void putTags(std::set<std::string> tags);
-
-    // Integer Setters
-    info.setType(LinkInfo::LINK_TYPE_ONE_TIME_USE);
-    info.setDuration(0xDEADBEEF);
+    info.addControlParameter("PARAM1", "VALUE1");
+    info.addControlParameter("PARAM2", "VALUE2");
+    info.addControlParameter("PARAM3", "VALUE3");
+    info.addControlParameter("PARAM4", "VALUE4");
+    info.addControlParameter("PARAM5", "VALUE5");
 
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
@@ -71,20 +70,33 @@ TEST_F(LinkInfoTest, TestTags) {
     JSONObject::Ptr jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject->size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
-        int value = it->second;
-        ASSERT_NE(value, 0);
-    }
+    // cout << "TestControlParams:\t" << str << endl;
 }
 
-TEST_F(LinkInfoTest, TestJSONParams) {
+// Test to emulate https://docs.branch.io/apps/deep-linking-api/#link-create
+TEST_F(LinkInfoTest, TestLinkCreate) {
     LinkInfo info;
 
-    //void putParams(JSONObject params);
+    info.addProperty("branch_key", "key_live_kaFuWw8WvY7yn1d9yYiP8gokwqjV0Swt");
 
-    // Integer Setters
-    info.setType(LinkInfo::LINK_TYPE_ONE_TIME_USE);
-    info.setDuration(0xDEADBEEF);
+    info.setChannel("facebook");
+    info.setFeature("onboarding");
+    info.setCampaign("new product");
+    info.setStage("new user");
+
+    info.addControlParameter("$canonical_identifier", "content/123");
+    info.addControlParameter("$og_title", "Title from Deep Link");
+    info.addControlParameter("$og_description", "Description from Deep Link");
+    info.addControlParameter("$og_image_url", "http://www.lorempixel.com/400/400/");
+    info.addControlParameter("$desktop_url", "http://www.example.com");
+
+    info.addControlParameter("custom_integer", 1243);
+    info.addControlParameter("custom_string", "everything");
+    info.addControlParameter("custom_boolean", true);
+
+    PropertyManager customObject;
+    customObject.addProperty("random", "dictionary");
+    info.addControlParameter("custom_object", customObject);
 
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
@@ -92,8 +104,5 @@ TEST_F(LinkInfoTest, TestJSONParams) {
     JSONObject::Ptr jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject->size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
-        int value = it->second;
-        ASSERT_NE(value, 0);
-    }
+    cout << "TestLinkCreate:\t" << str << endl;
 }
