@@ -77,6 +77,7 @@ class BRANCHIO_DLL_EXPORT Defines {
         REGISTER_CLOSE,
         REGISTER_VIEW,
         LOGOUT,
+        URL,
 
         // V2 Endpoints
         REDEEM_REWARDS,

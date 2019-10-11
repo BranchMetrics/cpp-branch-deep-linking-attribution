@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 
 #include <BranchIO/LinkInfo.h>
+#include <BranchIO/Event/Event.h>
+#include <BranchIO/Log.h>
 
 using namespace BranchIO;
 using namespace std;
@@ -105,4 +107,42 @@ TEST_F(LinkInfoTest, TestLinkCreate) {
     ASSERT_GT(jsonObject->size(), 0);
 
     cout << "TestLinkCreate:\t" << str << endl;
+}
+
+class MyRequestCallback : public BranchIO::IRequestCallback {
+protected:
+    virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse)
+    {
+        BRANCH_LOG_D("Callback Success!  Response: " << jsonResponse.stringify().c_str());
+    }
+
+    virtual void onError(int id, int error, std::string description)
+    {
+        BRANCH_LOG_D("Callback Error!" << description.c_str());
+    }
+
+    virtual void onStatus(int id, int error, std::string description)
+    {
+        BRANCH_LOG_D("Status Updated:" << description.c_str());
+    }
+};
+#define BRANCH_KEY "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap"
+
+TEST_F(LinkInfoTest, TestCreateLinkUrlRequest) {
+    AppInfo _appInfo;
+    _appInfo.setAppVersion("1.0")
+        .setCountryCode("US")
+        .setDeveloperIdentity("Branch Metrics")
+        .setEnvironment("FULL_APP")
+        .setLanguage("en");
+
+//    Branch *_branchInstance = BranchIO::Branch::create(BRANCH_KEY, &_appInfo);
+//    MyRequestCallback* _branchCallback = new MyRequestCallback;
+
+    LinkInfo linkInfo;
+
+    linkInfo.setFeature("testing");
+    linkInfo.addControlParameter("extra_color", -6381877);
+
+    //_branchInstance->sendEvent(linkInfo, _branchCallback);
 }

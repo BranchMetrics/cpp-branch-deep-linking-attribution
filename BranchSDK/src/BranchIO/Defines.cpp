@@ -58,6 +58,7 @@ const char *PATH_REGISTER_OPEN = "v1/open";
 const char *PATH_REGISTER_CLOSE = "v1/close";
 const char *PATH_REGISTER_VIEW = "v1/register-view";
 const char *PATH_LOGOUT = "v1/logout";
+const char *PATH_URL = "v1/url";
 
 const char *PATH_REDEEM_REWARDS = "v1/redeem";
 const char *PATH_GET_CREDITS = "v1/credits";
@@ -88,6 +89,9 @@ Defines::toString(APIEndpoint apiEndpoint) {
             break;
         case LOGOUT:
             ss << PATH_LOGOUT;
+            break;
+        case URL:
+            ss << PATH_URL;
             break;
 
         case APPLY_REFERRAL_CODE:
@@ -141,6 +145,7 @@ Defines::endpointType(APIEndpoint apiEndpoint) {
         case REGISTER_CLOSE:
         case REGISTER_VIEW:
         case LOGOUT:
+        case URL:
             apiType = V1;
             break;
 

@@ -3,6 +3,7 @@
 #include "BranchIO/LinkInfo.h"
 
 #include "BranchIO/JSONObject.h"
+#include "Defines.h"
 
 namespace BranchIO {
 
@@ -19,10 +20,7 @@ const char *JSONKEY_DATA = "data";
 const char *JSONKEY_URL = "url";
 
 
-LinkInfo::LinkInfo() : PropertyManager() {
-}
-
-LinkInfo::LinkInfo(const JSONObject &jsonObject) : PropertyManager(jsonObject) {
+LinkInfo::LinkInfo() : Event(Defines::APIEndpoint::URL, "LinkInfo") {
 }
 
 LinkInfo::~LinkInfo() = default;

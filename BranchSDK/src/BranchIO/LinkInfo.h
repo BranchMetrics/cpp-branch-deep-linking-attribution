@@ -3,15 +3,16 @@
 #ifndef BRANCHIO_LINKINFO_H__
 #define BRANCHIO_LINKINFO_H__
 
+#include <BranchIO/Branch.h>
+#include <BranchIO/Event/Event.h>
 #include <string>
-#include "BranchIO/PropertyManager.h"
 
 namespace BranchIO {
 
 /**
  * Link Information.
  */
-class BRANCHIO_DLL_EXPORT LinkInfo : public PropertyManager {
+class BRANCHIO_DLL_EXPORT LinkInfo : public Event {
  public:
     /**
      * An Integer value indicating the calculation type of the referral code. In this case,
@@ -31,11 +32,6 @@ class BRANCHIO_DLL_EXPORT LinkInfo : public PropertyManager {
      */
     LinkInfo();
 
-    /**
-     * Constructor.
-     * @param jsonObject JSON Object to pre-initialize with
-     */
-    explicit LinkInfo(const JSONObject &jsonObject);
     virtual ~LinkInfo();
 
     /**
@@ -46,7 +42,23 @@ class BRANCHIO_DLL_EXPORT LinkInfo : public PropertyManager {
      * @return This object for chaining builder methods
      */
     virtual LinkInfo& addControlParameter(const char *key, const std::string &value);
+
+    /**
+     * Any other params to be added; you can define your own.
+     *
+     * @param key   A string with the key for the parameter
+     * @param value An integer with the value for the parameter
+     * @return This object for chaining builder methods
+     */
     virtual LinkInfo& addControlParameter(const char *key, int value);
+
+    /**
+     * Any other params to be added; you can define your own.
+     *
+     * @param key   A string with the key for the parameter
+     * @param value A PropertyManager with the value for the parameter
+     * @return This object for chaining builder methods
+     */
     virtual LinkInfo& addControlParameter(const char *key, const PropertyManager &value);
 
     /**
@@ -122,6 +134,8 @@ class BRANCHIO_DLL_EXPORT LinkInfo : public PropertyManager {
      * @return This object for chaining builder methods
      */
     virtual LinkInfo& setType(int type);
+
+    using PropertyManager::toString;
 
  private:
     /**

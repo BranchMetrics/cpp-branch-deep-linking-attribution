@@ -100,6 +100,11 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      */
     virtual PropertyManager& clear();
 
+    /**
+     * Retrieve a string property.
+     * @param name Key name
+     * @return a string property.
+     */
     std::string getStringProperty(const char *name);
 
     /**
