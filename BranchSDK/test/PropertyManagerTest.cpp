@@ -9,11 +9,11 @@
 using namespace BranchIO;
 using namespace std;
 
-class BranchPropertyManagerTest : public ::testing::Test
+class PropertyManagerTest : public ::testing::Test
 {
 };
 
-TEST_F(BranchPropertyManagerTest, TestSetters)
+TEST_F(PropertyManagerTest, TestSetters)
 {
     PropertyManager mgr;
 
@@ -33,4 +33,26 @@ TEST_F(BranchPropertyManagerTest, TestSetters)
     ASSERT_EQ(intValue, jsonObject.get("keyInt"));
     ASSERT_EQ(doubleValue, jsonObject.get("keyDouble"));
     ASSERT_EQ(boolValue, jsonObject.get("keyBool"));
+}
+
+TEST_F(PropertyManagerTest, TestGetStringProperty)
+{
+    PropertyManager mgr;
+    mgr.addProperty("Foo", "Bar");
+
+    std::string str = mgr.getStringProperty("Foo");
+    ASSERT_EQ("Bar", str);
+}
+
+TEST_F(PropertyManagerTest, TestWriteSubProperty)
+{
+    PropertyManager mgr;
+    mgr.addProperty("Foo", "Bar");
+
+    PropertyManager subObject;
+    subObject.addProperty("MyKey1", "MyValue1");
+
+    mgr.addProperty("SubObject", subObject);
+
+    cout << "TestWriteSubProperty:\t" << mgr.toString() << endl;
 }

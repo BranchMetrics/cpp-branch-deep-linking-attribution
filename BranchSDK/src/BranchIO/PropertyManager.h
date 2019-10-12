@@ -52,11 +52,11 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @return this object formatted as a JSONObject.
      * @todo(andyp): Revisit Scope
      */
-    JSONObject toJSON() const;
+    virtual JSONObject toJSON() const;
 
     /**
      * Add a string value property to the set.
-     * Note that if the value is empty, this effecively removes the key.
+     * Note that if the value is empty, this effectively removes the key.
      * @param name Key name
      * @param value Key value
      * @return This object for chaining builder methods
@@ -80,6 +80,14 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
     virtual PropertyManager& addProperty(const char *name, double value);
 
     /**
+     * Add Properties from an existing PropertyManager.
+     * @param name Key name
+     * @param value Key value
+     * @return This object for chaining builder methods
+     */
+    virtual PropertyManager& addProperty(const char *name, const PropertyManager &value);
+
+    /**
      * Add Properties from an existing JSON Object to the set.
      * @param jsonObject properties.
      * @return This object for chaining builder methods
@@ -91,6 +99,19 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @return This object for chaining builder methods
      */
     virtual PropertyManager& clear();
+
+    /**
+     * Retrieve a string property.
+     * @param name Key name
+     * @return a string property.
+     */
+    std::string getStringProperty(const char *name);
+
+    /**
+     * @param name Key Value
+     * @return true when the given property exists
+     */
+    virtual bool has(const char *name) const;
 
  private:
     mutable Poco::Mutex _mutex;

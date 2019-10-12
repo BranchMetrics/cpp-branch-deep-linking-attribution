@@ -9,8 +9,13 @@
 
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/StandardEvent.h>
+#include <BranchIO/LinkInfo.h>
 
 #define MAX_LOADSTRING 100
+
+#define ID_CTRL_BASE 1000
+#define ID_SHARECOLOR   ID_CTRL_BASE + 0
+#define ID_STATUS       ID_CTRL_BASE + 1
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
@@ -26,11 +31,15 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 void createLayout(HWND);
 void chooseColor(HWND);
+void shareColor(HWND);
 void setBackgroundColor(COLORREF color);
 void drawBackgroundColor(HDC, PRECT);
 void initializeBranch();
 void openBranchSession();
 void closeBranchSession();
+
+int ColorRefToInt(COLORREF cr);
+
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -148,15 +157,17 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     case WM_COMMAND:
     {
-        int wmId = LOWORD(wParam);
         // Parse the menu selections:
-        switch (wmId)
+        switch (LOWORD(wParam))
         {
         case IDM_ABOUT:
             DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
             break;
         case ID_FILE_PICKACOLOR:
             chooseColor(hWnd);
+            break;
+        case ID_SHARECOLOR:
+            shareColor(hWnd);
             break;
         case IDM_EXIT:
             DestroyWindow(hWnd);
@@ -198,11 +209,18 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         return (INT_PTR)TRUE;
 
     case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
+        switch (LOWORD(wParam))
         {
+        case IDOK:
+        case IDCANCEL:
             EndDialog(hDlg, LOWORD(wParam));
             return (INT_PTR)TRUE;
+            break;
+
+        default:
+            break;
         }
+
         break;
     }
     return (INT_PTR)FALSE;
@@ -214,6 +232,9 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 
 BranchIO::Branch* _branchInstance;
 BranchIO::AppInfo _appInfo;
+
+HWND hwndShare;
+HWND hwndStatus;
 
 #define DEBUGLOG(TAG,STR) \
    OutputDebugStringA(TAG); \
@@ -267,7 +288,23 @@ class MyOpenCallback : public MyRequestCallback
     }
 };
 
-MyRequestCallback* _branchCallback = new MyRequestCallback;
+class MyShareCallback : public MyRequestCallback
+{
+    virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse)
+    {
+        MyRequestCallback::onSuccess(id, jsonResponse);
+
+        // Dig out the color parameter if it is there
+        if (jsonResponse.has("url"))
+        {
+            std::string url = jsonResponse.get("url");
+            SetWindowTextA(hwndStatus, url.c_str());
+        }
+    }
+};
+
+BranchIO::IRequestCallback* _branchCallback = new MyRequestCallback();
+BranchIO::IRequestCallback* _shareCallback = new MyShareCallback();
 
 void initializeBranch()
 {
@@ -311,11 +348,13 @@ void createLayout(HWND hwnd)
     ::GetWindowRect(hwnd, &rect);
     ::OffsetRect(&rect, -padding, -padding);
 
-    // Create a simple text view
-    HWND hwndStatus = CreateWindowEx(WS_EX_TRANSPARENT, TEXT("Static"), TEXT(""),
-        WS_CHILD | WS_VISIBLE | SS_SIMPLE, rect.left, rect.top, rect.right - rect.left, 20, hwndMain, NULL, NULL, NULL);
+    // Create a share button
+    hwndShare = CreateWindowEx(WS_EX_TRANSPARENT, TEXT("Button"), TEXT("Share"),
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, rect.left, rect.top, 60, 60, hwndMain, (HMENU)ID_SHARECOLOR, (HINSTANCE)GetWindowLong(hwndMain, GWL_HINSTANCE), NULL);
 
-    //SetWindowText(hwndStatus, GetCommandLineW());
+    // Create a simple text view
+    hwndStatus = CreateWindowEx(WS_EX_TRANSPARENT, TEXT("Edit"), TEXT(""),
+        WS_CHILD | WS_VISIBLE, rect.left + 60 + padding, rect.top + padding, 260, 20, hwndMain, (HMENU)ID_STATUS, NULL, NULL);
 
     InvalidateRect(hwnd, NULL, TRUE);
 
@@ -366,5 +405,25 @@ void chooseColor(HWND hwnd)
         _branchInstance->sendEvent(event, _branchCallback);
     }
 }
+
+void shareColor(HWND hwnd)
+{
+    BranchIO::LinkInfo linkInfo;
+
+    // Note that Windows Colors are backwards (BGR) instead of RGB...
+    // Note the use of creating the RGB from BGR here.
+
+    linkInfo.setFeature("testing");
+    linkInfo.addControlParameter("extra_color", ColorRefToInt(_colorBackground));
+
+    _branchInstance->sendEvent(linkInfo, _shareCallback);
+}
+
+int ColorRefToInt(COLORREF cr) {
+    // Again, COLORREF is BGR.  Switch back to RGB
+    COLORREF crFixup = PALETTERGB(GetBValue(cr), GetGValue(cr), GetRValue(cr));
+    return static_cast<int>(crFixup);
+}
+
 
 

@@ -55,6 +55,14 @@ PropertyManager::addProperty(const char *name, double value) {
 }
 
 PropertyManager&
+PropertyManager::addProperty(const char *name, const PropertyManager &value) {
+    Mutex::ScopedLock _l(_mutex);
+
+    set(name, value);
+    return *this;
+}
+
+PropertyManager&
 PropertyManager::addProperties(const JSONObject &jsonObject) {
     Mutex::ScopedLock _l(_mutex);
 
@@ -71,6 +79,20 @@ PropertyManager::clear() {
 
     JSONObject::clear();
     return *this;
+}
+
+bool
+PropertyManager::has(const char *name) const {
+    Mutex::ScopedLock _l(_mutex);
+
+    return JSONObject::has(name);
+}
+
+std::string
+PropertyManager::getStringProperty(const char *name) {
+    Mutex::ScopedLock _l(_mutex);
+
+    return getValue<std::string>(name);
 }
 
 std::string
