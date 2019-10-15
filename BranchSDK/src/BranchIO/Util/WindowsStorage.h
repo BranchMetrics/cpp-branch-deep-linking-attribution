@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "BranchIO/IStorage.h"
+#include "IStorage.h"
 
 namespace BranchIO {
 

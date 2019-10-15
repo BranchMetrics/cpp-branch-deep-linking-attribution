@@ -9,7 +9,7 @@
 #include <cassert>
 #include <string>
 
-#include "BranchIO/IStorage.h"
+#include "IStorage.h"
 #include "BranchIO/Util/Log.h"
 
 namespace BranchIO {
