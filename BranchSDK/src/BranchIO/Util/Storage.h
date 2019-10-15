@@ -6,7 +6,7 @@
 #ifdef WIN32
 #include "BranchIO/WindowsStorage.h"
 #else
-#include "BranchIO/UnixStorage.h"
+#include "UnixStorage.h"
 #endif  // WIN32
 
 namespace BranchIO {
