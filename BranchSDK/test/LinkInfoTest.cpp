@@ -6,7 +6,7 @@
 
 #include <BranchIO/LinkInfo.h>
 #include <BranchIO/Event/Event.h>
-#include <BranchIO/Log.h>
+#include <BranchIO/Util/Log.h>
 
 using namespace BranchIO;
 using namespace std;

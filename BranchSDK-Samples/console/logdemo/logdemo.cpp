@@ -1,4 +1,4 @@
-#include <BranchIO/Log.h>
+#include <BranchIO/Util/Log.h>
 
 using namespace BranchIO;
 

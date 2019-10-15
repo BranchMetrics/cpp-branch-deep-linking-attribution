@@ -6,7 +6,7 @@
 #include <cassert>
 
 #include "BranchIO/IClientSession.h"
-#include "BranchIO/Log.h"
+#include "BranchIO/Util/Log.h"
 
 using namespace Poco;
 

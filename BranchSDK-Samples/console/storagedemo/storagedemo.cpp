@@ -1,4 +1,4 @@
-#include <BranchIO/Log.h>
+#include <BranchIO/Util/Log.h>
 #include <BranchIO/Storage.h>
 #include <Poco/Exception.h>
 #include <exception>

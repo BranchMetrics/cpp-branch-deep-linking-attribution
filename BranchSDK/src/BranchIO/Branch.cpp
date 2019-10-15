@@ -8,7 +8,7 @@
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/Event/SessionEvent.h"
 #include "BranchIO/IRequestCallback.h"
-#include "BranchIO/Log.h"
+#include "BranchIO/Util/Log.h"
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/Storage.h"
 #include "BranchIO/Version.h"

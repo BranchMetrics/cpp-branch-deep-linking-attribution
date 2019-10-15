@@ -8,7 +8,7 @@
 
 #include "BranchIO/IClientSession.h"
 #include "BranchIO/IRequestCallback.h"
-#include "BranchIO/Log.h"
+#include "BranchIO/Util/Log.h"
 
 using namespace std;
 using namespace Poco;
