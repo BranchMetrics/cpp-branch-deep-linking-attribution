@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-#include "BranchIO/IStringConvertible.h"
+#include "IStringConvertible.h"
 
 namespace BranchIO {
 

@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "BranchIO/IStringConvertible.h"
+#include "BranchIO/Util/IStringConvertible.h"
 #include "BranchIO/JSONObject.h"
 
 namespace BranchIO {

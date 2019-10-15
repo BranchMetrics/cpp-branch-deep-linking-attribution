@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-#include "BranchIO/IStringConvertible.h"
+#include "IStringConvertible.h"
 
 std::ostream& operator<<(
     std::ostream& s,
