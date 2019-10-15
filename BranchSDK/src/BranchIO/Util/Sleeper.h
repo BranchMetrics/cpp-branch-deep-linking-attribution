@@ -1,7 +1,7 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_SLEEPER_H__
-#define BRANCHIO_SLEEPER_H__
+#ifndef BRANCHIO_UTIL_SLEEPER_H__
+#define BRANCHIO_UTIL_SLEEPER_H__
 
 #include <Poco/Condition.h>
 #include <Poco/Mutex.h>
@@ -58,4 +58,4 @@ class Sleeper {
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_SLEEPER_H__
+#endif  // BRANCHIO_UTIL_SLEEPER_H__

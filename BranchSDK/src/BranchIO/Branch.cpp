@@ -12,7 +12,7 @@
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/Util/Storage.h"
 #include "BranchIO/Version.h"
-#include "BranchIO/RequestManager.h"
+#include "BranchIO/Util/RequestManager.h"
 
 // Create a string that looks like this:  "Branch Windows SDK v1.2.3"
 #define STRINGIZE2(s) #s

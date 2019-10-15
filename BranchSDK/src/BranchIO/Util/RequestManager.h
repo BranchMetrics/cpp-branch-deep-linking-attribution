@@ -1,7 +1,7 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_REQUESTMANAGER_H__
-#define BRANCHIO_REQUESTMANAGER_H__
+#ifndef BRANCHIO_UTIL_REQUESTMANAGER_H__
+#define BRANCHIO_UTIL_REQUESTMANAGER_H__
 
 #include <Poco/Exception.h>
 #include <Poco/Mutex.h>
@@ -10,7 +10,7 @@
 #include <Poco/Task.h>
 #include <Poco/Thread.h>
 
-#include "BranchIO/APIClientSession.h"
+#include "APIClientSession.h"
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/fwd.h"
 #include "BranchIO/Request.h"
@@ -213,4 +213,4 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_REQUESTMANAGER_H__
+#endif  // BRANCHIO_UTIL_REQUESTMANAGER_H__

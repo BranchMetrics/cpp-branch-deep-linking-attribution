@@ -1,7 +1,7 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_ISTRINGCONVERTIBLE_H__
-#define BRANCHIO_ISTRINGCONVERTIBLE_H__
+#ifndef BRANCHIO_UTIL_ISTRINGCONVERTIBLE_H__
+#define BRANCHIO_UTIL_ISTRINGCONVERTIBLE_H__
 
 #include <iosfwd>
 #include <string>
@@ -28,4 +28,4 @@ BRANCHIO_DLL_EXPORT std::ostream& operator<<(
     std::ostream& s,
     BranchIO::IStringConvertible const& item);
 
-#endif  // BRANCHIO_ISTRINGCONVERTIBLE_H__
+#endif  // BRANCHIO_UTIL_ISTRINGCONVERTIBLE_H__

@@ -1,7 +1,7 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_ICLIENTSESSION_H__
-#define BRANCHIO_ICLIENTSESSION_H__
+#ifndef BRANCHIO_UTIL_ICLIENTSESSION_H__
+#define BRANCHIO_UTIL_ICLIENTSESSION_H__
 
 #include <string>
 
@@ -36,4 +36,4 @@ struct IClientSession {
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_ICLIENTSESSION_H__
+#endif  // BRANCHIO_UTIL_ICLIENTSESSION_H__

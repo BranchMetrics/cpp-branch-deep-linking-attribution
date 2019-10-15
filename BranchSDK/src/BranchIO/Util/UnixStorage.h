@@ -1,7 +1,7 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_UNIXSTORAGE_H_
-#define BRANCHIO_UNIXSTORAGE_H_
+#ifndef BRANCHIO_UTIL_UNIXSTORAGE_H_
+#define BRANCHIO_UTIL_UNIXSTORAGE_H_
 
 #include <Poco/Mutex.h>
 #include <Poco/Util/PropertyFileConfiguration.h>
@@ -114,4 +114,4 @@ class UnixStorage : public virtual IStorage {
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_UNIXSTORAGE_H_
+#endif  // BRANCHIO_UTIL_UNIXSTORAGE_H_

@@ -3,8 +3,8 @@
 #include <memory>
 #include <string>
 
-#ifndef BRANCHIO_ISTORAGE_H__
-#define BRANCHIO_ISTORAGE_H__
+#ifndef BRANCHIO_UTIL_ISTORAGE_H__
+#define BRANCHIO_UTIL_ISTORAGE_H__
 
 namespace BranchIO {
 
@@ -84,4 +84,4 @@ struct IStorage {
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_ISTORAGE_H__
+#endif  // BRANCHIO_UTIL_ISTORAGE_H__

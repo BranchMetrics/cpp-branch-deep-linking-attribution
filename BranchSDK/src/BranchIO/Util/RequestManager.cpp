@@ -1,11 +1,11 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#include "BranchIO/RequestManager.h"
+#include "RequestManager.h"
 
 #include <Poco/TaskNotification.h>
 #include <cassert>
 
-#include "BranchIO/IClientSession.h"
+#include "IClientSession.h"
 #include "BranchIO/Util/Log.h"
 
 using namespace Poco;
