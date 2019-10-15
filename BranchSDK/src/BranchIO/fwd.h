@@ -9,19 +9,16 @@
 
 namespace BranchIO {
 
-class APIClientSession;
+class AdvertiserInfo;
 class AppInfo;
 class Branch;
 class DeviceInfo;
 class Event;
-struct IClientSession;
 struct IPackagingInfo;
 class IRequestCallback;
-struct IStringConvertible;
 class JSONObject;
 class Request;
 class SessionInfo;
-class AdvertiserInfo;
 
 }  // namespace BranchIO
 

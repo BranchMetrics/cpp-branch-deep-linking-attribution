@@ -8,6 +8,7 @@
 
 #include "BranchIO/fwd.h"
 #include "BranchIO/Defines.h"
+#include "BranchIO/Util/IClientSession.h"
 #include "BranchIO/Util/Sleeper.h"
 
 namespace BranchIO {
