@@ -14,6 +14,7 @@ const char *Defines::JSONKEY_ADTYPE = "ad_type";
 const char *Defines::JSONKEY_AFFILIATION = "affiliation";
 const char *Defines::JSONKEY_COUPON = "coupon";
 const char *Defines::JSONKEY_CURRENCY = "currency";
+const char *Defines::JSONKEY_CUSTOMER_EVENT_ALIAS = "customer_event_alias";
 const char *Defines::JSONKEY_DESCRIPTION = "description";
 const char *Defines::JSONKEY_REVENUE = "revenue";
 const char *Defines::JSONKEY_SEARCHQUERY = "search_query";

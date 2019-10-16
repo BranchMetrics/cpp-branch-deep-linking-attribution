@@ -62,6 +62,11 @@ Event::setCurrency(const CurrencyType &currency) {
 }
 
 Event&
+Event::setCustomerEventAlias(const std::string &alias) {
+    return addEventProperty(Defines::JSONKEY_CUSTOMER_EVENT_ALIAS, alias);
+}
+
+Event&
 Event::setDescription(const std::string &description) {
     return addEventProperty(Defines::JSONKEY_DESCRIPTION, description);
 }
