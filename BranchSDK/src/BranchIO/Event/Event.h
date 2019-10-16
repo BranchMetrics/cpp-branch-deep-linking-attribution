@@ -59,6 +59,13 @@ class BRANCHIO_DLL_EXPORT Event : public PropertyManager {
     virtual Event& setCurrency(const CurrencyType &currency);
 
     /**
+     * Set the Customer Event Alias with this transaction event.
+     * @param alias Customer Event Alias.
+     * @return This object for chaining builder methods
+     */
+    virtual Event& setCustomerEventAlias(const std::string &alias);
+
+    /**
      * Set description for this transaction event.
      * @param description transaction description
      * @return This object for chaining builder methods

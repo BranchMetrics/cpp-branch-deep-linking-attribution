@@ -20,6 +20,7 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_AFFILIATION;              ///< Affiliation
     static const char *JSONKEY_COUPON;                   ///< Coupon Code
     static const char *JSONKEY_CURRENCY;                 ///< ISO4217 Currency Code
+    static const char *JSONKEY_CUSTOMER_EVENT_ALIAS;     ///< Customer Event Alias
     static const char *JSONKEY_DESCRIPTION;              ///< Description
     static const char *JSONKEY_REVENUE;                  ///< Revenue
     static const char *JSONKEY_SEARCHQUERY;              ///< Search Query
