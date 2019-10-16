@@ -10,7 +10,7 @@
 #include <string>
 
 #include "IStorage.h"
-#include "BranchIO/Util/Log.h"
+#include "Log.h"
 
 namespace BranchIO {
 

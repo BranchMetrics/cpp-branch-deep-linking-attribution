@@ -1,6 +1,6 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#include "BranchIO/Util/Log.h"
+#include "Log.h"
 
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/Message.h>

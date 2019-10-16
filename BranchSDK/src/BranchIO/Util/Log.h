@@ -16,7 +16,7 @@ namespace BranchIO {
  * (Internal) Log API
  *
  ```
- #include <BranchIO/Log.h>
+ #include "BranchIO/Util/Log.h"
 
  using BranchIO::Log;
 

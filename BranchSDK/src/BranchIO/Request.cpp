@@ -6,7 +6,6 @@
 #include <algorithm>
 #include <string>
 
-#include "BranchIO/Util/IClientSession.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Log.h"
 
