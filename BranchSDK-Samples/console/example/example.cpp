@@ -38,7 +38,7 @@ public:
     }
 
 private:
-	bool _helpRequested;
+    bool _helpRequested;
     bool _shouldExit;
 
     OptionSet _menuOptions;
@@ -73,7 +73,7 @@ private:
 
 protected:
     // Override
-    void initialize(Application& self) {
+    void initialize(Application &self) {
         this->loadConfiguration();
         Application::initialize(self);
 
@@ -92,7 +92,7 @@ protected:
     }
 
     // Override
-    void defineOptions(OptionSet& optionSet) {
+    void defineOptions(OptionSet &optionSet) {
         Application::defineOptions(optionSet);
 
         optionSet.addOption(
@@ -122,11 +122,11 @@ protected:
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleBranchKey)));
 
         optionSet.addOption(
-                Option("link", "l", "Branch link")
-                        .required(false)
-                        .repeatable(false)
-                        .argument("link")
-                        .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleBranchLink)));
+            Option("link", "l", "Branch link")
+                .required(false)
+                .repeatable(false)
+                .argument("link")
+                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleBranchLink)));
 
         optionSet.addOption(
             Option("properties", "p", "Print the application properties")
@@ -165,13 +165,13 @@ protected:
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleSendMultipleEvents)));
     }
 
-    void handleHelp(const std::string& name, const std::string& value) {
-		_helpRequested = true;
-		displayHelp();
-		stopOptionsProcessing();
-	}
+    void handleHelp(const std::string &name, const std::string &value) {
+        _helpRequested = true;
+        displayHelp();
+        stopOptionsProcessing();
+    }
 
-    void handleVersion(const std::string& name, const std::string& value) {
+    void handleVersion(const std::string &name, const std::string &value) {
         cout << "SDK Version: " << Branch::getVersion() << endl;
     }
 
@@ -280,32 +280,32 @@ protected:
     }
 
     void displayHelp() {
-		HelpFormatter helpFormatter(options());
-		helpFormatter.setCommand(commandName());
-		helpFormatter.setUsage("OPTIONS");
-		helpFormatter.setHeader("A Branch sample application.");
-		helpFormatter.format(cout);
-	}
+        HelpFormatter helpFormatter(options());
+        helpFormatter.setCommand(commandName());
+        helpFormatter.setUsage("OPTIONS");
+        helpFormatter.setHeader("A Branch sample application.");
+        helpFormatter.format(cout);
+    }
 
-    void printProperties(const std::string& base) {
-		AbstractConfiguration::Keys keys;
-		config().keys(base, keys);
-		if (keys.empty()) {
-			if (config().hasProperty(base)) {
-				std::string msg;
-				msg.append(base);
-				msg.append(" = ");
-				msg.append(config().getString(base));
-				logger().information(msg);
-			}
-		} else {
-			for (AbstractConfiguration::Keys::const_iterator it = keys.begin(); it != keys.end(); ++it) {
-				std::string fullKey = base;
-				if (!fullKey.empty()) fullKey += '.';
-				fullKey.append(*it);
-				printProperties(fullKey);
-			}
-		}
+    void printProperties(const std::string &base) {
+        AbstractConfiguration::Keys keys;
+        config().keys(base, keys);
+        if (keys.empty()) {
+            if (config().hasProperty(base)) {
+                std::string msg;
+                msg.append(base);
+                msg.append(" = ");
+                msg.append(config().getString(base));
+                logger().information(msg);
+            }
+        } else {
+            for (AbstractConfiguration::Keys::const_iterator it = keys.begin(); it != keys.end(); ++it) {
+                std::string fullKey = base;
+                if (!fullKey.empty()) fullKey += '.';
+                fullKey.append(*it);
+                printProperties(fullKey);
+            }
+        }
     }
 
     // Interface IRequestCallback
