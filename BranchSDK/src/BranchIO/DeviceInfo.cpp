@@ -8,7 +8,7 @@
 #include "BranchIO/Branch.h"
 #include "BranchIO/Defines.h"
 #include "BranchIO/JSONObject.h"
-#include "BranchIO/MacAddress.h"
+#include "BranchIO/Util/MacAddress.h"
 
 using Poco::Net::NetworkInterface;
 using Poco::Net::IPAddress;

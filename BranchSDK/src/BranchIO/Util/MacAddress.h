@@ -1,14 +1,14 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_MACADDRESS_H__
-#define BRANCHIO_MACADDRESS_H__
+#ifndef BRANCHIO_UTIL_MACADDRESS_H__
+#define BRANCHIO_UTIL_MACADDRESS_H__
 
 #include <iomanip>
 #include <sstream>
 #include <string>
 #include <vector>
 
-#include "BranchIO/IStringConvertible.h"
+#include "IStringConvertible.h"
 
 namespace BranchIO {
 
@@ -99,4 +99,4 @@ class MacAddress : public virtual IStringConvertible {
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_MACADDRESS_H__
+#endif  // BRANCHIO_UTIL_MACADDRESS_H__

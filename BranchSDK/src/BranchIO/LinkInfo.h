@@ -3,9 +3,9 @@
 #ifndef BRANCHIO_LINKINFO_H__
 #define BRANCHIO_LINKINFO_H__
 
-#include <BranchIO/Branch.h>
-#include <BranchIO/Event/Event.h>
 #include <string>
+#include "BranchIO/Branch.h"
+#include "BranchIO/Event/Event.h"
 
 namespace BranchIO {
 

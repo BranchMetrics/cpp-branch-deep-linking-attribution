@@ -3,7 +3,7 @@
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/CustomEvent.h>
 #include <BranchIO/Event/StandardEvent.h>
-#include <BranchIO/Log.h>
+#include <BranchIO/Util/Log.h>
 
 #include "HelloCallback.h"
 

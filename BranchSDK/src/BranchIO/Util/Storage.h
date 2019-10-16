@@ -1,12 +1,12 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_STORAGE_H__
-#define BRANCHIO_STORAGE_H__
+#ifndef BRANCHIO_UTIL_STORAGE_H__
+#define BRANCHIO_UTIL_STORAGE_H__
 
 #ifdef WIN32
 #include "BranchIO/WindowsStorage.h"
 #else
-#include "BranchIO/UnixStorage.h"
+#include "UnixStorage.h"
 #endif  // WIN32
 
 namespace BranchIO {
@@ -17,4 +17,4 @@ typedef UnixStorage Storage;
 #endif  // WIN32
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_STORAGE_H__
+#endif  // BRANCHIO_UTIL_STORAGE_H__

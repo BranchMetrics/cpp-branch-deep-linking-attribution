@@ -1,13 +1,13 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_WINDOWSSTORAGE_H_
-#define BRANCHIO_WINDOWSSTORAGE_H_
+#ifndef BRANCHIO_UTIL_WINDOWSSTORAGE_H_
+#define BRANCHIO_UTIL_WINDOWSSTORAGE_H_
 
 #include <Poco/Mutex.h>
 
 #include <string>
 
-#include "BranchIO/IStorage.h"
+#include "IStorage.h"
 
 namespace BranchIO {
 
@@ -92,4 +92,4 @@ class WindowsStorage : public virtual IStorage {
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_WINDOWSSTORAGE_H_
+#endif  // BRANCHIO_UTIL_WINDOWSSTORAGE_H_

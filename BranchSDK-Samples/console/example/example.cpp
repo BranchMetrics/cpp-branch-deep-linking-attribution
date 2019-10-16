@@ -14,7 +14,7 @@
 #include <BranchIO/Event/StandardEvent.h>
 #include <BranchIO/Request.h>
 #include <BranchIO/IRequestCallback.h>
-#include <BranchIO/Log.h>
+#include <BranchIO/Util/Log.h>
 
 using Poco::Util::Application;
 using Poco::Util::HelpFormatter;

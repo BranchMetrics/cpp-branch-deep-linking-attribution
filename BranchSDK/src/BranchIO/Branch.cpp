@@ -8,11 +8,11 @@
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/Event/SessionEvent.h"
 #include "BranchIO/IRequestCallback.h"
-#include "BranchIO/Log.h"
+#include "BranchIO/Util/Log.h"
 #include "BranchIO/SessionInfo.h"
-#include "BranchIO/Storage.h"
+#include "BranchIO/Util/Storage.h"
 #include "BranchIO/Version.h"
-#include "BranchIO/RequestManager.h"
+#include "BranchIO/Util/RequestManager.h"
 
 // Create a string that looks like this:  "Branch Windows SDK v1.2.3"
 #define STRINGIZE2(s) #s

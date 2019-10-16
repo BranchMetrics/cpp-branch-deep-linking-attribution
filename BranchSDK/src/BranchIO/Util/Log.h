@@ -1,7 +1,7 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_LOG_H__
-#define BRANCHIO_LOG_H__
+#ifndef BRANCHIO_UTIL_LOG_H__
+#define BRANCHIO_UTIL_LOG_H__
 
 #include <Poco/Logger.h>
 
@@ -16,7 +16,7 @@ namespace BranchIO {
  * (Internal) Log API
  *
  ```
- #include <BranchIO/Log.h>
+ #include "BranchIO/Util/Log.h"
 
  using BranchIO::Log;
 
@@ -215,4 +215,4 @@ operator<<(std::ostream& s, BranchIO::Log::Level level);
 std::istream&
 operator>>(std::istream& s, BranchIO::Log::Level& level);
 
-#endif  // BRANCHIO_LOG_H__
+#endif  // BRANCHIO_UTIL_LOG_H__

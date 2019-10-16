@@ -1,6 +1,6 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#include "BranchIO/APIClientSession.h"
+#include "APIClientSession.h"
 
 #include <Poco/Exception.h>
 #include <Poco/Net/Context.h>
@@ -16,7 +16,7 @@
 
 #include "BranchIO/Defines.h"
 #include "BranchIO/IRequestCallback.h"
-#include "BranchIO/Log.h"
+#include "Log.h"
 
 using namespace std;
 using namespace Poco;

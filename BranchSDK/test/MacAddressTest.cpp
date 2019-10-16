@@ -1,4 +1,4 @@
-#include <BranchIO/MacAddress.h>
+#include <BranchIO/Util/MacAddress.h>
 #include <gtest/gtest.h>
 
 using namespace BranchIO;

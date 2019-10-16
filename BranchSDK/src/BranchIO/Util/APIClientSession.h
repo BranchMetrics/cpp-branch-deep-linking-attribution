@@ -1,14 +1,14 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
-#ifndef BRANCHIO_APICLIENTSESSION_H__
-#define BRANCHIO_APICLIENTSESSION_H__
+#ifndef BRANCHIO_UTIL_APICLIENTSESSION_H__
+#define BRANCHIO_UTIL_APICLIENTSESSION_H__
 
 #include <Poco/Mutex.h>
 #include <Poco/Net/HTTPSClientSession.h>
 #include <string>
 
 #include "BranchIO/fwd.h"
-#include "BranchIO/IClientSession.h"
+#include "IClientSession.h"
 
 namespace BranchIO {
 
@@ -88,4 +88,4 @@ class APIClientSession
 
 }  // namespace BranchIO
 
-#endif  // BRANCHIO_APICLIENTSESSION_H__
+#endif  // BRANCHIO_UTIL_APICLIENTSESSION_H__
