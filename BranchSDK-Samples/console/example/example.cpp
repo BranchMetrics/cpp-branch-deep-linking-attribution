@@ -96,33 +96,20 @@ protected:
         Application::defineOptions(optionSet);
 
         optionSet.addOption(
-            Option("help", "h", "Display help information on command line arguments")
+            Option("help", "h", "Display help information")
                 .required(false)
                 .repeatable(false)
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleHelp)));
 
         optionSet.addOption(
-            Option("version", "v", "Display version information")
-                .required(false)
-                .repeatable(false)
-                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleVersion)));
-
-        optionSet.addOption(
-            Option("config-file", "f", "Load configuration data from a file")
-                .required(false)
-                .repeatable(false)
-                .argument("file")
-                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleConfig)));
-
-        optionSet.addOption(
-            Option("key", "k", "Branch key")
+            Option("key", "k", "Set a Branch key")
                 .required(false)
                 .repeatable(false)
                 .argument("key")
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleBranchKey)));
 
         optionSet.addOption(
-            Option("link", "l", "Branch link")
+            Option("link", "l", "Set a Branch link")
                 .required(false)
                 .repeatable(false)
                 .argument("link")
@@ -133,6 +120,12 @@ protected:
                 .required(false)
                 .repeatable(false)
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleProperties)));
+
+        optionSet.addOption(
+            Option("version", "v", "Display version information")
+                .required(false)
+                .repeatable(false)
+                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleVersion)));
     }
 
     void createBranchMenuOptions() {
@@ -177,11 +170,6 @@ protected:
 
     void handleProperties(const std::string &name, const std::string &value) {
         printProperties("");
-    }
-
-    void handleConfig(const std::string &name, const std::string &value) {
-        cout << "Load Configuration: " << value << endl;
-        loadConfiguration(value);
     }
 
     std::string getNewValue(const std::string &name) {
