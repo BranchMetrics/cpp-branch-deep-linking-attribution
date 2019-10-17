@@ -32,15 +32,13 @@ using namespace BranchIO;
 #define KEY_BRANCH "branch_key"
 #define KEY_LINK "branch_link"
 
-class ExampleApp : public Application, public IRequestCallback
-{
+class ExampleApp : public Application, public IRequestCallback {
 public:
-    ExampleApp() : _helpRequested(false), _shouldExit(false)
-    {
+    ExampleApp() : _helpRequested(false), _shouldExit(false) {
     }
 
 private:
-	bool _helpRequested;
+    bool _helpRequested;
     bool _shouldExit;
 
     OptionSet _menuOptions;
@@ -48,8 +46,7 @@ private:
     Branch *_branchInstance;
     AppInfo _appInfo;
 
-    void initializeBranch()
-    {
+    void initializeBranch() {
         if (!config().hasOption(KEY_BRANCH)) {
             cout << "Missing Branch Key, check your configuration" << endl;
             _shouldExit = true;
@@ -70,15 +67,13 @@ private:
         _branchInstance = Branch::create(branch_key, &_appInfo);
     }
 
-    void uninitializeBranch()
-    {
+    void uninitializeBranch() {
         delete _branchInstance;
     }
 
 protected:
     // Override
-    void initialize(Application& self)
-    {
+    void initialize(Application &self) {
         this->loadConfiguration();
         Application::initialize(self);
 
@@ -86,64 +81,54 @@ protected:
     }
 
     // Override
-    void uninitialize()
-    {
+    void uninitialize() {
         uninitializeBranch();
 
         Application::uninitialize();
     }
 
     // Override
-    void reinitialize(Application &self)
-    {
+    void reinitialize(Application &self) {
     }
 
     // Override
-    void defineOptions(OptionSet& optionSet) {
+    void defineOptions(OptionSet &optionSet) {
         Application::defineOptions(optionSet);
 
         optionSet.addOption(
-            Option("help", "h", "Display help information on command line arguments")
+            Option("help", "h", "Display help information")
                 .required(false)
                 .repeatable(false)
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleHelp)));
 
         optionSet.addOption(
-            Option("version", "v", "Display version information")
-                .required(false)
-                .repeatable(false)
-                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleVersion)));
-
-        optionSet.addOption(
-            Option("config-file", "f", "Load configuration data from a file")
-                .required(false)
-                .repeatable(false)
-                .argument("file")
-                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleConfig)));
-
-        optionSet.addOption(
-            Option("key", "k", "Branch key")
+            Option("key", "k", "Set a Branch key")
                 .required(false)
                 .repeatable(false)
                 .argument("key")
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleBranchKey)));
 
         optionSet.addOption(
-            Option("test", "t", "Run the test suite")
+            Option("link", "l", "Set a Branch link")
                 .required(false)
-                .repeatable(true)
-                .argument("testName")
-                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleTest)));
+                .repeatable(false)
+                .argument("link")
+                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleBranchLink)));
 
         optionSet.addOption(
             Option("properties", "p", "Print the application properties")
                 .required(false)
                 .repeatable(false)
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleProperties)));
+
+        optionSet.addOption(
+            Option("version", "v", "Display version information")
+                .required(false)
+                .repeatable(false)
+                .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleVersion)));
     }
 
-    void createBranchMenuOptions()
-    {
+    void createBranchMenuOptions() {
         _menuOptions.addOption(
             Option("1", "1", "Send Session Install Event")
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleSendInstallEvent)));
@@ -173,50 +158,45 @@ protected:
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleSendMultipleEvents)));
     }
 
-    void handleHelp(const std::string& name, const std::string& value)
-	{
-		_helpRequested = true;
-		displayHelp();
-		stopOptionsProcessing();
-	}
+    void handleHelp(const std::string &name, const std::string &value) {
+        _helpRequested = true;
+        displayHelp();
+        stopOptionsProcessing();
+    }
 
-    void handleVersion(const std::string& name, const std::string& value)
-    {
+    void handleVersion(const std::string &name, const std::string &value) {
         cout << "SDK Version: " << Branch::getVersion() << endl;
     }
 
-    void handleProperties(const std::string &name, const std::string &value)
-    {
+    void handleProperties(const std::string &name, const std::string &value) {
         printProperties("");
     }
 
-    void handleTest(const std::string &name, const std::string &value)
-    {
-        cout << "SDK Key: ";
-        if (config().has("branch_key"))
-        {
-            cout << config().getString("branch_key");
-        }
-        else
-        {
-            cout << "Not Found";
-        }
-        cout << endl;
+    std::string getNewValue(const std::string &name) {
+        cout << "New " << name << ": ";
 
-        if (config().has("debug"))
-        {
-            cout << "Debug: " << config().getBool("debug") << endl;
-        }
-    }
+        std::string newValue;
+        std::cin >> newValue;
 
-    void handleConfig(const std::string &name, const std::string &value) {
-        cout << "Load Configuration: " << value << endl;
-        loadConfiguration(value);
+        return newValue;
     }
 
     void handleBranchKey(const std::string &name, const std::string &value) {
-        cout << "Branch Key: " << value << endl;
-        config().setString(KEY_BRANCH, value);
+        if (name == value) {
+            handleBranchKey(name, getNewValue(name)); // Recursive
+        } else {
+            std::cout << "Branch Key: " << value << endl;
+            config().setString(KEY_BRANCH, value);
+        }
+    }
+
+    void handleBranchLink(const std::string &name, const std::string &value) {
+        if (name == value) {
+            handleBranchLink(name, getNewValue(name)); // Recursive
+        } else {
+            std::cout << "Branch Link: " << value << endl;
+            config().setString(KEY_LINK, value);
+        }
     }
 
     void handleSendInstallEvent(const std::string &name, const std::string &value) {
@@ -287,69 +267,56 @@ protected:
         handleSendCustomEvent(name, value);
     }
 
-    void displayHelp()
-	{
-		HelpFormatter helpFormatter(options());
-		helpFormatter.setCommand(commandName());
-		helpFormatter.setUsage("OPTIONS");
-		helpFormatter.setHeader("A Branch sample application.");
-		helpFormatter.format(cout);
-	}
+    void displayHelp() {
+        HelpFormatter helpFormatter(options());
+        helpFormatter.setCommand(commandName());
+        helpFormatter.setUsage("OPTIONS");
+        helpFormatter.setHeader("A Branch sample application.");
+        helpFormatter.format(cout);
+    }
 
-    void printProperties(const std::string& base)
-	{
-		AbstractConfiguration::Keys keys;
-		config().keys(base, keys);
-		if (keys.empty())
-		{
-			if (config().hasProperty(base))
-			{
-				std::string msg;
-				msg.append(base);
-				msg.append(" = ");
-				msg.append(config().getString(base));
-				logger().information(msg);
-			}
-		}
-		else
-		{
-			for (AbstractConfiguration::Keys::const_iterator it = keys.begin(); it != keys.end(); ++it)
-			{
-				std::string fullKey = base;
-				if (!fullKey.empty()) fullKey += '.';
-				fullKey.append(*it);
-				printProperties(fullKey);
-			}
-		}
+    void printProperties(const std::string &base) {
+        AbstractConfiguration::Keys keys;
+        config().keys(base, keys);
+        if (keys.empty()) {
+            if (config().hasProperty(base)) {
+                std::string msg;
+                msg.append(base);
+                msg.append(" = ");
+                msg.append(config().getString(base));
+                logger().information(msg);
+            }
+        } else {
+            for (AbstractConfiguration::Keys::const_iterator it = keys.begin(); it != keys.end(); ++it) {
+                std::string fullKey = base;
+                if (!fullKey.empty()) fullKey += '.';
+                fullKey.append(*it);
+                printProperties(fullKey);
+            }
+        }
     }
 
     // Interface IRequestCallback
-    virtual void onSuccess(int id, JSONObject jsonResponse)
-    {
+    virtual void onSuccess(int id, JSONObject jsonResponse) {
         cout << "Callback Success!" << endl;
         cout << "onSuccess(): " << jsonResponse.stringify() << endl;
     }
 
     // Interface IRequestCallback
-    virtual void onError(int id, int error, std::string description)
-    {
+    virtual void onError(int id, int error, std::string description) {
         cout << "Callback Failed..." << endl;
     }
 
     // Interface IRequestCallback
-    virtual void onStatus(int id, int error, std::string descirption)
-    {
+    virtual void onStatus(int id, int error, std::string descirption) {
         cout << "Status updated" << endl;
     }
 
-    bool tryProcessChoice(const Option &option, const std::string &choice)
-    {
+    bool tryProcessChoice(const Option &option, const std::string &choice) {
         bool match = option.matchesShort(choice);
-        if (match)
-        {
+        if (match) {
             AbstractOptionCallback *cb = option.callback();
-            if (cb != NULL)
-            {
+            if (cb != NULL) {
                 cb->invoke(option.fullName(), option.argumentName());
             }
         }
@@ -357,39 +324,32 @@ protected:
         return match;
     }
 
-    bool processChoice(const std::string &choice)
-    {
+    bool processChoice(const std::string &choice) {
         bool processed = false;
-        for (OptionSet::Iterator it1 = _menuOptions.begin(); it1 != _menuOptions.end() && !processed; ++it1)
-        {
+        for (OptionSet::Iterator it1 = _menuOptions.begin(); it1 != _menuOptions.end() && !processed; ++it1) {
             processed = tryProcessChoice(*it1, choice);
         }
-        for (OptionSet::Iterator it2 = options().begin(); it2 != options().end() && !processed; ++it2)
-        {
+        for (OptionSet::Iterator it2 = options().begin(); it2 != options().end() && !processed; ++it2) {
             processed = tryProcessChoice(*it2, choice);
         }
 
         return processed;
     }
 
-    void runMenu()
-    {
+    void runMenu() {
         std::string choice;
 
-        while (!_shouldExit)
-        {
+        while (!_shouldExit) {
             cout << endl;
             cout << "Branch Menu" << endl;
             cout << "-------------------------" << endl;
             cout << "0. Exit" << endl;
 
-            for (OptionSet::Iterator it1 = _menuOptions.begin(); it1 != _menuOptions.end(); ++it1)
-            {
+            for (OptionSet::Iterator it1 = _menuOptions.begin(); it1 != _menuOptions.end(); ++it1) {
                 const Option &o = *it1;
                 cout << o.shortName() << ". " << o.description() << endl;
             }
-            for (OptionSet::Iterator it2 = options().begin(); it2 != options().end(); ++it2)
-            {
+            for (OptionSet::Iterator it2 = options().begin(); it2 != options().end(); ++it2) {
                 const Option &o = *it2;
                 cout << o.shortName() << ". " << o.description() << endl;
             }
@@ -397,13 +357,10 @@ protected:
             cout << endl << "Select Option >> ";
             std::getline(std::cin, choice);
 
-            if (choice.compare("0") == 0)
-            {
+            if (choice.compare("0") == 0) {
                 _shouldExit = true;
                 break;
-            }
-            else if (!processChoice(choice))
-            {
+            } else if (!processChoice(choice)) {
                 cout << "Invalid choice, try again" << endl;
             }
 
@@ -413,15 +370,13 @@ protected:
     }
 
     // Override
-    int main(const std::vector<std::string> &arguments)
-    {
+    int main(const std::vector<std::string> &arguments) {
         // Debug and Verbose compiled out in release builds
         Log::setLevel(Log::Verbose);
 
         // Determine if help was requested from the commandline.  If so, we have
         // already shown help, so just exit.  Otherwise drop into the menu loop.
-        if (!_helpRequested)
-        {
+        if (!_helpRequested) {
             runMenu();
         }
 
