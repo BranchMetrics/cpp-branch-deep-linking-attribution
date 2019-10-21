@@ -13,9 +13,7 @@ AdvertiserInfo::~AdvertiserInfo() {
 
 AdvertiserInfo&
 AdvertiserInfo::addId(AdIdType type, const std::string &value) {
-    std::string key = stringify(type);
-
-    PropertyManager::addProperty(key.c_str(), value);
+    PropertyManager::addProperty(stringify(type), value);
     return *this;
 }
 
@@ -47,8 +45,8 @@ AdvertiserInfo::isTrackingLimited() const {
     return trackingLimited;
 }
 
-std::string
-AdvertiserInfo::stringify(AdIdType idType) const {
+const char *
+AdvertiserInfo::stringify(AdIdType idType) {
     switch (idType) {
         case IDFA:                      return "idfa";
         case GOOGLE_ADVERTISING_ID:     return "google_advertising_id";

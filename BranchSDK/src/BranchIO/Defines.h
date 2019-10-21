@@ -99,7 +99,7 @@ class BRANCHIO_DLL_EXPORT Defines {
      * @param endpoint API Endpoint
      * @return a string representation of the endpoint.
      */
-    static const std::string toString(APIEndpoint endpoint);
+    static const std::string stringify(APIEndpoint endpoint);
 
     /**
      * (Internal) Given an Endpoint, determine if it is a V1 or V2 Type

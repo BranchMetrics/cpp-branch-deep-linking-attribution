@@ -31,10 +31,10 @@ const char *SE_CLICK_AD = "CLICK_AD";
 const char *SE_VIEW_AD = "VIEW_AD";
 
 StandardEvent::StandardEvent(StandardEvent::Type eventType) :
-    Event(Defines::APIEndpoint::TRACK_STANDARD_EVENT, StandardEvent::toString(eventType)) { }
+    Event(Defines::APIEndpoint::TRACK_STANDARD_EVENT, StandardEvent::stringify(eventType)) { }
 
 const char *
-StandardEvent::toString(StandardEvent::Type eventType) {
+StandardEvent::stringify(StandardEvent::Type eventType) {
     switch (eventType) {
         case StandardEvent::ADD_TO_CART:
             return SE_ADD_TO_CART;
