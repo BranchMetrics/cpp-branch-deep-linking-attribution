@@ -4,7 +4,7 @@
 #define BRANCHIO_UTIL_STORAGE_H__
 
 #ifdef WIN32
-#include "BranchIO/WindowsStorage.h"
+#include "WindowsStorage.h"
 #else
 #include "UnixStorage.h"
 #endif  // WIN32
