@@ -172,7 +172,7 @@ class BRANCHIO_DLL_EXPORT Event : public PropertyManager {
  private:
     Event();
 
-    static const char *toString(Event::AdType adType);
+    static const char *stringify(Event::AdType adType);
 
     void packageRawEvent(JSONObject &jsonObject) const;
     void packageV1Event(IPackagingInfo &branch, JSONObject &jsonObject) const;

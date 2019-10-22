@@ -74,7 +74,7 @@ const char *PATH_TRACK_STANDARD_EVENT = "v2/event/standard";
 const char *PATH_TRACK_CUSTOM_EVENT = "v2/event/custom";
 
 const std::string
-Defines::toString(APIEndpoint apiEndpoint) {
+Defines::stringify(APIEndpoint apiEndpoint) {
     std::stringstream ss;
     ss << BRANCH_IO_URL_BASE;
 

@@ -82,7 +82,7 @@ class BRANCHIO_DLL_EXPORT AdvertiserInfo : public PropertyManager {
     bool trackingDisabled;
     bool trackingLimited;
 
-    const char *toXString(AdvertiserInfo::AdIdType idType) const;
+    static const char *stringify(AdvertiserInfo::AdIdType idType);
 };
 
 }  // namespace BranchIO
