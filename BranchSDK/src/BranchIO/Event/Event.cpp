@@ -43,7 +43,7 @@ Event::~Event() { }
 
 Event&
 Event::setAdType(Event::AdType adType) {
-    return addEventProperty(Defines::JSONKEY_ADTYPE, toString(adType));
+    return addEventProperty(Defines::JSONKEY_ADTYPE, stringify(adType));
 }
 
 Event&
@@ -134,7 +134,7 @@ const std::string &
 Event::name() const { return mEventName; }
 
 const char *
-Event::toString(Event::AdType adType) {
+Event::stringify(Event::AdType adType) {
     switch (adType) {
         case BANNER:
             return AD_TYPE_BANER;
@@ -154,7 +154,7 @@ Event::toString(Event::AdType adType) {
 
 
 void Event::packageRawEvent(JSONObject &jsonObject) const {
-    jsonObject.parse(stringify());
+    jsonObject.parse(PropertyManager::stringify());
 }
 
 void Event::packageV1Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject) const {

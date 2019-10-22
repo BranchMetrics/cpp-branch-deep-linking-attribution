@@ -25,7 +25,7 @@ void Request::send(
     IRequestCallback &callback,
     IClientSession *clientSession) {
 
-    URI uri(Defines::toString(api));
+    URI uri(Defines::stringify(api));
     std::string path(uri.getPathAndQuery());
     if (path.empty()) {
         path = "/";
