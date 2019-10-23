@@ -350,7 +350,7 @@ void createLayout(HWND hwnd)
 
     // Create a share button
     hwndShare = CreateWindowEx(WS_EX_TRANSPARENT, TEXT("Button"), TEXT("Share"),
-        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, rect.left, rect.top, 60, 60, hwndMain, (HMENU)ID_SHARECOLOR, (HINSTANCE)GetWindowLong(hwndMain, GWL_HINSTANCE), NULL);
+        WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON, rect.left, rect.top, 60, 60, hwndMain, (HMENU)ID_SHARECOLOR, NULL, NULL);
 
     // Create a simple text view
     hwndStatus = CreateWindowEx(WS_EX_TRANSPARENT, TEXT("Edit"), TEXT(""),
