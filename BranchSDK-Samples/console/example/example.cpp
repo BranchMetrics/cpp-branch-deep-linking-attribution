@@ -156,6 +156,10 @@ protected:
         _menuOptions.addOption(
             Option("7", "7", "Send Multiple Events (async)")
                 .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleSendMultipleEvents)));
+
+        _menuOptions.addOption(
+            Option("8", "8", "Send Identity Event")
+                    .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleSendIdentityEvent)));
     }
 
     void handleHelp(const std::string &name, const std::string &value) {
@@ -267,6 +271,12 @@ protected:
         handleSendCustomEvent(name, value);
     }
 
+    void handleSendIdentityEvent(const std::string &name, const std::string &value) {
+        cout << "handleSendIdentityEvent()" << endl;
+        _branchInstance->setIdentity("Kilroy", this);
+    }
+
+
     void displayHelp() {
         HelpFormatter helpFormatter(options());
         helpFormatter.setCommand(commandName());
@@ -299,17 +309,17 @@ protected:
     // Interface IRequestCallback
     virtual void onSuccess(int id, JSONObject jsonResponse) {
         cout << "Callback Success!" << endl;
-        cout << "onSuccess(): " << jsonResponse.stringify() << endl;
+        cout << jsonResponse.stringify() << endl;
     }
 
     // Interface IRequestCallback
     virtual void onError(int id, int error, std::string description) {
-        cout << "Callback Failed..." << endl;
+        cout << "Callback Failed... " << description << endl;
     }
 
     // Interface IRequestCallback
-    virtual void onStatus(int id, int error, std::string descirption) {
-        cout << "Status updated" << endl;
+    virtual void onStatus(int id, int error, std::string description) {
+        cout << "Status updated: " << description << endl;
     }
 
     bool tryProcessChoice(const Option &option, const std::string &choice) {

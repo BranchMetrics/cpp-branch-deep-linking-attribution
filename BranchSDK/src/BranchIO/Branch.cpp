@@ -6,6 +6,7 @@
 
 #include "BranchIO/DeviceInfo.h"
 #include "BranchIO/Event/Event.h"
+#include "BranchIO/Event/IdentityEvent.h"
 #include "BranchIO/Event/SessionEvent.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Log.h"
@@ -177,6 +178,23 @@ Branch::sendEvent(const Event &event, IRequestCallback *callback) {
     }
 
     getRequestManager()->enqueue(event, callback);
+}
+
+void
+Branch::setIdentity(const std::string& userId, IRequestCallback *callback) {
+    if (getSessionInfo().hasSessionId()) {
+        IdentityLoginEvent event(userId);
+        sendEvent(event, callback);
+    } else {
+        if (callback != NULL) {
+            callback->onError(0, 0, "No Session");
+        }
+    }
+}
+
+void
+Branch::logout(IRequestCallback *callback) {
+    // TODO(andyp): Implement
 }
 
 void

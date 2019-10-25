@@ -35,6 +35,11 @@ SessionInfo::setSessionId(const std::string &sessionId) {
     return doAddProperty(Defines::JSONKEY_SESSION_ID, sessionId);
 }
 
+bool
+SessionInfo::hasSessionId() const {
+    return has(Defines::JSONKEY_SESSION_ID);
+}
+
 SessionInfo&
 SessionInfo::doAddProperty(const char *name, const std::string &value) {
     addProperty(name, value);
