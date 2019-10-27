@@ -194,7 +194,14 @@ Branch::setIdentity(const std::string& userId, IRequestCallback *callback) {
 
 void
 Branch::logout(IRequestCallback *callback) {
-    // TODO(andyp): Implement
+    if (getSessionInfo().hasSessionId()) {
+        IdentityLogoutEvent event;
+        sendEvent(event, callback);
+    } else {
+        if (callback != NULL) {
+            callback->onError(0, 0, "No Session");
+        }
+    }
 }
 
 void

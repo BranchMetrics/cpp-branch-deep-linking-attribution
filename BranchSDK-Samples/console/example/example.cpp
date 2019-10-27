@@ -160,6 +160,10 @@ protected:
         _menuOptions.addOption(
             Option("8", "8", "Send Identity Event")
                     .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleSendIdentityEvent)));
+
+        _menuOptions.addOption(
+                Option("9", "9", "Send Logout Event")
+                        .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleSendLogoutEvent)));
     }
 
     void handleHelp(const std::string &name, const std::string &value) {
@@ -273,9 +277,13 @@ protected:
 
     void handleSendIdentityEvent(const std::string &name, const std::string &value) {
         cout << "handleSendIdentityEvent()" << endl;
-        _branchInstance->setIdentity("Kilroy", this);
+        _branchInstance->setIdentity("Kilroy was here", this);
     }
 
+    void handleSendLogoutEvent(const std::string &name, const std::string &value) {
+        cout << "handleSendLogoutEvent()" << endl;
+        _branchInstance->logout(this);
+    }
 
     void displayHelp() {
         HelpFormatter helpFormatter(options());

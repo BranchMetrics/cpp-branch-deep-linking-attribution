@@ -11,7 +11,7 @@
 namespace BranchIO {
 
 /**
- * (Internal) User Identity Event
+ * (Internal) User Identity Login Event
  */
 class BRANCHIO_DLL_EXPORT IdentityLoginEvent : public Event {
  public:
@@ -20,12 +20,25 @@ class BRANCHIO_DLL_EXPORT IdentityLoginEvent : public Event {
      * @param identity A value containing the unique identifier of the user
      */
     IdentityLoginEvent(std::string identity) :
-            Event(Defines::APIEndpoint::IDENTIFY_USER, "setIdentity", NULL) {
+            Event(Defines::APIEndpoint::IDENTIFY_USER, "setIdentity") {
 
         Event::addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);
     }
 };
 
+/**
+ * (Internal) User Identity Logout Event
+ */
+class BRANCHIO_DLL_EXPORT IdentityLogoutEvent : public Event {
+public:
+    /**
+     * Constructor.
+     * @param identity A value containing the unique identifier of the user
+     */
+    explicit IdentityLogoutEvent() :
+            Event(Defines::APIEndpoint::LOGOUT, "logout") {
+    }
+};
 
 }  // namespace BranchIO
 
