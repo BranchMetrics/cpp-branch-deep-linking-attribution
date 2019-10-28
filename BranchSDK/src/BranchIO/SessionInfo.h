@@ -41,6 +41,11 @@ class BRANCHIO_DLL_EXPORT SessionInfo : public PropertyManager {
      */
     virtual SessionInfo& setSessionId(const std::string &sessionId);
 
+    /**
+     * @return true if there is a current session.
+     */
+    virtual bool hasSessionId() const;
+
  private:
     static constexpr const char *const StoragePrefix = "session";
 

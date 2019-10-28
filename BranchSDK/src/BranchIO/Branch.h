@@ -106,6 +106,27 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     AdvertiserInfo &getAdvertiserInfo();
 
+ public:
+    // User Identity APIs.
+
+    /**
+     * Identifies the current user to the Branch API by supplying a unique identifier
+     * @param userId   A value containing the unique identifier of the user.
+     * @param callback Callback to fire with success or failure notification.
+     */
+    void setIdentity(const std::string& userId, IRequestCallback *callback);
+
+    /**
+     * This method should be called if you know that a different person is about to use the app. For example,
+     * if you allow users to log out and let their friend use the app, you should call this to notify Branch
+     * to create a new user for this device. This will clear the first and latest params, as a new session is created.</p>
+     *
+     * @param callback Callback to fire with success or failure notification.
+     */
+    void logout(IRequestCallback *callback);
+
+
+ private:
     /**
      * Explicitly shut down this Branch instance. Happens automatically
      * in destructor.

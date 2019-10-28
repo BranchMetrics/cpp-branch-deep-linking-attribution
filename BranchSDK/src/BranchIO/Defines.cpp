@@ -34,6 +34,7 @@ const char *Defines::JSONKEY_DEVICE_SCREEN_DPI = "screen_dpi";
 const char *Defines::JSONKEY_DEVICE_SCREEN_HEIGHT = "screen_height";
 const char *Defines::JSONKEY_DEVICE_SCREEN_WIDTH = "screen_width";
 
+const char *Defines::JSONKEY_APP_IDENTITY = "identity";
 const char *Defines::JSONKEY_APP_DEVELOPER_IDENTITY = "developer_identity";
 const char *Defines::JSONKEY_APP_ENVIRONMENT = "environment";
 const char *Defines::JSONKEY_APP_LAT_V1 = "lat_val";
@@ -145,6 +146,7 @@ Defines::endpointType(APIEndpoint apiEndpoint) {
         case REGISTER_OPEN:
         case REGISTER_CLOSE:
         case REGISTER_VIEW:
+        case IDENTIFY_USER:
         case LOGOUT:
         case URL:
             apiType = V1;
@@ -156,7 +158,6 @@ Defines::endpointType(APIEndpoint apiEndpoint) {
         case GET_CREDITS:
         case GET_CREDIT_HISTORY:
         case GET_REFERRAL_CODE:
-        case IDENTIFY_USER:
         case REDEEM_REWARDS:
         case TRACK_CUSTOM_EVENT:
         case TRACK_STANDARD_EVENT:
