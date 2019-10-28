@@ -31,6 +31,7 @@ using namespace BranchIO;
 // Configuration File Key for the Branch Credentials
 #define KEY_BRANCH "branch_key"
 #define KEY_LINK "branch_link"
+#define TRACKING_MENU_OPTION "x"
 
 class ExampleApp : public Application, public IRequestCallback {
 public:
@@ -342,17 +343,57 @@ protected:
         return match;
     }
 
+    bool tryProcessVariableOption(const std::string &choice) {
+        bool match = false;
+
+        if (choice.compare(TRACKING_MENU_OPTION) == 0) {
+            bool isDisabled = _branchInstance->getAdvertiserInfo().isTrackingDisabled();
+
+            if (isDisabled) {
+                _branchInstance->getAdvertiserInfo().enableTracking();
+            } else {
+                _branchInstance->getAdvertiserInfo().disableTracking();
+            }
+
+            isDisabled = !isDisabled;
+
+            cout << "Tracking is now " << (isDisabled ? "DISABLED" : "ENABLED") << endl;
+
+            match = true;
+        }
+
+        return match;
+    }
+
     bool processChoice(const std::string &choice) {
         bool processed = false;
         for (OptionSet::Iterator it1 = _menuOptions.begin(); it1 != _menuOptions.end() && !processed; ++it1) {
             processed = tryProcessChoice(*it1, choice);
         }
-        for (OptionSet::Iterator it2 = options().begin(); it2 != options().end() && !processed; ++it2) {
-            processed = tryProcessChoice(*it2, choice);
+
+        if (!processed) {
+            for (OptionSet::Iterator it2 = options().begin(); it2 != options().end() && !processed; ++it2) {
+                processed = tryProcessChoice(*it2, choice);
+            }
+        }
+
+        if (!processed) {
+            processed = tryProcessVariableOption(choice);
         }
 
         return processed;
     }
+
+    void showTrackingMenuOption() {
+        cout << TRACKING_MENU_OPTION << ". ";
+        if (_branchInstance->getAdvertiserInfo().isTrackingDisabled()) {
+            cout << "Enable";
+        } else {
+            cout << "Disable";
+        }
+        cout << " Tracking" << endl;
+    }
+
 
     void runMenu() {
         std::string choice;
@@ -371,6 +412,9 @@ protected:
                 const Option &o = *it2;
                 cout << o.shortName() << ". " << o.description() << endl;
             }
+
+            // Tracking enabled / disabled
+            showTrackingMenuOption();
 
             cout << endl << "Select Option >> ";
             std::getline(std::cin, choice);
