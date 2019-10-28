@@ -187,7 +187,7 @@ Branch::setIdentity(const std::string& userId, IRequestCallback *callback) {
         sendEvent(event, callback);
     } else {
         if (callback != NULL) {
-            callback->onError(0, 0, "No Session");
+            callback->onError(0, 0, "No Session has been started.");
         }
     }
 }
@@ -199,7 +199,7 @@ Branch::logout(IRequestCallback *callback) {
         sendEvent(event, callback);
     } else {
         if (callback != NULL) {
-            callback->onError(0, 0, "No Session");
+            callback->onError(0, 0, "No Session has been started.");
         }
     }
 }

@@ -41,7 +41,6 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_DEVICE_SCREEN_WIDTH;      ///< Device Screen Width (pixels)
 
     static const char *JSONKEY_APP_IDENTITY;             ///< User Identity
-    static const char *JSONKEY_APP_IDENTITYID;           ///< User Identity Id
     static const char *JSONKEY_APP_DEVELOPER_IDENTITY;   ///< App Developer Identity
     static const char *JSONKEY_APP_ENVIRONMENT;          ///< App Environment
     static const char *JSONKEY_APP_LAT_V1;               ///< Limit App Tracking, V1
