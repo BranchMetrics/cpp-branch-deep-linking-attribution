@@ -134,7 +134,7 @@ APIClientSession::processResponse(IRequestCallback& callback) {
     BRANCH_LOG_D(status << " " << response.getReason());
 
     // @todo(jdee): Fine-tune this success-failure determination
-    if (status == 200) {
+    if (status == HTTPResponse::HTTP_OK) {
         JSONObject::Ptr ptr = JSONObject::parse(rs);
         if (ptr) {
             callback.onSuccess(0, *ptr);
@@ -155,6 +155,12 @@ APIClientSession::processResponse(IRequestCallback& callback) {
         // Read the output stream anyway. Don't bother parsing.
         NullOutputStream null;
         StreamCopier::copyStream(rs, null);
+
+        if (status < HTTPResponse::HTTP_INTERNAL_SERVER_ERROR) {
+            // We don't want to retry this.  Call the error handler and return "true" to indicate that this was handled.
+            callback.onError(0, status, response.getReason());
+            return true;
+        }
     }
 
     return false;
