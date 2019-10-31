@@ -6,13 +6,45 @@
 
 #include <BranchIO/LinkInfo.h>
 #include <BranchIO/Event/Event.h>
-#include <BranchIO/Util/Log.h>
+#include <Poco/Base64Encoder.h>
+
+#include "Util.h"
 
 using namespace BranchIO;
 using namespace std;
 
 class LinkInfoTest : public ::testing::Test {
 };
+
+/**
+ * Initialize a "typical" branch link object with some basic values.
+ * @param info LinkInfo object to fill
+ */
+void initTestLink(LinkInfo &info) {
+    info.addTag("Tag1");
+    info.addTag("Tag2");
+
+    info.setAlias("my alias");
+    info.setChannel("facebook");
+    info.setFeature("onboarding");
+    info.setCampaign("new product");
+    info.setStage("new user");
+
+    info.addControlParameter("$canonical_identifier", "content/123");
+    info.addControlParameter("$og_title", "Title from Deep Link");
+    info.addControlParameter("$og_description", "Description from Deep Link");
+    info.addControlParameter("$og_image_url", "http://www.lorempixel.com/400/400/");
+    info.addControlParameter("$desktop_url", "http://www.example.com");
+
+    info.addControlParameter("custom_string", "everything");
+    info.addControlParameter("custom_integer", 1243);
+    info.addControlParameter("custom_boolean", true);
+
+    PropertyManager customObject;
+    customObject.addProperty("random", "dictionary");
+    info.addControlParameter("custom_object", customObject);
+}
+
 
 TEST_F(LinkInfoTest, TestStringSetters) {
     LinkInfo info;
@@ -75,30 +107,29 @@ TEST_F(LinkInfoTest, TestControlParams) {
     // cout << "TestControlParams:\t" << str << endl;
 }
 
+TEST_F(LinkInfoTest, TestTagParams) {
+    LinkInfo info;
+    info.addTag("TAG1");
+    info.addTag("TAG2");
+    info.addTag("TAG3");
+    info.addTag("TAG4");
+    info.addTag("TAG5");
+
+    std::string str = info.toString();
+    cout << "TestTagParams:\t" << str << endl;
+
+    ASSERT_GT(str.length(), 0);
+
+    JSONObject::Ptr jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject->size(), 0);
+
+    // cout << "TestTagParams:\t" << str << endl;
+}
+
 // Test to emulate https://docs.branch.io/apps/deep-linking-api/#link-create
 TEST_F(LinkInfoTest, TestLinkCreate) {
     LinkInfo info;
-
-    info.addProperty("branch_key", "key_live_kaFuWw8WvY7yn1d9yYiP8gokwqjV0Swt");
-
-    info.setChannel("facebook");
-    info.setFeature("onboarding");
-    info.setCampaign("new product");
-    info.setStage("new user");
-
-    info.addControlParameter("$canonical_identifier", "content/123");
-    info.addControlParameter("$og_title", "Title from Deep Link");
-    info.addControlParameter("$og_description", "Description from Deep Link");
-    info.addControlParameter("$og_image_url", "http://www.lorempixel.com/400/400/");
-    info.addControlParameter("$desktop_url", "http://www.example.com");
-
-    info.addControlParameter("custom_integer", 1243);
-    info.addControlParameter("custom_string", "everything");
-    info.addControlParameter("custom_boolean", true);
-
-    PropertyManager customObject;
-    customObject.addProperty("random", "dictionary");
-    info.addControlParameter("custom_object", customObject);
+    initTestLink(info);
 
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
@@ -109,40 +140,43 @@ TEST_F(LinkInfoTest, TestLinkCreate) {
     cout << "TestLinkCreate:\t" << str << endl;
 }
 
-class MyRequestCallback : public BranchIO::IRequestCallback {
-protected:
-    virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse)
-    {
-        BRANCH_LOG_D("Callback Success!  Response: " << jsonResponse.stringify().c_str());
-    }
+// Test to generate a "Long Link Url" from a LinkInfo
+TEST_F(LinkInfoTest, TestLongLinkCreate) {
+    LinkInfo linkInfo;
+    initTestLink(linkInfo);
 
-    virtual void onError(int id, int error, std::string description)
-    {
-        BRANCH_LOG_D("Callback Error!" << description.c_str());
-    }
+    std::string longUrl = linkInfo.generateLongUrl("key_xxx");
 
-    virtual void onStatus(int id, int error, std::string description)
-    {
-        BRANCH_LOG_D("Status Updated:" << description.c_str());
-    }
-};
-#define BRANCH_KEY "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap"
+    cout << "TestLongLinkCreate:\t" << longUrl << endl;
+}
 
+
+// The implementation here is commented out so as to not create a new link every time the unit test suite runs.
+// To debug short link creation, uncomment as needed.
 TEST_F(LinkInfoTest, TestCreateLinkUrlRequest) {
-    AppInfo _appInfo;
-    _appInfo.setAppVersion("1.0")
-        .setCountryCode("US")
-        .setDeveloperIdentity("Branch Metrics")
-        .setEnvironment("FULL_APP")
-        .setLanguage("en");
-
-//    Branch *_branchInstance = BranchIO::Branch::create(BRANCH_KEY, &_appInfo);
-//    MyRequestCallback* _branchCallback = new MyRequestCallback;
+    // Branch *_branchInstance = BranchIO::Test::createTestInstance();
+    // IRequestCallback* _branchCallback = new BranchIO::Test::TestRequestCallback;
 
     LinkInfo linkInfo;
 
     linkInfo.setFeature("testing");
     linkInfo.addControlParameter("extra_color", -6381877);
 
-    //_branchInstance->sendEvent(linkInfo, _branchCallback);
+    // _branchInstance->sendEvent(linkInfo, _branchCallback);
+}
+
+// We are taking advantage here of the fact that when tracking is disabled,
+// the implementation will short circuit and generate a long link.
+TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
+    Branch *branchInstance = BranchIO::Test::createTestInstance();
+    IRequestCallback* branchCallback = new BranchIO::Test::TestRequestCallback;
+
+    // Disabling Tracking would normally cause an error to happen on all other types of requests.
+    // In this case, it should trigger the callback with a long link.
+    branchInstance->getAdvertiserInfo().disableTracking();
+
+    LinkInfo linkInfo;
+    initTestLink(linkInfo);
+
+    linkInfo.generateUrl(branchInstance, branchCallback);
 }

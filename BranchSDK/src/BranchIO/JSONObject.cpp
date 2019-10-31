@@ -72,9 +72,15 @@ JSONObject::operator += (const JSONObject &rhs) {
 }
 
 void
-JSONObject::set(const std::string& key, Ptr ptr) {
+JSONObject::set(const std::string& key, JSONObject::Ptr ptr) {
     Object& object(*ptr.get());
     Object::set(key, object);
+}
+
+void
+JSONObject::set(const std::string& key, Poco::JSON::Array::Ptr ptr) {
+    JSON::Array& array(*ptr.get());
+    Object::set(key, array);
 }
 
 }  // namespace BranchIO
