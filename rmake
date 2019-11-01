@@ -74,7 +74,7 @@ fi
 # Store the current branch in variable : CurrentBranch
 CurrentBranch=`git rev-parse --abbrev-ref HEAD`
 case "${CurrentBranch}" in
- 'master') Branch2Use="master" ;;
+ 'master') Branch2Use="stable" ;;
  'Staging') Branch2Use="staging" ;;
  *)     Branch2Use="testing" ;;
 esac
