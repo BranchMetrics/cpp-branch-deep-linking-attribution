@@ -71,8 +71,16 @@ then
   exit 1
 fi
 
+# Store the current branch in variable : CurrentBranch
+CurrentBranch=`git rev-parse --abbrev-ref HEAD`
+case "${CurrentBranch}" in
+ 'master') Branch2Use="master" ;;
+ 'Staging') Branch2Use="staging" ;;
+ *)     Branch2Use="testing" ;;
+esac
+
 # Install into the Conan cache
-conan create ../.. branch/testing \
+conan create ../.. branch/${Branch2Use} \
   --json conan-install.json \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
