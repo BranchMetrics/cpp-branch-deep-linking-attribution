@@ -63,6 +63,14 @@ PropertyManager::addProperty(const char *name, const PropertyManager &value) {
 }
 
 PropertyManager&
+PropertyManager::addProperty(const char *name, const Poco::JSON::Array &value) {
+    Mutex::ScopedLock _l(_mutex);
+
+    set(name, value);
+    return *this;
+}
+
+PropertyManager&
 PropertyManager::addProperties(const JSONObject &jsonObject) {
     Mutex::ScopedLock _l(_mutex);
 
@@ -88,11 +96,22 @@ PropertyManager::has(const char *name) const {
     return JSONObject::has(name);
 }
 
-std::string
-PropertyManager::getStringProperty(const char *name) {
+bool
+PropertyManager::isEmpty() const {
     Mutex::ScopedLock _l(_mutex);
 
-    return getValue<std::string>(name);
+    return (JSONObject::size() == 0);
+}
+
+std::string
+PropertyManager::getStringProperty(const char *name, const std::string &defValue) const {
+    Mutex::ScopedLock _l(_mutex);
+
+    if (has(name)) {
+        return getValue<std::string>(name);
+    }
+
+    return defValue;
 }
 
 std::string
