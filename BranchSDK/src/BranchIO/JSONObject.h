@@ -4,6 +4,7 @@
 #define BRANCHIO_JSONOBJECT_H__
 
 #include <Poco/JSON/Object.h>
+#include <Poco/JSON/Array.h>
 
 #include <iosfwd>
 #include <string>
@@ -78,11 +79,18 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
     using Poco::JSON::Object::set;
 
     /**
-     * Overload of set to take a JSON::Ptr.
+     * Overload of set to take a JSONObject::Ptr.
      * @param key Key
      * @param ptr Value
      */
-    void set(const std::string& key, Ptr ptr);
+    void set(const std::string& key, JSONObject::Ptr ptr);
+
+    /**
+     * Overload of set to take a JSONArray::Ptr.
+     * @param key Key
+     * @param ptr Value
+     */
+    void set(const std::string& key, Poco::JSON::Array::Ptr ptr);
 
     /**
      * Overload of set to take a reference to a JSONObject.

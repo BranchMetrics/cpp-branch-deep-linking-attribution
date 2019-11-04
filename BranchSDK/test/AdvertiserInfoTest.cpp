@@ -6,6 +6,7 @@
 
 #include <BranchIO/PackagingInfo.h>
 #include <BranchIO/Event/StandardEvent.h>
+#include "Util.h"
 
 using namespace BranchIO;
 using namespace std;
@@ -48,7 +49,7 @@ TEST_F(AdvertiserInfoTest, TestAddId)
 TEST_F(AdvertiserInfoTest, TestPackaging)
 {
     AppInfo appInfo;
-    PackagingInfo packagingInfo("key_live_xxx");
+    PackagingInfo packagingInfo(BranchIO::Test::getTestKey());
 
     AdvertiserInfo &info = packagingInfo.getAdvertiserInfo();
     info.addId(AdvertiserInfo::AdIdType::WINDOWS_ADVERTISING_ID, "id_windows");
@@ -69,7 +70,7 @@ TEST_F(AdvertiserInfoTest, TestPackaging)
 TEST_F(AdvertiserInfoTest, TestLAT_true)
 {
     AppInfo appInfo;
-    PackagingInfo packagingInfo("key_live_xxx");
+    PackagingInfo packagingInfo(BranchIO::Test::getTestKey());
 
     AdvertiserInfo &info = packagingInfo.getAdvertiserInfo();
     info.addId(AdvertiserInfo::AdIdType::WINDOWS_ADVERTISING_ID, "id_windows");

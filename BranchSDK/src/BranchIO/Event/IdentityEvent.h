@@ -33,7 +33,6 @@ class BRANCHIO_DLL_EXPORT IdentityLogoutEvent : public Event {
 public:
     /**
      * Constructor.
-     * @param identity A value containing the unique identifier of the user
      */
     explicit IdentityLogoutEvent() :
             Event(Defines::APIEndpoint::LOGOUT, "logout") {
