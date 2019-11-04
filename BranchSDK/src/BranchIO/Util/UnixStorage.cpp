@@ -98,7 +98,7 @@ UnixStorage::clear(Scope scope) {
     }
 
     File file(getPath(scope));
-    file.remove(true);  // recursively removes the directory
+    if (file.exists()) file.remove(true);  // recursively removes the directory
 
     return *this;
 }
