@@ -6,7 +6,7 @@
 namespace BranchIO {
 
 AdvertiserInfo::AdvertiserInfo() : PropertyManager(), trackingDisabled(false), trackingLimited(false) {
-    trackingDisabled = loadBoolean(AdvertiserStorage, "trackingDisabled", false);
+    trackingDisabled = loadBoolean(AdvertiserStorage, TRACKING_PREFERENCE_KEY, false);
 }
 
 AdvertiserInfo::~AdvertiserInfo() = default;
@@ -20,14 +20,14 @@ AdvertiserInfo::addId(AdIdType type, const std::string &value) {
 AdvertiserInfo &
 AdvertiserInfo::disableTracking() {
     trackingDisabled = true;
-    saveBoolean(AdvertiserStorage, "trackingDisabled", true);
+    saveBoolean(AdvertiserStorage, TRACKING_PREFERENCE_KEY, true);
     return *this;
 }
 
 AdvertiserInfo &
 AdvertiserInfo::enableTracking() {
     trackingDisabled = false;
-    saveBoolean(AdvertiserStorage, "trackingDisabled", false);
+    saveBoolean(AdvertiserStorage, TRACKING_PREFERENCE_KEY, false);
     return *this;
 }
 
