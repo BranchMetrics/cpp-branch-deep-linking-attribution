@@ -62,3 +62,10 @@ TEST_F(JSONObjectTest, TestJSONObjectAddArray) {
     std::string str = object.stringify();
     cout << "TestJSONObjectAddArray: " << str << endl;
 }
+
+TEST_F(JSONObjectTest, TestJSONObjectNullSet) {
+    JSONObject object;
+    JSONObject::Ptr ptr = nullptr;
+    object.set("foo", ptr);
+    ASSERT_NO_THROW(object.stringify());
+}
