@@ -55,7 +55,7 @@ struct IStorage {
      * @param scope the scope for this key (optional if default scope set)
      * @return true if found, false otherwise
      */
-    virtual bool get(const std::string& key, std::string& value, Scope scope = Default) const = 0;
+    virtual bool getString(const std::string& key, std::string& value, Scope scope = Default) const = 0;
 
     /**
      * Set a new value for the specified key and scope (or default scope)
@@ -64,7 +64,25 @@ struct IStorage {
      * @param scope the scope for this key (optional if default scope set)
      * @return *this
      */
-    virtual IStorage& set(const std::string& key, const std::string& value, Scope scope = Default) = 0;
+    virtual IStorage& setString(const std::string& key, const std::string& value, Scope scope = Default) = 0;
+
+    /**
+     * Get the current boolean value of a key, if any
+     * @param key a key to retrieve
+     * @param value a writable bool in which to store the value if found
+     * @param scope the scope for this key (optional if default scope set)
+     * @return true if found, false otherwise
+     */
+    virtual bool getBoolean(const std::string& key, bool& value, Scope scope = Default) const = 0;
+
+    /**
+     * Set a new value for the specified key and scope (or default scope)
+     * @param key a key to set
+     * @param value a new value for the specified key
+     * @param scope the scope for this key (optional if default scope set)
+     * @return *this
+     */
+    virtual IStorage& setBoolean(const std::string& key, bool value, Scope scope = Default) = 0;
 
     /**
      * Remove a key and its corresponding value (if any) for the specified scope or default scope

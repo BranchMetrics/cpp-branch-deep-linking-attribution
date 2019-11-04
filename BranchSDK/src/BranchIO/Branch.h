@@ -55,13 +55,13 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param linkUrl Referring link, or an empty string if none.
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void openSession(const std::string &linkUrl = "", IRequestCallback *callback = NULL);
+    virtual void openSession(const std::string &linkUrl = "", IRequestCallback *callback = nullptr);
 
     /**
      * Close a Branch Session.
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void closeSession(IRequestCallback *callback = NULL);
+    virtual void closeSession(IRequestCallback *callback = nullptr);
 
     /**
      * Send an event to Branch.

@@ -13,11 +13,11 @@ using namespace Poco;
 namespace BranchIO {
 
 RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *clientSession) :
-    _defaultCallback(NULL),
+    _defaultCallback(nullptr),
     _packagingInfo(&packagingInfo),
     _clientSession(clientSession),
     _shuttingDown(false),
-    _currentRequest(NULL) {
+    _currentRequest(nullptr) {
 }
 
 RequestManager::~RequestManager() {
@@ -111,7 +111,7 @@ void RequestManager::run() {
 
             setCurrentRequest(&requestTask->getRequest());
             task->runTask();
-            setCurrentRequest(NULL);
+            setCurrentRequest(nullptr);
         }
     }
     catch (Poco::Exception& e) {
@@ -154,7 +154,7 @@ RequestManager::RequestTask::runTask() {
         APIClientSession clientSession(BRANCH_IO_URL_BASE);
         _manager.setClientSession(&clientSession);
         _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
-        _manager.setClientSession(NULL);
+        _manager.setClientSession(nullptr);
     }
 }
 

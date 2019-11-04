@@ -2,6 +2,7 @@
 
 #include "BranchIO/PropertyManager.h"
 #include "BranchIO/JSONObject.h"
+#include "BranchIO/Util/Storage.h"
 
 using namespace Poco;
 
@@ -20,11 +21,10 @@ PropertyManager::PropertyManager(const PropertyManager &other) :
 
 PropertyManager&
 PropertyManager::operator=(const PropertyManager& other) {
-    return static_cast<PropertyManager&>(JSONObject::operator=(other));
+    return dynamic_cast<PropertyManager&>(JSONObject::operator=(other));
 }
 
-PropertyManager::~PropertyManager() {
-}
+PropertyManager::~PropertyManager() = default;
 
 PropertyManager&
 PropertyManager::addProperty(const char *name, const std::string &value) {
@@ -79,6 +79,49 @@ PropertyManager::clear() {
 
     JSONObject::clear();
     return *this;
+}
+
+std::string
+PropertyManager::getStoragePath(const char *path, const char* key) const {
+    std::string storagePath;
+    if (path != nullptr && *path != 0) {
+        storagePath += path;
+        storagePath += ".";
+    }
+    storagePath += key;
+
+    return storagePath;
+}
+
+std::string
+PropertyManager::loadString(const char *path, const char* key, const std::string &defValue) {
+    std::string value(defValue);
+    if (Storage::instance().getString(getStoragePath(path, key), value)) {
+        addProperty(key, value);
+    }
+
+    return value;
+}
+
+void
+PropertyManager::saveString(const char *path, const char *key, const std::string &value) {
+    Storage::instance().setString(getStoragePath(path, key), value);
+}
+
+bool
+PropertyManager::loadBoolean(const char *path, const char* key, bool defValue) {
+    bool value = defValue;
+    bool result = Storage::instance().getBoolean(getStoragePath(path, key), value);
+    if (result) {
+        addProperty(key, value);
+    }
+
+    return value;
+}
+
+void
+PropertyManager::saveBoolean(const char *path, const char *key, bool value) {
+    Storage::instance().setBoolean(getStoragePath(path, key), value);
 }
 
 bool

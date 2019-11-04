@@ -14,9 +14,9 @@ main(int argc, char **argv) {
 
         const string keyName("session.data");
 
-        storage.set(keyName, "xyz");
+        storage.setString(keyName, "xyz");
         string value;
-        if (!storage.get(keyName, value)) {
+        if (!storage.getString(keyName, value)) {
             BRANCH_LOG_E("Value not found");
             return 1;
         }

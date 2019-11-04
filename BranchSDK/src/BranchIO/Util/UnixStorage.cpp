@@ -38,7 +38,7 @@ UnixStorage::has(const std::string& key, Scope scope) const {
 }
 
 bool
-UnixStorage::get(const std::string& key, std::string& value, Scope scope) const {
+UnixStorage::getString(const std::string& key, std::string& value, Scope scope) const {
     Mutex::ScopedLock _l(_mutex);
     StoragePtr config(getConfig(scope));
     if (!config->has(key)) return false;
@@ -47,9 +47,27 @@ UnixStorage::get(const std::string& key, std::string& value, Scope scope) const 
 }
 
 IStorage&
-UnixStorage::set(const std::string& key, const std::string& value, Scope scope) {
+UnixStorage::setString(const std::string& key, const std::string& value, Scope scope) {
     Mutex::ScopedLock _l(_mutex);
     getConfig(scope)->setString(key, value);
+    flush(scope);
+    return *this;
+}
+
+bool
+UnixStorage::getBoolean(const std::string& key, bool& value, Scope scope) const {
+    Mutex::ScopedLock _l(_mutex);
+    StoragePtr config(getConfig(scope));
+    if (!config->has(key)) return false;
+    value = config->getBool(key, false);
+
+    return true;
+}
+
+IStorage&
+UnixStorage::setBoolean(const std::string& key, bool value, Scope scope) {
+    Mutex::ScopedLock _l(_mutex);
+    getConfig(scope)->setBool(key, value);
     flush(scope);
     return *this;
 }
