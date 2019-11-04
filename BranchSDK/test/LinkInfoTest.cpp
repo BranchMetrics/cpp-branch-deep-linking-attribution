@@ -140,12 +140,12 @@ TEST_F(LinkInfoTest, TestLinkCreate) {
     cout << "TestLinkCreate:\t" << str << endl;
 }
 
-// Test to generate a "Long Link Url" from a LinkInfo
+// Test to create a "Long Link Url" from a LinkInfo
 TEST_F(LinkInfoTest, TestLongLinkCreate) {
     LinkInfo linkInfo;
     initTestLink(linkInfo);
 
-    std::string longUrl = linkInfo.generateLongUrl("key_xxx");
+    std::string longUrl = linkInfo.createLongUrl("key_xxx");
 
     cout << "TestLongLinkCreate:\t" << longUrl << endl;
 }
@@ -166,7 +166,7 @@ TEST_F(LinkInfoTest, TestCreateLinkUrlRequest) {
 }
 
 // We are taking advantage here of the fact that when tracking is disabled,
-// the implementation will short circuit and generate a long link.
+// the implementation will short circuit and create a long link.
 TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
     Branch *branchInstance = BranchIO::Test::createTestInstance();
     IRequestCallback* branchCallback = new BranchIO::Test::TestRequestCallback;
@@ -178,5 +178,5 @@ TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
     LinkInfo linkInfo;
     initTestLink(linkInfo);
 
-    linkInfo.generateUrl(branchInstance, branchCallback);
+    linkInfo.createUrl(branchInstance, branchCallback);
 }

@@ -417,11 +417,11 @@ void shareColor(HWND hwnd)
     linkInfo.addControlParameter("extra_color", ColorRefToInt(_colorBackground));
 
     // Seed the box with a long URL
-    std::string longUrl = linkInfo.generateLongUrl(_branchInstance->getBranchKey());
+    std::string longUrl = linkInfo.createLongUrl(_branchInstance->getBranchKey());
     SetWindowTextA(hwndStatus, longUrl.c_str());
 
-    // Fetch the short URL
-    linkInfo.generateUrl(_branchInstance, _shareCallback);
+    // Create the short URL
+    linkInfo.createUrl(_branchInstance, _shareCallback);
 }
 
 int ColorRefToInt(COLORREF cr) {

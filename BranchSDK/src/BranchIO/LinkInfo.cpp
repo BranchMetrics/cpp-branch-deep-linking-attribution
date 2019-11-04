@@ -49,7 +49,7 @@ class LinkFallback : public IRequestCallback {
 
     virtual void onError(int id, int error, std::string description) {
         // Attempt to create a Long Link
-        std::string longUrl = _context.generateLongUrl(_instance->getBranchKey());
+        std::string longUrl = _context.createLongUrl(_instance->getBranchKey());
 
         JSONObject jsonObject;
         jsonObject.set(JSONKEY_URL, longUrl);
@@ -166,10 +166,8 @@ LinkInfo::setType(int type) {
     return doAddProperty(JSONKEY_TYPE, type);
 }
 
-
-
 void
-LinkInfo::generateUrl(Branch *branchInstance, IRequestCallback *callback) {
+LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
     if (callback == NULL) {
         // Nothing to do as there is no way to provide a result.
         return;
@@ -183,8 +181,8 @@ LinkInfo::generateUrl(Branch *branchInstance, IRequestCallback *callback) {
 }
 
 
-    std::string
-LinkInfo::generateLongUrl(const std::string &branchKey, const std::string &baseUrl) const {
+std::string
+LinkInfo::createLongUrl(const std::string &branchKey, const std::string &baseUrl) const {
     // TODO(andyp): Handle response from setIdentity if there is a base URL in the response
 
     std::string longUrl;

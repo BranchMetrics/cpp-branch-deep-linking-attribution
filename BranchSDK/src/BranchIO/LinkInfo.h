@@ -136,22 +136,22 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
     virtual LinkInfo& setType(int type);
 
     /**
-     * Generate a Branch Url with the given deep link parameters and link properties.
+     * Create a Branch Url with the given deep link parameters and link properties.
      * Note that this will "fall back" to generating a Long URL on error.
      * Note that if the callback is null, no request will be made.
      * @param branchInstance Branch Instance
      * @param callback Callback to fire with success or failure notification.
      */
-     virtual void generateUrl(Branch *branchInstance, IRequestCallback *callback);
+     virtual void createUrl(Branch *branchInstance, IRequestCallback *callback);
 
     /**
-     * Generate a long Url with the given deep link parameters and link properties.
+     * Create a long Url with the given deep link parameters and link properties.
      * Note that this does not require an active network connection.
      * @param branchKey Branch Key.
      * @param baseUrl Non-Default base to use for forming the url
      * @return A url with the given deep link parameters.
      */
-    virtual std::string generateLongUrl(const std::string &branchKey, const std::string &baseUrl = "") const;
+    virtual std::string createLongUrl(const std::string &branchKey, const std::string &baseUrl = "") const;
 
     using PropertyManager::toString;
 
