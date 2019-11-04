@@ -8,6 +8,7 @@
 #include <BranchIO/Event/Event.h>
 #include <Poco/Base64Encoder.h>
 
+#include "TestRequestCallback.h"
 #include "Util.h"
 
 using namespace BranchIO;
@@ -145,7 +146,7 @@ TEST_F(LinkInfoTest, TestLongLinkCreate) {
     LinkInfo linkInfo;
     initTestLink(linkInfo);
 
-    std::string longUrl = linkInfo.createLongUrl("key_xxx");
+    std::string longUrl = linkInfo.createLongUrl(BranchIO::Test::getTestKey());
 
     cout << "TestLongLinkCreate:\t" << longUrl << endl;
 }

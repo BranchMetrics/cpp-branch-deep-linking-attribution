@@ -6,6 +6,8 @@
 #include <gtest/gtest.h>
 #include <BranchIO/PackagingInfo.h>
 
+#include "Util.h"
+
 using namespace std;
 using namespace BranchIO;
 using namespace testing;
@@ -16,7 +18,7 @@ class EventTest : public ::testing::Test
 
 TEST_F(EventTest, TestCreateEvent)
 {
-    PackagingInfo packagingInfo("key_live_xxx");
+    PackagingInfo packagingInfo(BranchIO::Test::getTestKey());
     StandardEvent event(StandardEvent::Type::PURCHASE);
 
     event.setAdType(Event::AdType::NATIVE);

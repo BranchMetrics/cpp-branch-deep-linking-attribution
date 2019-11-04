@@ -2,64 +2,29 @@
 #define __BRANCHIO_TEST_UTIL_H__
 
 #include <BranchIO/Branch.h>
-#include <BranchIO/IRequestCallback.h>
-#include <BranchIO/Util/Log.h>
-
-#define TEST_KEY "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap"
 
 namespace BranchIO {
 namespace Test {
 
-    /**
-     * @return a key suitable for testing
-     */
-    std::string getTestKey() {
-        return TEST_KEY;
-    }
+/**
+ * @return a key suitable for testing
+ */
+std::string getTestKey();
 
-    /**
-    * Utility function to invoke the callback when send is called on a mock.
-    * When calling:
-    *   EXPECT_CALL(*mRequest1, send(_)).Times(1).WillOnce(Invoke(respondToRequest));
-    * The argument to send (the callback, matched by the _) will be passed to this
-    * function.
-    */
-    void respondToRequest(JSONObject &jsonResponse, IRequestCallback &callback) {
-        callback.onSuccess(0, jsonResponse);
-    }
+/**
+* Utility function to invoke the callback when send is called on a mock.
+* When calling:
+*   EXPECT_CALL(*mRequest1, send(_)).Times(1).WillOnce(Invoke(respondToRequest));
+* The argument to send (the callback, matched by the _) will be passed to this
+* function.
+*/
+void respondToRequest(JSONObject &jsonResponse, IRequestCallback &callback);
 
-    /**
-    * Utility function to create a Branch Instance to be used for testing only.
-    * @return a new Branch Instance
-    */
-    Branch *createTestInstance() {
-        AppInfo _appInfo;
-        _appInfo.setAppVersion("1.0")
-        .setCountryCode("US")
-        .setDeveloperIdentity("Branch Metrics")
-        .setEnvironment("TEST_APP")
-        .setLanguage("en");
-
-        return BranchIO::Branch::create(TEST_KEY, &_appInfo);
-    }
-
-    /**
-    * Basic Request Callback class to simply log responses.
-    */
-    class TestRequestCallback : public BranchIO::IRequestCallback {
-    protected:
-        virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse) {
-            BRANCH_LOG_D("Callback Success!  Response: " << jsonResponse.stringify().c_str());
-        }
-
-        virtual void onError(int id, int error, std::string description) {
-            BRANCH_LOG_D("Callback Error!" << description.c_str());
-        }
-
-        virtual void onStatus(int id, int error, std::string description) {
-            BRANCH_LOG_D("Status Updated:" << description.c_str());
-        }
-    };
+/**
+* Utility function to create a Branch Instance to be used for testing only.
+* @return a new Branch Instance
+*/
+Branch *createTestInstance();
 
 }  // namespace Test
 }  // namespace BranchIO
