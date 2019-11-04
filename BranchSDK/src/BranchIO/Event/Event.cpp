@@ -31,7 +31,7 @@ Event::Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSO
     mEventName(eventName),
     mCustomData(nullptr) {
 
-    if (jsonPtr.get() != nullptr) {
+    if (jsonPtr.get()) {
         // Copy the key/values
         for (JSONObject::ConstIterator it = jsonPtr->begin(); it != jsonPtr->end(); ++it) {
             set(it->first, it->second);

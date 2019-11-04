@@ -84,7 +84,7 @@ PropertyManager::clear() {
 std::string
 PropertyManager::getStoragePath(const char *path, const char* key) const {
     std::string storagePath;
-    if (path != nullptr && *path != 0) {
+    if (path && *path != 0) {
         storagePath += path;
         storagePath += ".";
     }
