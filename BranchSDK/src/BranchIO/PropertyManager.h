@@ -125,6 +125,11 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      */
     virtual bool has(const char *name) const;
 
+    /**
+     * @return true when the group is empty.
+     */
+    virtual bool isEmpty() const;
+
  private:
     mutable Poco::Mutex _mutex;
 };

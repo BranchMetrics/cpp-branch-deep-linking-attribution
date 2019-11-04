@@ -7,7 +7,7 @@
 #include <BranchIO/IRequestCallback.h>
 #include <BranchIO/Util/Log.h>
 
-#define TEST_KEY "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap"
+#define TEST_KEY "key_test_xxx"
 
 namespace BranchIO {
 namespace Test {

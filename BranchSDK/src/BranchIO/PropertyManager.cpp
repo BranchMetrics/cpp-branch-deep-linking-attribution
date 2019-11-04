@@ -96,6 +96,13 @@ PropertyManager::has(const char *name) const {
     return JSONObject::has(name);
 }
 
+bool
+PropertyManager::isEmpty() const {
+    Mutex::ScopedLock _l(_mutex);
+
+    return (JSONObject::size() == 0);
+}
+
 std::string
 PropertyManager::getStringProperty(const char *name, const std::string &defValue) const {
     Mutex::ScopedLock _l(_mutex);

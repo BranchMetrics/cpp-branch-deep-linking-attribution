@@ -181,3 +181,10 @@ TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
 
     linkInfo.createUrl(branchInstance, branchCallback);
 }
+
+TEST_F(LinkInfoTest, TestCreateLinkNoControlParams) {
+    LinkInfo linkInfo;
+    std::string url = linkInfo.createLongUrl(BranchIO::Test::getTestKey());
+
+    ASSERT_GT(url.size(), 0);
+}
