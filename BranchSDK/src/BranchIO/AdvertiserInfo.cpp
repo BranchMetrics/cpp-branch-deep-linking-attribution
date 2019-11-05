@@ -1,12 +1,17 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
 #include "BranchIO/AdvertiserInfo.h"
-#include "Defines.h"
+#include "BranchIO/Defines.h"
+#include "BranchIO/Util/Storage.h"
 
 namespace BranchIO {
 
+static const char *const ADVERTISERSTORAGE = "advertiser";
+static const char *const TRACKING_PREFERENCE_KEY = "trackingDisabled";
+
 AdvertiserInfo::AdvertiserInfo() : PropertyManager(), trackingDisabled(false), trackingLimited(false) {
-    trackingDisabled = loadBoolean(AdvertiserStorage, TRACKING_PREFERENCE_KEY, false);
+    trackingDisabled =
+            Storage::instance().getBoolean(getPath(ADVERTISERSTORAGE, TRACKING_PREFERENCE_KEY));
 }
 
 AdvertiserInfo::~AdvertiserInfo() = default;
@@ -20,14 +25,14 @@ AdvertiserInfo::addId(AdIdType type, const std::string &value) {
 AdvertiserInfo &
 AdvertiserInfo::disableTracking() {
     trackingDisabled = true;
-    saveBoolean(AdvertiserStorage, TRACKING_PREFERENCE_KEY, true);
+    Storage::instance().setBoolean(getPath(ADVERTISERSTORAGE, TRACKING_PREFERENCE_KEY), true);
     return *this;
 }
 
 AdvertiserInfo &
 AdvertiserInfo::enableTracking() {
     trackingDisabled = false;
-    saveBoolean(AdvertiserStorage, TRACKING_PREFERENCE_KEY, false);
+    Storage::instance().setBoolean(getPath(ADVERTISERSTORAGE, TRACKING_PREFERENCE_KEY), false);
     return *this;
 }
 

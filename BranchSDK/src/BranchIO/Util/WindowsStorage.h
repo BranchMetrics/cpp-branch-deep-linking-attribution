@@ -51,7 +51,7 @@ class WindowsStorage : public virtual IStorage {
     /**
      * @copydoc IStorage::getString
      */
-    bool getString(const std::string& key, std::string& value, Scope scope = Default) const;
+    std::string getString(const std::string& key, const std::string& defaultValue = "", Scope scope = Default) const;
 
     /**
      * @copydoc IStorage::setString
@@ -61,7 +61,7 @@ class WindowsStorage : public virtual IStorage {
     /**
      * @copydoc IStorage::getBoolean
      */
-    bool getBoolean(const std::string& key, bool& value, Scope scope = Default) const;
+    bool getBoolean(const std::string& key, bool defaultValue = false, Scope scope = Default) const;
 
     /**
      * @copydoc IStorage::setBoolean

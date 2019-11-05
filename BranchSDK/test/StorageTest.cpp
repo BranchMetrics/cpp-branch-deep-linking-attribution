@@ -32,10 +32,10 @@ TEST_F(StorageTest, TestAddString)
 {
     Storage::instance().setString(_testStringKey, _testStringValue);
 
-    std::string result;
-    bool found = Storage::instance().getString(_testStringKey, result);
-
+    bool found = Storage::instance().has(_testStringKey);
     ASSERT_TRUE(found);
+
+    std::string result = Storage::instance().getString(_testStringKey);
     ASSERT_EQ(_testStringValue, result);
 }
 
@@ -43,21 +43,37 @@ TEST_F(StorageTest, TestAddBoolean)
 {
     Storage::instance().setBoolean(_testBooleanKey, _testBooleanValue);
 
-    bool result = false;
-    bool found = Storage::instance().getBoolean(_testBooleanKey, result);
-
+    bool found = Storage::instance().has(_testBooleanKey);
     ASSERT_TRUE(found);
+
+    bool result = Storage::instance().getBoolean(_testBooleanKey);
     ASSERT_EQ(_testBooleanValue, result);
+}
+
+TEST_F(StorageTest, TestDefaultBoolean)
+{
+    bool result = Storage::instance().getBoolean(_testBooleanKey);
+    ASSERT_FALSE(result);
+
+    result = Storage::instance().getBoolean(_testBooleanKey, true);
+    ASSERT_TRUE(result);
+}
+
+TEST_F(StorageTest, TestDefaultString)
+{
+    std::string result = Storage::instance().getString(_testStringKey);
+    ASSERT_TRUE(result.empty());
+
+    result = Storage::instance().getString(_testStringKey, _testStringValue);
+    ASSERT_EQ(_testStringValue, result);
 }
 
 // Test loading values that are not there
 TEST_F(StorageTest, TestNotFound) {
-    std::string resultString;
-    bool found = Storage::instance().getString(_testStringKey, resultString);
+    bool found = Storage::instance().has(_testStringKey);
     ASSERT_FALSE(found);
 
-    bool resultBool = true;
-    found = Storage::instance().getBoolean(_testBooleanKey, resultBool);
+    found = Storage::instance().has(_testBooleanKey);
     ASSERT_FALSE(found);
 }
 

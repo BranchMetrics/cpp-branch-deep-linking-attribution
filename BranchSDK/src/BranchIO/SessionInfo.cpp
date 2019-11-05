@@ -2,21 +2,29 @@
 
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/Defines.h"
+#include "BranchIO/Util/Storage.h"
 
 using std::string;
 
 namespace BranchIO {
 
+const char *const SESSIONSTORAGE = "session";
+
 SessionInfo::SessionInfo() {
     // Load these fields from storage if present.
-    loadString(SessionStorage, Defines::JSONKEY_SESSION_FINGERPRINT, "");
+    std::string deviceFingerprint =
+            Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT));
+
+    if (!deviceFingerprint.empty()) {
+        doAddProperty(Defines::JSONKEY_SESSION_FINGERPRINT, deviceFingerprint);
+    }
 }
 
 SessionInfo::~SessionInfo() = default;
 
 SessionInfo&
 SessionInfo::setFingerprintId(const std::string &deviceFingerprint) {
-    saveString(SessionStorage, Defines::JSONKEY_SESSION_FINGERPRINT, deviceFingerprint);
+    Storage::instance().setString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT), deviceFingerprint);
     return doAddProperty(Defines::JSONKEY_SESSION_FINGERPRINT, deviceFingerprint);
 }
 

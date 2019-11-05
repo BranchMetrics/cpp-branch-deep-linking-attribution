@@ -111,44 +111,20 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
     std::string getStringProperty(const char *name);
 
     /**
-     * Load a string property from storage.
-     * @param path Path from which this key will be loaded
-     * @param key Key to load
-     * @param defValue Default value if not found
-     * @return String from storage, or default value if not found.
-     */
-    std::string loadString(const char *path, const char* key, const std::string &defValue);
-
-    /**
-     * Save a property to storage.
-     * @param path Path to which this key will be saved
-     * @param key Key name
-     * @param value Key value
-     */
-    void saveString(const char *path, const char *key, const std::string &value);
-
-    /**
-     * Load a string property from storage.
-     * @param path Path from which this key will be loaded
-     * @param key Key to load
-     * @param defValue bool value from storage, or default value if not found.
-     * @return true if the value was found
-     */
-    bool loadBoolean(const char *path, const char* key, bool defValue);
-
-    /**
-     * Save a property to storage.
-     * @param path Path to which this key will be saved
-     * @param key Key name
-     * @param value Key value
-     */
-    void saveBoolean(const char *path, const char *key, bool value);
-
-    /**
      * @param name Key Value
      * @return true when the given property exists
      */
     virtual bool has(const char *name) const;
+
+ protected:
+    /**
+     * Generate a path suitable for use as a complex key.
+     * For example getPath("session", "state") might return session.state
+     * @param base Base of the path
+     * @param key Key
+     * @return a string combination of the base and key
+     */
+    static std::string getPath(const std::string& base, const std::string &key);
 
  private:
     std::string getStoragePath(const char *path, const char* key) const;

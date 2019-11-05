@@ -109,16 +109,15 @@ WindowsStorage::has(const std::string& key, Scope scope) const {
     return WinRegistryKey(registryKey).exists(registryPath);
 }
 
-bool
-WindowsStorage::getString(const std::string& key, std::string& value, Scope scope) const {
+std::string
+WindowsStorage::getString(const std::string& key, const std::string& defaultValue, Scope scope) const {
     string registryKey, registryPath;
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    if (!has(key, scope)) return false;
+    if (!has(key, scope)) return defaultValue;
 
-    value = WinRegistryKey(registryKey).getString(registryPath);
-    return true;
+    return WinRegistryKey(registryKey).getString(registryPath);
 }
 
 IStorage&
@@ -133,17 +132,15 @@ WindowsStorage::setString(const std::string& key, const std::string& value, Scop
 }
 
 bool
-WindowsStorage::getBoolean(const std::string& key, bool& value, Scope scope) const {
+WindowsStorage::getBoolean(const std::string& key, bool defaultValue, Scope scope) const {
     string registryKey, registryPath;
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    if (!has(key, scope)) return false;
+    if (!has(key, scope)) return defaultValue;
 
     int v = WinRegistryKey(registryKey).getInt(registryPath);
-    value = (v == 0 ? false : true);
-
-    return true;
+    return (v == 0 ? false : true);
 }
 
 IStorage&

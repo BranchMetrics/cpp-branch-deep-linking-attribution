@@ -16,11 +16,12 @@ main(int argc, char **argv) {
 
         storage.setString(keyName, "xyz");
         string value;
-        if (!storage.getString(keyName, value)) {
+        if (!storage.has(keyName)) {
             BRANCH_LOG_E("Value not found");
             return 1;
         }
 
+        value = storage.getString(keyName);
         BRANCH_LOG_I("value for key " << keyName << " is \"" << value << "\"");
 
         storage.remove(keyName);

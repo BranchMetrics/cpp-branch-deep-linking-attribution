@@ -81,49 +81,6 @@ PropertyManager::clear() {
     return *this;
 }
 
-std::string
-PropertyManager::getStoragePath(const char *path, const char* key) const {
-    std::string storagePath;
-    if (path && *path != 0) {
-        storagePath += path;
-        storagePath += ".";
-    }
-    storagePath += key;
-
-    return storagePath;
-}
-
-std::string
-PropertyManager::loadString(const char *path, const char* key, const std::string &defValue) {
-    std::string value(defValue);
-    if (Storage::instance().getString(getStoragePath(path, key), value)) {
-        addProperty(key, value);
-    }
-
-    return value;
-}
-
-void
-PropertyManager::saveString(const char *path, const char *key, const std::string &value) {
-    Storage::instance().setString(getStoragePath(path, key), value);
-}
-
-bool
-PropertyManager::loadBoolean(const char *path, const char* key, bool defValue) {
-    bool value = defValue;
-    bool result = Storage::instance().getBoolean(getStoragePath(path, key), value);
-    if (result) {
-        addProperty(key, value);
-    }
-
-    return value;
-}
-
-void
-PropertyManager::saveBoolean(const char *path, const char *key, bool value) {
-    Storage::instance().setBoolean(getStoragePath(path, key), value);
-}
-
 bool
 PropertyManager::has(const char *name) const {
     Mutex::ScopedLock _l(_mutex);
@@ -153,5 +110,17 @@ PropertyManager::toJSON() const {
     Mutex::ScopedLock _l(_mutex);
     return *this;
 }
+
+std::string
+PropertyManager::getPath(const std::string& base, const std::string &key)  {
+    std::string storagePath(base);
+    if (!base.empty()) {
+        storagePath += ".";
+    }
+    storagePath += key;
+
+    return storagePath;
+}
+
 
 }  // namespace BranchIO

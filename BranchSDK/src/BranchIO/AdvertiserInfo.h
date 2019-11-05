@@ -82,9 +82,6 @@ class BRANCHIO_DLL_EXPORT AdvertiserInfo : public PropertyManager {
     bool trackingDisabled;
     bool trackingLimited;
 
-    static constexpr const char *const AdvertiserStorage = "advertiser";
-    static constexpr const char *const TRACKING_PREFERENCE_KEY = "trackingDisabled";
-
     static const char *stringify(AdvertiserInfo::AdIdType idType);
 };
 

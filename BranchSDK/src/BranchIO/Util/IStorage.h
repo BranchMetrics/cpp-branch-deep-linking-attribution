@@ -49,13 +49,13 @@ struct IStorage {
     virtual bool has(const std::string& key, Scope scope = Default) const = 0;
 
     /**
-     * Get the current value of a key, if any
+     * Get the current value of a key.  If not found, return the defaultValue.
      * @param key a key to retrieve
-     * @param value a writable string in which to store the value if found
+     * @param defaultValue a string to use if the key is not found
      * @param scope the scope for this key (optional if default scope set)
-     * @return true if found, false otherwise
+     * @return the value of the key if found, the defaultValue otherwise
      */
-    virtual bool getString(const std::string& key, std::string& value, Scope scope = Default) const = 0;
+    virtual std::string getString(const std::string& key, const std::string& defaultValue = "", Scope scope = Default) const = 0;
 
     /**
      * Set a new value for the specified key and scope (or default scope)
@@ -67,13 +67,13 @@ struct IStorage {
     virtual IStorage& setString(const std::string& key, const std::string& value, Scope scope = Default) = 0;
 
     /**
-     * Get the current boolean value of a key, if any
+     * Get the current value of a key.  If not found, return the defaultValue.
      * @param key a key to retrieve
-     * @param value a writable bool in which to store the value if found
+     * @param defaultValue a bool to use if the key is not found
      * @param scope the scope for this key (optional if default scope set)
-     * @return true if found, false otherwise
+     * @return the value of the key if found, the defaultValue otherwise
      */
-    virtual bool getBoolean(const std::string& key, bool& value, Scope scope = Default) const = 0;
+    virtual bool getBoolean(const std::string& key, bool defaultValue = false, Scope scope = Default) const = 0;
 
     /**
      * Set a new value for the specified key and scope (or default scope)
