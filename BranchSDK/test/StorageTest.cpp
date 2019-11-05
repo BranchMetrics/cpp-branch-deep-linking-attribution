@@ -69,7 +69,7 @@ TEST_F(StorageTest, TestDefaultString)
 }
 
 // Test loading values that are not there
-TEST_F(StorageTest, TestNotFound) {
+TEST_F(StorageTest, TestKeyNotFound) {
     bool found = Storage::instance().has(_testStringKey);
     ASSERT_FALSE(found);
 
