@@ -84,5 +84,5 @@ TEST_F(StorageTest, TestRemove) {
     Storage::instance().remove(_testStringKey);
     Storage::instance().remove(_testBooleanKey);
 
-    StorageTest_TestNotFound_Test();
+    StorageTest_TestKeyNotFound_Test();
 }
