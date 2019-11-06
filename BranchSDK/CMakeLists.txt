@@ -13,6 +13,7 @@ set(BRANCH_SOURCE "")
 # i.e. exclude Unix files from Windows builds, and vice versa.
 # TODO(jdee): Clean this up
 if(${CMAKE_SYSTEM_NAME} MATCHES "Win")
+    add_definitions(-DWIN32)
     foreach(FILE ${ALL_BRANCH_SOURCE})
         if (NOT ${FILE} MATCHES "Unix")
             set(BRANCH_SOURCE ${BRANCH_SOURCE} ${FILE})
