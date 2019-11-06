@@ -72,9 +72,23 @@ JSONObject::operator += (const JSONObject &rhs) {
 }
 
 void
-JSONObject::set(const std::string& key, Ptr ptr) {
-    Object& object(*ptr.get());
-    Object::set(key, object);
+JSONObject::set(const std::string& key, JSONObject::Ptr ptr) {
+    if (ptr.isNull()) {
+        Object::remove(key);
+    } else {
+        Object &object(*ptr.get());
+        Object::set(key, object);
+    }
+}
+
+void
+JSONObject::set(const std::string& key, Poco::JSON::Array::Ptr ptr) {
+    if (ptr.isNull()) {
+        Object::remove(key);
+    } else {
+        JSON::Array &array(*ptr.get());
+        Object::set(key, array);
+    }
 }
 
 }  // namespace BranchIO

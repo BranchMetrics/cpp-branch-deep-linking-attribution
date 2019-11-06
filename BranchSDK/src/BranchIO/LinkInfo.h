@@ -12,7 +12,7 @@ namespace BranchIO {
 /**
  * Link Information.
  */
-class BRANCHIO_DLL_EXPORT LinkInfo : public Event {
+class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
  public:
     /**
      * An Integer value indicating the calculation type of the referral code. In this case,
@@ -135,6 +135,24 @@ class BRANCHIO_DLL_EXPORT LinkInfo : public Event {
      */
     virtual LinkInfo& setType(int type);
 
+    /**
+     * Create a Branch Url with the given deep link parameters and link properties.
+     * Note that this will "fall back" to generating a Long URL on error.
+     * Note that if the callback is null, no request will be made.
+     * @param branchInstance Branch Instance
+     * @param callback Callback to fire with success or failure notification.
+     */
+     virtual void createUrl(Branch *branchInstance, IRequestCallback *callback);
+
+    /**
+     * Create a long Url with the given deep link parameters and link properties.
+     * Note that this does not require an active network connection.
+     * @param branchKey Branch Key.
+     * @param baseUrl Non-Default base to use for forming the url
+     * @return A url with the given deep link parameters.
+     */
+    virtual std::string createLongUrl(const std::string &branchKey, const std::string &baseUrl = "") const;
+
     using PropertyManager::toString;
 
  private:
@@ -156,7 +174,16 @@ class BRANCHIO_DLL_EXPORT LinkInfo : public Event {
     LinkInfo& doAddProperty(const char *name, int value);
 
  private:
+    std::string getAlias() const;
+    std::string getCampaign() const;
+    std::string getChannel() const;
+    std::string getFeature() const;
+    std::string getStage() const;
+
+
+ private:
     PropertyManager _controlParams;
+    JSONArray _tagParams;
 };
 
 }  // namespace BranchIO
