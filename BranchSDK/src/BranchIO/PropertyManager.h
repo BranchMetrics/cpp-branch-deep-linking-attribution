@@ -128,6 +128,11 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      */
     virtual bool has(const char *name) const;
 
+    /**
+     * @return true when the group is empty.
+     */
+    virtual bool isEmpty() const;
+
  protected:
     /**
      * Generate a path suitable for use as a complex key.
@@ -137,11 +142,6 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @return a string combination of the base and key
      */
     static std::string getPath(const std::string& base, const std::string &key);
-
-    /**
-     * @return true when the group is empty.
-     */
-    virtual bool isEmpty() const;
 
  private:
     std::string getStoragePath(const char *path, const char* key) const;
