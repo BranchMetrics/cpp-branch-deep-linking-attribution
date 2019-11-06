@@ -12,7 +12,7 @@ using namespace Poco::Util;
 
 namespace BranchIO {
 
-UnixStorage&
+IStorage&
 UnixStorage::instance() {
     static UnixStorage _instance;
     return _instance;

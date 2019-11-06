@@ -13,7 +13,7 @@ using namespace Poco::Util;
 
 namespace BranchIO {
 
-WindowsStorage&
+IStorage&
 WindowsStorage::instance() {
     static WindowsStorage _instance;
     return _instance;

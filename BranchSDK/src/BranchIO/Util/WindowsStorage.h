@@ -31,7 +31,7 @@ class WindowsStorage : public virtual IStorage {
      * Singleton accessor
      * @return the single WindowsStorage instance
      */
-    static WindowsStorage& instance();
+    static IStorage& instance();
 
     /**
      * @copydoc IStorage::getDefaultScope

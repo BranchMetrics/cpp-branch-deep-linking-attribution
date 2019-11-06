@@ -9,7 +9,7 @@ using namespace BranchIO;
 int
 main(int argc, char **argv) {
     try {
-        Storage& storage(Storage::instance());
+        IStorage& storage(Storage::instance());
         storage.setDefaultScope(Storage::User);
 
         const string keyName("session.data");

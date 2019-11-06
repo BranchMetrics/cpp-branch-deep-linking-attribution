@@ -32,7 +32,7 @@ class UnixStorage : public virtual IStorage {
      * Singleton accessor
      * @return the single UnixStorage instance
      */
-    static UnixStorage& instance();
+    static IStorage& instance();
 
     /**
      * @copydoc IStorage::getDefaultScope

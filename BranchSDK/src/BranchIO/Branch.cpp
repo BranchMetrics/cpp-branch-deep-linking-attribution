@@ -126,11 +126,11 @@ Branch *Branch::create(const std::string &branchKey, AppInfo *pInfo) {
      *
      * Storage::instance().set(key, value, Storage::Host);
      */
-    Storage& storage(Storage::instance());
+    IStorage& storage(Storage::instance());
     storage.setDefaultScope(Storage::User);
 
     // operator new does not return NULL. It throws std::bad_alloc in case of
-    // faliure. no need to check this pointer.
+    // failure. no need to check this pointer.
     if (pInfo) {
         instance->_packagingInfo.getAppInfo().addProperties(pInfo->toJSON());
     }
