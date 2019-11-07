@@ -77,7 +77,7 @@ TEST_F(StorageTest, TestKeyNotFound) {
     ASSERT_FALSE(found);
 }
 
-TEST_F(StorageTest, TestRemove) {
+TEST_F(StorageTest, TestAddRemove) {
     StorageTest_TestAddString_Test();
     StorageTest_TestAddBoolean_Test();
 
@@ -85,4 +85,19 @@ TEST_F(StorageTest, TestRemove) {
     Storage::instance().remove(_testBooleanKey);
 
     StorageTest_TestKeyNotFound_Test();
+}
+
+TEST_F(StorageTest, TestDefaultScope) {
+    Storage::instance().setDefaultScope(Storage::Default);
+    StorageTest_TestAddRemove_Test();
+}
+
+TEST_F(StorageTest, TestHostScope) {
+    Storage::instance().setDefaultScope(Storage::Host);
+    StorageTest_TestAddRemove_Test();
+}
+
+TEST_F(StorageTest, TestUserScope) {
+    Storage::instance().setDefaultScope(Storage::User);
+    StorageTest_TestAddRemove_Test();
 }
