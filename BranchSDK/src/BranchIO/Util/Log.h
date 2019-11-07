@@ -55,7 +55,7 @@ class BRANCHIO_DLL_EXPORT Log {
      * @param file (optional) the file from which the message was logged (set by BRANCH_LOG_E macro)
      * @param line (optional) the line from which the message was logged (set by BRANCH_LOG_E macro)
      */
-    static void e(const std::string& message, const char* func = NULL, const char* file = NULL, int line = 0) {
+    static void e(const std::string& message, const char* func = nullptr, const char* file = nullptr, int line = 0) {
         instance().error(message, func, file, line);
     }
 
@@ -66,7 +66,7 @@ class BRANCHIO_DLL_EXPORT Log {
      * @param file (optional) the file from which the message was logged (set by BRANCH_LOG_W macro)
      * @param line (optional) the line from which the message was logged (set by BRANCH_LOG_W macro)
      */
-    static void w(const std::string& message, const char* func = NULL, const char* file = NULL, int line = 0) {
+    static void w(const std::string& message, const char* func = nullptr, const char* file = nullptr, int line = 0) {
         instance().warning(message, func, file, line);
     }
 
@@ -77,7 +77,7 @@ class BRANCHIO_DLL_EXPORT Log {
      * @param file (optional) the file from which the message was logged (set by BRANCH_LOG_I macro)
      * @param line (optional) the line from which the message was logged (set by BRANCH_LOG_I macro)
      */
-    static void i(const std::string& message, const char* func = NULL, const char* file = NULL, int line = 0) {
+    static void i(const std::string& message, const char* func = nullptr, const char* file = nullptr, int line = 0) {
         instance().info(message, func, file, line);
     }
 
@@ -88,7 +88,7 @@ class BRANCHIO_DLL_EXPORT Log {
      * @param file (optional) the file from which the message was logged (set by BRANCH_LOG_D macro)
      * @param line (optional) the line from which the message was logged (set by BRANCH_LOG_D macro)
      */
-    static void d(const std::string& message, const char* func = NULL, const char* file = NULL, int line = 0) {
+    static void d(const std::string& message, const char* func = nullptr, const char* file = nullptr, int line = 0) {
         instance().debug(message, func, file, line);
     }
 
@@ -99,7 +99,7 @@ class BRANCHIO_DLL_EXPORT Log {
      * @param file (optional) the file from which the message was logged (set by BRANCH_LOG_V macro)
      * @param line (optional) the line from which the message was logged (set by BRANCH_LOG_V macro)
      */
-    static void v(const std::string& message, const char* func = NULL, const char* file = NULL, int line = 0) {
+    static void v(const std::string& message, const char* func = nullptr, const char* file = nullptr, int line = 0) {
         instance().verbose(message, func, file, line);
     }
 

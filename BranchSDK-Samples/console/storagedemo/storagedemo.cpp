@@ -9,18 +9,19 @@ using namespace BranchIO;
 int
 main(int argc, char **argv) {
     try {
-        Storage& storage(Storage::instance());
+        IStorage& storage(Storage::instance());
         storage.setDefaultScope(Storage::User);
 
         const string keyName("session.data");
 
-        storage.set(keyName, "xyz");
+        storage.setString(keyName, "xyz");
         string value;
-        if (!storage.get(keyName, value)) {
+        if (!storage.has(keyName)) {
             BRANCH_LOG_E("Value not found");
             return 1;
         }
 
+        value = storage.getString(keyName);
         BRANCH_LOG_I("value for key " << keyName << " is \"" << value << "\"");
 
         storage.remove(keyName);

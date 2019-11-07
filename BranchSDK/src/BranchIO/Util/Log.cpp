@@ -240,7 +240,7 @@ Log::getDefaultLogLevel() {
 #endif
             );  // NOLINT(whitespace/parens)
 
-    if (envValue == nullptr) return DefaultLevel;
+    if (!envValue) return DefaultLevel;
 
     try {
         Level level;
@@ -259,7 +259,7 @@ Log::getDefaultLogLevel() {
 std::string
 Log::getDefaultLogFile() {
     const char* const envValue(getenv("BRANCHIO_LOG_FILE"));
-    if (envValue == nullptr) return string();
+    if (!envValue) return string();
     return envValue;
 }
 

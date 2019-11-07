@@ -29,9 +29,9 @@ const char *AD_TYPE_NATIVE = "NATIVE";
 Event::Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr) :
     mAPIEndpoint(apiEndpoint),
     mEventName(eventName),
-    mCustomData(NULL) {
+    mCustomData(nullptr) {
 
-    if (jsonPtr.get() != NULL) {
+    if (jsonPtr.get()) {
         // Copy the key/values
         for (JSONObject::ConstIterator it = jsonPtr->begin(); it != jsonPtr->end(); ++it) {
             set(it->first, it->second);
