@@ -151,7 +151,7 @@ class BRANCHIO_DLL_EXPORT Event : public PropertyManager {
      * @param eventName The "Name" of the event
      * @param jsonPtr Base JSON to start with
      */
-    Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr = NULL);
+    Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr = nullptr);
 
     /**
      * Add a Raw Event Property Name and Value

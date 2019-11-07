@@ -28,7 +28,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      * @param packagingInfo reference to a source of packaging information
      * @param clientSession existing client session, or NULL to start a new session
      */
-    explicit RequestManager(IPackagingInfo& packagingInfo, IClientSession* clientSession = NULL);
+    explicit RequestManager(IPackagingInfo& packagingInfo, IClientSession* clientSession = nullptr);
     ~RequestManager();
 
     /**
@@ -59,7 +59,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      */
     RequestManager& enqueue(
         const Event& event,
-        IRequestCallback* callback = NULL,
+        IRequestCallback* callback = nullptr,
         bool urgent = false);
 
     /**

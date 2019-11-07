@@ -62,7 +62,7 @@ class SessionCallback : public IRequestCallback {
 
     virtual void onSuccess(int id, JSONObject jsonResponse) {
         // @todo(andyp): Update Branch State
-        if (_context != NULL) {
+        if (_context) {
             // If keys exist, we set them on the Session Context.
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
@@ -87,19 +87,19 @@ class SessionCallback : public IRequestCallback {
         }
 
         // Call the original callback
-        if (_parentCallback != NULL) {
+        if (_parentCallback) {
             _parentCallback->onSuccess(id, jsonResponse);
         }
     }
 
     virtual void onError(int id, int error, std::string description) {
-        if (_parentCallback != NULL) {
+        if (_parentCallback) {
             _parentCallback->onError(id, error, description);
         }
     }
 
     virtual void onStatus(int id, int error, std::string description) {
-        if (_parentCallback != NULL) {
+        if (_parentCallback) {
             _parentCallback->onStatus(id, error, description);
         }
     }
@@ -110,7 +110,7 @@ class SessionCallback : public IRequestCallback {
 };
 
 Branch *Branch::create(const std::string &branchKey, AppInfo *pInfo) {
-    Branch *instance = NULL;
+    Branch *instance = nullptr;
 #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
     instance = new BranchUnix();
 #elif defined(_WIN64) || defined(_WIN32)
@@ -126,12 +126,12 @@ Branch *Branch::create(const std::string &branchKey, AppInfo *pInfo) {
      *
      * Storage::instance().set(key, value, Storage::Host);
      */
-    Storage& storage(Storage::instance());
+    IStorage& storage(Storage::instance());
     storage.setDefaultScope(Storage::User);
 
     // operator new does not return NULL. It throws std::bad_alloc in case of
-    // faliure. no need to check this pointer.
-    if (pInfo != NULL) {
+    // failure. no need to check this pointer.
+    if (pInfo) {
         instance->_packagingInfo.getAppInfo().addProperties(pInfo->toJSON());
     }
 
@@ -170,7 +170,7 @@ Branch::closeSession(IRequestCallback *callback) {
 void
 Branch::sendEvent(const Event &event, IRequestCallback *callback) {
     if (getAdvertiserInfo().isTrackingDisabled()) {
-        if (callback != NULL) {
+        if (callback) {
             callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");
             callback->onError(0, 0, "Tracking is disabled");
         }
@@ -186,7 +186,7 @@ Branch::setIdentity(const std::string& userId, IRequestCallback *callback) {
         IdentityLoginEvent event(userId);
         sendEvent(event, callback);
     } else {
-        if (callback != NULL) {
+        if (callback) {
             callback->onError(0, 0, "No Session has been started.");
         }
     }
@@ -198,7 +198,7 @@ Branch::logout(IRequestCallback *callback) {
         IdentityLogoutEvent event;
         sendEvent(event, callback);
     } else {
-        if (callback != NULL) {
+        if (callback) {
             callback->onError(0, 0, "No Session has been started.");
         }
     }

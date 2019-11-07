@@ -9,8 +9,11 @@ include_directories(src)
 file(GLOB ALL_BRANCH_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/**/*.cpp)
 set(BRANCH_SOURCE "")
 
+# Scan all file names looking specifically for "Windows" or "Unix", and exclude from the other type of build.
+# i.e. exclude Unix files from Windows builds, and vice versa.
 # TODO(jdee): Clean this up
 if(${CMAKE_SYSTEM_NAME} MATCHES "Win")
+    add_definitions(-DWIN32)
     foreach(FILE ${ALL_BRANCH_SOURCE})
         if (NOT ${FILE} MATCHES "Unix")
             set(BRANCH_SOURCE ${BRANCH_SOURCE} ${FILE})

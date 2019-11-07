@@ -1,5 +1,5 @@
 [requires]
-BranchIO/0.1.0@branch/testing
+BranchIO/0.2.0@branch/testing
 
 [options]
 # master is the default. Uncomment and modify to use a different branch

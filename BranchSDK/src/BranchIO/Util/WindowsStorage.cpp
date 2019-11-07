@@ -13,7 +13,7 @@ using namespace Poco::Util;
 
 namespace BranchIO {
 
-WindowsStorage&
+IStorage&
 WindowsStorage::instance() {
     static WindowsStorage _instance;
     return _instance;
@@ -53,25 +53,29 @@ WindowsStorage::getRegistryKeyAndPath(
         return false;  // in case int case to Scope enum
     }
 
-    string regKey, regPath;
-    if (!splitRegistryKeyAndPath(key, regKey, regPath)) return false;
+    // Glue everything together into one long root\a\b\c
+    string path = rootPath + "\\" + convertKey(key);
 
-    registryKey = rootPath + "\\" + convertKey(regKey);
+    // Split the root\a\b  and \c
+    string regKey, regPath;
+    if (!splitRegistryKeyAndPath(path, regKey, regPath)) return false;
+
     registryPath = regPath;
+    registryKey = regKey;
 
     return true;
 }
 
 bool
 WindowsStorage::splitRegistryKeyAndPath(const std::string& key, std::string& registryKey, std::string& registryPath) {
-    // split off the last component, e.g. key="a.b.c" -> registryKey="a.b", registryPath="c"
+    // split off the last component, e.g. key="a\b\c" -> registryKey="a\b", registryPath="c"
     // fails if not at least two components
 
-    string::size_type lastDot = key.find_last_of(".");
-    if (lastDot == string::npos) return false;
+    string::size_type lastDelim = key.find_last_of("\\");
+    if (lastDelim == string::npos) return false;
 
-    registryKey = key.substr(0, lastDot);
-    registryPath = key.substr(lastDot + 1);  // to end of string
+    registryKey = key.substr(0, lastDelim);
+    registryPath = key.substr(lastDelim + 1);  // to end of string
 
     return true;
 }
@@ -109,25 +113,47 @@ WindowsStorage::has(const std::string& key, Scope scope) const {
     return WinRegistryKey(registryKey).exists(registryPath);
 }
 
-bool
-WindowsStorage::get(const std::string& key, std::string& value, Scope scope) const {
+std::string
+WindowsStorage::getString(const std::string& key, const std::string& defaultValue, Scope scope) const {
     string registryKey, registryPath;
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    if (!has(key, scope)) return false;
+    if (!has(key, scope)) return defaultValue;
 
-    value = WinRegistryKey(registryKey).getString(registryPath);
-    return true;
+    return WinRegistryKey(registryKey).getString(registryPath);
 }
 
 IStorage&
-WindowsStorage::set(const std::string& key, const std::string& value, Scope scope) {
+WindowsStorage::setString(const std::string& key, const std::string& value, Scope scope) {
     string registryKey, registryPath;
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
     WinRegistryKey(registryKey).setString(registryPath, value);
+
+    return *this;
+}
+
+bool
+WindowsStorage::getBoolean(const std::string& key, bool defaultValue, Scope scope) const {
+    string registryKey, registryPath;
+    bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
+    assert(validKey);
+
+    if (!has(key, scope)) return defaultValue;
+
+    int v = WinRegistryKey(registryKey).getInt(registryPath);
+    return (v == 0 ? false : true);
+}
+
+IStorage&
+WindowsStorage::setBoolean(const std::string& key, bool value, Scope scope) {
+    string registryKey, registryPath;
+    bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
+    assert(validKey);
+
+    WinRegistryKey(registryKey).setInt(registryPath, (value ? 1 : 0));
 
     return *this;
 }

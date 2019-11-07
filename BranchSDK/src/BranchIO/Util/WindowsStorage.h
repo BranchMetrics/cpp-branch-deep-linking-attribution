@@ -31,7 +31,7 @@ class WindowsStorage : public virtual IStorage {
      * Singleton accessor
      * @return the single WindowsStorage instance
      */
-    static WindowsStorage& instance();
+    static IStorage& instance();
 
     /**
      * @copydoc IStorage::getDefaultScope
@@ -49,14 +49,24 @@ class WindowsStorage : public virtual IStorage {
     bool has(const std::string& key, Scope scope = Default) const;
 
     /**
-     * @copydoc IStorage::get
+     * @copydoc IStorage::getString
      */
-    bool get(const std::string& key, std::string& value, Scope scope = Default) const;
+    std::string getString(const std::string& key, const std::string& defaultValue = "", Scope scope = Default) const;
 
     /**
-     * @copydoc IStorage::set
+     * @copydoc IStorage::setString
      */
-    IStorage& set(const std::string& key, const std::string& value, Scope scope = Default);
+    IStorage& setString(const std::string& key, const std::string& value, Scope scope = Default);
+
+    /**
+     * @copydoc IStorage::getBoolean
+     */
+    bool getBoolean(const std::string& key, bool defaultValue = false, Scope scope = Default) const;
+
+    /**
+     * @copydoc IStorage::setBoolean
+     */
+    IStorage& setBoolean(const std::string& key, bool value, Scope scope = Default);
 
     /**
      * @copydoc IStorage::remove

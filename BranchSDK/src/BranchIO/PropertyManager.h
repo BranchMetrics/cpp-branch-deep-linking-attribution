@@ -24,6 +24,11 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
     PropertyManager();
 
     /**
+     * Destructor.
+     */
+    virtual ~PropertyManager();
+
+    /**
      * Constructor.
      * @param jsonObject pre-filled JSONObject to seed this class.
      */
@@ -41,8 +46,6 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @return *this
      */
     PropertyManager& operator=(const PropertyManager& other);
-
-    virtual ~PropertyManager();
 
     /**
      * @return this object as a string
@@ -130,7 +133,18 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      */
     virtual bool isEmpty() const;
 
+ protected:
+    /**
+     * Generate a path suitable for use as a complex key.
+     * For example getPath("session", "state") might return session.state
+     * @param base Base of the path
+     * @param key Key
+     * @return a string combination of the base and key
+     */
+    static std::string getPath(const std::string& base, const std::string &key);
+
  private:
+    std::string getStoragePath(const char *path, const char* key) const;
     mutable Poco::Mutex _mutex;
 };
 
