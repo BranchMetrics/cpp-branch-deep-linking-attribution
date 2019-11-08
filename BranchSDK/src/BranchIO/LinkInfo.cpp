@@ -49,7 +49,7 @@ class LinkFallback : public IRequestCallback {
 
     virtual void onError(int id, int error, std::string description) {
         // Attempt to create a Long Link
-        std::string longUrl = _context.createLongUrl(_instance->getBranchKey());
+        std::string longUrl = _context.createLongUrl(_instance);
 
         JSONObject jsonObject;
         jsonObject.set(JSONKEY_URL, longUrl);
@@ -182,12 +182,12 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
 
 
 std::string
-LinkInfo::createLongUrl(const std::string &branchKey, const std::string &baseUrl) const {
+LinkInfo::createLongUrl(Branch *branchInstance, const std::string &baseUrl) const {
     // TODO(andyp): Handle response from setIdentity if there is a base URL in the response
 
     std::string longUrl;
     longUrl += (baseUrl.size() > 0 ? baseUrl : BASE_LONG_URL);
-    longUrl += branchKey;
+    longUrl += branchInstance->getBranchKey();
 
     Poco::URI uri(longUrl);
 

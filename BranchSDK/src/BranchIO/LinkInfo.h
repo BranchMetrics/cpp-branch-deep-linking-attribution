@@ -147,11 +147,11 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
     /**
      * Create a long Url with the given deep link parameters and link properties.
      * Note that this does not require an active network connection.
-     * @param branchKey Branch Key.
+     * @param branchInstance Branch Instance.
      * @param baseUrl Non-Default base to use for forming the url
      * @return A url with the given deep link parameters.
      */
-    virtual std::string createLongUrl(const std::string &branchKey, const std::string &baseUrl = "") const;
+    virtual std::string createLongUrl(Branch *branchInstance, const std::string &baseUrl = "") const;
 
     using PropertyManager::toString;
 
