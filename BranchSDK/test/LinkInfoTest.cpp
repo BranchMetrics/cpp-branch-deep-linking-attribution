@@ -143,10 +143,11 @@ TEST_F(LinkInfoTest, TestLinkCreate) {
 
 // Test to create a "Long Link Url" from a LinkInfo
 TEST_F(LinkInfoTest, TestLongLinkCreate) {
+    Branch *_branchInstance = BranchIO::Test::createTestInstance();
     LinkInfo linkInfo;
     initTestLink(linkInfo);
 
-    std::string longUrl = linkInfo.createLongUrl(BranchIO::Test::getTestKey());
+    std::string longUrl = linkInfo.createLongUrl(_branchInstance);
 
     cout << "TestLongLinkCreate:\t" << longUrl << endl;
 }
@@ -183,8 +184,9 @@ TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
 }
 
 TEST_F(LinkInfoTest, TestCreateLinkNoControlParams) {
+    Branch *_branchInstance = BranchIO::Test::createTestInstance();
     LinkInfo linkInfo;
-    std::string url = linkInfo.createLongUrl(BranchIO::Test::getTestKey());
+    std::string url = linkInfo.createLongUrl(_branchInstance);
 
     ASSERT_GT(url.size(), 0);
 }
