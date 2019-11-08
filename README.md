@@ -147,7 +147,7 @@ files needed.
 Creating a Branch instance should be done as early as possible in the Application lifecycle.
 For example, in `InitInstance()`.
 
-```
+```C++
     #define BRANCH_KEY "key_live_xxx"
     
     BranchIO::Branch* _branchInstance;
@@ -174,7 +174,7 @@ before doing any analytic events.
 On Windows, this typically means creating a Branch Session in `WM_CREATE` and closing the session in `WM_DESTROY` in the 
 application `WndProc`.
 
-```
+```C++
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
@@ -254,7 +254,7 @@ for every release.
 Creating a Branch Instance takes a Branch Key, and Application Information.
 Initialize the AppInfo with settings specific to your app.
 
-```
+```C++
 // Set AppInfo properties as necessary
 BranchIO::AppInfo _appInfo;
 
@@ -265,7 +265,7 @@ _branchInstance = BranchIO::create("key_live_xxx", _appInfo);
 
 Creating a Branch Session takes an optional link parameter and a callback.
 
-```
+```C++
 BranchIO.openSession("", myCallback);
 ```
 
@@ -277,7 +277,7 @@ introduce the concept of an 'identity'.
 
 To identify a user, just call:
 
-```
+```C++
 BranchIO.setIdentity("user id", myCallback);
 ```
 
@@ -286,7 +286,7 @@ BranchIO.setIdentity("user id", myCallback);
 If you provide a logout function in the app, be sure to clear the user when the logout completes. This will ensure that 
 all the stored parameters get cleared and all events are properly attributed to the right identity.
 
-```
+```C++
 BranchIO.logout(myCallback):
 ```
 
@@ -300,7 +300,7 @@ view analytics for the BranchEvents you fire on the Branch dashboard.
 *BranchIO::BranchStandardEvent* enumerate the most commonly tracked events and event parameters that can be used with 
 BranchEvent for the best results. You can always use custom event names and event parameters.
 
-```
+```C++
 BranchStandardEvent ev = new BranchStandardEvent(BranchIO::StandardEvent::Type::ADD_TO_CART)
     .SetDescription("Test description")
     .SetTransactionID("322")
@@ -317,7 +317,7 @@ Branch links can be created in-app (as well as in many other ways - see:
 When they are, and setIdentity has been called to associate a User ID with the current user session, Branch links will 
 be associated with that User ID.
 
-```
+```C++
 // you can access this data from any instance that installs or opens the app from this link
 
 BranchIO::LinkInfo linkInfo;
