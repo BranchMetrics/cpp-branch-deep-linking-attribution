@@ -8,7 +8,7 @@
 1. [**Introduction**](#1---introduction)
   + [SDK Details](#sdk-details)
   + [Resources](#resources)
-  + [Branch-integrated Demo Apps](#branch-integrated-windows-demo-apps)
+  + [Branch-integrated Demo Apps](#branch-integrated-demo-apps)
 
 2. [**Overview of Branch links and Branch keys**](#2---overview-of-branch-links-and-branch-keys)
   + [Format of Branch links](#format-of-branch-links)
