@@ -209,7 +209,10 @@ protected:
     }
 
     void handleSendInstallEvent(const std::string &name, const std::string &value) {
-        auto branch_link = config().getString(KEY_LINK);
+        std::string branch_link;
+        if (config().has(KEY_LINK)) {
+            branch_link = config().getString(KEY_LINK);
+        }
 
         cout << "handleSendInstallEvent()" << endl;
         _branchInstance->openSession(branch_link, this);
