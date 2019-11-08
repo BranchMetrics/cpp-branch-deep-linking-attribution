@@ -58,7 +58,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      * @throw Poco::InvalidArgumentException if callback and the default callback are both NULL
      */
     RequestManager& enqueue(
-        const Event& event,
+        const BaseEvent& event,
         IRequestCallback* callback = nullptr,
         bool urgent = false);
 
@@ -121,7 +121,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
          * @param event Event to send
          * @param callback Interface for success and failure response.
          */
-        RequestTask(RequestManager& manager, const Event& event, IRequestCallback* callback);
+        RequestTask(RequestManager& manager, const BaseEvent& event, IRequestCallback* callback);
 
         // ----- Poco::Task -----
         /**
@@ -146,7 +146,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      private:
         RequestManager& _manager;
         Request _request;
-        Event _event;
+        BaseEvent _event;
         IRequestCallback* _callback;
     };
 

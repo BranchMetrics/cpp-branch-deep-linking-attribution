@@ -5,37 +5,50 @@
 
 #include <string>
 
-#include "BranchIO/Event/Event.h"
-#include "BranchIO/JSONObject.h"
+#include "BranchIO/Event/BaseEvent.h"
 
 namespace BranchIO {
 
 /**
+ * (Internal) Identity Event
+ */
+class BRANCHIO_DLL_EXPORT IdentityEvent : public BaseEvent {
+ public:
+    /**
+     * Constructor.
+     * @param apiEndpoint API endpoint
+     * @param eventName Event Name
+     */
+    IdentityEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName) :
+        BaseEvent(apiEndpoint, eventName) {}
+};
+
+/**
  * (Internal) User Identity Login Event
  */
-class BRANCHIO_DLL_EXPORT IdentityLoginEvent : public Event {
+class BRANCHIO_DLL_EXPORT IdentityLoginEvent : public IdentityEvent {
  public:
     /**
      * Constructor.
      * @param identity A value containing the unique identifier of the user
      */
     IdentityLoginEvent(std::string identity) :
-            Event(Defines::APIEndpoint::IDENTIFY_USER, "setIdentity") {
+            IdentityEvent(Defines::APIEndpoint::IDENTIFY_USER, "setIdentity") {
 
-        Event::addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);
+        addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);
     }
 };
 
 /**
  * (Internal) User Identity Logout Event
  */
-class BRANCHIO_DLL_EXPORT IdentityLogoutEvent : public Event {
-public:
+class BRANCHIO_DLL_EXPORT IdentityLogoutEvent : public IdentityEvent {
+ public:
     /**
      * Constructor.
      */
     explicit IdentityLogoutEvent() :
-            Event(Defines::APIEndpoint::LOGOUT, "logout") {
+            IdentityEvent(Defines::APIEndpoint::LOGOUT, "logout") {
     }
 };
 

@@ -11,7 +11,7 @@
 #include "BranchIO/AdvertiserInfo.h"
 #include "BranchIO/AppInfo.h"
 #include "BranchIO/DeviceInfo.h"
-#include "BranchIO/Event/Event.h"
+#include "BranchIO/Event/BaseEvent.h"
 #include "BranchIO/PackagingInfo.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/SessionInfo.h"
@@ -65,10 +65,10 @@ class BRANCHIO_DLL_EXPORT Branch {
 
     /**
      * Send an event to Branch.
-     * @param event Event to send
+     * @param event BaseEvent to send
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void sendEvent(const Event &event, IRequestCallback *callback);
+    virtual void sendEvent(const BaseEvent &event, IRequestCallback *callback);
 
     /**
      * @return the SDK Version

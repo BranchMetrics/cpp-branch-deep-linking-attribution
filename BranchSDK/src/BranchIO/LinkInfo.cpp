@@ -73,7 +73,7 @@ class LinkFallback : public IRequestCallback {
 };
 
 
-LinkInfo::LinkInfo() : Event(Defines::APIEndpoint::URL, "LinkInfo") {
+LinkInfo::LinkInfo() : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo") {
 }
 
 LinkInfo::~LinkInfo() = default;
