@@ -42,7 +42,7 @@ Current version: **1.0.0**
 ### Resources
 - This document - *Start Here*
 - [Branch Integration Engineering Portal](http://support.branch.io)
-- [Changelog](ChangeLog.md)
+- [Change Log](ChangeLog.md)
 
 
 ### Branch-integrated Demo Apps
