@@ -86,11 +86,11 @@ contents:
 
 ```
 [requires]
-BranchIO/0.1.0@branch/testing
+BranchIO/1.0.0@branch/stable
 
 [options]
-Poco:enable_mongodb=False
-Poco:enable_data_sqlite=False
+# master is the default. Uncomment and modify to use a different branch
+# BranchIO:git_branch=master
 ```
 
 And then `conan install . --build outdated -s build_type=CONFIGURATION`,
@@ -126,11 +126,7 @@ your Windows 10 host (not necessarily your project):
 
 ```
 [requires]
-BranchIO/0.1.0@branch/testing
-
-[options]
-Poco:enable_mongodb=False
-Poco:enable_data_sqlite=False
+BranchIO/1.0.0@branch/testing
 ```
 
 After you [add the Branch remote](#set-up-branch-remote) and [set up a default profile](#set-up-a-default-conan-profile), just run:
@@ -178,28 +174,38 @@ build\Debug\bin\hello
 Use the appropriate Native Tools Command Prompt. This script will use
 conan-center for dependencies.
 
-The hello and example command-line apps require a specific Branch key in
-order to run successfully. Provide it as a command-line argument when running
-these programs. The key is `key_live_bcMneVUDd5sM5vD4BzfcbikdwrmnRDA8`, e.g.
-
-```bash
-build/Debug/bin/example -k key_live_bcMneVUDd5sM5vD4BzfcbikdwrmnRDA8
-```
-
-```bash
-build/Debug/bin/hello key_live_bcMneVUDd5sM5vD4BzfcbikdwrmnRDA8
-```
-
-Note the `-k` option to example.
-
 ### Hello app
 
 The `hello` app sends a number of requests and logs the output to the console.
+
+This app has a Branch key compiled in.  To run, simply
+
+```bash
+build/Debug/bin/hello
+```
+
 
 ### Example app
 
 The `example` app is menu driven and allows you to try a number of scenarios.
 It also prints output to the console.
+
+This app requires a specific Branch key in order to run successfully. 
+Provide it as a command-line argument when running. The key is `key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap`, e.g.
+
+```bash
+build/Debug/bin/example -k key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap
+```
+
+This app can also pick up preferences from a configuration file, if it exists and is co-located with the exe.
+
+example.properties
+```
+# Branch Key
+branch_key : key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap
+```
+
+If the key is present in the configuration file, it is not necessary to provide the `-k <key>` parameter.
 
 Note that in Release builds, debug and verbose output log messages are compiled
 out. If you run, e.g.:
