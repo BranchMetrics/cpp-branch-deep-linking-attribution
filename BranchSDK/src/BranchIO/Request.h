@@ -26,8 +26,9 @@ class Request {
 
     /**
      * Default constructor
+     * @param retryCount Number of times to retry sending this request
      */
-    Request();
+    explicit Request(int retryCount = MaxAttemptCount);
 
     /**
      * Send this request to the Branch server (synchronous).
@@ -76,6 +77,12 @@ class Request {
     int32_t getBackoffMillis() const;
 
     /**
+     * Get max attempt count
+     * @return the number of attempts before reporting a failure.
+     */
+    int getMaxAttemptCount() const;
+
+    /**
      * Increment the attempt count returned by getAttemptCount().
      * @return the new attempt count
      */
@@ -90,6 +97,7 @@ class Request {
  private:
     mutable Poco::Mutex _mutex;
     int volatile _attemptCount;
+    int _maxAttemptCount;
     bool volatile _canceled;
     Sleeper _sleeper;
 };

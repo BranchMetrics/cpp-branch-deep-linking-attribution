@@ -17,7 +17,7 @@ namespace BranchIO {
 int const Request::MaxAttemptCount = 5;
 int32_t const Request::MaxBackoffMillis = 120000;
 
-Request::Request() : _attemptCount(0), _canceled(false) { }
+Request::Request(int retryCount) : _attemptCount(0), _maxAttemptCount(retryCount), _canceled(false) { }
 
 void Request::send(
     Defines::APIEndpoint api,
@@ -31,7 +31,7 @@ void Request::send(
         path = "/";
     }
 
-    while (!isCanceled() && getAttemptCount() < MaxAttemptCount &&
+    while (!isCanceled() && getAttemptCount() < getMaxAttemptCount() &&
            !clientSession->post(path, jsonPayload, callback)) {
         // POST failed
         incrementAttemptCount();
@@ -42,7 +42,7 @@ void Request::send(
         _sleeper.sleep(backoff);
     }
 
-    if (getAttemptCount() >= MaxAttemptCount) {
+    if (getAttemptCount() >= getMaxAttemptCount()) {
         BRANCH_LOG_E("Maximum number of failures reached.");
         callback.onError(0, 0, "Maximum number of failures reached.");
         return;
@@ -85,6 +85,12 @@ int
 Request::getAttemptCount() const {
     Mutex::ScopedLock _l(_mutex);
     return _attemptCount;
+}
+
+int
+Request::getMaxAttemptCount() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _maxAttemptCount;
 }
 
 int
