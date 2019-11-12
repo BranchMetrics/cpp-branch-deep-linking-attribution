@@ -31,10 +31,18 @@ void Request::send(
         path = "/";
     }
 
-    while (!isCanceled() && getAttemptCount() < getMaxAttemptCount() &&
-           !clientSession->post(path, jsonPayload, callback)) {
+    while (!isCanceled() && getAttemptCount() < getMaxAttemptCount()) {
+        // POST the request
+        if (clientSession->post(path, jsonPayload, callback)) {
+            break;
+        }
+
         // POST failed
         incrementAttemptCount();
+
+        if (getAttemptCount() >= getMaxAttemptCount()) {
+            break;
+        }
 
         int32_t backoff = getBackoffMillis();
         BRANCH_LOG_W("POST failed. Retrying in " << backoff << " ms");
@@ -50,8 +58,9 @@ void Request::send(
 
     if (isCanceled()) {
         BRANCH_LOG_W("Request canceled");
-        // Don't call the user's callback after cancellation.
+        // Don't call the user's error callback after cancellation.
         // @todo(jdee): Review this.
+        callback.onStatus(0, 0, "Request canceled");
         return;
     }
 
