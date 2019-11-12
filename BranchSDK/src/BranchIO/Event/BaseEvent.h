@@ -28,6 +28,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
 
     /**
      * Adds a custom data property associated with this Branch Event.
+     * Note that these properties are protocol-specific, and may not be sent in all cases.
      * @param propertyName Name of the custom property
      * @param propertyValue Value of the custom property
      * @return This object for chaining builder methods
