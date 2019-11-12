@@ -5,14 +5,14 @@
 
 #include <string>
 #include "BranchIO/Branch.h"
-#include "BranchIO/Event/Event.h"
+#include "BranchIO/Event/BaseEvent.h"
 
 namespace BranchIO {
 
 /**
  * Link Information.
  */
-class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
+class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
  public:
     /**
      * An Integer value indicating the calculation type of the referral code. In this case,

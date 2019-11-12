@@ -40,7 +40,7 @@ RequestManager::getDefaultCallback() const {
 }
 
 RequestManager& RequestManager::enqueue(
-    const Event& event,
+    const BaseEvent& event,
     IRequestCallback* callback,
     bool urgent) {
     // Make a copy of the Request on the heap. This will throw if both
@@ -132,7 +132,7 @@ void RequestManager::run() {
 
 RequestManager::RequestTask::RequestTask(
     RequestManager& manager,
-    const Event& event,
+    const BaseEvent& event,
     IRequestCallback* callback) : Poco::Task("request"),
     _manager(manager),
     _event(event),
