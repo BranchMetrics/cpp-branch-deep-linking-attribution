@@ -133,10 +133,12 @@ void RequestManager::run() {
 RequestManager::RequestTask::RequestTask(
     RequestManager& manager,
     const Event& event,
-    IRequestCallback* callback) : Poco::Task("request"),
-    _manager(manager),
-    _event(event),
-    _callback(callback) {
+    IRequestCallback* callback) :
+        Poco::Task("request"),
+        _manager(manager),
+        _event(event),
+        _callback(callback) {
+
     if (!_callback) throw Poco::InvalidArgumentException("callback cannot be NULL.");
 }
 
@@ -144,6 +146,7 @@ void
 RequestManager::RequestTask::runTask() {
     JSONObject payload;
     _event.package(_manager.getPackagingInfo(), payload);
+    _request.setMaxAttemptCount(_event.getRetryCount());
 
     // Send request synchronously
     // _clientSession may be passed in for testing. If not, we

@@ -177,7 +177,7 @@ Branch::sendEvent(const Event &event, IRequestCallback *callback) {
         return;
     }
 
-    getRequestManager()->enqueue(event, callback);
+    getRequestManager()->enqueue(event, callback, event.isUrgent());
 }
 
 void

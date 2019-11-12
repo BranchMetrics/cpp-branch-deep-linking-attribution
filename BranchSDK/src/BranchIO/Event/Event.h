@@ -28,6 +28,12 @@ class BRANCHIO_DLL_EXPORT Event : public PropertyManager {
     } AdType;
 
  public:
+    /**
+     * Copy constructor
+     * @param other another instance to copy
+     */
+    Event(const Event& other);
+
     virtual ~Event();
 
     /**
@@ -143,6 +149,18 @@ class BRANCHIO_DLL_EXPORT Event : public PropertyManager {
      * @todo(andyp) Revisit Scope
      */
     virtual void package(IPackagingInfo &packagingInfo, JSONObject &jsonPackage) const;
+
+    /**
+     * (Internal) Indicate that this is a high priority (urgent) event, and should be processed before other lower priority events.
+     * @return true if this is a high priority event.
+     */
+    virtual bool isUrgent() const;
+
+    /**
+     * (Internal) Get the number of times this event should be retried before reporting an error.
+     * @return a positive number for a non-default retry count, or a negative (-1) value for using the built-in default.
+     */
+    virtual int getRetryCount() const;
 
  protected:
     /**

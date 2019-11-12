@@ -39,6 +39,13 @@ Event::Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSO
     }
 }
 
+Event::Event(const Event& other)
+    : PropertyManager(other),
+      mAPIEndpoint(other.mAPIEndpoint),
+      mEventName(other.mEventName),
+      mCustomData(other.mCustomData) {
+}
+
 Event::~Event() { }
 
 Event&
@@ -152,6 +159,14 @@ Event::stringify(Event::AdType adType) {
     return Defines::NO_BRANCH_VALUE;
 }
 
+bool Event::isUrgent() const {
+    // By default, events are not considered urgent.
+    return false;
+}
+
+int Event::getRetryCount() const {
+    return -1;
+}
 
 void Event::packageRawEvent(JSONObject &jsonObject) const {
     jsonObject.parse(PropertyManager::stringify());

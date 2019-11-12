@@ -26,9 +26,8 @@ class Request {
 
     /**
      * Default constructor
-     * @param retryCount Number of times to retry sending this request
      */
-    explicit Request(int retryCount = MaxAttemptCount);
+    Request();
 
     /**
      * Send this request to the Branch server (synchronous).
@@ -48,6 +47,11 @@ class Request {
      * @return the number of attempts so far (including any in progress)
      */
     int getAttemptCount() const;
+
+    /**
+     * @param attemptCount the number of times this event should be tried before reporting an error.
+     */
+    void setMaxAttemptCount(int attemptCount = MaxAttemptCount);
 
     /**
      * Cancel this request.

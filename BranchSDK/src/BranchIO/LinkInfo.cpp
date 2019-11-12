@@ -38,7 +38,13 @@ class LinkFallback : public IRequestCallback {
     LinkFallback(Branch *instance, const LinkInfo &context, IRequestCallback *parent) :
             _instance(instance),
             _context(context),
-            _parentCallback(parent) {}
+            _parentCallback(parent) {
+        std::cout << "Create LinkFallback" << std::endl;
+    }
+
+    virtual ~LinkFallback() {
+        std::cout << "LinkFallback destructor" << std::endl;
+    }
 
     virtual void onSuccess(int id, JSONObject jsonResponse) {
         // Call the original callback
@@ -49,13 +55,22 @@ class LinkFallback : public IRequestCallback {
 
     virtual void onError(int id, int error, std::string description) {
         // Attempt to create a Long Link
+        std::cout << "LinkInfo::onError() -- attempt to create a long link" << std::endl;
+
         std::string longUrl = _context.createLongUrl(_instance);
 
-        JSONObject jsonObject;
-        jsonObject.set(JSONKEY_URL, longUrl);
+        if (longUrl.empty()) {
+            // This is an actual failure.
+            if (_parentCallback) {
+                _parentCallback->onError(id, error, description);
+            }
+        } else {
+            JSONObject jsonObject;
+            jsonObject.set(JSONKEY_URL, longUrl);
 
-        if (_parentCallback != NULL) {
-            _parentCallback->onSuccess(id, jsonObject);
+            if (_parentCallback) {
+                _parentCallback->onSuccess(id, jsonObject);
+            }
         }
     }
 
@@ -68,12 +83,19 @@ class LinkFallback : public IRequestCallback {
 
  private:
     Branch *_instance;
-    const LinkInfo &_context;
+    LinkInfo _context;
     IRequestCallback *_parentCallback;
 };
 
 
-LinkInfo::LinkInfo() : Event(Defines::APIEndpoint::URL, "LinkInfo") {
+LinkInfo::LinkInfo()
+    : Event(Defines::APIEndpoint::URL, "LinkInfo") {
+}
+
+LinkInfo::LinkInfo(const LinkInfo& other) :
+    Event(other),
+    _controlParams(other._controlParams),
+    _tagParams(other._tagParams) {
 }
 
 LinkInfo::~LinkInfo() = default;

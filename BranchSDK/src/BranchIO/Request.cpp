@@ -17,7 +17,7 @@ namespace BranchIO {
 int const Request::MaxAttemptCount = 5;
 int32_t const Request::MaxBackoffMillis = 120000;
 
-Request::Request(int retryCount) : _attemptCount(0), _maxAttemptCount(retryCount), _canceled(false) { }
+Request::Request() : _attemptCount(0), _maxAttemptCount(MaxAttemptCount), _canceled(false) { }
 
 void Request::send(
     Defines::APIEndpoint api,
@@ -91,6 +91,12 @@ int
 Request::getMaxAttemptCount() const {
     Mutex::ScopedLock _l(_mutex);
     return _maxAttemptCount;
+}
+
+void
+Request::setMaxAttemptCount(int attemptCount) {
+    // We always want at least 1 attempt.
+    _maxAttemptCount = min(MaxAttemptCount, max(1, attemptCount));
 }
 
 int

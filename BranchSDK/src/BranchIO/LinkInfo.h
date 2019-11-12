@@ -32,6 +32,12 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
      */
     LinkInfo();
 
+    /**
+     * Copy constructor
+     * @param other another instance to copy
+     */
+    LinkInfo(const LinkInfo& other);
+
     virtual ~LinkInfo();
 
     /**
@@ -154,6 +160,13 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
     virtual std::string createLongUrl(Branch *branchInstance, const std::string &baseUrl = "") const;
 
     using PropertyManager::toString;
+
+ protected:
+    // Links need to be processed quickly
+    bool isUrgent() const { return true; }
+
+    // Links should not retry -- on any failure they revert to "long" urls.
+    int getRetryCount() const { return 0; }
 
  private:
     /**
