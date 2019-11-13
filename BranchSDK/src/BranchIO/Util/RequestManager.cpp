@@ -145,7 +145,6 @@ void
 RequestManager::RequestTask::runTask() {
     JSONObject payload;
     _event.package(_manager.getPackagingInfo(), payload);
-    _request.setMaxRetryCount(_event.getRetryCount());
 
     // Send request synchronously
     // _clientSession may be passed in for testing. If not, we

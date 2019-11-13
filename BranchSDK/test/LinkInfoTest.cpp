@@ -213,8 +213,5 @@ TEST_F(LinkInfoTest, TestCopyConstructor) {
 
     baseCopy.package(packagingInfo, jsonCopy);
 
-    ASSERT_EQ(baseInfo.getRetryCount(), baseCopy.getRetryCount());
-    ASSERT_EQ(0, baseCopy.getRetryCount());
-
     ASSERT_EQ(jsonOriginal.stringify(), jsonCopy.stringify());
 }

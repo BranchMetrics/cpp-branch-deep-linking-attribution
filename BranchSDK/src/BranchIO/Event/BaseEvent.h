@@ -49,18 +49,6 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
 
  public:
     /**
-     * (Internal) Indicate that this is a high priority (urgent) event, and should be processed before other lower priority events.
-     * @return true if this is a high priority event.
-     */
-    bool isUrgent() const;
-
-    /**
-     * (Internal) Get the number of times this event should be retried before reporting an error.
-     * @return a positive number for a non-default retry count, or a negative (-1) value for using the built-in default.
-     */
-    int getRetryCount() const;
-
-    /**
      * @return the API Endpoint.
      */
     virtual Defines::APIEndpoint getAPIEndpoint() const;
@@ -98,18 +86,6 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      */
     BaseEvent& addEventProperty(const char *propertyName, double propertyValue);
 
-    /**
-     * (Internal) Indicate that this is a high priority (urgent) event, and should be processed before other lower priority events.
-     * @param urgent true if this is a high priority event.
-     */
-    void setUrgent(bool urgent);
-
-    /**
-     * (Internal) Set the number of times this event should be retried before reporting an error.
-     * @param retryCount a positive number for a non-default retry count, or a negative (-1) value for using the default.
-     */
-    void setRetryCount(int retryCount);
-
  private:
     BaseEvent();
 
@@ -126,9 +102,6 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
 
     // Custom Data is rendered as a sibling to the event data
     JSONObject::Ptr mCustomData;
-
-    bool mUrgent;
-    int mRetryCount;
 };
 
 }  // namespace BranchIO

@@ -23,9 +23,7 @@ static const char *JSONKEY_ADVERTISING_IDS = "advertising_ids";
 BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr) :
     mAPIEndpoint(apiEndpoint),
     mEventName(eventName),
-    mCustomData(nullptr),
-    mUrgent(false),
-    mRetryCount(-1) {
+    mCustomData(nullptr) {
 
     if (jsonPtr.get()) {
         // Copy the key/values
@@ -39,9 +37,7 @@ BaseEvent::BaseEvent(const BaseEvent &other) :
     PropertyManager(other),
     mAPIEndpoint(other.mAPIEndpoint),
     mEventName(other.mEventName),
-    mCustomData(other.mCustomData),
-    mUrgent(other.mUrgent),
-    mRetryCount(other.mRetryCount) {
+    mCustomData(other.mCustomData) {
 }
 
 BaseEvent::~BaseEvent() = default;
@@ -75,24 +71,6 @@ BaseEvent::getCustomData() const { return mCustomData; }
 
 const std::string &
 BaseEvent::name() const { return mEventName; }
-
-bool BaseEvent::isUrgent() const {
-    // By default, base events are not considered urgent.
-    return mUrgent;
-}
-
-void BaseEvent::setUrgent(bool urgent) {
-    mUrgent = urgent;
-}
-
-int BaseEvent::getRetryCount() const {
-    // By default, allow the underlying system to determine the best retry count.
-    return mRetryCount;
-}
-
-void BaseEvent::setRetryCount(int retryCount) {
-    mRetryCount = retryCount;
-}
 
 Defines::APIEndpoint
 BaseEvent::getAPIEndpoint() const { return mAPIEndpoint; }
