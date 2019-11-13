@@ -168,7 +168,7 @@ Branch::closeSession(IRequestCallback *callback) {
 }
 
 void
-Branch::sendEvent(const Event &event, IRequestCallback *callback) {
+Branch::sendEvent(const BaseEvent &event, IRequestCallback *callback) {
     if (getAdvertiserInfo().isTrackingDisabled()) {
         if (callback) {
             callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");

@@ -5,14 +5,14 @@
 
 #include <string>
 #include "BranchIO/Branch.h"
-#include "BranchIO/Event/Event.h"
+#include "BranchIO/Event/BaseEvent.h"
 
 namespace BranchIO {
 
 /**
  * Link Information.
  */
-class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
+class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
  public:
     /**
      * An Integer value indicating the calculation type of the referral code. In this case,
@@ -160,13 +160,6 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected Event {
     virtual std::string createLongUrl(Branch *branchInstance, const std::string &baseUrl = "") const;
 
     using PropertyManager::toString;
-
- protected:
-    // Links need to be processed quickly
-    bool isUrgent() const { return true; }
-
-    // Links should not retry -- on any failure they revert to "long" urls.
-    int getRetryCount() const { return 0; }
 
  private:
     /**

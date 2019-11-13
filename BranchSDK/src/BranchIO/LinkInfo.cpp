@@ -5,6 +5,7 @@
 #include <Poco/Base64Encoder.h>
 
 #include "BranchIO/Defines.h"
+#include "BranchIO/Util/Log.h"
 #include "BranchIO/Util/StringUtils.h"
 
 namespace BranchIO {
@@ -39,11 +40,9 @@ class LinkFallback : public IRequestCallback {
             _instance(instance),
             _context(context),
             _parentCallback(parent) {
-        std::cout << "Create LinkFallback" << std::endl;
     }
 
     virtual ~LinkFallback() {
-        std::cout << "LinkFallback destructor" << std::endl;
     }
 
     virtual void onSuccess(int id, JSONObject jsonResponse) {
@@ -55,7 +54,7 @@ class LinkFallback : public IRequestCallback {
 
     virtual void onError(int id, int error, std::string description) {
         // Attempt to create a Long Link
-        std::cout << "LinkInfo::onError() -- attempt to create a long link" << std::endl;
+        BRANCH_LOG_D("Fallback and create a long link");
 
         std::string longUrl = _context.createLongUrl(_instance);
 
@@ -89,11 +88,14 @@ class LinkFallback : public IRequestCallback {
 
 
 LinkInfo::LinkInfo()
-    : Event(Defines::APIEndpoint::URL, "LinkInfo") {
+    : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo") {
+    // Links are considered "urgent" -- front of the queue -- and no retry wanted
+    setUrgent(true);
+    setRetryCount(0);
 }
 
 LinkInfo::LinkInfo(const LinkInfo& other) :
-    Event(other),
+    BaseEvent(other),
     _controlParams(other._controlParams),
     _tagParams(other._tagParams) {
 }
