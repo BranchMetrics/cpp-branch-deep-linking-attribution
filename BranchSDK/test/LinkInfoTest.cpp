@@ -46,12 +46,6 @@ void initTestLink(LinkInfo &info) {
     info.addControlParameter("custom_object", customObject);
 }
 
-// Assert the values from initTestLink are there
-void assertInitialized(const LinkInfo &info) {
-//    ASSERT_EQ(2, info._tagParams.size());
-}
-
-
 TEST_F(LinkInfoTest, TestStringSetters) {
     LinkInfo info;
 
