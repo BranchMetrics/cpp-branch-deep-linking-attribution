@@ -202,7 +202,7 @@ Note that opening a session with Branch will notify of any pending deep links in
 
 **V. Register app to handle deep links**  
 
-#### Coming soon.
+#### TBD
 	
 **VI. Configuring**
 
@@ -352,24 +352,24 @@ _optional keys in the data dictionary_. Please use this
 
 | Key | Value
 | --- | ---
-| "$og_title" | The title you'd like to appear for the link in social media
-| "$og_description" | The description you'd like to appear for the link in social media
-| "$og_image_url" | The URL for the image you'd like to appear for the link in social media
-| "$og_video" | The URL for the video 
-| "$og_url" | The URL you'd like to appear
+| "$og_title" | The title you'd like to appear for the link in social media.
+| "$og_description" | The description you'd like to appear for the link in social media.
+| "$og_image_url" | The URL for the image you'd like to appear for the link in social media.
+| "$og_video" | The URL for the video. 
+| "$og_url" | The URL you'd like to appear.
 | "$og_app_id" | the OG app ID. Optional and rarely used.
 
 Also, you do custom redirection by inserting the following _optional keys in the dictionary_:
 
 | Key | Value
 | --- | ---
-| "$desktop_url" | Where to send the user on a desktop or laptop. By default it is the Branch-hosted text-me service
+| "$desktop_url" | Where to send the user on a desktop or laptop. By default it is the Branch-hosted text-me service.
 | "$android_url" | The replacement URL for the Play Store to send the user if they don't have the app. _Only necessary if you want a mobile web splash_
 | "$ios_url" | The replacement URL for the App Store to send the user if they don't have the app. _Only necessary if you want a mobile web splash_
-| "$ipad_url" | Same as above but for iPad Store
-| "$fire_url" | Same as above but for Amazon Fire Store
-| "$blackberry_url" | Same as above but for Blackberry Store
-| "$windows_phone_url" | Same as above but for Windows Store
+| "$ipad_url" | Same as above but for iPad Store.
+| "$fire_url" | Same as above but for Amazon Fire Store.
+| "$blackberry_url" | Same as above but for Blackberry Store.
+| "$windows_phone_url" | Same as above but for Windows Store.
 
 You have the ability to control the direct deep linking of each link by inserting the following _optional keys in the dictionary_:
 
