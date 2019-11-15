@@ -257,12 +257,13 @@ void installApp()
     rc = RegSetValueEx(hKey, keyProtocol, 0, REG_SZ, (LPBYTE)valProtocol, BYTESIZE(_tcslen(valProtocol) + 1));
 
     // Step 2:  Set the executable location
-    HMODULE hModule = GetModuleHandleW(NULL);
     TCHAR path[MAX_PATH];
 
 #ifdef UNICODE
+    HMODULE hModule = GetModuleHandleW(NULL);
     GetModuleFileNameW(hModule, path, MAX_PATH);
 #else
+    HMODULE hModule = GetModuleHandleA(NULL);
     GetModuleFileNameA(hModule, path, MAX_PATH);
 #endif
 
