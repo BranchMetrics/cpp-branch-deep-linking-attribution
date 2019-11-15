@@ -13,7 +13,7 @@ namespace BranchIO {
 /**
  * (Internal) Session Management Event
  */
-class BRANCHIO_DLL_EXPORT SessionEvent : public Event {
+class BRANCHIO_DLL_EXPORT SessionEvent : public BaseEvent {
  public:
     /**
      * Constructor.
@@ -21,7 +21,7 @@ class BRANCHIO_DLL_EXPORT SessionEvent : public Event {
      * @param eventName Event Name
      */
     SessionEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName) :
-        Event(apiEndpoint, eventName) {}
+        BaseEvent(apiEndpoint, eventName) {}
 };
 
 /**
@@ -40,7 +40,7 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
      * @param url Referring link, or an empty string if none.
      * @return this object for chaining builder methods
      */
-    virtual Event& setLinkUrl(const std::string &url) {
+    virtual BaseEvent& setLinkUrl(const std::string &url) {
         if (url.length() > 0) {
             addEventProperty(Defines::JSONKEY_APP_LINK_URL, url);
         }
