@@ -50,7 +50,7 @@ Current version: **1.0.0**
 There are several demo apps embedded in this repository, which you can find in the ***BranchSDK-Testbed*** folder. 
 Please use these as a reference.
 
-Should you run into issues with the SDK, please check that they are present in the demo app before submitting any issue 
+Should you run into an issue with the SDK, please check that it is present in the demo app before submitting any issue 
 as a bug.
 
 - Console HelloBranch -- The most basic application to demonstrate Branch Initialization and basic attribution.
@@ -68,7 +68,7 @@ suffix. This suffix, referred to as the *alias*, can be either randomly generate
 manually-defined (*testlink*, for example). The app-specific base domain used to create the links is termed the 
 *Branch link domain*.
 
-A Branch-integrated app called TestBed-Windows and assigned the dafult Branch link domain *testbed-windows.app.link* has 
+A Branch-integrated app called TestBed-Windows and assigned the default Branch link domain *testbed-windows.app.link* has 
 the following Branch links:
 
 - https://testbed-windows.app.link/FCIWxFeBGx
@@ -168,7 +168,7 @@ For example, in `InitInstance()`.
 **IV. Initialize a Branch Session
 
 A Branch Session is typically defined as starting when the user interface first appears, and  finishing when the last 
-user interface goes away.  Multiple views may be shown during a single session.   A session must be created however 
+user interface goes away.  Multiple views may be shown during a single session.   A session must be created
 before doing any analytic events.
 
 On Windows, this typically means creating a Branch Session in `WM_CREATE` and closing the session in `WM_DESTROY` in the 
@@ -202,7 +202,7 @@ Note that opening a session with Branch will notify of any pending deep links in
 
 **V. Register app to handle deep links**  
 
-#### TBD
+#### Coming soon.
 	
 **VI. Configuring**
 
@@ -376,4 +376,4 @@ You have the ability to control the direct deep linking of each link by insertin
 | Key | Value
 | --- | ---
 | "$deeplink_path" | The value of the deep link path that you'd like us to append to the URI. For example, you could specify "$deeplink_path": "radio/station/456" and we'll open the app with the URI "theapp://radio/station/456?link_click_id=branch-identifier". This is primarily for supporting legacy deep linking infrastructure. 
-| "$always_deeplink" | true or false. (default is not to deep link first) This key can be specified to have our linking service force try to open the app, even if we're not sure the user has the app installed. If the app is not installed, we fall back to the respective app store or $platform_url key. By default, we only open the app if we've seen a user initiate a session in the app from a Branch link (has been cookied and deep linked by Branch)
+| "$always_deeplink" | true or false. (default is not to deep link first) This key can be specified to have our linking service force try to open the app, even if we're not sure the user has the app installed. If the app is not installed, we fall back to the respective app store or $platform_url key. By default, we only open the app if we've seen a user initiate a session in the app from a Branch link (has been cookied and deep linked by Branch).
