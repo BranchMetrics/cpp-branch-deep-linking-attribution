@@ -14,10 +14,10 @@ using namespace Poco;
 
 namespace BranchIO {
 
-int const Request::DefaultRetryCount = 5;
+int const Request::MaxAttemptCount = 5;
 int32_t const Request::MaxBackoffMillis = 120000;
 
-Request::Request() : _attemptCount(0), _maxRetryCount(DefaultRetryCount), _canceled(false) { }
+Request::Request() : _attemptCount(0), _canceled(false) { }
 
 void Request::send(
     Defines::APIEndpoint api,
@@ -31,7 +31,7 @@ void Request::send(
         path = "/";
     }
 
-    while (!isCanceled() && getAttemptCount() <= getMaxRetryCount()) {
+    while (!isCanceled() && getAttemptCount() < MaxAttemptCount) {
         // POST the request
         if (clientSession->post(path, jsonPayload, callback)) {
             break;
@@ -40,7 +40,7 @@ void Request::send(
         // POST failed
         incrementAttemptCount();
 
-        if (getAttemptCount() >= getMaxRetryCount()) {
+        if (getAttemptCount() >= MaxAttemptCount) {
             break;
         }
 
@@ -50,7 +50,7 @@ void Request::send(
         _sleeper.sleep(backoff);
     }
 
-    if (getAttemptCount() > getMaxRetryCount()) {
+    if (getAttemptCount() >= MaxAttemptCount) {
         BRANCH_LOG_E("Maximum number of retries reached.");
         callback.onError(0, 0, "Maximum number of retries reached.");
         return;
@@ -94,23 +94,6 @@ int
 Request::getAttemptCount() const {
     Mutex::ScopedLock _l(_mutex);
     return _attemptCount;
-}
-
-int
-Request::getMaxRetryCount() const {
-    Mutex::ScopedLock _l(_mutex);
-    return _maxRetryCount;
-}
-
-void
-Request::setMaxRetryCount(int retryCount) {
-    // A retry count < 0 has special meaning.
-    if (retryCount < 0) {
-        _maxRetryCount = DefaultRetryCount;
-    } else {
-        // We don't want to try forever... cap at Max.
-        _maxRetryCount = min(DefaultRetryCount, retryCount);
-    }
 }
 
 int

@@ -18,8 +18,8 @@ namespace BranchIO {
  */
 class Request {
  public:
-    /// Default number of retries before giving up
-    static int const DefaultRetryCount;
+    /// Maximum number of attempts before giving up
+    static int const MaxAttemptCount;
 
     /// Maximum retry delay in ms
     static int32_t const MaxBackoffMillis;
@@ -49,11 +49,6 @@ class Request {
     int getAttemptCount() const;
 
     /**
-     * @param retryCount the number of times this event should be tried before reporting an error.
-     */
-    void setMaxRetryCount(int retryCount = DefaultRetryCount);
-
-    /**
      * Cancel this request.
      */
     void cancel();
@@ -81,12 +76,6 @@ class Request {
     int32_t getBackoffMillis() const;
 
     /**
-     * Get max retry count
-     * @return the number of attempts before reporting a failure.
-     */
-    int getMaxRetryCount() const;
-
-    /**
      * Increment the attempt count returned by getAttemptCount().
      * @return the new attempt count
      */
@@ -101,7 +90,6 @@ class Request {
  private:
     mutable Poco::Mutex _mutex;
     int volatile _attemptCount;
-    int _maxRetryCount;
     bool volatile _canceled;
     Sleeper _sleeper;
 };
