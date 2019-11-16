@@ -19,6 +19,12 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
  public:
     using PropertyManager::toString;
 
+    /**
+     * Copy constructor
+     * @param other another instance to copy
+     */
+    BaseEvent(const BaseEvent& other);
+
     virtual ~BaseEvent();
 
     /**

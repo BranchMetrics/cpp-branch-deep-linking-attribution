@@ -133,10 +133,11 @@ void RequestManager::run() {
 RequestManager::RequestTask::RequestTask(
     RequestManager& manager,
     const BaseEvent& event,
-    IRequestCallback* callback) : Poco::Task("request"),
-    _manager(manager),
-    _event(event),
-    _callback(callback) {
+    IRequestCallback* callback) :
+        Poco::Task("request"),
+        _manager(manager),
+        _event(event),
+        _callback(callback) {
     if (!_callback) throw Poco::InvalidArgumentException("callback cannot be NULL.");
 }
 

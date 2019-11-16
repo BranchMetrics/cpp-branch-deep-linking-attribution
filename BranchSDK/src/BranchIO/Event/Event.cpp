@@ -16,6 +16,10 @@ Event::Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSO
     BaseEvent(apiEndpoint, eventName, jsonPtr) {
 }
 
+Event::Event(const Event& other)
+    : BaseEvent(other) {
+}
+
 Event::~Event() = default;
 
 Event&

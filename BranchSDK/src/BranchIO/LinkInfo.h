@@ -32,6 +32,12 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      */
     LinkInfo();
 
+    /**
+     * Copy constructor
+     * @param other another instance to copy
+     */
+    LinkInfo(const LinkInfo& other);
+
     virtual ~LinkInfo();
 
     /**

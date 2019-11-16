@@ -7,8 +7,10 @@
 #include <Poco/Util/HelpFormatter.h>
 
 #include <iostream>
+#include <iomanip>
 #include <BranchIO/Branch.h>
 #include <BranchIO/AppInfo.h>
+#include <BranchIO/LinkInfo.h>
 #include <BranchIO/Event/Event.h>
 #include <BranchIO/Event/CustomEvent.h>
 #include <BranchIO/Event/StandardEvent.h>
@@ -44,7 +46,7 @@ private:
 
     OptionSet _menuOptions;
 
-    Branch *_branchInstance;
+    Branch *_branchInstance = nullptr;
     AppInfo _appInfo;
 
     void initializeBranch() {
@@ -95,6 +97,13 @@ protected:
     // Override
     void defineOptions(OptionSet &optionSet) {
         Application::defineOptions(optionSet);
+
+        optionSet.addOption(
+            Option("create", "c", "Create a Branch link")
+                    .required(false)
+                    .repeatable(false)
+                    .argument("create")
+                    .callback(OptionCallback<ExampleApp>(this, &ExampleApp::handleCreateBranchLink)));
 
         optionSet.addOption(
             Option("help", "h", "Display help information")
@@ -182,10 +191,13 @@ protected:
     }
 
     std::string getNewValue(const std::string &name) {
+        char buff[256];
+
         cout << "New " << name << ": ";
 
         std::string newValue;
         std::cin >> newValue;
+        std::cin.getline(buff, 256);
 
         return newValue;
     }
@@ -196,6 +208,30 @@ protected:
         } else {
             std::cout << "Branch Key: " << value << endl;
             config().setString(KEY_BRANCH, value);
+        }
+    }
+
+    void handleCreateBranchLink(const std::string &name, const std::string &value) {
+        if (name == value) {
+            handleCreateBranchLink(name, getNewValue("Integer color value")); // Recursive
+        } else {
+            int v;
+
+            try {
+                v = stoi(value);
+            } catch (std::exception& e) {
+                std::cout << value << ": Invalid Color" << endl;
+                return;
+            }
+
+            std::cout << "Color Value: 0x" << std::setfill('0') << std::setw(6) << std::hex << v << endl;
+            BranchIO::LinkInfo linkInfo;
+
+            linkInfo.setFeature("testing");
+            linkInfo.addControlParameter("extra_color", v);
+
+            // Create the URL
+            linkInfo.createUrl(_branchInstance, this);
         }
     }
 

@@ -24,11 +24,6 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
     PropertyManager();
 
     /**
-     * Destructor.
-     */
-    virtual ~PropertyManager();
-
-    /**
      * Constructor.
      * @param jsonObject pre-filled JSONObject to seed this class.
      */
@@ -46,6 +41,11 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @return *this
      */
     PropertyManager& operator=(const PropertyManager& other);
+
+    /**
+     * Destructor.
+     */
+    virtual ~PropertyManager();
 
     /**
      * @return this object as a string

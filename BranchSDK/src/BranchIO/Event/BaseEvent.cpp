@@ -33,6 +33,13 @@ BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventN
     }
 }
 
+BaseEvent::BaseEvent(const BaseEvent &other) :
+    PropertyManager(other),
+    mAPIEndpoint(other.mAPIEndpoint),
+    mEventName(other.mEventName),
+    mCustomData(other.mCustomData) {
+}
+
 BaseEvent::~BaseEvent() = default;
 
 BaseEvent&
@@ -138,7 +145,6 @@ BaseEvent::package(IPackagingInfo &packagingInfo, JSONObject &jsonPackage) const
             packageRawEvent(jsonPackage);
             break;
     }
-
 }
 
 

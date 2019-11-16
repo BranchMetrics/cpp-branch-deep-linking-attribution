@@ -18,7 +18,7 @@ namespace BranchIO {
  */
 class Request {
  public:
-    /// Maximum number of retries before giving up
+    /// Maximum number of attempts before giving up
     static int const MaxAttemptCount;
 
     /// Maximum retry delay in ms

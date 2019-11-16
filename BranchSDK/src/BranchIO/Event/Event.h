@@ -27,6 +27,12 @@ class BRANCHIO_DLL_EXPORT Event : public BaseEvent {
     } AdType;
 
  public:
+    /**
+     * Copy constructor
+     * @param other another instance to copy
+     */
+    Event(const Event& other);
+
     virtual ~Event();
 
     /**
@@ -105,6 +111,8 @@ class BRANCHIO_DLL_EXPORT Event : public BaseEvent {
      * @return this object for chaining builder methods
      */
     virtual Event& setTransactionId(const std::string &transactionId);
+
+    using PropertyManager::toString;
 
  protected:
     /**

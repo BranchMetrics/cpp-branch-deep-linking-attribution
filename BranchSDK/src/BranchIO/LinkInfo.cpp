@@ -3,8 +3,10 @@
 #include "BranchIO/LinkInfo.h"
 #include <Poco/URI.h>
 #include <Poco/Base64Encoder.h>
+#include <Poco/Util/Timer.h>
 
 #include "BranchIO/Defines.h"
+#include "BranchIO/Util/Log.h"
 #include "BranchIO/Util/StringUtils.h"
 
 namespace BranchIO {
@@ -27,7 +29,7 @@ const char *JSONKEY_URL = "url";
  * (Internal) Fallback Callback.
  * This class allows for a failed short link to become a long link
  */
-class LinkFallback : public IRequestCallback {
+class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
  public:
     /**
      * Constructor.
@@ -36,11 +38,26 @@ class LinkFallback : public IRequestCallback {
      * @param parent Parent callback to be called after this has processed the response.
      */
     LinkFallback(Branch *instance, const LinkInfo &context, IRequestCallback *parent) :
+            _timer(),
             _instance(instance),
             _context(context),
-            _parentCallback(parent) {}
+            _parentCallback(parent),
+            _handled(false) {
+        // Schedule a timer.
+        _timer.schedule(this, 2000, 10000);
+    }
+
+    virtual ~LinkFallback() {
+    }
 
     virtual void onSuccess(int id, JSONObject jsonResponse) {
+        if (_handled) {
+            return;
+        }
+
+        _handled = true;
+        _timer.cancel(false);
+
         // Call the original callback
         if (_parentCallback != NULL) {
             _parentCallback->onSuccess(id, jsonResponse);
@@ -49,13 +66,20 @@ class LinkFallback : public IRequestCallback {
 
     virtual void onError(int id, int error, std::string description) {
         // Attempt to create a Long Link
+        BRANCH_LOG_D("Fallback and create a long link");
+
         std::string longUrl = _context.createLongUrl(_instance);
 
-        JSONObject jsonObject;
-        jsonObject.set(JSONKEY_URL, longUrl);
+        if (longUrl.empty()) {
+            // This is an actual failure.
+            if (_parentCallback) {
+                _parentCallback->onError(id, error, description);
+            }
+        } else {
+            JSONObject jsonObject;
+            jsonObject.set(JSONKEY_URL, longUrl);
 
-        if (_parentCallback != NULL) {
-            _parentCallback->onSuccess(id, jsonObject);
+            onSuccess(id, jsonObject);
         }
     }
 
@@ -66,14 +90,32 @@ class LinkFallback : public IRequestCallback {
         }
     }
 
+    /**
+     * Timer Task.
+     * If the timer fires, it will simply generate a long link and ignore the network result.
+     */
+    void run() {
+        // Timer Task.
+        onError(0, 0, "Link Fallback");
+    }
+
  private:
+    Poco::Util::Timer _timer;
     Branch *_instance;
-    const LinkInfo &_context;
+    LinkInfo _context;
     IRequestCallback *_parentCallback;
+    bool _handled;
 };
 
 
-LinkInfo::LinkInfo() : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo") {
+LinkInfo::LinkInfo()
+    : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo") {
+}
+
+LinkInfo::LinkInfo(const LinkInfo& other) :
+    BaseEvent(other),
+    _controlParams(other._controlParams),
+    _tagParams(other._tagParams) {
 }
 
 LinkInfo::~LinkInfo() = default;

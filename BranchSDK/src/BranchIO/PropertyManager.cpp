@@ -15,8 +15,8 @@ PropertyManager::PropertyManager(const JSONObject &jsonObject)
     : JSONObject(jsonObject) {
 }
 
-PropertyManager::PropertyManager(const PropertyManager &other) :
-    JSONObject(other) {
+PropertyManager::PropertyManager(const PropertyManager &other)
+    : JSONObject(other) {
 }
 
 PropertyManager&

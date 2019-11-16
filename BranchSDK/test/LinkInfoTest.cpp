@@ -46,7 +46,6 @@ void initTestLink(LinkInfo &info) {
     info.addControlParameter("custom_object", customObject);
 }
 
-
 TEST_F(LinkInfoTest, TestStringSetters) {
     LinkInfo info;
 
@@ -189,4 +188,24 @@ TEST_F(LinkInfoTest, TestCreateLinkNoControlParams) {
     std::string url = linkInfo.createLongUrl(_branchInstance);
 
     ASSERT_GT(url.size(), 0);
+}
+
+TEST_F(LinkInfoTest, TestCopyConstructor) {
+    PackagingInfo packagingInfo(BranchIO::Test::getTestKey());
+    LinkInfo linkInfo;
+    initTestLink(linkInfo);
+
+    BaseEvent &baseInfo = (BaseEvent &)linkInfo;
+    JSONObject jsonOriginal;
+
+    baseInfo.package(packagingInfo, jsonOriginal);
+
+    // Create a copy
+    LinkInfo linkCopy(linkInfo);
+    BaseEvent &baseCopy = (BaseEvent &)linkCopy;
+    JSONObject jsonCopy;
+
+    baseCopy.package(packagingInfo, jsonCopy);
+
+    ASSERT_EQ(jsonOriginal.stringify(), jsonCopy.stringify());
 }
