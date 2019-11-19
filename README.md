@@ -47,7 +47,7 @@ Current version: **1.0.0**
 
 ### Branch-integrated Demo Apps
 
-There are several demo apps embedded in this repository, which you can find in the ***BranchSDK-Testbed*** folder. 
+There are several demo apps embedded in this repository, which you can find in the ***BranchSDK-Samples*** folder. 
 Please use these as a reference.
 
 Should you run into an issue with the SDK, please check that it is present in the demo app before submitting any issue 
