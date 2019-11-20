@@ -1,7 +1,7 @@
 
 
 
-# Branch Metrics Windows SDK
+# Branch Metrics C++ SDK
 
 ## Technical Documentation
 
@@ -47,7 +47,7 @@ Current version: **1.0.0**
 
 ### Branch-integrated Demo Apps
 
-There are several demo apps embedded in this repository, which you can find in the ***BranchSDK-Testbed*** folder. 
+There are several demo apps embedded in this repository, which you can find in the ***BranchSDK-Samples*** folder. 
 Please use these as a reference.
 
 Should you run into an issue with the SDK, please check that it is present in the demo app before submitting any issue 
@@ -68,11 +68,11 @@ suffix. This suffix, referred to as the *alias*, can be either randomly generate
 manually-defined (*testlink*, for example). The app-specific base domain used to create the links is termed the 
 *Branch link domain*.
 
-A Branch-integrated app called TestBed-Windows and assigned the default Branch link domain *testbed-windows.app.link* has 
-the following Branch links:
+A Branch-integrated app called ColorPicker and assigned the default Branch link domain *uxzce.app.link* has 
+the following Branch link examples:
 
-- https://testbed-windows.app.link/FCIWxFeBGx
-- https://testbed-windows.app.link/testlink
+- https://uxzce.app.link/o599TjuIK1 (Resolves to a Teal color)
+- https://uxzce.app.link/39nO6CAIK1 (Resolves to a Purple color)
 
 Note that when using the 'app.link' default link domain there is a second, alternate, form of the link domain that comes 
 into play when displaying Branch Deepviews - the *alternate link domain*. This *alternate link domain* sees the domain's 
@@ -135,17 +135,17 @@ ___
 
 * Open Visual Studio and create a new Blank App (Windows Desktop Application) project
 
-**II. Add the Branch SDK
+**II. Add the Branch SDK**
 
 * Add a `conanfile.txt` to your project.  Use the example above to get started.
 
 The Conan Extension will automatically pick up the dependency on Branch, and pull in the necessary
 files needed.
 
-**III. Create a Branch Instance
+**III. Create a Branch Instance**
 
 Creating a Branch instance should be done as early as possible in the Application lifecycle.
-For example, in `InitInstance()`.
+For example, in `WinMain()`.
 
 ```C++
     #define BRANCH_KEY "key_live_xxx"
@@ -165,7 +165,7 @@ For example, in `InitInstance()`.
     }
 ```
 
-**IV. Initialize a Branch Session
+**IV. Initialize a Branch Session**
 
 A Branch Session is typically defined as starting when the user interface first appears, and  finishing when the last 
 user interface goes away.  Multiple views may be shown during a single session.   A session must be created
@@ -222,15 +222,13 @@ ___
 To help you get started, there are a number of examples for learning how to effectively use the Branch C++ SDK
 
 #### [Hello Branch](../BranchSDK-Samples/console/hello/helloworld.cpp)
-The most basic console application, portable to all Windows, Mac, and Linux environments.  This sample creates a couple 
-of attribution events and waits until they have all completed.
+The most basic console application.  This sample creates a couple of attribution events and waits until they have all completed.
 
 #### [Console Example](../BranchSDK-Samples/console/example/example.cpp)
-A more detailed console application, portable to all Windows, Mac, and Linux environments.  This sample puts up a simple 
-menu and allows the user to initialize sessions, enable and disable tracking, and more.   This is most useful for 
-examining how Branch works in an isolated environment and provides an easy framework to extend to try out other requests 
-that are pertinent to the problems that you are trying to solve. Adding new menu items is trivial and is immensely 
-useful for a debugging tool.
+A more detailed console application.  This sample puts up a simple menu and allows the user to initialize sessions, 
+enable and disable tracking, and more.   This is most useful for examining how Branch works in an isolated environment 
+and provides an easy framework to extend to try out other requests that are pertinent to the problems that you are trying to solve. 
+Adding new menu items is trivial and is immensely useful for a debugging tool.
 
 This example also has the ability to print out details of the environment that it is running on, such as the OS, 
 OS Version, SDK version, etc.
@@ -303,7 +301,7 @@ BranchEvent for the best results. You can always use custom event names and even
 ```C++
 BranchStandardEvent ev = new BranchStandardEvent(BranchIO::StandardEvent::Type::ADD_TO_CART)
     .SetDescription("Test description")
-    .SetTransactionID("322")
+    .SetTransactionID("123")
     .AddCustomDataProperty("TestProperty", "TestValue");
 _branchInstance->sendEvent(ev, _myCallback);
 ```
