@@ -5,7 +5,7 @@ class BranchioConan(ConanFile):
     # ----- Package metadata -----
     name = "BranchIO"
     # TODO(jdee): Set the version in one place and propagate it
-    version = "0.2.0"
+    version = "0.2.1"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
@@ -37,6 +37,12 @@ class BranchioConan(ConanFile):
     # ----- Package dependencies -----
     requires = "Poco/1.9.0@pocoproject/stable"
     build_requires = "gtest/1.8.1@bincrafters/stable"
+
+    scm = {
+        "type": "git",
+        "url": "auto",
+        "revision": "auto"
+    }
 
     def source(self):
         if self.options.source_folder:
