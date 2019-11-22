@@ -2,6 +2,7 @@
 
 #include "BranchIO/PropertyManager.h"
 #include "BranchIO/JSONObject.h"
+#include "BranchIO/Util/Storage.h"
 
 using namespace Poco;
 
@@ -14,17 +15,16 @@ PropertyManager::PropertyManager(const JSONObject &jsonObject)
     : JSONObject(jsonObject) {
 }
 
-PropertyManager::PropertyManager(const PropertyManager &other) :
-    JSONObject(other) {
+PropertyManager::PropertyManager(const PropertyManager &other)
+    : JSONObject(other) {
 }
 
 PropertyManager&
 PropertyManager::operator=(const PropertyManager& other) {
-    return static_cast<PropertyManager&>(JSONObject::operator=(other));
+    return dynamic_cast<PropertyManager&>(JSONObject::operator=(other));
 }
 
-PropertyManager::~PropertyManager() {
-}
+PropertyManager::~PropertyManager() = default;
 
 PropertyManager&
 PropertyManager::addProperty(const char *name, const std::string &value) {
@@ -55,6 +55,22 @@ PropertyManager::addProperty(const char *name, double value) {
 }
 
 PropertyManager&
+PropertyManager::addProperty(const char *name, const PropertyManager &value) {
+    Mutex::ScopedLock _l(_mutex);
+
+    set(name, value);
+    return *this;
+}
+
+PropertyManager&
+PropertyManager::addProperty(const char *name, const Poco::JSON::Array &value) {
+    Mutex::ScopedLock _l(_mutex);
+
+    set(name, value);
+    return *this;
+}
+
+PropertyManager&
 PropertyManager::addProperties(const JSONObject &jsonObject) {
     Mutex::ScopedLock _l(_mutex);
 
@@ -73,6 +89,31 @@ PropertyManager::clear() {
     return *this;
 }
 
+bool
+PropertyManager::has(const char *name) const {
+    Mutex::ScopedLock _l(_mutex);
+
+    return JSONObject::has(name);
+}
+
+bool
+PropertyManager::isEmpty() const {
+    Mutex::ScopedLock _l(_mutex);
+
+    return (JSONObject::size() == 0);
+}
+
+std::string
+PropertyManager::getStringProperty(const char *name, const std::string &defValue) const {
+    Mutex::ScopedLock _l(_mutex);
+
+    if (has(name)) {
+        return getValue<std::string>(name);
+    }
+
+    return defValue;
+}
+
 std::string
 PropertyManager::toString() const {
     Mutex::ScopedLock _l(_mutex);
@@ -88,5 +129,17 @@ PropertyManager::toJSON() const {
     Mutex::ScopedLock _l(_mutex);
     return *this;
 }
+
+std::string
+PropertyManager::getPath(const std::string& base, const std::string &key)  {
+    std::string storagePath(base);
+    if (!base.empty()) {
+        storagePath += ".";
+    }
+    storagePath += key;
+
+    return storagePath;
+}
+
 
 }  // namespace BranchIO

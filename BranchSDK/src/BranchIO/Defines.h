@@ -20,6 +20,7 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_AFFILIATION;              ///< Affiliation
     static const char *JSONKEY_COUPON;                   ///< Coupon Code
     static const char *JSONKEY_CURRENCY;                 ///< ISO4217 Currency Code
+    static const char *JSONKEY_CUSTOMER_EVENT_ALIAS;     ///< Customer Event Alias
     static const char *JSONKEY_DESCRIPTION;              ///< Description
     static const char *JSONKEY_REVENUE;                  ///< Revenue
     static const char *JSONKEY_SEARCHQUERY;              ///< Search Query
@@ -39,6 +40,7 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_DEVICE_SCREEN_HEIGHT;     ///< Device Screen Height (pixels)
     static const char *JSONKEY_DEVICE_SCREEN_WIDTH;      ///< Device Screen Width (pixels)
 
+    static const char *JSONKEY_APP_IDENTITY;             ///< User Identity
     static const char *JSONKEY_APP_DEVELOPER_IDENTITY;   ///< App Developer Identity
     static const char *JSONKEY_APP_ENVIRONMENT;          ///< App Environment
     static const char *JSONKEY_APP_LAT_V1;               ///< Limit App Tracking, V1
@@ -77,6 +79,7 @@ class BRANCHIO_DLL_EXPORT Defines {
         REGISTER_CLOSE,
         REGISTER_VIEW,
         LOGOUT,
+        URL,
 
         // V2 Endpoints
         REDEEM_REWARDS,
@@ -97,7 +100,7 @@ class BRANCHIO_DLL_EXPORT Defines {
      * @param endpoint API Endpoint
      * @return a string representation of the endpoint.
      */
-    static const std::string toString(APIEndpoint endpoint);
+    static const std::string stringify(APIEndpoint endpoint);
 
     /**
      * (Internal) Given an Endpoint, determine if it is a V1 or V2 Type

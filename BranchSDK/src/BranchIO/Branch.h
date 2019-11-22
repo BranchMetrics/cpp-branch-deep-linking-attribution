@@ -11,7 +11,7 @@
 #include "BranchIO/AdvertiserInfo.h"
 #include "BranchIO/AppInfo.h"
 #include "BranchIO/DeviceInfo.h"
-#include "BranchIO/Event/Event.h"
+#include "BranchIO/Event/BaseEvent.h"
 #include "BranchIO/PackagingInfo.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/SessionInfo.h"
@@ -55,20 +55,20 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param linkUrl Referring link, or an empty string if none.
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void openSession(const std::string &linkUrl = "", IRequestCallback *callback = NULL);
+    virtual void openSession(const std::string &linkUrl = "", IRequestCallback *callback = nullptr);
 
     /**
      * Close a Branch Session.
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void closeSession(IRequestCallback *callback = NULL);
+    virtual void closeSession(IRequestCallback *callback = nullptr);
 
     /**
      * Send an event to Branch.
-     * @param event Event to send
+     * @param event BaseEvent to send
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void sendEvent(const Event &event, IRequestCallback *callback);
+    virtual void sendEvent(const BaseEvent &event, IRequestCallback *callback);
 
     /**
      * @return the SDK Version
@@ -106,6 +106,27 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     AdvertiserInfo &getAdvertiserInfo();
 
+ public:
+    // User Identity APIs.
+
+    /**
+     * Identifies the current user to the Branch API by supplying a unique identifier
+     * @param userId   A value containing the unique identifier of the user.
+     * @param callback Callback to fire with success or failure notification.
+     */
+    void setIdentity(const std::string& userId, IRequestCallback *callback);
+
+    /**
+     * This method should be called if you know that a different person is about to use the app. For example,
+     * if you allow users to log out and let their friend use the app, you should call this to notify Branch
+     * to create a new user for this device. This will clear the first and latest params, as a new session is created.</p>
+     *
+     * @param callback Callback to fire with success or failure notification.
+     */
+    void logout(IRequestCallback *callback);
+
+
+ private:
     /**
      * Explicitly shut down this Branch instance. Happens automatically
      * in destructor.

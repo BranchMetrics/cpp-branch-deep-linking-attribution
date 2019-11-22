@@ -14,6 +14,7 @@ const char *Defines::JSONKEY_ADTYPE = "ad_type";
 const char *Defines::JSONKEY_AFFILIATION = "affiliation";
 const char *Defines::JSONKEY_COUPON = "coupon";
 const char *Defines::JSONKEY_CURRENCY = "currency";
+const char *Defines::JSONKEY_CUSTOMER_EVENT_ALIAS = "customer_event_alias";
 const char *Defines::JSONKEY_DESCRIPTION = "description";
 const char *Defines::JSONKEY_REVENUE = "revenue";
 const char *Defines::JSONKEY_SEARCHQUERY = "search_query";
@@ -33,6 +34,7 @@ const char *Defines::JSONKEY_DEVICE_SCREEN_DPI = "screen_dpi";
 const char *Defines::JSONKEY_DEVICE_SCREEN_HEIGHT = "screen_height";
 const char *Defines::JSONKEY_DEVICE_SCREEN_WIDTH = "screen_width";
 
+const char *Defines::JSONKEY_APP_IDENTITY = "identity";
 const char *Defines::JSONKEY_APP_DEVELOPER_IDENTITY = "developer_identity";
 const char *Defines::JSONKEY_APP_ENVIRONMENT = "environment";
 const char *Defines::JSONKEY_APP_LAT_V1 = "lat_val";
@@ -58,6 +60,7 @@ const char *PATH_REGISTER_OPEN = "v1/open";
 const char *PATH_REGISTER_CLOSE = "v1/close";
 const char *PATH_REGISTER_VIEW = "v1/register-view";
 const char *PATH_LOGOUT = "v1/logout";
+const char *PATH_URL = "v1/url";
 
 const char *PATH_REDEEM_REWARDS = "v1/redeem";
 const char *PATH_GET_CREDITS = "v1/credits";
@@ -72,7 +75,7 @@ const char *PATH_TRACK_STANDARD_EVENT = "v2/event/standard";
 const char *PATH_TRACK_CUSTOM_EVENT = "v2/event/custom";
 
 const std::string
-Defines::toString(APIEndpoint apiEndpoint) {
+Defines::stringify(APIEndpoint apiEndpoint) {
     std::stringstream ss;
     ss << BRANCH_IO_URL_BASE;
 
@@ -88,6 +91,9 @@ Defines::toString(APIEndpoint apiEndpoint) {
             break;
         case LOGOUT:
             ss << PATH_LOGOUT;
+            break;
+        case URL:
+            ss << PATH_URL;
             break;
 
         case APPLY_REFERRAL_CODE:
@@ -140,7 +146,9 @@ Defines::endpointType(APIEndpoint apiEndpoint) {
         case REGISTER_OPEN:
         case REGISTER_CLOSE:
         case REGISTER_VIEW:
+        case IDENTIFY_USER:
         case LOGOUT:
+        case URL:
             apiType = V1;
             break;
 
@@ -150,7 +158,6 @@ Defines::endpointType(APIEndpoint apiEndpoint) {
         case GET_CREDITS:
         case GET_CREDIT_HISTORY:
         case GET_REFERRAL_CODE:
-        case IDENTIFY_USER:
         case REDEEM_REWARDS:
         case TRACK_CUSTOM_EVENT:
         case TRACK_STANDARD_EVENT:

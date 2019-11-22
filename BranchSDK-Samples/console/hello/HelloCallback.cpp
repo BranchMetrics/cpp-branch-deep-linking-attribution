@@ -2,7 +2,7 @@
 
 #include <Poco/Clock.h>
 
-#include <BranchIO/Log.h>
+#include <BranchIO/Util/Log.h>
 
 HelloCallback::HelloCallback() : mResponseCount(0) {}
 

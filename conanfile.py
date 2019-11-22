@@ -2,10 +2,16 @@ from conans import ConanFile, CMake, tools
 import os, shutil
 
 class BranchioConan(ConanFile):
+    scm = {
+        "type": "git",
+        "url": "auto",
+        "revision": "auto"
+    }
+
     # ----- Package metadata -----
     name = "BranchIO"
     # TODO(jdee): Set the version in one place and propagate it
-    version = "0.1.0"
+    version = "1.0.0"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
@@ -37,31 +43,6 @@ class BranchioConan(ConanFile):
     # ----- Package dependencies -----
     requires = "Poco/1.9.0@pocoproject/stable"
     build_requires = "gtest/1.8.1@bincrafters/stable"
-
-    def source(self):
-        if self.options.source_folder:
-            # Install from local source (via rmake)
-            folder = str(self.options.source_folder)
-            self.output.info("Copying from source_folder " + folder)
-            self.copyall(folder, ".", excludes=["build"])
-        elif self.options.git_branch:
-            # Install from a git branch in the repo
-            git = tools.Git(folder=".")
-            self.output.info("Checking out branch %s" % self.options.git_branch)
-
-            # Allow specification of repo URL using BRANCHIO_GIT_URL env. var.
-            git_url_env_var = os.environ.get('BRANCHIO_GIT_URL')
-            git_url = git_url_env_var if git_url_env_var else self.url
-            git.clone(git_url, branch=self.options.git_branch)
-        else:
-            # Install a release from a tag (default)
-            tag_name = "v%s" % self.version
-            self.output.info("Building from tag %s" % tag_name)
-            zip_name = "%s.zip" % tag_name
-            tools.download("%s/archive/%s" % (self.url, zip_name), zip_name)
-            tools.unzip(zip_name)
-            self.copyall("cpp-branch-deep-linking-attribution-%s" % self.version, ".")
-            os.unlink(zip_name)
 
     def build(self):
         library_type = "shared" if self.options.shared else "static"

@@ -13,16 +13,15 @@ namespace BranchIO {
 /**
  * (Internal) Session Management Event
  */
-class BRANCHIO_DLL_EXPORT SessionEvent : public Event {
+class BRANCHIO_DLL_EXPORT SessionEvent : public BaseEvent {
  public:
     /**
      * Constructor.
      * @param apiEndpoint API endpoint
      * @param eventName Event Name
-     * @param jsonPtr pre-filled JSONObject to seed this class.
      */
-    SessionEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr = NULL) :
-        Event(apiEndpoint, eventName, jsonPtr) {}
+    SessionEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName) :
+        BaseEvent(apiEndpoint, eventName) {}
 };
 
 /**
@@ -32,17 +31,16 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
  public:
      /**
       * Constructor.
-      * @param jsonPtr pre-filled JSONObject to seed this class.
       */
-    explicit SessionOpenEvent(JSONObject::Ptr jsonPtr = NULL) :
-        SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open", jsonPtr) {}
+    explicit SessionOpenEvent() :
+        SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {}
 
     /**
      * Set the Link URL
      * @param url Referring link, or an empty string if none.
      * @return this object for chaining builder methods
      */
-    virtual Event& setLinkUrl(const std::string &url) {
+    virtual BaseEvent& setLinkUrl(const std::string &url) {
         if (url.length() > 0) {
             addEventProperty(Defines::JSONKEY_APP_LINK_URL, url);
         }
@@ -57,10 +55,9 @@ class BRANCHIO_DLL_EXPORT SessionViewEvent: public SessionEvent {
  public:
      /**
       * Constructor.
-      * @param jsonPtr pre-filled JSONObject to seed this class.
       */
-    explicit SessionViewEvent(JSONObject::Ptr jsonPtr = NULL) :
-        SessionEvent(Defines::APIEndpoint::REGISTER_VIEW, "View", jsonPtr) {}
+    explicit SessionViewEvent() :
+        SessionEvent(Defines::APIEndpoint::REGISTER_VIEW, "View") {}
 };
 
 /**
@@ -70,10 +67,9 @@ class BRANCHIO_DLL_EXPORT SessionCloseEvent: public SessionEvent {
  public:
      /**
       * Constructor.
-      * @param jsonPtr pre-filled JSONObject to seed this class.
       */
-    explicit SessionCloseEvent(JSONObject::Ptr jsonPtr = NULL) :
-        SessionEvent(Defines::APIEndpoint::REGISTER_CLOSE, "Close", jsonPtr) {}
+    explicit SessionCloseEvent() :
+        SessionEvent(Defines::APIEndpoint::REGISTER_CLOSE, "Close") {}
 };
 
 }  // namespace BranchIO

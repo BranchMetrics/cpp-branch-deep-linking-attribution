@@ -100,7 +100,7 @@ class BRANCHIO_DLL_EXPORT DeviceInfo : public PropertyManager {
  private:
     /**
      * Add a string value property to the set.
-     * Note that if the value is empty, this effecively removes the key.
+     * Note that if the value is empty, this effectively removes the key.
      * @param name Key name
      * @param value Key value
      * @return This object for chaining builder methods

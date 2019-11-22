@@ -41,14 +41,13 @@ class BRANCHIO_DLL_EXPORT SessionInfo : public PropertyManager {
      */
     virtual SessionInfo& setSessionId(const std::string &sessionId);
 
+    /**
+     * @return true if there is a current session.
+     */
+    virtual bool hasSessionId() const;
+
  private:
-    static constexpr const char *const StoragePrefix = "session";
-
-    static std::string getStoragePath(const char *key);
     virtual SessionInfo& doAddProperty(const char *name, const std::string &value);
-
-    void load(const char* key);
-    void save(const char *key, const std::string &value);
 };
 
 }  // namespace BranchIO

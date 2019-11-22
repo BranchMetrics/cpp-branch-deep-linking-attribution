@@ -52,7 +52,7 @@ class BRANCHIO_DLL_EXPORT StandardEvent : public Event {
      * @param eventType event type
      * @return a string representation of this class.
      */
-    static const char *toString(StandardEvent::Type eventType);
+    static const char *stringify(StandardEvent::Type eventType);
 
     /**
      * Constructor.
