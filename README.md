@@ -244,7 +244,7 @@ the correct values.
 ## 4 - Branch SDK Method Reference
 
 ### Branch Documentation
-[Branch API Documentation](https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution/docs) is auto-generated 
+[Branch API Documentation](https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution/docs/html) is auto-generated 
 for every release.
 
 ### Create a Branch Instance
@@ -311,7 +311,7 @@ ____
 ### Generating Branch links
 
 Branch links can be created in-app (as well as in many other ways - see: 
-[Branch link creation guide](https://github.com/BranchMetrics/Branch-Integration-Guides/blob/master/url-creation-guide.md). 
+[Branch link creation guide](https://github.com/BranchMetrics/Branch-Integration-Guides/blob/master/url-creation-guide.md) ). 
 When they are, and setIdentity has been called to associate a User ID with the current user session, Branch links will 
 be associated with that User ID.
 
