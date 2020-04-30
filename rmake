@@ -84,7 +84,6 @@ conan create ../.. branch/${Branch2Use} \
   --json conan-install.json \
   --build outdated \
   --options "*:shared=$BUILD_SHARED_LIBS" \
-  --options "BranchIO:source_folder=`pwd`/../.." \
   --options "Poco:enable_mongodb=False" \
   --options "Poco:enable_data_sqlite=False" \
   --settings build_type=$BUILD_TYPE \

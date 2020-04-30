@@ -11,7 +11,7 @@ class BranchioConan(ConanFile):
     # ----- Package metadata -----
     name = "BranchIO"
     # TODO(jdee): Set the version in one place and propagate it
-    version = "1.0.0"
+    version = "1.0.1"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
@@ -29,19 +29,19 @@ class BranchioConan(ConanFile):
     )
     author = "Branch Metrics, Inc <sdk-team@branch.io>"
     url = "https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution"
-    # TODO(jdee): Find an appropriate URL for this field, either docs or
-    # marketing.
-    # homepage = "https://docs.branch.io/cpp-sdk"
+    # TODO(jdee): Might not want to call this windows-
+    homepage = "https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"
 
     # ----- Package settings and options -----
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "git_branch": "ANY", "source_folder": "ANY"}
-    default_options = {"shared": False, "git_branch": None, "source_folder": None}
+    options = {"shared": [True, False]}
+    default_options = {"shared": False}
     generators = "cmake"
     exports_sources = "BranchIO"
 
     # ----- Package dependencies -----
-    requires = "Poco/1.9.0@pocoproject/stable"
+    # Allow patch updates to Poco
+    requires = "Poco/[~=1.9.4]@pocoproject/stable"
     build_requires = "gtest/1.8.1@bincrafters/stable"
 
     def build(self):

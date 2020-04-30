@@ -156,7 +156,6 @@ conan create ..\.. branch/testing^
   --settings arch=%TARGET_ARCH%^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
-  --options BranchIO:source_folder=%CD%\..\..^
   --options Poco:enable_mongodb=False^
   --options Poco:enable_data_sqlite=False^
   --build outdated
