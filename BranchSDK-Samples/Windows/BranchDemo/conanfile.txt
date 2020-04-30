@@ -1,7 +1,6 @@
 [requires]
-BranchIO/1.0.0@branch/testing
+BranchIO/1.0.1@branch/testing
 
 [options]
 Poco:enable_mongodb=False
 Poco:enable_data_sqlite=False
-BranchIO:source_folder=../../..
