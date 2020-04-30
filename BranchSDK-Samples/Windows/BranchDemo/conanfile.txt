@@ -1,5 +1,5 @@
 [requires]
-BranchIO/0.1.0@branch/testing
+BranchIO/1.0.1@branch/testing
 
 [options]
 Poco:enable_mongodb=False
