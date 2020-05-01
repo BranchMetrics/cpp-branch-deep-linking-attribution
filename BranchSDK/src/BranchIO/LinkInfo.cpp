@@ -10,6 +10,8 @@
 #include "BranchIO/Util/StringUtils.h"
 
 using Poco::Mutex;
+using namespace Poco::Util;
+using namespace std;
 
 namespace BranchIO {
 
@@ -31,7 +33,7 @@ const char* const JSONKEY_URL = "url";
  * (Internal) Fallback Callback.
  * This class allows for a failed short link to become a long link
  */
-class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
+class LinkFallback : public IRequestCallback, TimerTask {
  public:
     /**
      * Constructor.
@@ -39,34 +41,41 @@ class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
      * @param context LinkInfo context
      * @param parent Parent callback to be called after this has processed the response.
      */
-    LinkFallback(Branch *instance, const LinkInfo &context, IRequestCallback *parent) :
-            _instance(instance),
-            _context(context),
-            _parentCallback(parent) {
+    LinkFallback(Branch& instance, const LinkInfo& context, IRequestCallback& parent) :
+        _completed(false),
+        _instance(instance),
+        _context(context),
+        _parentCallback(parent) {
         // Schedule a timer.
         _timer.schedule(this, 2000, 10000);
     }
 
     void onSuccess(int id, JSONObject jsonResponse) {
-        _timer.cancel(false);
+        if (isCompleted()) return;
+        complete();
 
         // Call the original callback
-        if (_parentCallback != NULL) {
-            _parentCallback->onSuccess(id, jsonResponse);
-        }
+        _parentCallback.onSuccess(id, jsonResponse);
+
+        // @todo(jdee): Rework this so that it doesn't use operator new in createUrl.
+        delete this;
     }
 
-    void onError(int id, int error, std::string description) {
+    void onError(int id, int error, string description) {
+        if (isCompleted()) return;
+        complete();
+
         // Attempt to create a Long Link
         BRANCH_LOG_D("Fallback and create a long link");
 
-        std::string longUrl = _context.createLongUrl(_instance);
+        std::string longUrl = _context.createLongUrl(&_instance);
 
         if (longUrl.empty()) {
             // This is an actual failure.
-            if (_parentCallback) {
-                _parentCallback->onError(id, error, description);
-            }
+            _parentCallback.onError(id, error, description);
+
+            // @todo(jdee): Rework this so that it doesn't use operator new in createUrl.
+            delete this;
         } else {
             JSONObject jsonObject;
             jsonObject.set(JSONKEY_URL, longUrl);
@@ -75,11 +84,12 @@ class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
         }
     }
 
-    void onStatus(int id, int error, std::string description) {
+    void onStatus(int id, int error, string description) {
+        if (isCompleted()) return;
+        complete();
+
         // Call the original callback
-        if (_parentCallback != NULL) {
-            _parentCallback->onStatus(id, error, description);
-        }
+        _parentCallback.onStatus(id, error, description);
     }
 
     /**
@@ -87,15 +97,31 @@ class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
      * If the timer fires, it will simply generate a long link and ignore the network result.
      */
     void run() {
+        if (isCompleted()) return;
+
         // Timer Task.
         onError(0, 0, "Link Fallback");
     }
 
+    bool isCompleted() const {
+        Mutex::ScopedLock _l(_mutex);
+        return _completed;
+    }
+
+    void complete() {
+        Mutex::ScopedLock _l(_mutex);
+        _completed = true;
+        _timer.cancel(false);
+    }
+
  private:
-    Poco::Util::Timer _timer;
-    Branch *_instance;
+    Mutex mutable _mutex;
+    bool volatile _completed;
+
+    Timer _timer;
+    Branch& _instance;
     LinkInfo _context;
-    IRequestCallback *_parentCallback;
+    IRequestCallback& _parentCallback;
 };
 
 LinkInfo::LinkInfo()
@@ -214,7 +240,7 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
         return;
     }
 
-    branchInstance->sendEvent(*this, new LinkFallback(branchInstance, *this, callback));
+    branchInstance->sendEvent(*this, new LinkFallback(*branchInstance, *this, *callback));
 }
 
 std::string
