@@ -51,8 +51,8 @@ const char *Defines::JSONKEY_SESSION_ID = "session_id";
 const char *Defines::JSONKEY_SESSION_IDENTITY = "identity_id";
 
 // Branch Url Path
-const char *Defines::BASE_PATH_V1 = "https://jdee.api.beta.branch.io/";
-const char *Defines::BASE_PATH_V2 = "https://jdee.api.beta.branch.io/";
+const char *Defines::BASE_PATH_V1 = "https://api.branch.io/";
+const char *Defines::BASE_PATH_V2 = "https://api2.branch.io/";
 
 const char *PATH_GET_URL = "v1/url";
 const char *PATH_GET_APP = "v1/app-link-settings";

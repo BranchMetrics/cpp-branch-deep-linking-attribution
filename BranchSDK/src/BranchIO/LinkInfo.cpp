@@ -214,13 +214,13 @@ LinkInfo::setType(int type) {
     return doAddProperty(JSONKEY_TYPE, type);
 }
 
+// @todo(jdee): Make these args references. There's no need for all these pointers and null checks.
 void
 LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
     if (callback == NULL) {
         // Nothing to do as there is no way to provide a result.
-        // @todo(jdee): Make callback a reference.
         return;
-    } else if (branchInstance == NULL || branchInstance->getBranchKey().size() == 0) {
+    } else if (branchInstance == NULL || branchInstance->getBranchKey().empty()) {
         // The Branch Instance cannot be null
         callback->onError(0, 0, "Invalid Branch Instance");
         return;
@@ -228,7 +228,6 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
 
     branchInstance->sendEvent(*this, new LinkFallback(branchInstance, *this, callback));
 }
-
 
 std::string
 LinkInfo::createLongUrl(Branch *branchInstance, const std::string &baseUrl) const {
