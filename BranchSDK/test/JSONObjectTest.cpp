@@ -7,18 +7,24 @@
 using namespace std;
 using namespace BranchIO;
 
-class JSONObjectTest : public ::testing::Test
-{
+TEST(JSONObjectTest, EmptyTest) {
+    JSONObject object;
+    ASSERT_TRUE(object.isEmpty());
+}
 
-};
+TEST(JSONObjectTest, NonEmptyTest) {
+    JSONObject object;
+    object.set("foo", "bar");
+    ASSERT_FALSE(object.isEmpty());
+}
 
-TEST_F(JSONObjectTest, NewStringify)
+TEST(JSONObjectTest, NewStringify)
 {
     JSONObject object;
     ASSERT_EQ(object.stringify(), "{}");
 }
 
-TEST_F(JSONObjectTest, OriginalStringify)
+TEST(JSONObjectTest, OriginalStringify)
 {
     JSONObject object;
     ostringstream oss;
@@ -27,7 +33,7 @@ TEST_F(JSONObjectTest, OriginalStringify)
     ASSERT_EQ(oss.str(), "{}");
 }
 
-TEST_F(JSONObjectTest, PtrTest)
+TEST(JSONObjectTest, PtrTest)
 {
     JSONObject::Ptr ptr(new JSONObject);
     JSONObject object;
@@ -35,7 +41,7 @@ TEST_F(JSONObjectTest, PtrTest)
     ASSERT_NO_THROW(object.stringify());
 }
 
-TEST_F(JSONObjectTest, TestJSONArray) {
+TEST(JSONObjectTest, TestJSONArray) {
     JSONArray jsonArray;
 
     jsonArray.add("One");
@@ -48,7 +54,7 @@ TEST_F(JSONObjectTest, TestJSONArray) {
     ASSERT_EQ(jsonArray.size(), 3);
 }
 
-TEST_F(JSONObjectTest, TestJSONObjectAddArray) {
+TEST(JSONObjectTest, TestJSONObjectAddArray) {
     JSONArray jsonArray;
 
     jsonArray.add("One");
@@ -63,7 +69,7 @@ TEST_F(JSONObjectTest, TestJSONObjectAddArray) {
     cout << "TestJSONObjectAddArray: " << str << endl;
 }
 
-TEST_F(JSONObjectTest, TestJSONObjectNullSet) {
+TEST(JSONObjectTest, TestJSONObjectNullSet) {
     JSONObject object;
     JSONObject::Ptr ptr = nullptr;
     object.set("foo", ptr);

@@ -19,6 +19,11 @@ JSONObject::JSONObject(const Poco::JSON::Object& pocoObject)
     : Poco::JSON::Object(pocoObject) {
 }
 
+bool
+JSONObject::isEmpty() const {
+    return size() == 0;
+}
+
 JSONObject::Ptr
 JSONObject::parse(const std::string& jsonString) {
     Parser parser;

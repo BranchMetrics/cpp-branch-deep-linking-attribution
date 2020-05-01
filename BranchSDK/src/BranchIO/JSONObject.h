@@ -55,6 +55,12 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
     static JSONObject load(const std::string& path);
 
     /**
+     * Indicate whether an instance is empty.
+     * @return true if empty, false otherwise
+     */
+    bool isEmpty() const;
+
+    /**
      * Represent this class as a string.
      * When indent is 0, the string will be created as small as possible.
      * Indentation is increased/decreased using number of spaces defined in step.
