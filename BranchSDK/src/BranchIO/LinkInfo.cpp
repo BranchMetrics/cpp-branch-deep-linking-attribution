@@ -9,21 +9,23 @@
 #include "BranchIO/Util/Log.h"
 #include "BranchIO/Util/StringUtils.h"
 
+using Poco::Mutex;
+
 namespace BranchIO {
 
-const char *BASE_LONG_URL = "https://bnc.lt/a/";
+const char* const BASE_LONG_URL = "https://bnc.lt/a/";
 
 // JSON KEYS
-const char *JSONKEY_TAGS = "tags";
-const char *JSONKEY_ALIAS = "alias";
-const char *JSONKEY_TYPE = "type";
-const char *JSONKEY_DURATION = "duration";
-const char *JSONKEY_CHANNEL = "channel";
-const char *JSONKEY_FEATURE = "feature";
-const char *JSONKEY_STAGE = "stage";
-const char *JSONKEY_CAMPAIGN = "campaign";
-const char *JSONKEY_DATA = "data";
-const char *JSONKEY_URL = "url";
+const char* const JSONKEY_TAGS = "tags";
+const char* const JSONKEY_ALIAS = "alias";
+const char* const JSONKEY_TYPE = "type";
+const char* const JSONKEY_DURATION = "duration";
+const char* const JSONKEY_CHANNEL = "channel";
+const char* const JSONKEY_FEATURE = "feature";
+const char* const JSONKEY_STAGE = "stage";
+const char* const JSONKEY_CAMPAIGN = "campaign";
+const char* const JSONKEY_DATA = "data";
+const char* const JSONKEY_URL = "url";
 
 /**
  * (Internal) Fallback Callback.
@@ -122,6 +124,7 @@ LinkInfo::~LinkInfo() = default;
 
 LinkInfo &
 LinkInfo::addControlParameter(const char *key, const std::string &value) {
+    Mutex::ScopedLock _l(_mutex);
     _controlParams.addProperty(key, value);
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
@@ -129,6 +132,7 @@ LinkInfo::addControlParameter(const char *key, const std::string &value) {
 
 LinkInfo &
 LinkInfo::addControlParameter(const char *key, int value) {
+    Mutex::ScopedLock _l(_mutex);
     _controlParams.addProperty(key, value);
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
@@ -136,6 +140,7 @@ LinkInfo::addControlParameter(const char *key, int value) {
 
 LinkInfo&
 LinkInfo::addControlParameter(const char *key, const PropertyManager &value) {
+    Mutex::ScopedLock _l(_mutex);
     _controlParams.addProperty(key, value);
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
@@ -143,6 +148,7 @@ LinkInfo::addControlParameter(const char *key, const PropertyManager &value) {
 
 LinkInfo&
 LinkInfo::addTag(const std::string &tag) {
+    Mutex::ScopedLock _l(_mutex);
     _tagParams.add(tag);
     addProperty(JSONKEY_TAGS, _tagParams);
     return *this;
@@ -212,6 +218,7 @@ void
 LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
     if (callback == NULL) {
         // Nothing to do as there is no way to provide a result.
+        // @todo(jdee): Make callback a reference.
         return;
     } else if (branchInstance == NULL || branchInstance->getBranchKey().size() == 0) {
         // The Branch Instance cannot be null
@@ -225,6 +232,8 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
 
 std::string
 LinkInfo::createLongUrl(Branch *branchInstance, const std::string &baseUrl) const {
+    Mutex::ScopedLock _l(_mutex);
+
     // TODO(andyp): Handle response from setIdentity if there is a base URL in the response
 
     std::string longUrl;
@@ -265,12 +274,11 @@ LinkInfo::createLongUrl(Branch *branchInstance, const std::string &baseUrl) cons
     // Take the controlParams, convert those to a string, and base64 them
     // Note that Poco Base64 introduces by default line endings after 74?? characters.  Call setLineLength(0) to fix.
     // Note further that Poco Base64 implementation appears to require an eol, or it doesn't complete the encoding.
-    std::string params = _controlParams.toString();
     if (!_controlParams.isEmpty()) {
         std::stringstream ss;
         Poco::Base64Encoder b64enc(ss);
         b64enc.rdbuf()->setLineLength(0);
-        b64enc << params << std::endl;
+        b64enc << _controlParams.toString() << std::endl;
 
         uri.addQueryParameter(JSONKEY_DATA, ss.str());
     }

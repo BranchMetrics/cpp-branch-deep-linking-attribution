@@ -73,7 +73,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param tag A tag associated with a deep link.
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo&  addTag(const std::string &tag);
+    virtual LinkInfo& addTag(const std::string &tag);
 
     /**
      * Sets the alias for this link.
@@ -148,7 +148,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param branchInstance Branch Instance
      * @param callback Callback to fire with success or failure notification.
      */
-     virtual void createUrl(Branch *branchInstance, IRequestCallback *callback);
+    virtual void createUrl(Branch *branchInstance, IRequestCallback *callback);
 
     /**
      * Create a long Url with the given deep link parameters and link properties.
@@ -186,8 +186,8 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
     std::string getFeature() const;
     std::string getStage() const;
 
-
  private:
+    Poco::Mutex mutable _mutex;
     PropertyManager _controlParams;
     JSONArray _tagParams;
 };
