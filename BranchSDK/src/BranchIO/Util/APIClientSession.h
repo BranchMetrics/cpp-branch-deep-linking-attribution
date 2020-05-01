@@ -21,11 +21,6 @@ class APIClientSession
       public virtual IClientSession {
  public:
     /**
-     * Default timeout for all requests.
-     */
-    static constexpr long const RequestTimeoutMillis = 2000;
-
-    /**
      * @return SSL session context
      * @todo(jdee): Document
      */

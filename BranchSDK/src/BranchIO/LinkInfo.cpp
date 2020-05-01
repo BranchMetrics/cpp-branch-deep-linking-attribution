@@ -10,6 +10,7 @@
 #include "BranchIO/Util/StringUtils.h"
 
 using Poco::Mutex;
+using namespace Poco::Util;
 using namespace std;
 
 namespace BranchIO {
@@ -32,7 +33,7 @@ const char* const JSONKEY_URL = "url";
  * (Internal) Fallback Callback.
  * This class allows for a failed short link to become a long link
  */
-class LinkFallback : public IRequestCallback {
+class LinkFallback : public IRequestCallback, TimerTask {
  public:
     /**
      * Constructor.
@@ -41,12 +42,18 @@ class LinkFallback : public IRequestCallback {
      * @param parent Parent callback to be called after this has processed the response.
      */
     LinkFallback(Branch& instance, const LinkInfo& context, IRequestCallback& parent) :
+        _completed(false),
         _instance(instance),
         _context(context),
         _parentCallback(parent) {
+        // Schedule a timer.
+        _timer.schedule(this, 2000, 10000);
     }
 
     void onSuccess(int id, JSONObject jsonResponse) {
+        if (isCompleted()) return;
+        complete();
+
         // Call the original callback
         _parentCallback.onSuccess(id, jsonResponse);
 
@@ -55,6 +62,9 @@ class LinkFallback : public IRequestCallback {
     }
 
     void onError(int id, int error, string description) {
+        if (isCompleted()) return;
+        complete();
+
         // Attempt to create a Long Link
         BRANCH_LOG_D("Fallback and create a long link");
 
@@ -75,11 +85,40 @@ class LinkFallback : public IRequestCallback {
     }
 
     void onStatus(int id, int error, string description) {
+        if (isCompleted()) return;
+        complete();
+
         // Call the original callback
         _parentCallback.onStatus(id, error, description);
     }
 
+    /**
+     * Timer Task.
+     * If the timer fires, it will simply generate a long link and ignore the network result.
+     */
+    void run() {
+        if (isCompleted()) return;
+
+        // Timer Task.
+        onError(0, 0, "Link Fallback");
+    }
+
+    bool isCompleted() const {
+        Mutex::ScopedLock _l(_mutex);
+        return _completed;
+    }
+
+    void complete() {
+        Mutex::ScopedLock _l(_mutex);
+        _completed = true;
+        _timer.cancel(false);
+    }
+
  private:
+    Mutex mutable _mutex;
+    bool volatile _completed;
+
+    Timer _timer;
     Branch& _instance;
     LinkInfo _context;
     IRequestCallback& _parentCallback;
