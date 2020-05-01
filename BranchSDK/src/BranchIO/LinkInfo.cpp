@@ -40,24 +40,14 @@ class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
      * @param parent Parent callback to be called after this has processed the response.
      */
     LinkFallback(Branch *instance, const LinkInfo &context, IRequestCallback *parent) :
-            _timer(),
             _instance(instance),
             _context(context),
-            _parentCallback(parent),
-            _handled(false) {
+            _parentCallback(parent) {
         // Schedule a timer.
         _timer.schedule(this, 2000, 10000);
     }
 
-    virtual ~LinkFallback() {
-    }
-
-    virtual void onSuccess(int id, JSONObject jsonResponse) {
-        if (_handled) {
-            return;
-        }
-
-        _handled = true;
+    void onSuccess(int id, JSONObject jsonResponse) {
         _timer.cancel(false);
 
         // Call the original callback
@@ -66,7 +56,7 @@ class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
         }
     }
 
-    virtual void onError(int id, int error, std::string description) {
+    void onError(int id, int error, std::string description) {
         // Attempt to create a Long Link
         BRANCH_LOG_D("Fallback and create a long link");
 
@@ -85,7 +75,7 @@ class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
         }
     }
 
-    virtual void onStatus(int id, int error, std::string description) {
+    void onStatus(int id, int error, std::string description) {
         // Call the original callback
         if (_parentCallback != NULL) {
             _parentCallback->onStatus(id, error, description);
@@ -106,9 +96,7 @@ class LinkFallback : public IRequestCallback, Poco::Util::TimerTask {
     Branch *_instance;
     LinkInfo _context;
     IRequestCallback *_parentCallback;
-    bool _handled;
 };
-
 
 LinkInfo::LinkInfo()
     : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo") {
