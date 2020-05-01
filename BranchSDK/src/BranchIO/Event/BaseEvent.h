@@ -30,7 +30,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
     /**
      * @return the Event Name.
      */
-    virtual const std::string &name() const;
+    virtual std::string name() const;
 
     /**
      * Adds a custom data property associated with this Branch Event.
@@ -45,7 +45,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      * Get the custom data properties associated with this Branch Event.
      * @return the Custom Data for the event.
      */
-    virtual const JSONObject::Ptr getCustomData() const;
+    virtual JSONObject getCustomData() const;
 
  public:
     /**
@@ -94,6 +94,8 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
     void packageV2Event(IPackagingInfo &branch, JSONObject &jsonObject) const;
 
  private:
+    Poco::Mutex mutable mMutex;
+
     // API Endpoint
     Defines::APIEndpoint mAPIEndpoint;
 
@@ -101,7 +103,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
     std::string mEventName;
 
     // Custom Data is rendered as a sibling to the event data
-    JSONObject::Ptr mCustomData;
+    JSONObject mCustomData;
 };
 
 }  // namespace BranchIO
