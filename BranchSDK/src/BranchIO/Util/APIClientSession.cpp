@@ -50,6 +50,9 @@ APIClientSession::APIClientSession(const std::string& urlBase) :
     getContext()),
     _urlBase(urlBase),
     _shuttingDown(false) {
+    // @todo(jdee): Make this configurable. This is what was used with the
+    // timer in LinkFallback. Let the HTTPClientSession handle the timeout.
+    setTimeout(RequestTimeoutMillis); // 2-second timeout for responses
 }
 
 void
