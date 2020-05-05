@@ -6,13 +6,16 @@
 #include <string>
 #include "BranchIO/Branch.h"
 #include "BranchIO/Event/BaseEvent.h"
+#include "BranchIO/fwd.h"
 
 namespace BranchIO {
 
 /**
  * Link Information.
  */
-class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
+class BRANCHIO_DLL_EXPORT LinkInfo :
+    protected BaseEvent,
+    protected virtual IRequestCallback {
  public:
     /**
      * An Integer value indicating the calculation type of the referral code. In this case,
@@ -38,8 +41,6 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      */
     LinkInfo(const LinkInfo& other);
 
-    virtual ~LinkInfo();
-
     /**
      * Any other params to be added; you can define your own.
      *
@@ -47,7 +48,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param value A string with the value for the parameter
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& addControlParameter(const char *key, const std::string &value);
+    LinkInfo& addControlParameter(const char *key, const std::string &value);
 
     /**
      * Any other params to be added; you can define your own.
@@ -56,7 +57,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param value An integer with the value for the parameter
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& addControlParameter(const char *key, int value);
+    LinkInfo& addControlParameter(const char *key, int value);
 
     /**
      * Any other params to be added; you can define your own.
@@ -65,7 +66,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param value A PropertyManager with the value for the parameter
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& addControlParameter(const char *key, const PropertyManager &value);
+    LinkInfo& addControlParameter(const char *key, const PropertyManager &value);
 
     /**
      * Adds a tag to the collection associated with a deep link.
@@ -73,7 +74,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param tag A tag associated with a deep link.
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& addTag(const std::string &tag);
+    LinkInfo& addTag(const std::string &tag);
 
     /**
      * Sets the alias for this link.
@@ -81,7 +82,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param alias A string value containing the desired alias name to add.
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& setAlias(const std::string &alias);
+    LinkInfo& setAlias(const std::string &alias);
 
     /**
      * A string value that represents the campaign associated with this link.
@@ -89,7 +90,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param campaign A string value specifying the campaign.
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& setCampaign(const std::string &campaign);
+    LinkInfo& setCampaign(const std::string &campaign);
 
     /**
      * [Optional] The channel in which the link will be shared. eg: "facebook",
@@ -99,7 +100,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      *                belongs to. (max 128 characters).
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& setChannel(const std::string &channel);
+    LinkInfo& setChannel(const std::string &channel);
 
     /**
      * [Optional] You can set the duration manually. This is the time that
@@ -109,7 +110,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param duration An integer value in seconds.
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& setDuration(int duration);
+    LinkInfo& setDuration(int duration);
 
     /**
      * [Optional] The feature in which the link will be used. eg: "invite",
@@ -118,7 +119,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param feature A string specifying the feature. (max 128 characters).
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& setFeature(const std::string &feature);
+    LinkInfo& setFeature(const std::string &feature);
 
     /**
      * A string value that represents the stage of the user in the app. eg:
@@ -127,7 +128,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param stage A string value specifying the stage.
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& setStage(const std::string &stage);
+    LinkInfo& setStage(const std::string &stage);
 
     /**
      * Adds a type to the link.
@@ -139,7 +140,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      *             </ul>
      * @return This object for chaining builder methods
      */
-    virtual LinkInfo& setType(int type);
+    LinkInfo& setType(int type);
 
     /**
      * Create a Branch Url with the given deep link parameters and link properties.
@@ -148,7 +149,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param branchInstance Branch Instance
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void createUrl(Branch *branchInstance, IRequestCallback *callback);
+    void createUrl(Branch *branchInstance, IRequestCallback *callback);
 
     /**
      * Create a long Url with the given deep link parameters and link properties.
@@ -157,9 +158,25 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
      * @param baseUrl Non-Default base to use for forming the url
      * @return A url with the given deep link parameters.
      */
-    virtual std::string createLongUrl(Branch *branchInstance, const std::string &baseUrl = "") const;
+    std::string createLongUrl(Branch *branchInstance, const std::string &baseUrl = "") const;
 
     using PropertyManager::toString;
+
+ protected:
+    /**
+     * @copydoc IRequestCallback::onSuccess
+     */
+    void onSuccess(int id, JSONObject jsonResponse);
+
+    /**
+     * @copydoc IRequestCallback::onError
+     */
+    void onError(int id, int error, std::string description);
+
+    /**
+     * @copydoc IRequestCallback::onStatus
+     */
+    void onStatus(int id, int error, std::string description);
 
  private:
     /**
@@ -190,6 +207,10 @@ class BRANCHIO_DLL_EXPORT LinkInfo : protected BaseEvent {
     Poco::Mutex mutable _mutex;
     PropertyManager _controlParams;
     JSONArray _tagParams;
+
+    // Store values passed to createUrl() for fallback handling.
+    IRequestCallback* _callback;
+    Branch* _branch;
 };
 
 }  // namespace BranchIO

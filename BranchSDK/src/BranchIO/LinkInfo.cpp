@@ -29,101 +29,6 @@ const char* const JSONKEY_CAMPAIGN = "campaign";
 const char* const JSONKEY_DATA = "data";
 const char* const JSONKEY_URL = "url";
 
-/**
- * (Internal) Fallback Callback.
- * This class allows for a failed short link to become a long link
- */
-class LinkFallback : public IRequestCallback, TimerTask {
- public:
-    /**
-     * Constructor.
-     * @param instance Branch Instance
-     * @param context LinkInfo context
-     * @param parent Parent callback to be called after this has processed the response.
-     */
-    LinkFallback(Branch& instance, const LinkInfo& context, IRequestCallback& parent) :
-        _completed(false),
-        _instance(instance),
-        _context(context),
-        _parentCallback(parent) {
-        // Schedule a timer.
-        _timer.schedule(this, 2000, 10000);
-    }
-
-    void onSuccess(int id, JSONObject jsonResponse) {
-        if (isCompleted()) return;
-        complete();
-
-        // Call the original callback
-        _parentCallback.onSuccess(id, jsonResponse);
-
-        // @todo(jdee): Rework this so that it doesn't use operator new in createUrl.
-        delete this;
-    }
-
-    void onError(int id, int error, string description) {
-        if (isCompleted()) return;
-        complete();
-
-        // Attempt to create a Long Link
-        BRANCH_LOG_D("Fallback and create a long link");
-
-        std::string longUrl = _context.createLongUrl(&_instance);
-
-        if (longUrl.empty()) {
-            // This is an actual failure.
-            _parentCallback.onError(id, error, description);
-
-            // @todo(jdee): Rework this so that it doesn't use operator new in createUrl.
-            delete this;
-        } else {
-            JSONObject jsonObject;
-            jsonObject.set(JSONKEY_URL, longUrl);
-
-            onSuccess(id, jsonObject);
-        }
-    }
-
-    void onStatus(int id, int error, string description) {
-        if (isCompleted()) return;
-        complete();
-
-        // Call the original callback
-        _parentCallback.onStatus(id, error, description);
-    }
-
-    /**
-     * Timer Task.
-     * If the timer fires, it will simply generate a long link and ignore the network result.
-     */
-    void run() {
-        if (isCompleted()) return;
-
-        // Timer Task.
-        onError(0, 0, "Link Fallback");
-    }
-
-    bool isCompleted() const {
-        Mutex::ScopedLock _l(_mutex);
-        return _completed;
-    }
-
-    void complete() {
-        Mutex::ScopedLock _l(_mutex);
-        _completed = true;
-        _timer.cancel(false);
-    }
-
- private:
-    Mutex mutable _mutex;
-    bool volatile _completed;
-
-    Timer _timer;
-    Branch& _instance;
-    LinkInfo _context;
-    IRequestCallback& _parentCallback;
-};
-
 LinkInfo::LinkInfo()
     : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo") {
 }
@@ -133,8 +38,6 @@ LinkInfo::LinkInfo(const LinkInfo& other) :
     _controlParams(other._controlParams),
     _tagParams(other._tagParams) {
 }
-
-LinkInfo::~LinkInfo() = default;
 
 LinkInfo &
 LinkInfo::addControlParameter(const char *key, const std::string &value) {
@@ -240,7 +143,13 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
         return;
     }
 
-    branchInstance->sendEvent(*this, new LinkFallback(*branchInstance, *this, *callback));
+    /*
+     * Probably unnecessary to synchronize these. They are set here and then
+     * only touched by the request manager thread after sendEvent() is called.
+     */
+    _callback = callback;
+    _branch = branchInstance;
+    branchInstance->sendEvent(*this, this);
 }
 
 std::string
@@ -309,6 +218,47 @@ LinkInfo&
 LinkInfo::doAddProperty(const char *name, int value) {
     addProperty(name, value);
     return *this;
+}
+
+void
+LinkInfo::onSuccess(int id, JSONObject response) {
+    if (!_callback) return;
+
+    _callback->onSuccess(id, response);
+
+    // Avoid calling onSuccess or onError more than once.
+    _callback = nullptr;
+}
+
+void
+LinkInfo::onStatus(int id, int error, std::string description) {
+    if (!_callback) return;
+
+    _callback->onStatus(id, error, description);
+}
+
+void
+LinkInfo::onError(int id, int error, std::string description) {
+    if (!_callback || !_branch) return;
+
+    // Attempt to create a Long Link
+    BRANCH_LOG_D("Fallback and create a long link");
+
+    std::string longUrl = createLongUrl(_branch);
+
+    if (longUrl.empty()) {
+        // This is an actual failure.
+        _callback->onError(id, error, description);
+    } else {
+        JSONObject jsonObject;
+        jsonObject.set(JSONKEY_URL, longUrl);
+
+        _callback->onSuccess(id, jsonObject);
+    }
+
+    // Avoid calling onSuccess or onError more than once.
+    _callback = nullptr;
+    _branch = nullptr;
 }
 
 }  // namespace BranchIO
