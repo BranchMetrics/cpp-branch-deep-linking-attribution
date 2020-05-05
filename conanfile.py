@@ -4,7 +4,7 @@ import os, shutil
 class BranchioConan(ConanFile):
     scm = {
         "type": "git",
-        "url": "auto",
+        "url": "https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution",
         "revision": "auto"
     }
 

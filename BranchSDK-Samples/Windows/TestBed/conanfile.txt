@@ -1,6 +1,6 @@
 [requires]
-BranchIO/0.0.1@branch/testing
+BranchIO/1.0.1@branch/stable
 
 [options]
-# master is the default. Uncomment and modify to use a different branch
-# BranchIO:git_branch=master
+Poco:enable_mongodb=False
+Poco:enable_data_sqlite=False
