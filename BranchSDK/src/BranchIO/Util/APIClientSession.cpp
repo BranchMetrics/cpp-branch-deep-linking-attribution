@@ -3,6 +3,7 @@
 #include "APIClientSession.h"
 
 #include <Poco/Exception.h>
+#include <Poco/JSON/JSONException.h>
 #include <Poco/Net/Context.h>
 #include <Poco/Net/HTTPCredentials.h>
 #include <Poco/Net/HTTPRequest.h>
@@ -135,11 +136,10 @@ APIClientSession::processResponse(IRequestCallback& callback) {
 
     // @todo(jdee): Fine-tune this success-failure determination
     if (status == HTTPResponse::HTTP_OK) {
-        JSONObject::Ptr ptr = JSONObject::parse(rs);
-        if (ptr) {
-            callback.onSuccess(0, *ptr);
+        try {
+            callback.onSuccess(0, JSONObject::parse(rs));
             return true;
-        } else {
+        } catch (Poco::JSON::JSONException&) {
             // Parsing Error.
             // @todo(jdee): Return the error from the parseResults
             callback.onStatus(0, 0, "Error parsing result");

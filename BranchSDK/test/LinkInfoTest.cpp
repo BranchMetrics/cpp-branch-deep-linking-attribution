@@ -59,10 +59,10 @@ TEST_F(LinkInfoTest, TestStringSetters) {
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
+    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         std::string value = it->second;
 
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
@@ -81,10 +81,10 @@ TEST_F(LinkInfoTest, TestIntegerSetters) {
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
+    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         int value = it->second;
         ASSERT_NE(value, 0);
     }
@@ -101,8 +101,8 @@ TEST_F(LinkInfoTest, TestControlParams) {
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 
     // cout << "TestControlParams:\t" << str << endl;
 }
@@ -116,12 +116,11 @@ TEST_F(LinkInfoTest, TestTagParams) {
     info.addTag("TAG5");
 
     std::string str = info.toString();
-    cout << "TestTagParams:\t" << str << endl;
 
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 
     // cout << "TestTagParams:\t" << str << endl;
 }
@@ -134,10 +133,8 @@ TEST_F(LinkInfoTest, TestLinkCreate) {
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
-
-    cout << "TestLinkCreate:\t" << str << endl;
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 }
 
 // Test to create a "Long Link Url" from a LinkInfo
@@ -147,8 +144,6 @@ TEST_F(LinkInfoTest, TestLongLinkCreate) {
     initTestLink(linkInfo);
 
     std::string longUrl = linkInfo.createLongUrl(_branchInstance);
-
-    cout << "TestLongLinkCreate:\t" << longUrl << endl;
 }
 
 

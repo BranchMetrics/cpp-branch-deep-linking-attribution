@@ -24,30 +24,15 @@ JSONObject::isEmpty() const {
     return size() == 0;
 }
 
-JSONObject::Ptr
+JSONObject
 JSONObject::parse(const std::string& jsonString) {
     Parser parser;
-
-    try {
-        Var result = parser.parse(jsonString);
-        Object::Ptr resultPtr = result.extract<Object::Ptr>();
-
-        // We have to return an actual JSONObject.
-        // The Poco::JSON::Object::parse method returns instances of the
-        // base class. Use the conversion operator.
-        return new JSONObject(*resultPtr);
-    }
-    catch(Poco::JSON::JSONException &e) {
-        cerr << "Error: " << e.message() << endl;
-        // @todo(jdee): Should this method actually log?
-        // Maybe we should remove the try/catch and let callers
-        // decide how to handle it.
-        // Anyway, with the logging, we rethrow.
-        throw;
-    }
+    Var result = parser.parse(jsonString);
+    Object::Ptr resultPtr = result.extract<Object::Ptr>();
+    return JSONObject(*resultPtr);
 }
 
-JSONObject::Ptr
+JSONObject
 JSONObject::parse(std::istream& s) {
     ostringstream oss;
     StreamCopier::copyStream(s, oss);
@@ -58,7 +43,7 @@ JSONObject
 JSONObject::load(const std::string& path) {
     // std::ifstream constructor throws std::runtime_error if file does not exist, etc.
     ifstream jsonFile(path.c_str());
-    return *parse(jsonFile);
+    return parse(jsonFile);
 }
 
 std::string

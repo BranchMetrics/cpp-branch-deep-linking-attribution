@@ -35,9 +35,9 @@ TEST_F(BranchDeviceInfoTest, TestSetters)
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
+    JSONObject jsonObject = JSONObject::parse(str);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
+    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         std::string value = it->second;
 
         ASSERT_STREQ("My", value.substr(0, 2).c_str());

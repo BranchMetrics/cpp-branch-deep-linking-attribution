@@ -37,14 +37,14 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * @param jsonString JSON formatted string
      * @return a new JSONObject Ptr.
      */
-    static Ptr parse(const std::string& jsonString);
+    static JSONObject parse(const std::string& jsonString);
 
     /**
      * Parse a JSON formatted stream.
      * @param s JSON formatted stream
      * @return a new JSONObject Ptr.
      */
-    static Ptr parse(std::istream& s);
+    static JSONObject parse(std::istream& s);
 
     /**
      * Load a JSON object from a file. Useful for fixtures in testing.
