@@ -36,6 +36,7 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * Parse a JSON formatted string.
      * @param jsonString JSON formatted string
      * @return a new JSONObject Ptr.
+     * @throw Poco::JSON::JSONException in case of parse failure.
      */
     static JSONObject parse(const std::string& jsonString);
 
@@ -43,6 +44,7 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * Parse a JSON formatted stream.
      * @param s JSON formatted stream
      * @return a new JSONObject Ptr.
+     * @throw Poco::JSON::JSONException in case of parse failure.
      */
     static JSONObject parse(std::istream& s);
 
@@ -50,7 +52,8 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * Load a JSON object from a file. Useful for fixtures in testing.
      * @param path file path to load
      * @return a JSONObject containing the contents of the file
-     * @throw std::runtime error in case of failure to load
+     * @throw std::runtime_error in case of failure to read the file
+     * @throw Poco::JSON::JSONException in case of parse failure.
      */
     static JSONObject load(const std::string& path);
 

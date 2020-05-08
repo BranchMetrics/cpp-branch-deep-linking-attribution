@@ -9,16 +9,12 @@
 using namespace BranchIO;
 using namespace std;
 
-class BranchDeviceInfoTest : public ::testing::Test
-{
-};
-
 bool startsWith(std::string str, std::string start)
 {
     return (str.rfind(start, 0) == 0);
 }
 
-TEST_F(BranchDeviceInfoTest, TestSetters)
+TEST(BranchDeviceInfoTest, TestSetters)
 {
     DeviceInfo info;
 

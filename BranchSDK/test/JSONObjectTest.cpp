@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 
+#include <Poco/JSON/JSONException.h>
 #include <BranchIO/JSONObject.h>
 #include <BranchIO/JSONArray.h>
 //#include <Poco/JSON/Array.h>
@@ -48,9 +49,6 @@ TEST(JSONObjectTest, TestJSONArray) {
     jsonArray.add("Two");
     jsonArray.add("Three");
 
-//    std::string str = jsonArray.stringify();
-//    cout << "TestJSONArray: " << str << endl;
-
     ASSERT_EQ(jsonArray.size(), 3);
 }
 
@@ -66,7 +64,6 @@ TEST(JSONObjectTest, TestJSONObjectAddArray) {
     object.set("array", jsonArray);
 
     std::string str = object.stringify();
-    cout << "TestJSONObjectAddArray: " << str << endl;
 }
 
 TEST(JSONObjectTest, TestJSONObjectNullSet) {
@@ -74,4 +71,23 @@ TEST(JSONObjectTest, TestJSONObjectNullSet) {
     JSONObject::Ptr ptr = nullptr;
     object.set("foo", ptr);
     ASSERT_NO_THROW(object.stringify());
+}
+
+TEST(JSONObjectTest, TestParseEmpty) {
+    ASSERT_THROW(JSONObject::parse(""), Poco::JSON::JSONException);
+}
+
+// null cannot be converted to a JSONObject
+TEST(JSONObjectTest, TestParseNull) {
+    ASSERT_THROW(JSONObject::parse("null"), Poco::JSON::JSONException);
+}
+
+// an array cannot be converted to a JSONObject
+TEST(JSONObjectTest, TestParseArray) {
+    ASSERT_THROW(JSONObject::parse("[]"), Poco::JSON::JSONException);
+}
+
+TEST(JSONObjectTest, TestParseObject) {
+    JSONObject object(JSONObject::parse("{\"foo\": \"bar\"}"));
+    ASSERT_EQ(object.getValue<string>("foo"), "bar");
 }

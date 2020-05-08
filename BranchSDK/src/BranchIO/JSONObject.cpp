@@ -27,9 +27,24 @@ JSONObject::isEmpty() const {
 JSONObject
 JSONObject::parse(const std::string& jsonString) {
     Parser parser;
+    // Can throw Poco::JSON::JSONException
     Var result = parser.parse(jsonString);
-    Object::Ptr resultPtr = result.extract<Object::Ptr>();
-    return JSONObject(*resultPtr);
+    try {
+        /*
+         * Since this is not a generic JSON parser, but a JSONObject parser,
+         * a valid JSON string like "null" or "[]" may generate a
+         * BadCastException. Empty strings generate an InvalidAccessException.
+         * Convert those to JSONExceptions for convenience of handling.
+         */
+        Object::Ptr object = result.extract<Object::Ptr>();
+        return JSONObject(*object);
+    }
+    catch (BadCastException&) {
+        throw Poco::JSON::JSONException("Not an object");
+    }
+    catch (InvalidAccessException&) {
+        throw Poco::JSON::JSONException("empty JSON string");
+    }
 }
 
 JSONObject
