@@ -33,7 +33,7 @@ const char* const JSONKEY_URL = "url";
 
 LinkInfo::LinkInfo()
     : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo"),
-    _complete(false),
+    _complete(true),
     _callback(nullptr),
     _branch(nullptr),
     _clientSession(nullptr) {
@@ -63,16 +63,26 @@ LinkInfo::cancel() {
     _complete = true;
     _completeCondition.broadcast();
 
-    /*
-     * @todo(jdee): Cancel outstanding request to APIClientSession.
-     * This is basically an optimization.
-     */
+    if (!_clientSession) return;
+    _clientSession->stop();
 }
 
 void
 LinkInfo::setClientSession(IClientSession* clientSession) {
     Mutex::ScopedLock _l(_mutex);
     _clientSession = clientSession;
+}
+
+IClientSession*
+LinkInfo::getClientSession() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _clientSession;
+}
+
+IRequestCallback*
+LinkInfo::getCallback() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _callback;
 }
 
 LinkInfo &
@@ -179,6 +189,8 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
         return;
     }
 
+    Mutex::ScopedLock _l(_mutex);
+    _complete = false;
     /*
      * Start a thread to make the request. Executes LinkInfo::run().
      */
@@ -255,14 +267,10 @@ LinkInfo::doAddProperty(const char *name, int value) {
 
 void
 LinkInfo::onSuccess(int id, JSONObject response) {
-    Mutex::ScopedLock _l(_mutex);
-    // If canceled, _complete will be true
-    if (_complete) return;
+    auto callback = getCallback();
+    if (!callback) return;
 
-    _callback->onSuccess(id, response);
-
-    _complete = true;
-    _completeCondition.broadcast();
+    callback->onSuccess(id, response);
 }
 
 void
@@ -276,9 +284,8 @@ LinkInfo::onStatus(int id, int error, std::string description) {
 
 void
 LinkInfo::onError(int id, int error, std::string description) {
-    Mutex::ScopedLock _l(_mutex);
-    // If canceled, _complete will be true
-    if (_complete) return;
+    auto callback = getCallback();
+    if (!callback) return;
 
     // Attempt to create a Long Link
     BRANCH_LOG_D("Fallback and create a long link");
@@ -287,16 +294,13 @@ LinkInfo::onError(int id, int error, std::string description) {
 
     if (longUrl.empty()) {
         // This is an actual failure.
-        _callback->onError(id, error, description);
+        callback->onError(id, error, description);
     } else {
         JSONObject jsonObject;
         jsonObject.set(JSONKEY_URL, longUrl);
 
-        _callback->onSuccess(id, jsonObject);
+        callback->onSuccess(id, jsonObject);
     }
-
-    _complete = true;
-    _completeCondition.broadcast();
 }
 
 void
@@ -312,18 +316,24 @@ LinkInfo::run() {
     payload.set("branch_key", _branch->getBranchKey());
     string identity(_branch->getAppInfo().getDeveloperIdentity());
     if (!identity.empty()) {
-        payload.set(Defines::JSONKEY_APP_DEVELOPER_IDENTITY, identity);
+        payload.set("identity", identity);
     }
 
+    auto mockClientSession = getClientSession();
     // 2. POST & call back
-    if (_clientSession) {
+    if (mockClientSession) {
         // Use in unit tests.
-        _clientSession->post("/v1/url", payload, *this);
+        mockClientSession->post("/v1/url", payload, *this);
     } else {
         APIClientSession clientSession(BRANCH_IO_URL_BASE);
         // synchronous call but calls callback. blocks till callback invoked.
+        setClientSession(&clientSession);
         clientSession.post("/v1/url", payload, *this);
+        setClientSession(nullptr);
     }
+
+    // Thread exiting, unblock destructor.
+    cancel();
 }
 
 }  // namespace BranchIO

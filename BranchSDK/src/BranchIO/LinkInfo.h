@@ -209,6 +209,18 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      */
     void run();
 
+    /**
+     * Get the current client session.
+     * @return an IClientSession pointer or nullptr
+     */
+    IClientSession* getClientSession() const;
+
+    /**
+     * Get the current callback, if any.
+     * @return an IRequestCallback pointer or nullptr
+     */
+    IRequestCallback* getCallback() const;
+
  private:
     /**
      * Add a string value property to the set.

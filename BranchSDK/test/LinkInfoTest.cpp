@@ -35,8 +35,6 @@ TEST(LinkInfoTest, TestStringSetters) {
 
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
     }
-
-    info.cancel();
 }
 
 TEST(LinkInfoTest, TestIntegerSetters) {
@@ -56,8 +54,6 @@ TEST(LinkInfoTest, TestIntegerSetters) {
         int value = it->second;
         ASSERT_NE(value, 0);
     }
-
-    info.cancel();
 }
 
 TEST(LinkInfoTest, TestControlParams) {
@@ -73,8 +69,6 @@ TEST(LinkInfoTest, TestControlParams) {
 
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
-
-    info.cancel();
 }
 
 TEST(LinkInfoTest, TestTagParams) {
@@ -91,6 +85,4 @@ TEST(LinkInfoTest, TestTagParams) {
 
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
-
-    info.cancel();
 }
