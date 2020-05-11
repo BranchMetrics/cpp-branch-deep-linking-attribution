@@ -14,39 +14,7 @@
 using namespace BranchIO;
 using namespace std;
 
-class LinkInfoTest : public ::testing::Test {
-};
-
-/**
- * Initialize a "typical" branch link object with some basic values.
- * @param info LinkInfo object to fill
- */
-static void initTestLink(LinkInfo &info) {
-    info.addTag("Tag1");
-    info.addTag("Tag2");
-
-    info.setAlias("my alias");
-    info.setChannel("facebook");
-    info.setFeature("onboarding");
-    info.setCampaign("new product");
-    info.setStage("new user");
-
-    info.addControlParameter("$canonical_identifier", "content/123");
-    info.addControlParameter("$og_title", "Title from Deep Link");
-    info.addControlParameter("$og_description", "Description from Deep Link");
-    info.addControlParameter("$og_image_url", "http://www.lorempixel.com/400/400/");
-    info.addControlParameter("$desktop_url", "http://www.example.com");
-
-    info.addControlParameter("custom_string", "everything");
-    info.addControlParameter("custom_integer", 1243);
-    info.addControlParameter("custom_boolean", true);
-
-    PropertyManager customObject;
-    customObject.addProperty("random", "dictionary");
-    info.addControlParameter("custom_object", customObject);
-}
-
-TEST_F(LinkInfoTest, TestStringSetters) {
+TEST(LinkInfoTest, TestStringSetters) {
     LinkInfo info;
 
     // String Setters
@@ -71,7 +39,7 @@ TEST_F(LinkInfoTest, TestStringSetters) {
     info.cancel();
 }
 
-TEST_F(LinkInfoTest, TestIntegerSetters) {
+TEST(LinkInfoTest, TestIntegerSetters) {
     LinkInfo info;
 
     // Integer Setters
@@ -92,7 +60,7 @@ TEST_F(LinkInfoTest, TestIntegerSetters) {
     info.cancel();
 }
 
-TEST_F(LinkInfoTest, TestControlParams) {
+TEST(LinkInfoTest, TestControlParams) {
     LinkInfo info;
     info.addControlParameter("PARAM1", "VALUE1");
     info.addControlParameter("PARAM2", "VALUE2");
@@ -106,11 +74,10 @@ TEST_F(LinkInfoTest, TestControlParams) {
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 
-
     info.cancel();
 }
 
-TEST_F(LinkInfoTest, TestTagParams) {
+TEST(LinkInfoTest, TestTagParams) {
     LinkInfo info;
     info.addTag("TAG1");
     info.addTag("TAG2");
@@ -125,74 +92,5 @@ TEST_F(LinkInfoTest, TestTagParams) {
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 
-
     info.cancel();
-}
-
-// Test to emulate https://docs.branch.io/apps/deep-linking-api/#link-create
-TEST_F(LinkInfoTest, TestLinkCreate) {
-    LinkInfo info;
-    initTestLink(info);
-
-    std::string str = info.toString();
-    ASSERT_GT(str.length(), 0);
-
-    JSONObject jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject.size(), 0);
-
-    info.cancel();
-}
-
-// Test to create a "Long Link Url" from a LinkInfo
-TEST_F(LinkInfoTest, TestLongLinkCreate) {
-    Branch *_branchInstance = BranchIO::Test::createTestInstance();
-    LinkInfo linkInfo;
-    initTestLink(linkInfo);
-
-    std::string longUrl = linkInfo.createLongUrl(_branchInstance);
-
-    linkInfo.cancel();
-}
-
-
-// The implementation here is commented out so as to not create a new link every time the unit test suite runs.
-// To debug short link creation, uncomment as needed.
-TEST_F(LinkInfoTest, TestCreateLinkUrlRequest) {
-    // Branch *_branchInstance = BranchIO::Test::createTestInstance();
-    // IRequestCallback* _branchCallback = new BranchIO::Test::TestRequestCallback;
-
-    LinkInfo linkInfo;
-
-    linkInfo.setFeature("testing");
-    linkInfo.addControlParameter("extra_color", -6381877);
-
-    linkInfo.cancel();
-}
-
-// We are taking advantage here of the fact that when tracking is disabled,
-// the implementation will short circuit and create a long link.
-TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
-    Branch *branchInstance = BranchIO::Test::createTestInstance();
-    IRequestCallback* branchCallback = new BranchIO::Test::TestRequestCallback;
-
-    // Disabling Tracking would normally cause an error to happen on all other types of requests.
-    // In this case, it should trigger the callback with a long link.
-    branchInstance->getAdvertiserInfo().disableTracking();
-
-    LinkInfo linkInfo;
-    initTestLink(linkInfo);
-
-    linkInfo.createUrl(branchInstance, branchCallback);
-
-    linkInfo.cancel();
-}
-
-TEST_F(LinkInfoTest, TestCreateLinkNoControlParams) {
-    Branch *_branchInstance = BranchIO::Test::createTestInstance();
-    LinkInfo linkInfo;
-    std::string url = linkInfo.createLongUrl(_branchInstance);
-
-    ASSERT_GT(url.size(), 0);
-
-    linkInfo.cancel();
 }

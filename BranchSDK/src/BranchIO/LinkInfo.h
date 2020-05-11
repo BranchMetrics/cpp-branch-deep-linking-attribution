@@ -4,9 +4,11 @@
 #define BRANCHIO_LINKINFO_H__
 
 #include <Poco/Condition.h>
+#include <Poco/Runnable.h>
+#include <Poco/Thread.h>
 #include <string>
-#include "BranchIO/Branch.h"
 #include "BranchIO/Event/BaseEvent.h"
+#include "BranchIO/IRequestCallback.h"
 #include "BranchIO/fwd.h"
 
 namespace BranchIO {
@@ -16,7 +18,8 @@ namespace BranchIO {
  */
 class BRANCHIO_DLL_EXPORT LinkInfo :
     protected BaseEvent,
-    protected virtual IRequestCallback {
+    protected virtual IRequestCallback,
+    protected virtual Poco::Runnable {
  public:
     /**
      * An Integer value indicating the calculation type of the referral code. In this case,
@@ -179,6 +182,12 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      */
     void cancel();
 
+    /**
+     * For testing. Can use a mock session here.
+     * @param clientSession An IClientSession instance to use.
+     */
+    void setClientSession(IClientSession* clientSession);
+
  protected:
     /**
      * @copydoc IRequestCallback::onSuccess
@@ -194,6 +203,11 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @copydoc IRequestCallback::onStatus
      */
     void onStatus(int id, int error, std::string description);
+
+    /**
+     * Execute the URL request. From Poco::Runnable.
+     */
+    void run();
 
  private:
     /**
@@ -223,6 +237,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
  private:
     Poco::Mutex mutable _mutex;
     Poco::Condition mutable _completeCondition;
+    Poco::Thread _thread;
     bool volatile _complete;
     PropertyManager _controlParams;
     JSONArray _tagParams;
@@ -230,6 +245,8 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     // Store values passed to createUrl() for fallback handling.
     IRequestCallback* volatile _callback;
     Branch* volatile _branch;
+
+    IClientSession* _clientSession;
 };
 
 }  // namespace BranchIO

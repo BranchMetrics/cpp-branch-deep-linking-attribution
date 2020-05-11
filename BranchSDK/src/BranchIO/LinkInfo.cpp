@@ -5,6 +5,8 @@
 #include <Poco/Base64Encoder.h>
 #include <Poco/Util/Timer.h>
 
+#include "BranchIO/Util/APIClientSession.h"
+#include "BranchIO/Branch.h"
 #include "BranchIO/Defines.h"
 #include "BranchIO/Util/Log.h"
 #include "BranchIO/Util/StringUtils.h"
@@ -33,7 +35,8 @@ LinkInfo::LinkInfo()
     : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo"),
     _complete(false),
     _callback(nullptr),
-    _branch(nullptr) {
+    _branch(nullptr),
+    _clientSession(nullptr) {
 }
 
 LinkInfo::~LinkInfo() {
@@ -64,6 +67,12 @@ LinkInfo::cancel() {
      * @todo(jdee): Cancel outstanding request to APIClientSession.
      * This is basically an optimization.
      */
+}
+
+void
+LinkInfo::setClientSession(IClientSession* clientSession) {
+    Mutex::ScopedLock _l(_mutex);
+    _clientSession = clientSession;
 }
 
 LinkInfo &
@@ -171,12 +180,9 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
     }
 
     /*
-     * Probably unnecessary to synchronize these. They are set here and then
-     * only touched by the request manager thread after sendEvent() is called.
+     * Start a thread to make the request. Executes LinkInfo::run().
      */
-    _callback = callback;
-    _branch = branchInstance;
-    branchInstance->sendEvent(*this, this);
+    _thread.start(*this);
 }
 
 std::string
@@ -291,6 +297,33 @@ LinkInfo::onError(int id, int error, std::string description) {
 
     _complete = true;
     _completeCondition.broadcast();
+}
+
+void
+LinkInfo::run() {
+    /**
+     * Make /v1/url request synchronously with APIClientSession
+     */
+
+    // @todo(jdee): Untangle constant handling in this SDK.
+
+    // 1. Build JSON payload using key & identity from Branch instance.
+    JSONObject payload(*this);
+    payload.set("branch_key", _branch->getBranchKey());
+    string identity(_branch->getAppInfo().getDeveloperIdentity());
+    if (!identity.empty()) {
+        payload.set(Defines::JSONKEY_APP_DEVELOPER_IDENTITY, identity);
+    }
+
+    // 2. POST & call back
+    if (_clientSession) {
+        // Use in unit tests.
+        _clientSession->post("/v1/url", payload, *this);
+    } else {
+        APIClientSession clientSession(BRANCH_IO_URL_BASE);
+        // synchronous call but calls callback. blocks till callback invoked.
+        clientSession.post("/v1/url", payload, *this);
+    }
 }
 
 }  // namespace BranchIO

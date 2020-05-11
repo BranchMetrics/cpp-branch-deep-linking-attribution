@@ -14,6 +14,7 @@ class AppInfo;
 class Branch;
 class DeviceInfo;
 class Event;
+struct IClientSession;
 struct IPackagingInfo;
 class IRequestCallback;
 class JSONObject;

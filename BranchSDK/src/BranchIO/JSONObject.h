@@ -20,8 +20,9 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
  public:
     /**
      * Conversion operator from base class and default constructor.
-     * Initializes a JSONObject wrapping the same Poco object.
-     * @param pocoObject base object
+     * Initializes a JSONObject wrapping the same Poco object, which
+     * may or may not be a BranchIO::JSONObject.
+     * @param object a JSON object to copy
      */
     JSONObject(
         const Poco::JSON::Object& object = Poco::JSON::Object());
