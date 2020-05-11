@@ -30,13 +30,40 @@ const char* const JSONKEY_DATA = "data";
 const char* const JSONKEY_URL = "url";
 
 LinkInfo::LinkInfo()
-    : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo") {
+    : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo"),
+    _complete(false),
+    _callback(nullptr),
+    _branch(nullptr) {
 }
 
-LinkInfo::LinkInfo(const LinkInfo& other) :
-    BaseEvent(other),
-    _controlParams(other._controlParams),
-    _tagParams(other._tagParams) {
+LinkInfo::~LinkInfo() {
+    waitTillComplete();
+}
+
+bool
+LinkInfo::isComplete() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _complete;
+}
+
+void
+LinkInfo::waitTillComplete() const {
+    Mutex::ScopedLock _l(_mutex);
+    while (!_complete) {
+        _completeCondition.wait(_mutex);
+    }
+}
+
+void
+LinkInfo::cancel() {
+    Mutex::ScopedLock _l(_mutex);
+    _complete = true;
+    _completeCondition.broadcast();
+
+    /*
+     * @todo(jdee): Cancel outstanding request to APIClientSession.
+     * This is basically an optimization.
+     */
 }
 
 LinkInfo &
@@ -222,24 +249,30 @@ LinkInfo::doAddProperty(const char *name, int value) {
 
 void
 LinkInfo::onSuccess(int id, JSONObject response) {
-    if (!_callback) return;
+    Mutex::ScopedLock _l(_mutex);
+    // If canceled, _complete will be true
+    if (_complete) return;
 
     _callback->onSuccess(id, response);
 
-    // Avoid calling onSuccess or onError more than once.
-    _callback = nullptr;
+    _complete = true;
+    _completeCondition.broadcast();
 }
 
 void
 LinkInfo::onStatus(int id, int error, std::string description) {
-    if (!_callback) return;
-
-    _callback->onStatus(id, error, description);
+    /*
+     * onStatus is called for transient errors. Give up and create
+     * a long link on the first error.
+     */
+    onError(id, error, description);
 }
 
 void
 LinkInfo::onError(int id, int error, std::string description) {
-    if (!_callback || !_branch) return;
+    Mutex::ScopedLock _l(_mutex);
+    // If canceled, _complete will be true
+    if (_complete) return;
 
     // Attempt to create a Long Link
     BRANCH_LOG_D("Fallback and create a long link");
@@ -256,9 +289,8 @@ LinkInfo::onError(int id, int error, std::string description) {
         _callback->onSuccess(id, jsonObject);
     }
 
-    // Avoid calling onSuccess or onError more than once.
-    _callback = nullptr;
-    _branch = nullptr;
+    _complete = true;
+    _completeCondition.broadcast();
 }
 
 }  // namespace BranchIO

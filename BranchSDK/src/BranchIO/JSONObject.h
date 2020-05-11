@@ -24,7 +24,7 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * @param pocoObject base object
      */
     JSONObject(
-        const Poco::JSON::Object& pocoObject = Poco::JSON::Object());
+        const Poco::JSON::Object& object = Poco::JSON::Object());
 
     /**
      * Override the definition from the base class so that we get

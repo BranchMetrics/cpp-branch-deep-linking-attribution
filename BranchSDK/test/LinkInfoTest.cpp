@@ -21,7 +21,7 @@ class LinkInfoTest : public ::testing::Test {
  * Initialize a "typical" branch link object with some basic values.
  * @param info LinkInfo object to fill
  */
-void initTestLink(LinkInfo &info) {
+static void initTestLink(LinkInfo &info) {
     info.addTag("Tag1");
     info.addTag("Tag2");
 
@@ -68,7 +68,7 @@ TEST_F(LinkInfoTest, TestStringSetters) {
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
     }
 
-    // cout << "TestStringSetters\t" << jsonObject->stringify() << endl;
+    info.cancel();
 }
 
 TEST_F(LinkInfoTest, TestIntegerSetters) {
@@ -88,6 +88,8 @@ TEST_F(LinkInfoTest, TestIntegerSetters) {
         int value = it->second;
         ASSERT_NE(value, 0);
     }
+
+    info.cancel();
 }
 
 TEST_F(LinkInfoTest, TestControlParams) {
@@ -104,7 +106,8 @@ TEST_F(LinkInfoTest, TestControlParams) {
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 
-    // cout << "TestControlParams:\t" << str << endl;
+
+    info.cancel();
 }
 
 TEST_F(LinkInfoTest, TestTagParams) {
@@ -122,7 +125,8 @@ TEST_F(LinkInfoTest, TestTagParams) {
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 
-    // cout << "TestTagParams:\t" << str << endl;
+
+    info.cancel();
 }
 
 // Test to emulate https://docs.branch.io/apps/deep-linking-api/#link-create
@@ -135,6 +139,8 @@ TEST_F(LinkInfoTest, TestLinkCreate) {
 
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
+
+    info.cancel();
 }
 
 // Test to create a "Long Link Url" from a LinkInfo
@@ -144,6 +150,8 @@ TEST_F(LinkInfoTest, TestLongLinkCreate) {
     initTestLink(linkInfo);
 
     std::string longUrl = linkInfo.createLongUrl(_branchInstance);
+
+    linkInfo.cancel();
 }
 
 
@@ -158,7 +166,7 @@ TEST_F(LinkInfoTest, TestCreateLinkUrlRequest) {
     linkInfo.setFeature("testing");
     linkInfo.addControlParameter("extra_color", -6381877);
 
-    // _branchInstance->sendEvent(linkInfo, _branchCallback);
+    linkInfo.cancel();
 }
 
 // We are taking advantage here of the fact that when tracking is disabled,
@@ -175,6 +183,8 @@ TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
     initTestLink(linkInfo);
 
     linkInfo.createUrl(branchInstance, branchCallback);
+
+    linkInfo.cancel();
 }
 
 TEST_F(LinkInfoTest, TestCreateLinkNoControlParams) {
@@ -183,24 +193,6 @@ TEST_F(LinkInfoTest, TestCreateLinkNoControlParams) {
     std::string url = linkInfo.createLongUrl(_branchInstance);
 
     ASSERT_GT(url.size(), 0);
-}
 
-TEST_F(LinkInfoTest, TestCopyConstructor) {
-    PackagingInfo packagingInfo(BranchIO::Test::getTestKey());
-    LinkInfo linkInfo;
-    initTestLink(linkInfo);
-
-    BaseEvent &baseInfo = (BaseEvent &)linkInfo;
-    JSONObject jsonOriginal;
-
-    baseInfo.package(packagingInfo, jsonOriginal);
-
-    // Create a copy
-    LinkInfo linkCopy(linkInfo);
-    BaseEvent &baseCopy = (BaseEvent &)linkCopy;
-    JSONObject jsonCopy;
-
-    baseCopy.package(packagingInfo, jsonCopy);
-
-    ASSERT_EQ(jsonOriginal.stringify(), jsonCopy.stringify());
+    linkInfo.cancel();
 }

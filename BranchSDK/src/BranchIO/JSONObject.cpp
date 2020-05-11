@@ -15,8 +15,8 @@ using namespace Poco::JSON;
 
 namespace BranchIO {
 
-JSONObject::JSONObject(const Poco::JSON::Object& pocoObject)
-    : Poco::JSON::Object(pocoObject) {
+JSONObject::JSONObject(const Poco::JSON::Object& object)
+    : Poco::JSON::Object(object) {
 }
 
 bool

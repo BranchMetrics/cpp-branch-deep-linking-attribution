@@ -3,6 +3,7 @@
 #ifndef BRANCHIO_LINKINFO_H__
 #define BRANCHIO_LINKINFO_H__
 
+#include <Poco/Condition.h>
 #include <string>
 #include "BranchIO/Branch.h"
 #include "BranchIO/Event/BaseEvent.h"
@@ -36,10 +37,9 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     LinkInfo();
 
     /**
-     * Copy constructor
-     * @param other another instance to copy
+     * Destructor. Blocks until request is complete or canceled.
      */
-    LinkInfo(const LinkInfo& other);
+    ~LinkInfo();
 
     /**
      * Any other params to be added; you can define your own.
@@ -162,6 +162,23 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
 
     using PropertyManager::toString;
 
+    /**
+     * Determine if the request has received a response or been canceled.
+     * @return true if complete, false otherwise
+     */
+    bool isComplete() const;
+
+    /**
+     * Block execution until the request is complete.
+     */
+    void waitTillComplete() const;
+
+    /**
+     * Cancel the request. Prevents further callbacks. Allows
+     * immediate destruction of the object.
+     */
+    void cancel();
+
  protected:
     /**
      * @copydoc IRequestCallback::onSuccess
@@ -189,7 +206,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     LinkInfo& doAddProperty(const char *name, const std::string &value);
 
     /**
-     * Add a int value property to the set.
+     * Add an int value property to the set.
      * @param name Key name
      * @param value Key value
      * @return This object for chaining builder methods
@@ -205,12 +222,14 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
 
  private:
     Poco::Mutex mutable _mutex;
+    Poco::Condition mutable _completeCondition;
+    bool volatile _complete;
     PropertyManager _controlParams;
     JSONArray _tagParams;
 
     // Store values passed to createUrl() for fallback handling.
-    IRequestCallback* _callback;
-    Branch* _branch;
+    IRequestCallback* volatile _callback;
+    Branch* volatile _branch;
 };
 
 }  // namespace BranchIO
