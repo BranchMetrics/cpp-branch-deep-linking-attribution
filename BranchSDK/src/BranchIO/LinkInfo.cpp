@@ -200,6 +200,7 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
         Mutex::ScopedLock _l(_mutex);
         _complete = false;
         _branch = branchInstance;
+        _callback = callback;
     }
 
     /*
@@ -215,7 +216,7 @@ LinkInfo::createLongUrl(Branch *branchInstance, const std::string &baseUrl) cons
 
     // TODO(andyp): Handle response from setIdentity if there is a base URL in the response
 
-    std::string longUrl;
+    string longUrl;
     longUrl += (baseUrl.size() > 0 ? baseUrl : BASE_LONG_URL);
     longUrl += branchInstance->getBranchKey();
 
@@ -254,7 +255,7 @@ LinkInfo::createLongUrl(Branch *branchInstance, const std::string &baseUrl) cons
     // Note that Poco Base64 introduces by default line endings after 74?? characters.  Call setLineLength(0) to fix.
     // Note further that Poco Base64 implementation appears to require an eol, or it doesn't complete the encoding.
     if (!_controlParams.isEmpty()) {
-        std::stringstream ss;
+        stringstream ss;
         Poco::Base64Encoder b64enc(ss);
         b64enc.rdbuf()->setLineLength(0);
         b64enc << _controlParams.toString() << std::endl;
@@ -302,7 +303,7 @@ LinkInfo::onError(int id, int error, std::string description) {
     // Attempt to create a Long Link
     BRANCH_LOG_D("Fallback and create a long link");
 
-    std::string longUrl = createLongUrl(_branch);
+    auto longUrl = createLongUrl(_branch);
 
     if (longUrl.empty()) {
         // This is an actual failure.
@@ -326,14 +327,12 @@ LinkInfo::run() {
 
     // 1. Build JSON payload using key & identity from Branch instance.
     JSONObject payload(*this);
-    Branch* branch = getBranchInstance();
+    auto branch = getBranchInstance();
     payload.set("branch_key", branch->getBranchKey());
-    string identity(branch->getAppInfo().getDeveloperIdentity());
+    auto identity(branch->getAppInfo().getDeveloperIdentity());
     if (!identity.empty()) {
         payload.set("identity", identity);
     }
-
-    BRANCH_LOG_D("POST to /v1/url: " << payload.stringify());
 
     auto mockClientSession = getClientSession();
     // 2. POST & call back
