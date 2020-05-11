@@ -221,6 +221,12 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      */
     IRequestCallback* getCallback() const;
 
+    /**
+     * Get the Branch instance passed to createUrl.
+     * @return a Branch pointer or nullptr
+     */
+    Branch* getBranchInstance() const;
+
  private:
     /**
      * Add a string value property to the set.

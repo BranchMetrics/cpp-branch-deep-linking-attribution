@@ -106,7 +106,6 @@ TEST_F(LinkInfoTest, TestTagParams) {
     ASSERT_GT(jsonObject.size(), 0);
 }
 
-/* Currently crashes
 TEST_F(LinkInfoTest, CreateUrl) {
     LinkInfo info;
     info.setClientSession(&mClientSession);
@@ -115,4 +114,3 @@ TEST_F(LinkInfoTest, CreateUrl) {
 
     info.createUrl(mBranch, &mCallback);
 }
-// */

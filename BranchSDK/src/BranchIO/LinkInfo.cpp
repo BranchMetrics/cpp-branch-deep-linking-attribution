@@ -86,6 +86,12 @@ LinkInfo::getCallback() const {
     return _callback;
 }
 
+Branch*
+LinkInfo::getBranchInstance() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _branch;
+}
+
 LinkInfo &
 LinkInfo::addControlParameter(const char *key, const std::string &value) {
     Mutex::ScopedLock _l(_mutex);
@@ -193,14 +199,14 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
     {
         Mutex::ScopedLock _l(_mutex);
         _complete = false;
+        _branch = branchInstance;
     }
-
-    BRANCH_LOG_D("Reset complete state");
 
     /*
      * Start a thread to make the request. Executes LinkInfo::run().
      */
-    _thread.start(*this);
+    Poco::Runnable& runner = static_cast<Poco::Runnable&>(*this);
+    _thread.start(runner);
 }
 
 std::string
@@ -311,7 +317,7 @@ LinkInfo::onError(int id, int error, std::string description) {
 
 void
 LinkInfo::run() {
-    BRANCH_LOG_V("Starting thread for /v1/url POST");
+    BRANCH_LOG_D("Starting thread for /v1/url POST");
     /**
      * Make /v1/url request synchronously with APIClientSession
      */
@@ -320,8 +326,9 @@ LinkInfo::run() {
 
     // 1. Build JSON payload using key & identity from Branch instance.
     JSONObject payload(*this);
-    payload.set("branch_key", _branch->getBranchKey());
-    string identity(_branch->getAppInfo().getDeveloperIdentity());
+    Branch* branch = getBranchInstance();
+    payload.set("branch_key", branch->getBranchKey());
+    string identity(branch->getAppInfo().getDeveloperIdentity());
     if (!identity.empty()) {
         payload.set("identity", identity);
     }
@@ -342,7 +349,7 @@ LinkInfo::run() {
     }
 
     // Thread exiting, unblock destructor.
-    BRANCH_LOG_V("Terminating thread for /v1/url POST");
+    BRANCH_LOG_D("Terminating thread for /v1/url POST");
     cancel();
 }
 
