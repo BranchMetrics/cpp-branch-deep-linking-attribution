@@ -33,6 +33,7 @@ const char* const JSONKEY_URL = "url";
 
 LinkInfo::LinkInfo()
     : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo"),
+    _thread("BranchIO:createUrl"),
     _complete(true),
     _callback(nullptr),
     _branch(nullptr),
