@@ -8,13 +8,32 @@
 #include <BranchIO/Event/Event.h>
 #include <Poco/Base64Encoder.h>
 
+#include "ResponseCounter.h"
+#include "MockClientSession.h"
 #include "TestRequestCallback.h"
 #include "Util.h"
 
 using namespace BranchIO;
+using namespace BranchIO::Test;
 using namespace std;
+using namespace testing;
 
-TEST(LinkInfoTest, TestStringSetters) {
+class LinkInfoTest : public ::testing::Test {
+protected:
+    void SetUp() {
+        mBranch = createTestInstance();
+    }
+
+    void TearDown() {
+        delete mBranch;
+    }
+
+    ResponseCounter mCallback;
+    MockClientSession mClientSession;
+    Branch* mBranch;
+};
+
+TEST_F(LinkInfoTest, TestStringSetters) {
     LinkInfo info;
 
     // String Setters
@@ -24,7 +43,7 @@ TEST(LinkInfoTest, TestStringSetters) {
         .setStage("My Stage")
         .setCampaign("My Campaign");
 
-    std::string str = info.toString();
+    string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
     JSONObject jsonObject = JSONObject::parse(str);
@@ -37,14 +56,14 @@ TEST(LinkInfoTest, TestStringSetters) {
     }
 }
 
-TEST(LinkInfoTest, TestIntegerSetters) {
+TEST_F(LinkInfoTest, TestIntegerSetters) {
     LinkInfo info;
 
     // Integer Setters
     info.setType(LinkInfo::LINK_TYPE_ONE_TIME_USE);
     info.setDuration(0xDEADBEEF);
 
-    std::string str = info.toString();
+    string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
     JSONObject jsonObject = JSONObject::parse(str);
@@ -56,7 +75,7 @@ TEST(LinkInfoTest, TestIntegerSetters) {
     }
 }
 
-TEST(LinkInfoTest, TestControlParams) {
+TEST_F(LinkInfoTest, TestControlParams) {
     LinkInfo info;
     info.addControlParameter("PARAM1", "VALUE1");
     info.addControlParameter("PARAM2", "VALUE2");
@@ -64,14 +83,14 @@ TEST(LinkInfoTest, TestControlParams) {
     info.addControlParameter("PARAM4", "VALUE4");
     info.addControlParameter("PARAM5", "VALUE5");
 
-    std::string str = info.toString();
+    string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 }
 
-TEST(LinkInfoTest, TestTagParams) {
+TEST_F(LinkInfoTest, TestTagParams) {
     LinkInfo info;
     info.addTag("TAG1");
     info.addTag("TAG2");
@@ -79,10 +98,21 @@ TEST(LinkInfoTest, TestTagParams) {
     info.addTag("TAG4");
     info.addTag("TAG5");
 
-    std::string str = info.toString();
+    string str = info.toString();
 
     ASSERT_GT(str.length(), 0);
 
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 }
+
+/* Currently crashes
+TEST_F(LinkInfoTest, CreateUrl) {
+    LinkInfo info;
+    info.setClientSession(&mClientSession);
+
+    EXPECT_CALL(mClientSession, post("/v1/url", _, _)).Times(1).WillOnce(Return(true));
+
+    info.createUrl(mBranch, &mCallback);
+}
+// */

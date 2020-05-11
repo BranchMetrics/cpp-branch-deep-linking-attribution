@@ -190,8 +190,13 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
         return;
     }
 
-    Mutex::ScopedLock _l(_mutex);
-    _complete = false;
+    {
+        Mutex::ScopedLock _l(_mutex);
+        _complete = false;
+    }
+
+    BRANCH_LOG_D("Reset complete state");
+
     /*
      * Start a thread to make the request. Executes LinkInfo::run().
      */
@@ -306,6 +311,7 @@ LinkInfo::onError(int id, int error, std::string description) {
 
 void
 LinkInfo::run() {
+    BRANCH_LOG_V("Starting thread for /v1/url POST");
     /**
      * Make /v1/url request synchronously with APIClientSession
      */
@@ -319,6 +325,8 @@ LinkInfo::run() {
     if (!identity.empty()) {
         payload.set("identity", identity);
     }
+
+    BRANCH_LOG_D("POST to /v1/url: " << payload.stringify());
 
     auto mockClientSession = getClientSession();
     // 2. POST & call back
@@ -334,6 +342,7 @@ LinkInfo::run() {
     }
 
     // Thread exiting, unblock destructor.
+    BRANCH_LOG_V("Terminating thread for /v1/url POST");
     cancel();
 }
 
