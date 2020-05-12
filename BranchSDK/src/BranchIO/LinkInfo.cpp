@@ -35,6 +35,7 @@ LinkInfo::LinkInfo()
     : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo"),
     _thread("BranchIO:createUrl"),
     _complete(true),
+    _canceled(false),
     _callback(nullptr),
     _branch(nullptr),
     _clientSession(nullptr) {
@@ -50,6 +51,12 @@ LinkInfo::isComplete() const {
     return _complete;
 }
 
+bool
+LinkInfo::isCanceled() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _canceled;
+}
+
 void
 LinkInfo::waitTillComplete() const {
     Mutex::ScopedLock _l(_mutex);
@@ -59,10 +66,16 @@ LinkInfo::waitTillComplete() const {
 }
 
 void
-LinkInfo::cancel() {
+LinkInfo::complete() {
     Mutex::ScopedLock _l(_mutex);
     _complete = true;
     _completeCondition.broadcast();
+}
+
+void
+LinkInfo::cancel() {
+    Mutex::ScopedLock _l(_mutex);
+    _canceled = true;
 
     if (!_clientSession) return;
     _clientSession->stop();
@@ -318,6 +331,20 @@ LinkInfo::onError(int id, int error, std::string description) {
 
 void
 LinkInfo::run() {
+    /*
+     * Ensure that complete() is called no matter how we exit this frame.
+     */
+    struct Completer {
+        Completer(LinkInfo& object, void (LinkInfo::* method)()) : _object(object), _method(method) {}
+        ~Completer() {
+            // Thread exiting, unblock destructor.
+            BRANCH_LOG_D("Terminating thread for /v1/url POST");
+            (_object.*_method)();
+        }
+        LinkInfo& _object;
+        void (LinkInfo::* _method)();
+    } completer(*this, &LinkInfo::complete);
+
     BRANCH_LOG_D("Starting thread for /v1/url POST");
     /**
      * Make /v1/url request synchronously with APIClientSession
@@ -341,15 +368,16 @@ LinkInfo::run() {
         clientSession->post("/v1/url", payload, *this);
     } else {
         APIClientSession apiClientSession(BRANCH_IO_URL_BASE);
+
+        // Check before a blocking socket operation
+        if (isCanceled()) return;
+
         // synchronous call but calls callback. blocks till callback invoked.
         setClientSession(&apiClientSession);
+        // blocking socket write & read
         apiClientSession.post("/v1/url", payload, *this);
         setClientSession(nullptr);
     }
-
-    // Thread exiting, unblock destructor.
-    BRANCH_LOG_D("Terminating thread for /v1/url POST");
-    cancel();
 }
 
 }  // namespace BranchIO

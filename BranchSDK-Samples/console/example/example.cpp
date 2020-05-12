@@ -232,6 +232,8 @@ protected:
 
             // Create the URL
             linkInfo.createUrl(_branchInstance, this);
+
+            // LinkInfo destructor blocks until request is complete and callbakcs invoked.
         }
     }
 

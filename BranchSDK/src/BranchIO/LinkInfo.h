@@ -183,6 +183,12 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     void cancel();
 
     /**
+     * Indicates whether cancel() has been called.
+     * @return true if cancel previously called, false otherwise
+     */
+    bool isCanceled() const;
+
+    /**
      * For testing. Can use a mock session here.
      * @param clientSession An IClientSession instance to use.
      */
@@ -251,12 +257,14 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     std::string getChannel() const;
     std::string getFeature() const;
     std::string getStage() const;
+    void complete();
 
  private:
     Poco::Mutex mutable _mutex;
     Poco::Condition mutable _completeCondition;
     Poco::Thread _thread;
     bool volatile _complete;
+    bool volatile _canceled;
     PropertyManager _controlParams;
     JSONArray _tagParams;
 
