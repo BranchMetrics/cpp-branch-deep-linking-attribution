@@ -334,16 +334,16 @@ LinkInfo::run() {
         payload.set("identity", identity);
     }
 
-    auto mockClientSession = getClientSession();
+    auto clientSession = getClientSession();
     // 2. POST & call back
-    if (mockClientSession) {
+    if (clientSession) {
         // Use in unit tests.
-        mockClientSession->post("/v1/url", payload, *this);
+        clientSession->post("/v1/url", payload, *this);
     } else {
-        APIClientSession clientSession(BRANCH_IO_URL_BASE);
+        APIClientSession apiClientSession(BRANCH_IO_URL_BASE);
         // synchronous call but calls callback. blocks till callback invoked.
-        setClientSession(&clientSession);
-        clientSession.post("/v1/url", payload, *this);
+        setClientSession(&apiClientSession);
+        apiClientSession.post("/v1/url", payload, *this);
         setClientSession(nullptr);
     }
 
