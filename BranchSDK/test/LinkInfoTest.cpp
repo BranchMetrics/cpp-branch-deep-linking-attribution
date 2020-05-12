@@ -114,3 +114,29 @@ TEST_F(LinkInfoTest, CreateUrl) {
 
     info.createUrl(mBranch, &mCallback);
 }
+
+TEST_F(LinkInfoTest, FallbackToLongUrl) {
+    /*
+     * Probably as easy to do this explicitly as with gmock
+     */
+    struct FailingClientSession : public virtual IClientSession {
+        void stop() {}
+        bool post(const string& path, const JSONObject& payload, IRequestCallback& callback) {
+            callback.onError(0, 0, "something happened");
+            return true;
+        }
+    } failingClientSession;
+
+    struct MockCallback : public IRequestCallback {
+        MOCK_METHOD2(onSuccess, void(int, JSONObject));
+        MOCK_METHOD3(onStatus, void(int, int, string));
+        MOCK_METHOD3(onError, void(int, int, string));
+    } callback;
+
+    LinkInfo info;
+    info.setClientSession(&failingClientSession);
+
+    EXPECT_CALL(callback, onSuccess(_, _)).Times(1);
+
+    info.createUrl(mBranch, &callback);
+}
