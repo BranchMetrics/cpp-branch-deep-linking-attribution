@@ -58,6 +58,11 @@ AppInfo::setPackageName(const std::string &packageName) {
     return doAddProperty(Defines::JSONKEY_APP_PACKAGE_NAME, packageName);
 }
 
+std::string
+AppInfo::getDeveloperIdentity() const {
+    return get(Defines::JSONKEY_APP_DEVELOPER_IDENTITY);
+}
+
 AppInfo&
 AppInfo::doAddProperty(const char *name, const std::string &value) {
     addProperty(name, value);

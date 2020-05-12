@@ -13,6 +13,7 @@ using namespace Poco;
 namespace BranchIO {
 
 RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *clientSession) :
+    _thread("BranchIO:RequestManager"),
     _defaultCallback(nullptr),
     _packagingInfo(&packagingInfo),
     _clientSession(clientSession),

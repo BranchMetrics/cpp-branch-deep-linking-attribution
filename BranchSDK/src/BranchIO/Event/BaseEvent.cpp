@@ -9,6 +9,8 @@
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/AdvertiserInfo.h"
 
+using Poco::Mutex;
+
 namespace BranchIO {
 
 // Top Level JSON Blocks
@@ -19,11 +21,9 @@ static const char *JSONKEY_USER_DATA = "user_data";
 static const char *JSONKEY_BRANCH_KEY = "branch_key";
 static const char *JSONKEY_ADVERTISING_IDS = "advertising_ids";
 
-
 BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr) :
     mAPIEndpoint(apiEndpoint),
-    mEventName(eventName),
-    mCustomData(nullptr) {
+    mEventName(eventName) {
 
     if (jsonPtr.get()) {
         // Copy the key/values
@@ -56,24 +56,28 @@ BaseEvent::addEventProperty(const char *propertyName, double propertyValue) {
 
 BaseEvent&
 BaseEvent::addCustomDataProperty(const std::string &propertyName, const std::string &propertyValue) {
-
-    // These go into "custom_data"
-    if (mCustomData.isNull()) {
-        mCustomData = new JSONObject();
-    }
-
-    mCustomData->set(propertyName, propertyValue);
+    Mutex::ScopedLock _l(mMutex);
+    mCustomData.set(propertyName, propertyValue);
     return *this;
 }
 
-const JSONObject::Ptr
-BaseEvent::getCustomData() const { return mCustomData; }
+JSONObject
+BaseEvent::getCustomData() const {
+    Mutex::ScopedLock _l(mMutex);
+    return mCustomData;
+}
 
-const std::string &
-BaseEvent::name() const { return mEventName; }
+std::string
+BaseEvent::name() const {
+    Mutex::ScopedLock _l(mMutex);
+    return mEventName;
+}
 
 Defines::APIEndpoint
-BaseEvent::getAPIEndpoint() const { return mAPIEndpoint; }
+BaseEvent::getAPIEndpoint() const {
+    Mutex::ScopedLock _l(mMutex);
+    return mAPIEndpoint;
+}
 
 void
 BaseEvent::packageRawEvent(JSONObject &jsonObject) const {
@@ -100,7 +104,7 @@ BaseEvent::packageV2Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject)
     jsonObject.set(JSONKEY_EVENT_DATA, *this);
 
     // Set Custom Data (if any)
-    if (!getCustomData().isNull()) {
+    if (!getCustomData().isEmpty()) {
         jsonObject.set(JSONKEY_CUSTOM_DATA, getCustomData());
     }
 

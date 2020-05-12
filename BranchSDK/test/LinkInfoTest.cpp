@@ -8,43 +8,30 @@
 #include <BranchIO/Event/Event.h>
 #include <Poco/Base64Encoder.h>
 
+#include "ResponseCounter.h"
+#include "MockClientSession.h"
 #include "TestRequestCallback.h"
 #include "Util.h"
 
 using namespace BranchIO;
+using namespace BranchIO::Test;
 using namespace std;
+using namespace testing;
 
 class LinkInfoTest : public ::testing::Test {
+protected:
+    void SetUp() {
+        mBranch = createTestInstance();
+    }
+
+    void TearDown() {
+        delete mBranch;
+    }
+
+    ResponseCounter mCallback;
+    MockClientSession mClientSession;
+    Branch* mBranch;
 };
-
-/**
- * Initialize a "typical" branch link object with some basic values.
- * @param info LinkInfo object to fill
- */
-void initTestLink(LinkInfo &info) {
-    info.addTag("Tag1");
-    info.addTag("Tag2");
-
-    info.setAlias("my alias");
-    info.setChannel("facebook");
-    info.setFeature("onboarding");
-    info.setCampaign("new product");
-    info.setStage("new user");
-
-    info.addControlParameter("$canonical_identifier", "content/123");
-    info.addControlParameter("$og_title", "Title from Deep Link");
-    info.addControlParameter("$og_description", "Description from Deep Link");
-    info.addControlParameter("$og_image_url", "http://www.lorempixel.com/400/400/");
-    info.addControlParameter("$desktop_url", "http://www.example.com");
-
-    info.addControlParameter("custom_string", "everything");
-    info.addControlParameter("custom_integer", 1243);
-    info.addControlParameter("custom_boolean", true);
-
-    PropertyManager customObject;
-    customObject.addProperty("random", "dictionary");
-    info.addControlParameter("custom_object", customObject);
-}
 
 TEST_F(LinkInfoTest, TestStringSetters) {
     LinkInfo info;
@@ -56,19 +43,17 @@ TEST_F(LinkInfoTest, TestStringSetters) {
         .setStage("My Stage")
         .setCampaign("My Campaign");
 
-    std::string str = info.toString();
+    string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
+    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         std::string value = it->second;
 
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
     }
-
-    // cout << "TestStringSetters\t" << jsonObject->stringify() << endl;
 }
 
 TEST_F(LinkInfoTest, TestIntegerSetters) {
@@ -78,13 +63,13 @@ TEST_F(LinkInfoTest, TestIntegerSetters) {
     info.setType(LinkInfo::LINK_TYPE_ONE_TIME_USE);
     info.setDuration(0xDEADBEEF);
 
-    std::string str = info.toString();
+    string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
+    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         int value = it->second;
         ASSERT_NE(value, 0);
     }
@@ -98,13 +83,11 @@ TEST_F(LinkInfoTest, TestControlParams) {
     info.addControlParameter("PARAM4", "VALUE4");
     info.addControlParameter("PARAM5", "VALUE5");
 
-    std::string str = info.toString();
+    string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
-
-    // cout << "TestControlParams:\t" << str << endl;
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 }
 
 TEST_F(LinkInfoTest, TestTagParams) {
@@ -115,97 +98,45 @@ TEST_F(LinkInfoTest, TestTagParams) {
     info.addTag("TAG4");
     info.addTag("TAG5");
 
-    std::string str = info.toString();
-    cout << "TestTagParams:\t" << str << endl;
+    string str = info.toString();
 
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
-
-    // cout << "TestTagParams:\t" << str << endl;
+    JSONObject jsonObject = JSONObject::parse(str);
+    ASSERT_GT(jsonObject.size(), 0);
 }
 
-// Test to emulate https://docs.branch.io/apps/deep-linking-api/#link-create
-TEST_F(LinkInfoTest, TestLinkCreate) {
+TEST_F(LinkInfoTest, CreateUrl) {
     LinkInfo info;
-    initTestLink(info);
+    info.setClientSession(&mClientSession);
 
-    std::string str = info.toString();
-    ASSERT_GT(str.length(), 0);
+    EXPECT_CALL(mClientSession, post("/v1/url", _, _)).Times(1).WillOnce(Return(true));
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
-    ASSERT_GT(jsonObject->size(), 0);
-
-    cout << "TestLinkCreate:\t" << str << endl;
+    info.createUrl(mBranch, &mCallback);
 }
 
-// Test to create a "Long Link Url" from a LinkInfo
-TEST_F(LinkInfoTest, TestLongLinkCreate) {
-    Branch *_branchInstance = BranchIO::Test::createTestInstance();
-    LinkInfo linkInfo;
-    initTestLink(linkInfo);
+TEST_F(LinkInfoTest, FallbackToLongUrl) {
+    /*
+     * Probably as easy to do this explicitly as with gmock
+     */
+    struct FailingClientSession : public virtual IClientSession {
+        void stop() {}
+        bool post(const string& path, const JSONObject& payload, IRequestCallback& callback) {
+            callback.onError(0, 0, "something happened");
+            return true;
+        }
+    } failingClientSession;
 
-    std::string longUrl = linkInfo.createLongUrl(_branchInstance);
+    struct MockCallback : public IRequestCallback {
+        MOCK_METHOD2(onSuccess, void(int, JSONObject));
+        MOCK_METHOD3(onStatus, void(int, int, string));
+        MOCK_METHOD3(onError, void(int, int, string));
+    } callback;
 
-    cout << "TestLongLinkCreate:\t" << longUrl << endl;
-}
+    LinkInfo info;
+    info.setClientSession(&failingClientSession);
 
+    EXPECT_CALL(callback, onSuccess(_, _)).Times(1);
 
-// The implementation here is commented out so as to not create a new link every time the unit test suite runs.
-// To debug short link creation, uncomment as needed.
-TEST_F(LinkInfoTest, TestCreateLinkUrlRequest) {
-    // Branch *_branchInstance = BranchIO::Test::createTestInstance();
-    // IRequestCallback* _branchCallback = new BranchIO::Test::TestRequestCallback;
-
-    LinkInfo linkInfo;
-
-    linkInfo.setFeature("testing");
-    linkInfo.addControlParameter("extra_color", -6381877);
-
-    // _branchInstance->sendEvent(linkInfo, _branchCallback);
-}
-
-// We are taking advantage here of the fact that when tracking is disabled,
-// the implementation will short circuit and create a long link.
-TEST_F(LinkInfoTest, TestCreateLinkUrlFallback) {
-    Branch *branchInstance = BranchIO::Test::createTestInstance();
-    IRequestCallback* branchCallback = new BranchIO::Test::TestRequestCallback;
-
-    // Disabling Tracking would normally cause an error to happen on all other types of requests.
-    // In this case, it should trigger the callback with a long link.
-    branchInstance->getAdvertiserInfo().disableTracking();
-
-    LinkInfo linkInfo;
-    initTestLink(linkInfo);
-
-    linkInfo.createUrl(branchInstance, branchCallback);
-}
-
-TEST_F(LinkInfoTest, TestCreateLinkNoControlParams) {
-    Branch *_branchInstance = BranchIO::Test::createTestInstance();
-    LinkInfo linkInfo;
-    std::string url = linkInfo.createLongUrl(_branchInstance);
-
-    ASSERT_GT(url.size(), 0);
-}
-
-TEST_F(LinkInfoTest, TestCopyConstructor) {
-    PackagingInfo packagingInfo(BranchIO::Test::getTestKey());
-    LinkInfo linkInfo;
-    initTestLink(linkInfo);
-
-    BaseEvent &baseInfo = (BaseEvent &)linkInfo;
-    JSONObject jsonOriginal;
-
-    baseInfo.package(packagingInfo, jsonOriginal);
-
-    // Create a copy
-    LinkInfo linkCopy(linkInfo);
-    BaseEvent &baseCopy = (BaseEvent &)linkCopy;
-    JSONObject jsonCopy;
-
-    baseCopy.package(packagingInfo, jsonCopy);
-
-    ASSERT_EQ(jsonOriginal.stringify(), jsonCopy.stringify());
+    info.createUrl(mBranch, &callback);
 }
