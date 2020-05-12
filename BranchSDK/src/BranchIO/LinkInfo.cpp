@@ -345,38 +345,52 @@ LinkInfo::run() {
         void (LinkInfo::* _method)();
     } completer(*this, &LinkInfo::complete);
 
-    BRANCH_LOG_D("Starting thread for /v1/url POST");
-    /**
-     * Make /v1/url request synchronously with APIClientSession
-     */
+    try {
+        BRANCH_LOG_D("Starting thread for /v1/url POST");
+        /**
+         * Make /v1/url request synchronously with APIClientSession
+         */
 
-    // @todo(jdee): Untangle constant handling in this SDK.
+        // @todo(jdee): Untangle constant handling in this SDK.
 
-    // 1. Build JSON payload using key & identity from Branch instance.
-    JSONObject payload(*this);
-    auto branch = getBranchInstance();
-    payload.set("branch_key", branch->getBranchKey());
-    auto identity(branch->getAppInfo().getDeveloperIdentity());
-    if (!identity.empty()) {
-        payload.set("identity", identity);
+        // 1. Build JSON payload using key & identity from Branch instance.
+        JSONObject payload(*this);
+        auto branch = getBranchInstance();
+        payload.set("branch_key", branch->getBranchKey());
+        auto identity(branch->getAppInfo().getDeveloperIdentity());
+        if (!identity.empty()) {
+            payload.set("identity", identity);
+        }
+
+        auto clientSession = getClientSession();
+        // 2. POST & call back
+        if (clientSession) {
+            // Use in unit tests.
+            clientSession->post("/v1/url", payload, *this);
+        } else {
+            APIClientSession apiClientSession(BRANCH_IO_URL_BASE);
+
+            // Check before a blocking socket operation
+            if (isCanceled()) return;
+
+            // synchronous call but calls callback. blocks till callback invoked.
+            setClientSession(&apiClientSession);
+            // blocking socket write & read
+            apiClientSession.post("/v1/url", payload, *this);
+            setClientSession(nullptr);
+        }
     }
-
-    auto clientSession = getClientSession();
-    // 2. POST & call back
-    if (clientSession) {
-        // Use in unit tests.
-        clientSession->post("/v1/url", payload, *this);
-    } else {
-        APIClientSession apiClientSession(BRANCH_IO_URL_BASE);
-
-        // Check before a blocking socket operation
-        if (isCanceled()) return;
-
-        // synchronous call but calls callback. blocks till callback invoked.
-        setClientSession(&apiClientSession);
-        // blocking socket write & read
-        apiClientSession.post("/v1/url", payload, *this);
-        setClientSession(nullptr);
+    catch (Poco::Exception& e) {
+        // Poco exceptions
+        BRANCH_LOG_E("Exception in RequestManager thread [" << e.what() << "]: " << e.message());
+    }
+    catch (std::exception& e) {
+        // Other STL exceptions
+        BRANCH_LOG_E("Exception in RequestManager thread: " << e.what());
+    }
+    catch (...) {
+        // Anything else
+        BRANCH_LOG_E("Unexpected exception in RequestManager thread.");
     }
 }
 
