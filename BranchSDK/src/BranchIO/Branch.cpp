@@ -75,7 +75,7 @@ class SessionCallback : public IRequestCallback {
             if (jsonResponse.has("data")) {
                 try {
                     std::string stringData = jsonResponse.get("data");
-                    JSONObject::Ptr jsonData = JSONObject::parse(stringData);
+                    JSONObject jsonData = JSONObject::parse(stringData);
                     jsonResponse.set("data", jsonData);
                 }
                 catch(Poco::Exception &e) {

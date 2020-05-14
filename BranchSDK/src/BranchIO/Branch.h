@@ -125,7 +125,6 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     void logout(IRequestCallback *callback);
 
-
  private:
     /**
      * Explicitly shut down this Branch instance. Happens automatically

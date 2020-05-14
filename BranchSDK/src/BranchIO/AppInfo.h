@@ -22,8 +22,8 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * Constructor.
      * @param jsonObject JSON Object to pre-initialize with
      */
-    explicit AppInfo(const JSONObject &jsonObject);
-    virtual ~AppInfo();
+    AppInfo(const JSONObject &jsonObject);  // NOLINT
+    ~AppInfo();
 
     /**
      * Set the App Version Name of the current application that the SDK is
@@ -32,7 +32,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): Example
      */
-    virtual AppInfo& setAppVersion(const std::string &appVersion);
+    AppInfo& setAppVersion(const std::string &appVersion);
 
     /**
      * Set the device country code.
@@ -40,7 +40,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): Example
      */
-    virtual AppInfo& setCountryCode(const std::string &countryCode);
+    AppInfo& setCountryCode(const std::string &countryCode);
 
     /**
      * Set the Developer Identity.
@@ -49,7 +49,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @param identity Unique User id.  Example: "steve"
      * @return This object for chaining builder methods
      */
-    virtual AppInfo& setDeveloperIdentity(const std::string &identity);
+    AppInfo& setDeveloperIdentity(const std::string &identity);
 
     /**
      * Set the Display information.
@@ -58,7 +58,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @param height Device height (in pixels)
      * @return This object for chaining builder methods
      */
-    virtual AppInfo& setDisplayInfo(int dpi, int width, int height);
+    AppInfo& setDisplayInfo(int dpi, int width, int height);
 
     /**
      * Set the Environment.
@@ -66,7 +66,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): What is this
      */
-    virtual AppInfo& setEnvironment(const std::string &environment);
+    AppInfo& setEnvironment(const std::string &environment);
 
     /**
      * Set the Device Language.
@@ -74,14 +74,20 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): Example
      */
-    virtual AppInfo& setLanguage(const std::string &language);
+    AppInfo& setLanguage(const std::string &language);
 
     /**
      * Set the Package name of the application.
      * @param packageName Package Name
      * @return This object for chaining builder methods
      */
-    virtual AppInfo& setPackageName(const std::string &packageName);
+    AppInfo& setPackageName(const std::string &packageName);
+
+    /**
+     * Get the developer identity
+     * @return the developer identity or an empty string, if none.
+     */
+    std::string getDeveloperIdentity() const;
 
  private:
     /**

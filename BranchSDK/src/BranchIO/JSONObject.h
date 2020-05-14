@@ -20,11 +20,12 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
  public:
     /**
      * Conversion operator from base class and default constructor.
-     * Initializes a JSONObject wrapping the same Poco object.
-     * @param pocoObject base object
+     * Initializes a JSONObject wrapping the same Poco object, which
+     * may or may not be a BranchIO::JSONObject.
+     * @param object a JSON object to copy
      */
     JSONObject(
-        const Poco::JSON::Object& pocoObject = Poco::JSON::Object());
+        const Poco::JSON::Object& object = Poco::JSON::Object());
 
     /**
      * Override the definition from the base class so that we get
@@ -36,23 +37,32 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * Parse a JSON formatted string.
      * @param jsonString JSON formatted string
      * @return a new JSONObject Ptr.
+     * @throw Poco::JSON::JSONException in case of parse failure.
      */
-    static Ptr parse(const std::string& jsonString);
+    static JSONObject parse(const std::string& jsonString);
 
     /**
      * Parse a JSON formatted stream.
      * @param s JSON formatted stream
      * @return a new JSONObject Ptr.
+     * @throw Poco::JSON::JSONException in case of parse failure.
      */
-    static Ptr parse(std::istream& s);
+    static JSONObject parse(std::istream& s);
 
     /**
      * Load a JSON object from a file. Useful for fixtures in testing.
      * @param path file path to load
      * @return a JSONObject containing the contents of the file
-     * @throw std::runtime error in case of failure to load
+     * @throw std::runtime_error in case of failure to read the file
+     * @throw Poco::JSON::JSONException in case of parse failure.
      */
     static JSONObject load(const std::string& path);
+
+    /**
+     * Indicate whether an instance is empty.
+     * @return true if empty, false otherwise
+     */
+    bool isEmpty() const;
 
     /**
      * Represent this class as a string.

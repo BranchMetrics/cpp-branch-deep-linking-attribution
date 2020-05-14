@@ -9,16 +9,12 @@
 using namespace BranchIO;
 using namespace std;
 
-class BranchDeviceInfoTest : public ::testing::Test
-{
-};
-
 bool startsWith(std::string str, std::string start)
 {
     return (str.rfind(start, 0) == 0);
 }
 
-TEST_F(BranchDeviceInfoTest, TestSetters)
+TEST(BranchDeviceInfoTest, TestSetters)
 {
     DeviceInfo info;
 
@@ -35,9 +31,9 @@ TEST_F(BranchDeviceInfoTest, TestSetters)
     std::string str = info.toString();
     ASSERT_GT(str.length(), 0);
 
-    JSONObject::Ptr jsonObject = JSONObject::parse(str);
+    JSONObject jsonObject = JSONObject::parse(str);
 
-    for (JSONObject::ConstIterator it = jsonObject->begin(); it != jsonObject->end(); ++it) {
+    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
         std::string value = it->second;
 
         ASSERT_STREQ("My", value.substr(0, 2).c_str());

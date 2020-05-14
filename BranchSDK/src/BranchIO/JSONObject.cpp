@@ -15,34 +15,39 @@ using namespace Poco::JSON;
 
 namespace BranchIO {
 
-JSONObject::JSONObject(const Poco::JSON::Object& pocoObject)
-    : Poco::JSON::Object(pocoObject) {
+JSONObject::JSONObject(const Poco::JSON::Object& object)
+    : Poco::JSON::Object(object) {
 }
 
-JSONObject::Ptr
+bool
+JSONObject::isEmpty() const {
+    return size() == 0;
+}
+
+JSONObject
 JSONObject::parse(const std::string& jsonString) {
     Parser parser;
-
+    // Can throw Poco::JSON::JSONException
+    Var result = parser.parse(jsonString);
     try {
-        Var result = parser.parse(jsonString);
-        Object::Ptr resultPtr = result.extract<Object::Ptr>();
-
-        // We have to return an actual JSONObject.
-        // The Poco::JSON::Object::parse method returns instances of the
-        // base class. Use the conversion operator.
-        return new JSONObject(*resultPtr);
+        /*
+         * Since this is not a generic JSON parser, but a JSONObject parser,
+         * a valid JSON string like "null" or "[]" may generate a
+         * BadCastException. Empty strings generate an InvalidAccessException.
+         * Convert those to JSONExceptions for convenience of handling.
+         */
+        Object::Ptr object = result.extract<Object::Ptr>();
+        return JSONObject(*object);
     }
-    catch(Poco::JSON::JSONException &e) {
-        cerr << "Error: " << e.message() << endl;
-        // @todo(jdee): Should this method actually log?
-        // Maybe we should remove the try/catch and let callers
-        // decide how to handle it.
-        // Anyway, with the logging, we rethrow.
-        throw;
+    catch (BadCastException&) {
+        throw Poco::JSON::JSONException("Not an object");
+    }
+    catch (InvalidAccessException&) {
+        throw Poco::JSON::JSONException("empty JSON string");
     }
 }
 
-JSONObject::Ptr
+JSONObject
 JSONObject::parse(std::istream& s) {
     ostringstream oss;
     StreamCopier::copyStream(s, oss);
@@ -53,7 +58,7 @@ JSONObject
 JSONObject::load(const std::string& path) {
     // std::ifstream constructor throws std::runtime_error if file does not exist, etc.
     ifstream jsonFile(path.c_str());
-    return *parse(jsonFile);
+    return parse(jsonFile);
 }
 
 std::string
