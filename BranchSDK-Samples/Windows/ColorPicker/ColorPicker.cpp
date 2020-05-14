@@ -360,7 +360,12 @@ class MyOpenCallback : public MyRequestCallback
 
 class MyShareCallback : public MyRequestCallback
 {
-    virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse)
+public:
+    ~MyShareCallback() {
+        _linkInfo.cancel();
+    }
+
+    void onSuccess(int id, BranchIO::JSONObject jsonResponse)
     {
         MyRequestCallback::onSuccess(id, jsonResponse);
 
@@ -371,10 +376,17 @@ class MyShareCallback : public MyRequestCallback
             SetWindowTextA(hwndStatus, url.c_str());
         }
     }
+
+    BranchIO::LinkInfo& linkInfo() {
+        return _linkInfo;
+    }
+
+private:
+    BranchIO::LinkInfo _linkInfo;
 };
 
 BranchIO::IRequestCallback* _branchCallback = new MyRequestCallback();
-BranchIO::IRequestCallback* _shareCallback = new MyShareCallback();
+MyShareCallback* _shareCallback = new MyShareCallback();
 
 void initializeBranch()
 {
@@ -478,7 +490,9 @@ void chooseColor(HWND hwnd)
 
 void shareColor(HWND hwnd)
 {
-    BranchIO::LinkInfo linkInfo;
+    // Create a new LinkInfo each time through. It has to outlive the request,
+    // so can't create it on the stack here.
+    BranchIO::LinkInfo& linkInfo(_shareCallback->linkInfo());
 
     // Note that Windows Colors are backwards (BGR) instead of RGB...
     // Note the use of creating the RGB from BGR here.
