@@ -17,9 +17,10 @@
   is guaranteed to outlive the thread that executes the request. To force
   immediate termination of the background thread, use `LinkInfo::cancel()`.
 
-  Also note that each `LinkInfo` instance can currently only be used once to
+  ~~Also note that each `LinkInfo` instance can currently only be used once to
   generate a URL. For now, create a new `LinkInfo` instance for each URL
-  request. This will be improved in a future release.
+  request. This will be improved in a future release.~~ Each 'LinkInfo' instance
+  is reusable.
 
 2020-05-01  Version 1.0.1
   * Updated Poco dependency to ~=1.9.4, allowing patch revisions via `conan install --update`.
