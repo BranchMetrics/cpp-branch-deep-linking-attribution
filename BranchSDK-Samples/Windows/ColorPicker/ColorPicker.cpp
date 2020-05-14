@@ -513,6 +513,3 @@ int ColorRefToInt(COLORREF cr) {
     COLORREF crFixup = PALETTERGB(GetBValue(cr), GetGValue(cr), GetRValue(cr));
     return static_cast<int>(crFixup);
 }
-
-
-
