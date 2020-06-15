@@ -38,7 +38,6 @@ void shareColor(HWND);
 void setBackgroundColor(COLORREF color);
 void drawBackgroundColor(HDC, PRECT);
 void initializeBranch();
-void installApp();
 void openBranchSession();
 void closeBranchSession();
 
@@ -102,7 +101,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*
      * Store the URI that launched the app in launchUri, if there is one.
      */
-    //*
     if (lpCmdLine) {
         int argLength = lstrlen(lpCmdLine);
         int schemeLength = lstrlen(URISCHEME);
@@ -111,7 +109,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             launchUri = make_string(lpCmdLine);
         }
     }
-    // */
 
     MessageBox(NULL, make_wstring(launchUri).c_str(), L"Launch URI", NULL);
 
@@ -232,9 +229,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case IDM_PICKACOLOR:
             chooseColor(hWnd);
             break;
-        case IDM_INSTALL:
-            installApp();
-            break;
         case ID_SHARECOLOR:
             shareColor(hWnd);
             break;
@@ -293,72 +287,6 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     }
     return (INT_PTR)FALSE;
-}
-
-
-#define BYTESIZE(str_len) (sizeof(TCHAR) * str_len)
-/**
- * Set the registry up to allow for this app to be opened via. a web click
- */
-void installApp()
-{
-    int bytesize = sizeof(TCHAR);
-
-    HKEY hKey;
-    LPCTSTR keyBase = TEXT("SOFTWARE\\Classes\\color");
-
-    // Step 1:  Create the Base Key and default values
-    LONG rc = RegCreateKeyEx(HKEY_CURRENT_USER, keyBase, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, NULL);
-    if (rc != ERROR_SUCCESS) {
-        OutputDebugStringA("Unable to create registry key");
-        return;
-    }
-
-    LPCTSTR baseDefaultValue = TEXT("URL:Color Picker");
-    rc = RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, (LPBYTE)baseDefaultValue, (DWORD) BYTESIZE(_tcslen(baseDefaultValue) + 1));
-
-    LPCTSTR keyProtocol = TEXT("URL Protocol");
-    LPCTSTR valProtocol = TEXT("");
-    rc = RegSetValueEx(hKey, keyProtocol, 0, REG_SZ, (LPBYTE)valProtocol, (DWORD) BYTESIZE(_tcslen(valProtocol) + 1));
-
-    // Step 2:  Set the executable location
-    TCHAR path[MAX_PATH];
-
-#ifdef UNICODE
-    HMODULE hModule = GetModuleHandleW(NULL);
-    GetModuleFileNameW(hModule, path, MAX_PATH);
-#else
-    HMODULE hModule = GetModuleHandleA(NULL);
-    GetModuleFileNameA(hModule, path, MAX_PATH);
-#endif
-
-    HKEY hKeyShell;
-    LPCTSTR keyShell = TEXT("shell\\open\\command");
-    rc = RegCreateKeyEx(hKey, keyShell, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKeyShell, NULL);
-
-    TCHAR valShell[MAX_PATH];
-    valShell[0] = 0;
-        lstrcat(valShell, TEXT("\""));
-        lstrcat(valShell, path);
-        lstrcat(valShell, TEXT("\" \"%1\""));
-
-    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, (LPBYTE)valShell, (DWORD) BYTESIZE(_tcslen(valShell) + 1));
-    rc = RegCloseKey(hKeyShell);
-
-    // Step 3: Set the default icon
-    HKEY hKeyIcon;
-    LPCTSTR keyIcon = TEXT("DefaultIcon");
-    rc = RegCreateKeyEx(hKey, keyIcon, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKeyIcon, NULL);
-
-    valShell[0] = 0;
-        lstrcat(valShell, path);  // Specifically do *not* quote the icon path, as that doesn't work.
-        lstrcat(valShell, TEXT(",1"));
-
-    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, (LPBYTE)valShell,(DWORD) BYTESIZE(_tcslen(valShell) + 1));
-    rc = RegCloseKey(hKeyIcon);
-
-    // Step 4: Clean Up
-    rc = RegCloseKey(hKey);
 }
 
 // ============================================================================
