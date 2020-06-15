@@ -57,7 +57,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         int schemeLength = lstrlen(URISCHEME);
         std::wstring prefix(lpCmdLine, lpCmdLine + std::min(argLength, schemeLength));
         if (prefix == URISCHEME) {
-            std::vector<char> buffer(argLength + 1);
+            std::vector<char> buffer((size_t)argLength + 1);
             WideCharToMultiByte(CP_UTF8, 0,lpCmdLine, -1, &buffer[0], argLength, NULL, NULL);
             launchUri = std::string(buffer.begin(), buffer.end());
         }
@@ -330,10 +330,12 @@ protected:
     virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse)
     {
         std::string jsonString = jsonResponse.stringify();
-        std::vector<wchar_t> buffer(jsonString.size());
-        MultiByteToWideChar(CP_UTF8, 0, jsonString.c_str(), -1, &buffer[0], (int) buffer.size());
-        std::wstring wjson(buffer.begin(), buffer.end());
-        MessageBox(NULL, wjson.c_str(), L"Link payload", MB_OK);
+        if (jsonString.length() > 0) {
+            std::vector<wchar_t> buffer(jsonString.size());
+            MultiByteToWideChar(CP_UTF8, 0, jsonString.c_str(), -1, &buffer[0], (int)buffer.size());
+            std::wstring wjson(buffer.begin(), buffer.end());
+            MessageBox(NULL, wjson.c_str(), L"Link payload", MB_OK);
+        }
 
         DEBUGLOG("Callback Success!  Response: ", jsonResponse.stringify().c_str());
     }
@@ -425,10 +427,12 @@ void openBranchSession()
 {
     OutputDebugStringW(L"openBranchSession()");
 
-    std::vector<wchar_t> buffer(launchUri.size());
-    MultiByteToWideChar(CP_UTF8, 0, launchUri.c_str(), -1, &buffer[0], (int) buffer.size());
-    std::wstring wuri(buffer.begin(), buffer.end());
-    MessageBox(NULL, wuri.c_str(), L"Opening URI", MB_OK);
+    if (launchUri.length() > 0) {
+        std::vector<wchar_t> buffer(launchUri.length());
+        MultiByteToWideChar(CP_UTF8, 0, launchUri.c_str(), -1, &buffer[0], (int)buffer.size());
+        std::wstring wuri(buffer.begin(), buffer.end());
+        MessageBox(NULL, wuri.c_str(), L"Opening URI", MB_OK);
+    }
 
     _branchInstance->openSession(launchUri, new MyOpenCallback);
 }
