@@ -12,6 +12,8 @@
 #include <BranchIO/LinkInfo.h>
 #include <BranchIO/Util/Log.h>
 
+#include <cassert>
+
 #define MAX_LOADSTRING 100
 
 #define ID_CTRL_BASE 1000
@@ -49,31 +51,37 @@ const char* const BRANCH_KEY = "key_live_clTWfBGukMXu3NPdvw5HRajeqwfCT7BG";
 // Used to store the URI received from the command line
 std::string launchUri;
 
-std::string make_string(const std::wstring& wstr) {
-    if (wstr.empty()) return std::string();
-
-    // Allow up to 4 chars per wide char for UTF-8 encoding
-    std::vector<char> buffer(wstr.length() * 4);
-    int length = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), -1, &buffer[0], buffer.size(), NULL, NULL);
-    if (length <= 0) {
-        return std::string();
-    }
-
-    return std::string(&buffer[0], &buffer[length]);
-}
-
 std::wstring make_wstring(const std::string& str) {
-    if (str.empty()) return std::wstring();
+    if (str.length() <= 0) return std::wstring();
+
+    assert(str.length() > 0);
 
     // Allow one wide char per char for UTF-8
-    std::vector<wchar_t> buffer(str.length());
-    int length = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), -1, &buffer[0], buffer.size());
+    std::vector<wchar_t> buffer(str.length() + 1);
+    int length = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), &buffer[0], (int)buffer.size() - 1);
     if (length <= 0) {
         return std::wstring();
     }
 
     // look for null termination
     return std::wstring(&buffer[0], &buffer[length]);
+}
+
+std::string make_string(const std::wstring& wstr) {
+    if (wstr.length() <= 0) {
+        return std::string();
+    }
+
+    assert(wstr.length() > 0);
+
+    // Allow up to 4 chars per wide char for UTF-8 encoding, plus one for null termination
+    std::vector<char> buffer(wstr.length() * 4 + 1);
+    int length = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), (int)wstr.length(), &buffer[0], (int)buffer.size() - 1, NULL, NULL);
+    if (length <= 0) {
+        return std::string();
+    }
+
+    return std::string(&buffer[0], &buffer[length]);
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -94,6 +102,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     /*
      * Store the URI that launched the app in launchUri, if there is one.
      */
+    //*
     if (lpCmdLine) {
         int argLength = lstrlen(lpCmdLine);
         int schemeLength = lstrlen(URISCHEME);
@@ -102,6 +111,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             launchUri = make_string(lpCmdLine);
         }
     }
+    // */
+
+    MessageBox(NULL, make_wstring(launchUri).c_str(), L"Launch URI", NULL);
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
