@@ -10,6 +10,7 @@
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/StandardEvent.h>
 #include <BranchIO/LinkInfo.h>
+#include <BranchIO/Util/Log.h>
 
 #define MAX_LOADSTRING 100
 
@@ -82,6 +83,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+    /*
+     * Enable verbose logging to the event log. Note that Debug and Verbose levels
+     * are compiled out in Release builds.
+     */
+    BranchIO::Log::setLevel(BranchIO::Log::Verbose);
+    BranchIO::Log::enableSystemLogging();
 
     /*
      * Store the URI that launched the app in launchUri, if there is one.
