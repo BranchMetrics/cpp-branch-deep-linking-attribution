@@ -41,6 +41,8 @@ void closeBranchSession();
 
 int ColorRefToInt(COLORREF cr);
 
+std::string launchUri;
+const wchar_t* const URISCHEME = L"windowstest:";
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -49,6 +51,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+    if (lpCmdLine) {
+        int argLength = lstrlen(lpCmdLine);
+        int schemeLength = lstrlen(URISCHEME);
+        std::wstring prefix(lpCmdLine, lpCmdLine + std::min(argLength, schemeLength));
+        if (prefix == URISCHEME) {
+            std::vector<char> buffer(argLength + 1);
+            WideCharToMultiByte(CP_UTF8, 0,lpCmdLine, -1, &buffer[0], argLength, NULL, NULL);
+            launchUri = std::string(buffer.begin(), buffer.end());
+        }
+    }
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -250,11 +263,11 @@ void installApp()
     }
 
     LPCTSTR baseDefaultValue = TEXT("URL:Color Picker");
-    rc = RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, (LPBYTE)baseDefaultValue, BYTESIZE(_tcslen(baseDefaultValue) + 1));
+    rc = RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, (LPBYTE)baseDefaultValue, (DWORD) BYTESIZE(_tcslen(baseDefaultValue) + 1));
 
     LPCTSTR keyProtocol = TEXT("URL Protocol");
     LPCTSTR valProtocol = TEXT("");
-    rc = RegSetValueEx(hKey, keyProtocol, 0, REG_SZ, (LPBYTE)valProtocol, BYTESIZE(_tcslen(valProtocol) + 1));
+    rc = RegSetValueEx(hKey, keyProtocol, 0, REG_SZ, (LPBYTE)valProtocol, (DWORD) BYTESIZE(_tcslen(valProtocol) + 1));
 
     // Step 2:  Set the executable location
     TCHAR path[MAX_PATH];
@@ -277,7 +290,7 @@ void installApp()
         lstrcat(valShell, path);
         lstrcat(valShell, TEXT("\" \"%1\""));
 
-    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, (LPBYTE)valShell, BYTESIZE(_tcslen(valShell) + 1));
+    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, (LPBYTE)valShell, (DWORD) BYTESIZE(_tcslen(valShell) + 1));
     rc = RegCloseKey(hKeyShell);
 
     // Step 3: Set the default icon
@@ -289,7 +302,7 @@ void installApp()
         lstrcat(valShell, path);  // Specifically do *not* quote the icon path, as that doesn't work.
         lstrcat(valShell, TEXT(",1"));
 
-    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, (LPBYTE)valShell, BYTESIZE(_tcslen(valShell) + 1));
+    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, (LPBYTE)valShell,(DWORD) BYTESIZE(_tcslen(valShell) + 1));
     rc = RegCloseKey(hKeyIcon);
 
     // Step 4: Clean Up
@@ -316,6 +329,12 @@ class MyRequestCallback : public BranchIO::IRequestCallback {
 protected:
     virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse)
     {
+        std::string jsonString = jsonResponse.stringify();
+        std::vector<wchar_t> buffer(jsonString.size());
+        MultiByteToWideChar(CP_UTF8, 0, jsonString.c_str(), -1, &buffer[0], (int) buffer.size());
+        std::wstring wjson(buffer.begin(), buffer.end());
+        MessageBox(NULL, wjson.c_str(), L"Link payload", MB_OK);
+
         DEBUGLOG("Callback Success!  Response: ", jsonResponse.stringify().c_str());
     }
 
@@ -406,7 +425,12 @@ void openBranchSession()
 {
     OutputDebugStringW(L"openBranchSession()");
 
-    _branchInstance->openSession("", new MyOpenCallback);
+    std::vector<wchar_t> buffer(launchUri.size());
+    MultiByteToWideChar(CP_UTF8, 0, launchUri.c_str(), -1, &buffer[0], (int) buffer.size());
+    std::wstring wuri(buffer.begin(), buffer.end());
+    MessageBox(NULL, wuri.c_str(), L"Opening URI", MB_OK);
+
+    _branchInstance->openSession(launchUri, new MyOpenCallback);
 }
 
 void closeBranchSession()
