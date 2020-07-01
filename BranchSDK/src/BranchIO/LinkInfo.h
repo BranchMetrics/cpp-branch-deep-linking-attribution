@@ -10,6 +10,7 @@
 #include "BranchIO/Event/BaseEvent.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/fwd.h"
+#include "BranchIO/String.h"
 
 namespace BranchIO {
 
@@ -51,7 +52,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param value A string with the value for the parameter
      * @return This object for chaining builder methods
      */
-    LinkInfo& addControlParameter(const char *key, const std::string &value);
+    LinkInfo& addControlParameter(const String& key, const String &value);
 
     /**
      * Any other params to be added; you can define your own.
@@ -60,7 +61,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param value An integer with the value for the parameter
      * @return This object for chaining builder methods
      */
-    LinkInfo& addControlParameter(const char *key, int value);
+    LinkInfo& addControlParameter(const String& key, int value);
 
     /**
      * Any other params to be added; you can define your own.
@@ -69,7 +70,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param value A PropertyManager with the value for the parameter
      * @return This object for chaining builder methods
      */
-    LinkInfo& addControlParameter(const char *key, const PropertyManager &value);
+    LinkInfo& addControlParameter(const String& key, const PropertyManager& value);
 
     /**
      * Adds a tag to the collection associated with a deep link.
@@ -77,7 +78,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param tag A tag associated with a deep link.
      * @return This object for chaining builder methods
      */
-    LinkInfo& addTag(const std::string &tag);
+    LinkInfo& addTag(const String& tag);
 
     /**
      * Sets the alias for this link.
@@ -85,7 +86,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param alias A string value containing the desired alias name to add.
      * @return This object for chaining builder methods
      */
-    LinkInfo& setAlias(const std::string &alias);
+    LinkInfo& setAlias(const String& alias);
 
     /**
      * A string value that represents the campaign associated with this link.
@@ -93,7 +94,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param campaign A string value specifying the campaign.
      * @return This object for chaining builder methods
      */
-    LinkInfo& setCampaign(const std::string &campaign);
+    LinkInfo& setCampaign(const String& campaign);
 
     /**
      * [Optional] The channel in which the link will be shared. eg: "facebook",
@@ -103,7 +104,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      *                belongs to. (max 128 characters).
      * @return This object for chaining builder methods
      */
-    LinkInfo& setChannel(const std::string &channel);
+    LinkInfo& setChannel(const String& channel);
 
     /**
      * [Optional] You can set the duration manually. This is the time that
@@ -122,7 +123,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param feature A string specifying the feature. (max 128 characters).
      * @return This object for chaining builder methods
      */
-    LinkInfo& setFeature(const std::string &feature);
+    LinkInfo& setFeature(const String &feature);
 
     /**
      * A string value that represents the stage of the user in the app. eg:
@@ -131,7 +132,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param stage A string value specifying the stage.
      * @return This object for chaining builder methods
      */
-    LinkInfo& setStage(const std::string &stage);
+    LinkInfo& setStage(const String &stage);
 
     /**
      * Adds a type to the link.
@@ -161,7 +162,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param baseUrl Non-Default base to use for forming the url
      * @return A url with the given deep link parameters.
      */
-    std::string createLongUrl(Branch *branchInstance, const std::string &baseUrl = "") const;
+    std::string createLongUrl(Branch* branchInstance, const String& baseUrl = String()) const;
 
     using PropertyManager::toString;
 
@@ -241,7 +242,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      * @param value Key value
      * @return This object for chaining builder methods
      */
-    LinkInfo& doAddProperty(const char *name, const std::string &value);
+    LinkInfo& doAddProperty(const char *name, const std::string& value);
 
     /**
      * Add an int value property to the set.

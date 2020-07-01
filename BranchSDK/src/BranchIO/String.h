@@ -14,7 +14,14 @@
 namespace BranchIO {
 
 /**
- * Adapter class to convert UTF-8 to UTF-16 and vice versa.
+ * Adapter class to convert UTF-8 to UTF-16 and vice versa. Converts from
+ * any of the following types:
+ *   std::string
+ *   std::wstring
+ *   const char*
+ *   const wchar_t*
+ * Use the str() method to generate a UTF-8 std::string or wstr() to
+ * generate a UTF-16 std::wstring.
  */
 class String {
  public:

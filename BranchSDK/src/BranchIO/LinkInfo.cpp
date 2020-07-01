@@ -106,40 +106,40 @@ LinkInfo::getBranchInstance() const {
 }
 
 LinkInfo &
-LinkInfo::addControlParameter(const char *key, const std::string &value) {
+LinkInfo::addControlParameter(const String& key, const String& value) {
     Mutex::ScopedLock _l(_mutex);
-    _controlParams.addProperty(key, value);
+    _controlParams.addProperty(key.str().c_str(), value.str());
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
 }
 
 LinkInfo &
-LinkInfo::addControlParameter(const char *key, int value) {
+LinkInfo::addControlParameter(const String& key, int value) {
     Mutex::ScopedLock _l(_mutex);
-    _controlParams.addProperty(key, value);
+    _controlParams.addProperty(key.str().c_str(), value);
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
 }
 
 LinkInfo&
-LinkInfo::addControlParameter(const char *key, const PropertyManager &value) {
+LinkInfo::addControlParameter(const String& key, const PropertyManager& value) {
     Mutex::ScopedLock _l(_mutex);
-    _controlParams.addProperty(key, value);
+    _controlParams.addProperty(key.str().c_str(), value);
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
 }
 
 LinkInfo&
-LinkInfo::addTag(const std::string &tag) {
+LinkInfo::addTag(const String& tag) {
     Mutex::ScopedLock _l(_mutex);
-    _tagParams.add(tag);
+    _tagParams.add(tag.str());
     addProperty(JSONKEY_TAGS, _tagParams);
     return *this;
 }
 
 LinkInfo&
-LinkInfo::setAlias(const std::string &alias) {
-    return doAddProperty(JSONKEY_ALIAS, alias);
+LinkInfo::setAlias(const String& alias) {
+    return doAddProperty(JSONKEY_ALIAS, alias.str());
 }
 
 std::string
@@ -148,8 +148,8 @@ LinkInfo::getAlias() const {
 }
 
 LinkInfo &
-LinkInfo::setCampaign(const std::string &campaign) {
-    return doAddProperty(JSONKEY_CAMPAIGN, campaign);
+LinkInfo::setCampaign(const String& campaign) {
+    return doAddProperty(JSONKEY_CAMPAIGN, campaign.str());
 }
 
 std::string
@@ -158,8 +158,8 @@ LinkInfo::getCampaign() const {
 }
 
 LinkInfo &
-LinkInfo::setChannel(const std::string &channel) {
-    return doAddProperty(JSONKEY_CHANNEL, channel);
+LinkInfo::setChannel(const String& channel) {
+    return doAddProperty(JSONKEY_CHANNEL, channel.str());
 }
 
 std::string
@@ -173,8 +173,8 @@ LinkInfo::setDuration(int duration) {
 }
 
 LinkInfo &
-LinkInfo::setFeature(const std::string &feature) {
-    return doAddProperty(JSONKEY_FEATURE, feature);
+LinkInfo::setFeature(const String& feature) {
+    return doAddProperty(JSONKEY_FEATURE, feature.str());
 }
 
 std::string
@@ -183,8 +183,8 @@ LinkInfo::getFeature() const {
 }
 
 LinkInfo &
-LinkInfo::setStage(const std::string &stage) {
-    return doAddProperty(JSONKEY_STAGE, stage);
+LinkInfo::setStage(const String& stage) {
+    return doAddProperty(JSONKEY_STAGE, stage.str());
 }
 
 std::string
@@ -224,13 +224,14 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
 }
 
 std::string
-LinkInfo::createLongUrl(Branch *branchInstance, const std::string &baseUrl) const {
+LinkInfo::createLongUrl(Branch* branchInstance, const String& baseUrl) const {
     Mutex::ScopedLock _l(_mutex);
 
     // TODO(andyp): Handle response from setIdentity if there is a base URL in the response
 
     string longUrl;
-    longUrl += (baseUrl.size() > 0 ? baseUrl : BASE_LONG_URL);
+    string sBaseUrl(baseUrl.str());
+    longUrl += (sBaseUrl.size() > 0 ? sBaseUrl : BASE_LONG_URL);
     longUrl += branchInstance->getBranchKey();
 
     Poco::URI uri(longUrl);

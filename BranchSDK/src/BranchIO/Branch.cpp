@@ -46,6 +46,8 @@ class BranchWindows : public Branch {
 
 #endif
 
+using namespace std;
+
 /**
  * (Internal) Session Callback.
  * This class maintains the state of the IPackagingInfo Session
@@ -109,7 +111,7 @@ class SessionCallback : public IRequestCallback {
     IRequestCallback *_parentCallback;
 };
 
-Branch *Branch::create(const std::string &branchKey, AppInfo *pInfo) {
+Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     Branch *instance = nullptr;
 #if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
     instance = new BranchUnix();
@@ -135,7 +137,7 @@ Branch *Branch::create(const std::string &branchKey, AppInfo *pInfo) {
         instance->_packagingInfo.getAppInfo().addProperties(pInfo->toJSON());
     }
 
-    instance->_packagingInfo.setBranchKey(branchKey);
+    instance->_packagingInfo.setBranchKey(branchKey.str());
 
     instance->_requestManager = new RequestManager(instance->_packagingInfo);
     instance->_requestManager->start();
@@ -149,12 +151,13 @@ Branch::~Branch() {
 }
 
 void
-Branch::openSession(const std::string &linkUrl, IRequestCallback *callback) {
+Branch::openSession(const String& linkUrl, IRequestCallback* callback) {
     SessionCallback *sessionCallback = new SessionCallback(&_packagingInfo, callback);
     SessionOpenEvent event;
 
-    if (linkUrl.length() > 0) {
-        event.setLinkUrl(linkUrl);
+    string sLinkUrl(linkUrl.str());
+    if (sLinkUrl.length() > 0) {
+        event.setLinkUrl(sLinkUrl);
     }
 
     sendEvent(event, sessionCallback);
@@ -181,9 +184,9 @@ Branch::sendEvent(const BaseEvent &event, IRequestCallback *callback) {
 }
 
 void
-Branch::setIdentity(const std::string& userId, IRequestCallback *callback) {
+Branch::setIdentity(const String& userId, IRequestCallback* callback) {
     if (getSessionInfo().hasSessionId()) {
-        IdentityLoginEvent event(userId);
+        IdentityLoginEvent event(userId.str());
         sendEvent(event, callback);
     } else {
         if (callback) {

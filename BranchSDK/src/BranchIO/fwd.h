@@ -20,6 +20,7 @@ class IRequestCallback;
 class JSONObject;
 class Request;
 class SessionInfo;
+class String;
 
 }  // namespace BranchIO
 
