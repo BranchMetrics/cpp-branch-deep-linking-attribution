@@ -3,10 +3,12 @@
 #ifndef BRANCHIO_STRING_H__
 #define BRANCHIO_STRING_H__
 
+#ifdef WIN32
+#include <Windows.h>
+#endif  // WIN32
 #include <string>
 #ifdef WIN32
 #include <vector>
-#include <wstring>  // NOLINT
 #endif  // WIN32
 
 namespace BranchIO {
