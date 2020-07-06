@@ -44,8 +44,8 @@ void closeBranchSession();
 int ColorRefToInt(COLORREF cr);
 
 // Branch-related constants
-const wchar_t* const URISCHEME = L"windowstest:";
-const char* const BRANCH_KEY = "key_live_clTWfBGukMXu3NPdvw5HRajeqwfCT7BG";
+const wchar_t* const URISCHEME = L"branchtest:";
+const char* const BRANCH_KEY = "key_live_feebgAAhbH9Tv85H5wLQhpdaefiZv5Dv";
 
 // Used to store the URI received from the command line
 std::string launchUri;
