@@ -93,7 +93,7 @@ class BRANCHIO_DLL_EXPORT Branch {
     /**
      * @return the Branch key as a UTF-16 string
      */
-    std::wstring getBranchKeyW() const;
+    static std::wstring getBranchKeyW() const;
 #endif  // WIN32
 
     /**
