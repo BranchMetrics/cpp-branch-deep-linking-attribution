@@ -60,7 +60,7 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
     virtual JSONObject toJSON() const;
 
     /*
-     * TODO(@jdee): Replace these methods with a specialized template
+     * @todo(jdee): Replace these methods with a specialized template
      */
 
     /**

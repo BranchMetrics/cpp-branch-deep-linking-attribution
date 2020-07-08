@@ -259,9 +259,20 @@ Branch::getBranchKey() const {
     return _packagingInfo.getBranchKey();
 }
 
-const std::string &Branch::getVersion() {
-    static std::string sVersion = VER_FILE_VERSION_STR;
-    return sVersion;
+std::string Branch::getVersion() {
+    return VER_FILE_VERSION_STR;
 }
+
+#ifdef WIN32
+
+std::wstring Branch::getVersionW() {
+    return String(getVersion()).wstr();
+}
+
+std::wstring Branch::getBranchKeyW() {
+    return String(getBranchKey()).wstr();
+}
+
+#endif  // WIN32
 
 }  // namespace BranchIO

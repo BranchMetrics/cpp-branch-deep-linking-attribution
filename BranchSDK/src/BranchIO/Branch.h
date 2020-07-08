@@ -69,17 +69,32 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     virtual void sendEvent(const BaseEvent &event, IRequestCallback *callback);
 
+    /*
+     * @todo(jdee): Get rid of runtime getters for compile-time constants
+     */
+
     /**
      * @return the SDK Version
      */
-    static const std::string &getVersion();
+    static std::string getVersion();
 
- public:
     /**
      * @todo(andyp): Revisit Scope.
      * @return the Branch Key used to initialize Branch.
      */
     std::string getBranchKey() const;
+
+#ifdef WIN32
+    /**
+     * @return the SDK Version as a UTF-16 string
+     */
+    static std::wstring getVersionW();
+
+    /**
+     * @return the Branch key as a UTF-16 string
+     */
+    std::wstring getBranchKeyW() const;
+#endif  // WIN32
 
     /**
      * From IPackagingInfo
