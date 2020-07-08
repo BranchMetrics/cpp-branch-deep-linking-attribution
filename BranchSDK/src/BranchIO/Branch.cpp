@@ -269,7 +269,7 @@ std::wstring Branch::getVersionW() {
     return String(getVersion()).wstr();
 }
 
-std::wstring Branch::getBranchKeyW() {
+std::wstring Branch::getBranchKeyW() const {
     return String(getBranchKey()).wstr();
 }
 
