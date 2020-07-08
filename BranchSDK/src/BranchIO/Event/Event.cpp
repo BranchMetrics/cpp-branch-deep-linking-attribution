@@ -3,6 +3,7 @@
 #include "Event.h"
 #include "BranchIO/Defines.h"
 #include "BranchIO/JSONObject.h"
+#include "BranchIO/String.h"
 
 namespace BranchIO {
 
@@ -12,7 +13,7 @@ const char *AD_TYPE_INTERSTITIAL = "INTERSTITIAL";
 const char *AD_TYPE_REWARDED_VIDEO = "REWARDED_VIDEO";
 const char *AD_TYPE_NATIVE = "NATIVE";
 
-Event::Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr) :
+Event::Event(Defines::APIEndpoint apiEndpoint, const String& eventName, JSONObject::Ptr jsonPtr) :
     BaseEvent(apiEndpoint, eventName, jsonPtr) {
 }
 
@@ -29,13 +30,13 @@ Event::setAdType(Event::AdType adType) {
 }
 
 Event&
-Event::setAffiliation(const std::string &affiliation) {
+Event::setAffiliation(const String& affiliation) {
     addEventProperty(Defines::JSONKEY_AFFILIATION, affiliation);
     return *this;
 }
 
 Event&
-Event::setCoupon(const std::string &coupon) {
+Event::setCoupon(const String& coupon) {
     addEventProperty(Defines::JSONKEY_COUPON, coupon);
     return *this;
 }
@@ -47,13 +48,13 @@ Event::setCurrency(const CurrencyType &currency) {
 }
 
 Event&
-Event::setCustomerEventAlias(const std::string &alias) {
+Event::setCustomerEventAlias(const String& alias) {
     addEventProperty(Defines::JSONKEY_CUSTOMER_EVENT_ALIAS, alias);
     return *this;
 }
 
 Event&
-Event::setDescription(const std::string &description) {
+Event::setDescription(const String& description) {
     addEventProperty(Defines::JSONKEY_DESCRIPTION, description);
     return *this;
 }
@@ -65,7 +66,7 @@ Event::setRevenue(double revenue) {
 }
 
 Event&
-Event::setSearchQuery(const std::string &searchQuery) {
+Event::setSearchQuery(const String& searchQuery) {
     addEventProperty(Defines::JSONKEY_SEARCHQUERY, searchQuery);
     return *this;
 }
@@ -83,7 +84,7 @@ Event::setTax(double tax) {
 }
 
 Event&
-Event::setTransactionId(const std::string &transactionId) {
+Event::setTransactionId(const String& transactionId) {
     addEventProperty(Defines::JSONKEY_TRANSACTION_ID, transactionId);
     return *this;
 }

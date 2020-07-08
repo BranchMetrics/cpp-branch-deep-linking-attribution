@@ -47,14 +47,14 @@ class BRANCHIO_DLL_EXPORT Event : public BaseEvent {
      * @param affiliation Any affiliation value
      * @return This object for chaining builder methods
      */
-    virtual Event& setAffiliation(const std::string &affiliation);
+    virtual Event& setAffiliation(const String &affiliation);
 
     /**
      * Set any coupons associated with this transaction event.
      * @param coupon Any coupon value
      * @return This object for chaining builder methods
      */
-    virtual Event& setCoupon(const std::string &coupon);
+    virtual Event& setCoupon(const String &coupon);
 
     /**
      * Set the currency related with this transaction event.
@@ -68,14 +68,14 @@ class BRANCHIO_DLL_EXPORT Event : public BaseEvent {
      * @param alias Customer Event Alias.
      * @return This object for chaining builder methods
      */
-    virtual Event& setCustomerEventAlias(const std::string &alias);
+    virtual Event& setCustomerEventAlias(const String &alias);
 
     /**
      * Set description for this transaction event.
      * @param description transaction description
      * @return This object for chaining builder methods
      */
-    virtual Event& setDescription(const std::string &description);
+    virtual Event& setDescription(const String &description);
 
     /**
      * Set the revenue value  related with this transaction event.
@@ -89,7 +89,7 @@ class BRANCHIO_DLL_EXPORT Event : public BaseEvent {
      * @param searchQuery Search Query value
      * @return This object for chaining builder methods
      */
-    virtual Event& setSearchQuery(const std::string &searchQuery);
+    virtual Event& setSearchQuery(const String &searchQuery);
 
     /**
      * Set the shipping value  related with this transaction event.
@@ -110,7 +110,7 @@ class BRANCHIO_DLL_EXPORT Event : public BaseEvent {
      * @param transactionId Transaction Id
      * @return this object for chaining builder methods
      */
-    virtual Event& setTransactionId(const std::string &transactionId);
+    virtual Event& setTransactionId(const String& transactionId);
 
     using PropertyManager::toString;
 
@@ -121,7 +121,7 @@ class BRANCHIO_DLL_EXPORT Event : public BaseEvent {
      * @param eventName The "Name" of the event
      * @param jsonPtr Base JSON to start with
      */
-    Event(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr = nullptr);
+    Event(Defines::APIEndpoint apiEndpoint, const String& eventName, JSONObject::Ptr jsonPtr = nullptr);
 
  private:
     Event();

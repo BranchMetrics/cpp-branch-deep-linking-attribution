@@ -19,7 +19,7 @@ class BRANCHIO_DLL_EXPORT IdentityEvent : public BaseEvent {
      * @param apiEndpoint API endpoint
      * @param eventName Event Name
      */
-    IdentityEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName) :
+    IdentityEvent(Defines::APIEndpoint apiEndpoint, const String& eventName) :
         BaseEvent(apiEndpoint, eventName) {}
 };
 
@@ -32,7 +32,7 @@ class BRANCHIO_DLL_EXPORT IdentityLoginEvent : public IdentityEvent {
      * Constructor.
      * @param identity A value containing the unique identifier of the user
      */
-    IdentityLoginEvent(std::string identity) :
+    IdentityLoginEvent(const String& identity) :
             IdentityEvent(Defines::APIEndpoint::IDENTIFY_USER, "setIdentity") {
 
         addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);

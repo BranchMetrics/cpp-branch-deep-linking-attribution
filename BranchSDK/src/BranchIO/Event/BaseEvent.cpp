@@ -21,9 +21,9 @@ static const char *JSONKEY_USER_DATA = "user_data";
 static const char *JSONKEY_BRANCH_KEY = "branch_key";
 static const char *JSONKEY_ADVERTISING_IDS = "advertising_ids";
 
-BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr) :
+BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, JSONObject::Ptr jsonPtr) :
     mAPIEndpoint(apiEndpoint),
-    mEventName(eventName) {
+    mEventName(eventName.str()) {
 
     if (jsonPtr.get()) {
         // Copy the key/values
@@ -43,7 +43,7 @@ BaseEvent::BaseEvent(const BaseEvent &other) :
 BaseEvent::~BaseEvent() = default;
 
 BaseEvent&
-BaseEvent::addEventProperty(const char *propertyName, const std::string &propertyValue) {
+BaseEvent::addEventProperty(const char *propertyName, const String& propertyValue) {
     addProperty(propertyName, propertyValue);
     return *this;
 }
@@ -55,9 +55,9 @@ BaseEvent::addEventProperty(const char *propertyName, double propertyValue) {
 }
 
 BaseEvent&
-BaseEvent::addCustomDataProperty(const std::string &propertyName, const std::string &propertyValue) {
+BaseEvent::addCustomDataProperty(const String &propertyName, const String &propertyValue) {
     Mutex::ScopedLock _l(mMutex);
-    mCustomData.set(propertyName, propertyValue);
+    mCustomData.set(propertyName.str(), propertyValue.str());
     return *this;
 }
 

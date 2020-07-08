@@ -2,6 +2,7 @@
 
 #include "BranchIO/Event/StandardEvent.h"
 #include "BranchIO/Defines.h"
+#include "BranchIO/String.h"
 
 namespace BranchIO {
 

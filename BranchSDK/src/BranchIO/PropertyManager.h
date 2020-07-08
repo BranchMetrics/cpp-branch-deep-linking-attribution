@@ -10,6 +10,7 @@
 #include "BranchIO/Util/IStringConvertible.h"
 #include "BranchIO/JSONObject.h"
 #include "BranchIO/JSONArray.h"
+#include "BranchIO/String.h"
 
 namespace BranchIO {
 
@@ -58,6 +59,10 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      */
     virtual JSONObject toJSON() const;
 
+    /*
+     * TODO(@jdee): Replace these methods with a specialized template
+     */
+
     /**
      * Add a string value property to the set.
      * Note that if the value is empty, this effectively removes the key.
@@ -65,7 +70,7 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @param value Key value
      * @return This object for chaining builder methods
      */
-    virtual PropertyManager& addProperty(const char *name, const std::string &value);
+    virtual PropertyManager& addProperty(const String& name, const String& value);
 
     /**
      * Add a int value property to the set.
@@ -73,7 +78,7 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @param value Key value
      * @return This object for chaining builder methods
      */
-    virtual PropertyManager& addProperty(const char *name, int value);
+    virtual PropertyManager& addProperty(const String& name, int value);
 
     /**
      * Add a double value property to the set.
@@ -81,7 +86,7 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @param value Key value
      * @return This object for chaining builder methods
      */
-    virtual PropertyManager& addProperty(const char *name, double value);
+    virtual PropertyManager& addProperty(const String& name, double value);
 
     /**
      * Add Properties from an existing PropertyManager.
@@ -89,7 +94,7 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @param value Key value
      * @return This object for chaining builder methods
      */
-    virtual PropertyManager& addProperty(const char *name, const PropertyManager &value);
+    virtual PropertyManager& addProperty(const String& name, const PropertyManager &value);
 
     /**
      * Add a JSON Array value property to the set.
@@ -98,7 +103,7 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
      * @param value Key value
      * @return This object for chaining builder methods
      */
-    virtual PropertyManager& addProperty(const char *name, const Poco::JSON::Array &value);
+    virtual PropertyManager& addProperty(const String& name, const Poco::JSON::Array &value);
 
 
     /**
