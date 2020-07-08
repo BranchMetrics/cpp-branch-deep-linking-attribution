@@ -45,43 +45,10 @@ int ColorRefToInt(COLORREF cr);
 
 // Branch-related constants
 const wchar_t* const URISCHEME = L"branchtest:";
-const char* const BRANCH_KEY = "key_live_feebgAAhbH9Tv85H5wLQhpdaefiZv5Dv";
+const wchar_t* const BRANCH_KEY = L"key_live_feebgAAhbH9Tv85H5wLQhpdaefiZv5Dv";
 
 // Used to store the URI received from the command line
-std::string launchUri;
-
-std::wstring make_wstring(const std::string& str) {
-    if (str.length() <= 0) return std::wstring();
-
-    assert(str.length() > 0);
-
-    // Allow one wide char per char for UTF-8
-    std::vector<wchar_t> buffer(str.length() + 1);
-    int length = MultiByteToWideChar(CP_UTF8, 0, str.c_str(), (int)str.length(), &buffer[0], (int)buffer.size() - 1);
-    if (length <= 0) {
-        return std::wstring();
-    }
-
-    // look for null termination
-    return std::wstring(&buffer[0], &buffer[length]);
-}
-
-std::string make_string(const std::wstring& wstr) {
-    if (wstr.length() <= 0) {
-        return std::string();
-    }
-
-    assert(wstr.length() > 0);
-
-    // Allow up to 4 chars per wide char for UTF-8 encoding, plus one for null termination
-    std::vector<char> buffer(wstr.length() * 4 + 1);
-    int length = WideCharToMultiByte(CP_UTF8, 0, wstr.c_str(), (int)wstr.length(), &buffer[0], (int)buffer.size() - 1, NULL, NULL);
-    if (length <= 0) {
-        return std::string();
-    }
-
-    return std::string(&buffer[0], &buffer[length]);
-}
+std::wstring launchUri;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -106,11 +73,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         int schemeLength = lstrlen(URISCHEME);
         std::wstring prefix(lpCmdLine, lpCmdLine + std::min(argLength, schemeLength));
         if (prefix == URISCHEME) {
-            launchUri = make_string(lpCmdLine);
+            launchUri = lpCmdLine;
         }
     }
 
-    MessageBox(NULL, make_wstring(launchUri).c_str(), L"Launch URI", NULL);
+    MessageBox(NULL, launchUri.c_str(), L"Launch URI", NULL);
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -310,7 +277,7 @@ protected:
         /*
          * Display any response from the SDK.
          */
-        std::wstring wjson(make_wstring(jsonResponse.stringify()));
+        std::wstring wjson(BranchIO::String(jsonResponse.stringify()).wstr());
         MessageBox(NULL, wjson.c_str(), L"Response payload", MB_OK);
 
         DEBUGLOG("Callback Success!  Response: ", jsonResponse.stringify().c_str());
@@ -407,8 +374,7 @@ void openBranchSession()
      * Show the URI being opened, if any.
      */
     if (launchUri.length() > 0) {
-        std::wstring wuri(make_wstring(launchUri));
-        MessageBox(NULL, wuri.c_str(), L"Opening URI", MB_OK);
+        MessageBox(NULL, launchUri.c_str(), L"Opening URI", MB_OK);
     }
 
     _branchInstance->openSession(launchUri, new MyOpenCallback);
