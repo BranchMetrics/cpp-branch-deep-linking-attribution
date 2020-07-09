@@ -5,7 +5,7 @@
 
 namespace BranchIO {
 
-CustomEvent::CustomEvent(const std::string &eventName) :
+CustomEvent::CustomEvent(const String& eventName) :
     Event(Defines::APIEndpoint::TRACK_CUSTOM_EVENT, eventName) { }
 
 }  // namespace BranchIO

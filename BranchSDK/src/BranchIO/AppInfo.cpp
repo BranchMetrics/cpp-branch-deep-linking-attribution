@@ -20,23 +20,23 @@ AppInfo::~AppInfo() {
 }
 
 AppInfo&
-AppInfo::setAppVersion(const std::string &appVersion) {
-    return doAddProperty(Defines::JSONKEY_APP_VERSION, appVersion);
+AppInfo::setAppVersion(const String& appVersion) {
+    return doAddProperty(Defines::JSONKEY_APP_VERSION, appVersion.str());
 }
 
 AppInfo&
-AppInfo::setDeveloperIdentity(const std::string &identity) {
-    return doAddProperty(Defines::JSONKEY_APP_DEVELOPER_IDENTITY, identity);
+AppInfo::setDeveloperIdentity(const String& identity) {
+    return doAddProperty(Defines::JSONKEY_APP_DEVELOPER_IDENTITY, identity.str());
 }
 
 AppInfo&
-AppInfo::setEnvironment(const std::string &environment) {
-    return doAddProperty(Defines::JSONKEY_APP_ENVIRONMENT, environment);
+AppInfo::setEnvironment(const String& environment) {
+    return doAddProperty(Defines::JSONKEY_APP_ENVIRONMENT, environment.str());
 }
 
 AppInfo&
-AppInfo::setCountryCode(const std::string &countryCode) {
-    return doAddProperty(Defines::JSONKEY_DEVICE_COUNTRY, countryCode);
+AppInfo::setCountryCode(const String& countryCode) {
+    return doAddProperty(Defines::JSONKEY_DEVICE_COUNTRY, countryCode.str());
 }
 
 AppInfo&
@@ -49,13 +49,13 @@ AppInfo::setDisplayInfo(int dpi, int width, int height) {
 }
 
 AppInfo&
-AppInfo::setLanguage(const std::string &language) {
-    return doAddProperty(Defines::JSONKEY_DEVICE_LANGUAGE, language);
+AppInfo::setLanguage(const String& language) {
+    return doAddProperty(Defines::JSONKEY_DEVICE_LANGUAGE, language.str());
 }
 
 AppInfo&
-AppInfo::setPackageName(const std::string &packageName) {
-    return doAddProperty(Defines::JSONKEY_APP_PACKAGE_NAME, packageName);
+AppInfo::setPackageName(const String& packageName) {
+    return doAddProperty(Defines::JSONKEY_APP_PACKAGE_NAME, packageName.str());
 }
 
 std::string

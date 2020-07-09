@@ -5,6 +5,7 @@
 
 #include <string>
 #include "BranchIO/PropertyManager.h"
+#include "BranchIO/String.h"
 
 namespace BranchIO {
 
@@ -32,7 +33,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): Example
      */
-    AppInfo& setAppVersion(const std::string &appVersion);
+    AppInfo& setAppVersion(const String& appVersion);
 
     /**
      * Set the device country code.
@@ -40,7 +41,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): Example
      */
-    AppInfo& setCountryCode(const std::string &countryCode);
+    AppInfo& setCountryCode(const String& countryCode);
 
     /**
      * Set the Developer Identity.
@@ -49,7 +50,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @param identity Unique User id.  Example: "steve"
      * @return This object for chaining builder methods
      */
-    AppInfo& setDeveloperIdentity(const std::string &identity);
+    AppInfo& setDeveloperIdentity(const String& identity);
 
     /**
      * Set the Display information.
@@ -66,7 +67,7 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): What is this
      */
-    AppInfo& setEnvironment(const std::string &environment);
+    AppInfo& setEnvironment(const String& environment);
 
     /**
      * Set the Device Language.
@@ -74,14 +75,14 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
      * @return This object for chaining builder methods
      * @todo(andyp): Example
      */
-    AppInfo& setLanguage(const std::string &language);
+    AppInfo& setLanguage(const String& language);
 
     /**
      * Set the Package name of the application.
      * @param packageName Package Name
      * @return This object for chaining builder methods
      */
-    AppInfo& setPackageName(const std::string &packageName);
+    AppInfo& setPackageName(const String& packageName);
 
     /**
      * Get the developer identity
