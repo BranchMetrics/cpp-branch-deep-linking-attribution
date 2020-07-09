@@ -18,9 +18,9 @@
 // Create a string that looks like this:  "Branch Windows SDK v1.2.3"
 #define STRINGIZE2(s) #s
 #define STRINGIZE(s) STRINGIZE2(s)
-#define VER_FILE_VERSION_STR        STRINGIZE(VERSION_MAJOR)        \
-                                    "." STRINGIZE(VERSION_MINOR)    \
-                                    "." STRINGIZE(VERSION_REVISION)
+#define VER_FILE_VERSION_STR        STRINGIZE(BRANCHIO_VERSION_MAJOR)        \
+                                    "." STRINGIZE(BRANCHIO_VERSION_MINOR)    \
+                                    "." STRINGIZE(BRANCHIO_VERSION_REVISION)
 
 #define VER_FILE_VERSION_DISPLAY    "Branch "                       \
                                     VERSION_PLATFORM  " SDK v"      \
