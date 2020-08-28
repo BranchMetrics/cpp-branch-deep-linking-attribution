@@ -4,6 +4,7 @@
 class TextField :
     public Window
 {
-    TextField(LPCWSTR windowName, int x, int y, int width, int height, HWND parent);
+public:
+    TextField(LPCWSTR windowName, int x, int y, int width, int height, HWND parent = nullptr);
 };
 

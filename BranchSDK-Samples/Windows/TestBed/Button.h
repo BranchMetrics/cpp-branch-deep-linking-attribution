@@ -5,6 +5,6 @@ class Button :
     public Window
 {
 public:
-    Button(LPCWSTR windowName, int x, int y, int width, int height, HWND parent);
+    Button(LPCWSTR windowName, int x, int y, int width, int height, HWND parent = nullptr);
 };
 

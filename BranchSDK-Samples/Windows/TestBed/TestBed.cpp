@@ -4,12 +4,18 @@
 #include "framework.h"
 #include "TestBed.h"
 
+#include "Button.h"
+#include "TextField.h"
+
 #define MAX_LOADSTRING 100
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+
+Button openButton(L"Open", 20, 20, 400, 50);
+TextField outputTextField(L"Output", 440, 20, 400, 100);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -106,6 +112,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    }
 
    ShowWindow(hWnd, nCmdShow);
+
+   openButton.create(hWnd);
+   outputTextField.create(hWnd);
+
    UpdateWindow(hWnd);
 
    return TRUE;
