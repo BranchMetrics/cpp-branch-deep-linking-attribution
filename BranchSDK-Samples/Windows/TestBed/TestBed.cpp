@@ -14,6 +14,7 @@ HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
+// Static layout
 Button openButton(L"Open", 20, 20, 400, 50);
 TextField outputTextField(L"Output", 440, 20, 400, 100);
 

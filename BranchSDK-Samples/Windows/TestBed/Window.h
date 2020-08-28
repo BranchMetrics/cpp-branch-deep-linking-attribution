@@ -18,6 +18,11 @@ public:
 		return m_self;
 	}
 
+	HWND getParentWindowHandle() const {
+		ScopeLock l(m_lock);
+		return m_parent;
+	}
+
 	// Can use a Window anywhere you can use a HWND.
 	operator HWND() const { return getWindowHandle(); }
 
@@ -43,7 +48,7 @@ private:
 	std::wstring m_windowName;
 	DWORD m_style;
 	int m_x, m_y, m_width, m_height;
-	HWND m_parent;
+	HWND volatile m_parent;
 	HWND volatile m_self;
 	CRITICAL_SECTION mutable m_lock;
 };
