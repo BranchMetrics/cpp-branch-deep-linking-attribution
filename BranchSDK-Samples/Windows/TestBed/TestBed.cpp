@@ -9,14 +9,17 @@
 
 #define MAX_LOADSTRING 100
 
+static int const ID_TEXT_FIELD  = 1000;
+static int const ID_OPEN_BUTTON = 1001;
+
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 // Static layout
-Button openButton(L"Open", 20, 20, 400, 50);
-TextField outputTextField(L"Output", 440, 20, 400, 100);
+Button openButton(L"Open", 20, 20, 400, 50, ID_OPEN_BUTTON);
+TextField outputTextField(L"Output", 440, 20, 400, 100, ID_TEXT_FIELD);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -147,6 +150,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case IDM_EXIT:
                 DestroyWindow(hWnd);
+                break;
+            case ID_OPEN_BUTTON:
+                openButton.onPress();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
