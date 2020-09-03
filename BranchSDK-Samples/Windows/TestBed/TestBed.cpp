@@ -50,6 +50,41 @@ initBranch(const std::wstring& key)
     return Branch::create(key, &appInfo);
 }
 
+static
+void
+openURL(const std::wstring& url)
+{
+    outputTextField.appendText(wstring(L"Opening ") + url);
+
+    struct OpenCallback : IRequestCallback
+    {
+        void onSuccess(int id, JSONObject payload)
+        {
+            outputTextField.appendText(wstring(L"Successful open response: ") + String(payload.stringify()).wstr());
+            done();
+        }
+
+        void onStatus(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
+        }
+
+        void onError(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
+            done();
+        }
+
+    private:
+        void done()
+        {
+            delete this;
+        }
+    };
+
+    branch->openSession(url, new OpenCallback);
+}
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -152,36 +187,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    openButton.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
-       wstring url(L"https://win32.app.link/crtafBueu9");
-       outputTextField.appendText(wstring(L"Opening ") + url);
-
-       struct OpenCallback : IRequestCallback
-       {
-           void onSuccess(int id, JSONObject payload)
-           {
-               outputTextField.appendText(wstring(L"Successful open response: ") + String(payload.stringify()).wstr());
-               done();
-           }
-
-           void onStatus(int id, int code, string message)
-           {
-               outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
-           }
-
-           void onError(int id, int code, string message)
-           {
-               outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
-               done();
-           }
-
-       private:
-           void done()
-           {
-               delete this;
-           }
-       };
-
-       branch->openSession(url, new OpenCallback);
+       openURL(L"https://win32.app.link/crtafBueu9");
    });
 
    /*
