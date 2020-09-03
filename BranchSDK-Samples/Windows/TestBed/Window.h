@@ -35,6 +35,9 @@ public:
 
 	void destroy();
 
+protected:
+	CRITICAL_SECTION mutable m_lock;
+
 private:
 	// prevent copying and assignment
 	Window& operator=(const Window&) { return *this; }
@@ -52,5 +55,4 @@ private:
 	HMENU m_menu;
 	HWND volatile m_parent;
 	HWND volatile m_self;
-	CRITICAL_SECTION mutable m_lock;
 };

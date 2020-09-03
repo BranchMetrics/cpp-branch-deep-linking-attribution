@@ -33,9 +33,3 @@ Button::Button(LPCWSTR windowName, int x, int y, int width, int height, int menu
 {
 
 }
-
-void
-Button::onPress()
-{
-	OutputDebugString(L"Button pressed\n");
-}
