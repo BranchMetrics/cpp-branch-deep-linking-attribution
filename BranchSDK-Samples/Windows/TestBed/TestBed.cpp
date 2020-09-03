@@ -84,15 +84,39 @@ static
 void
 initBranch(const std::wstring& key, const std::wstring& initialUrl)
 {
+    // Set up Branch SDK logging
+    // Note: Debug and Verbose levels compiled out in Release builds
+    Log::setLevel(Log::Verbose);
+    const char* appDataPath = getenv("AppData");
+    string branchLogFilePath;
+    if (appDataPath) {
+        /*
+         * By default, put log file in %AppData%\Branch, e.g. C:\Users\<username>\AppData\Roaming\Branch
+         */
+        branchLogFilePath = appDataPath;
+        branchLogFilePath += "\\Branch";
+        // May fail if the directory already exists. (Ignore return value.)
+        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
+    }
+    else {
+        // If the %AppData% env. var. is not set for some reason, use the cwd.
+        branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
+    }
+
+    // Generated and rolled over in this directory.
+    Log::enableFileLogging(branchLogFilePath + "\\branch-sdk.log");
+
+    // Now initialize the SDK
     AppInfo appInfo;
     appInfo.setAppVersion("1.0");
 
     branch = Branch::create(key, &appInfo);
 
-    wstring::size_type prefixLength = max(wstring(BRANCH_URI_SCHEME).length(), initialUrl.length());
+    wstring::size_type prefixLength = min(wstring(BRANCH_URI_SCHEME).length(), initialUrl.length());
     wstring prefix = initialUrl.substr(0, prefixLength);
     if (!initialUrl.empty() && prefix == BRANCH_URI_SCHEME)
     {
+        // Open any URI passed at the command line
         openURL(initialUrl);
     }
     else {
@@ -173,11 +197,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
-
-    Log::setLevel(Log::Verbose);
-    // Generated and rolled over in the current directory (x64\Debug).
-    Log::enableFileLogging("branch-sdk.log");
-    Log::enableSystemLogging();
 
     // Initialize Branch
     initBranch(BRANCH_KEY, lpCmdLine ? lpCmdLine : L"");
