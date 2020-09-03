@@ -351,7 +351,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     * TODO: Set up further buttons here.
     */
 
-   outputTextField.appendText(wstring(L"Initialized with key ") + BRANCH_KEY);
+   outputTextField.appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + BRANCH_KEY);
 
    UpdateWindow(hWnd);
 
