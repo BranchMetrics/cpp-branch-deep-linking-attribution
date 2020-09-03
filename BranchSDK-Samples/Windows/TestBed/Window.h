@@ -31,7 +31,7 @@ public:
 	HWND create();
 
 	// overrides constructor. adds to specified parent
-	HWND create(HWND parent);
+	virtual HWND create(HWND parent);
 
 	void destroy();
 

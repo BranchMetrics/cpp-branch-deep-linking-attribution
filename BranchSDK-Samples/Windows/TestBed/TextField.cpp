@@ -1,5 +1,7 @@
 #include "TextField.h"
 
+#include "Winuser.h"
+
 TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, HMENU menu, HWND parent) :
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
@@ -30,4 +32,12 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, in
 	)
 {
 
+}
+
+HWND
+TextField::create(HWND parent)
+{
+	HWND hwnd = Window::create(parent);
+	SendMessage(hwnd, EM_SETREADONLY, 1, sizeof(WPARAM));
+	return hwnd;
 }
