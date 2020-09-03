@@ -7,19 +7,31 @@
 #include "Button.h"
 #include "TextField.h"
 
-#define MAX_LOADSTRING 100
+#include <memory>
 
-static int const ID_TEXT_FIELD  = 1000;
-static int const ID_OPEN_BUTTON = 1001;
+#include <BranchIO/Branch.h>
+#include <BranchIO/Util/Log.h>
+
+#define MAX_LOADSTRING 100
 
 // Global Variables:
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
+using namespace BranchIO;
+using namespace std;
+
+Branch* branch(nullptr);
+static constexpr wchar_t const* const BRANCH_KEY = L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";
+static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed";
+
 // Static layout
+static int const ID_TEXT_FIELD = 1000;
+static int const ID_OPEN_BUTTON = 1001;
+
 Button openButton(L"Open", 20, 20, 400, 50, ID_OPEN_BUTTON);
-TextField outputTextField(L"Output", 440, 20, 400, 100, ID_TEXT_FIELD);
+TextField outputTextField(L"Initializing...", 440, 20, 400, 100, ID_TEXT_FIELD);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -27,6 +39,15 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
+static
+Branch*
+initBranch(const std::wstring& key)
+{
+    AppInfo appInfo;
+    appInfo.setAppVersion("1.0.0");
+
+    return Branch::create(key, &appInfo);
+}
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -35,7 +56,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
+    Log::setLevel(Log::Verbose);
+    // Generated and rolled over in the current directory (x64\Debug).
+    Log::enableFileLogging("branch-sdk.log");
+    Log::enableSystemLogging();
+
+    // Initialize Branch
+    branch = initBranch(BRANCH_KEY);
+    // Delete the Branch instance after the message loop terminates
+    unique_ptr<Branch> branchDeleter(branch);
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -121,8 +150,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    outputTextField.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
-       outputTextField.setText(L"Button pressed");
+       wstring url(L"https://win32.app.link/crtafBueu9");
+       outputTextField.setText(wstring(L"Opening ") + url);
+       branch->openSession(url, nullptr);
    });
+
+   outputTextField.setText(L"Ready");
 
    UpdateWindow(hWnd);
 

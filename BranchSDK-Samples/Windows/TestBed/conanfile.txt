@@ -1,0 +1,6 @@
+[requires]
+BranchIO/1.1.1@branch/stable
+
+[options]
+Poco:enable_mongodb=False
+Poco:enable_data_sqlite=False
