@@ -61,12 +61,12 @@ openURL(const std::wstring& url)
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
+            outputTextField.appendText(wstring(L"Branch open status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
+            outputTextField.appendText(wstring(L"Branch open error: ") + String(message).wstr());
             done();
         }
 
@@ -148,12 +148,12 @@ login(const std::wstring& username)
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
+            outputTextField.appendText(wstring(L"Branch login status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
+            outputTextField.appendText(wstring(L"Branch login error: ") + String(message).wstr());
             done();
         }
 
@@ -181,12 +181,12 @@ logout()
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
+            outputTextField.appendText(wstring(L"Branch logout status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
+            outputTextField.appendText(wstring(L"Branch logout error: ") + String(message).wstr());
             done();
         }
 
