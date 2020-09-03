@@ -44,7 +44,7 @@ Branch*
 initBranch(const std::wstring& key)
 {
     AppInfo appInfo;
-    appInfo.setAppVersion("1.0.0");
+    appInfo.setAppVersion("1.0");
 
     return Branch::create(key, &appInfo);
 }
