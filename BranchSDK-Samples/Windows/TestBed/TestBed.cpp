@@ -91,10 +91,14 @@ initBranch(const std::wstring& key, const std::wstring& initialUrl)
     string branchLogFilePath;
     if (appDataPath) {
         /*
-         * By default, put log file in %AppData%\Branch, e.g. C:\Users\<username>\AppData\Roaming\Branch
+         * By default, put log file in %AppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Roaming\Branch\TestBed
          */
         branchLogFilePath = appDataPath;
         branchLogFilePath += "\\Branch";
+        // May fail if the directory already exists. (Ignore return value.)
+        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
+
+        branchLogFilePath += "\\TestBed";
         // May fail if the directory already exists. (Ignore return value.)
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
     }
