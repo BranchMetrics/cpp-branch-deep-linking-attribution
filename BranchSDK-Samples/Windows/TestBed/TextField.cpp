@@ -11,8 +11,8 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, HM
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
 		windowName,
-		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT |
-		ES_MULTILINE | ES_AUTOVSCROLL,
+		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_SIZEBOX | ES_LEFT |
+		ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY,
 		x,
 		y,
 		width,
@@ -28,8 +28,8 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, in
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
 		windowName,
-		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT |
-		ES_MULTILINE | ES_AUTOVSCROLL,
+		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_SIZEBOX | ES_LEFT |
+		ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY,
 		x,
 		y,
 		width,
@@ -39,14 +39,6 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, in
 	)
 {
 
-}
-
-HWND
-TextField::create(HWND parent)
-{
-	HWND hwnd = Window::create(parent);
-	SendMessage(hwnd, EM_SETREADONLY, TRUE, NULL);
-	return hwnd;
 }
 
 void

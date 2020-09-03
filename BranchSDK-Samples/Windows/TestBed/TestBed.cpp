@@ -182,7 +182,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        branch->openSession(url, new OpenCallback);
    });
 
-   outputTextField.appendText(L"Ready");
+   outputTextField.appendText(wstring(L"Initialized with key ") + BRANCH_KEY);
 
    UpdateWindow(hWnd);
 
