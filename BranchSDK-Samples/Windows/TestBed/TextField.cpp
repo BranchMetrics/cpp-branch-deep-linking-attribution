@@ -38,6 +38,6 @@ HWND
 TextField::create(HWND parent)
 {
 	HWND hwnd = Window::create(parent);
-	SendMessage(hwnd, EM_SETREADONLY, 1, sizeof(WPARAM));
+	SendMessage(hwnd, EM_SETREADONLY, TRUE, NULL);
 	return hwnd;
 }
