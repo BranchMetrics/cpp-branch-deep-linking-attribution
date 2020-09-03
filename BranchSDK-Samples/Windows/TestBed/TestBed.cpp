@@ -31,7 +31,7 @@ static int const ID_TEXT_FIELD = 1000;
 static int const ID_OPEN_BUTTON = 1001;
 
 Button openButton(L"Open", 20, 20, 400, 50, ID_OPEN_BUTTON);
-TextField outputTextField(L"Initializing...", 440, 20, 400, 100, ID_TEXT_FIELD);
+TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
