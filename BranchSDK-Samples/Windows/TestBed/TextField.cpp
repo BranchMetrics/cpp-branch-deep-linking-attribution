@@ -53,7 +53,7 @@ TextField::getText() const
 	size_t length = Edit_GetTextLength(*this);
 	// include space for null terminator
 	vector<wchar_t> buffer(length + 1);
-	memset(&buffer[0], 0, length + 1);
+	memset(&buffer[0], 0, (length + 1) * sizeof(wchar_t));
 
 	Edit_GetText(*this, &buffer[0], length + 1);
 	return wstring(&buffer[0], &buffer[length]);
