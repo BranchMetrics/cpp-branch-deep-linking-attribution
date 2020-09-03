@@ -93,7 +93,6 @@ static
 void
 login(const std::wstring& username)
 {
-
     struct LoginCallback : IRequestCallback
     {
         void onSuccess(int id, JSONObject payload)
@@ -127,7 +126,6 @@ static
 void
 logout()
 {
-
     struct LogoutCallback : IRequestCallback
     {
         void onSuccess(int id, JSONObject payload)
@@ -327,7 +325,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-            // TODO: Add any drawing code that uses hdc here...
             EndPaint(hWnd, &ps);
         }
         break;

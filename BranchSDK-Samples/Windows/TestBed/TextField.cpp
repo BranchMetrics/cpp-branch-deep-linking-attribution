@@ -50,10 +50,11 @@ TextField::setText(const std::wstring& text)
 std::wstring
 TextField::getText() const
 {
-	size_t length = Edit_GetTextLength(*this);
+	HWND hwnd = getWindowHandle();
+	size_t length = Edit_GetTextLength(hwnd);
 	// include space for null terminator
 	vector<wchar_t> buffer(length + 1);
-	Edit_GetText(*this, &buffer[0], length + 1);
+	Edit_GetText(hwnd, &buffer[0], length + 1);
 	return wstring(&buffer[0], &buffer[length]);
 }
 
