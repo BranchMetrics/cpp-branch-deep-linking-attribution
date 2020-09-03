@@ -121,7 +121,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    outputTextField.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
-       OutputDebugString(L"Button pressed\n");
+       outputTextField.setText(L"Button pressed");
    });
 
    UpdateWindow(hWnd);

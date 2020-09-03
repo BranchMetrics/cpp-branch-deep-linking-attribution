@@ -9,5 +9,8 @@ public:
     TextField(LPCWSTR windowName, int x, int y, int width, int height, int menu, HWND parent = nullptr);
 
     HWND create(HWND parent);
+
+    void setText(const std::wstring& text);
+    std::wstring getText() const;
 };
 
