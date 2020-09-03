@@ -7,6 +7,7 @@
 #include "Button.h"
 #include "TextField.h"
 
+#include <algorithm>
 #include <memory>
 
 #include <BranchIO/Branch.h>
@@ -22,9 +23,9 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 using namespace BranchIO;
 using namespace std;
 
-Branch* branch(nullptr);
+Branch* volatile branch(nullptr);
 static constexpr wchar_t const* const BRANCH_KEY = L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";
-static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed";
+static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed:";
 
 // Static layout
 // TODO: Define further buttons here
@@ -43,16 +44,6 @@ ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
-
-static
-Branch*
-initBranch(const std::wstring& key)
-{
-    AppInfo appInfo;
-    appInfo.setAppVersion("1.0");
-
-    return Branch::create(key, &appInfo);
-}
 
 static
 void
@@ -87,6 +78,26 @@ openURL(const std::wstring& url)
     };
 
     branch->openSession(url, new OpenCallback);
+}
+
+static
+void
+initBranch(const std::wstring& key, const std::wstring& initialUrl)
+{
+    AppInfo appInfo;
+    appInfo.setAppVersion("1.0");
+
+    branch = Branch::create(key, &appInfo);
+
+    wstring::size_type prefixLength = max(wstring(BRANCH_URI_SCHEME).length(), initialUrl.length());
+    wstring prefix = initialUrl.substr(0, prefixLength);
+    if (!initialUrl.empty() && prefix == BRANCH_URI_SCHEME)
+    {
+        openURL(initialUrl);
+    }
+    else {
+        openURL(L"");
+    }
 }
 
 static
@@ -169,7 +180,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     Log::enableSystemLogging();
 
     // Initialize Branch
-    branch = initBranch(BRANCH_KEY);
+    initBranch(BRANCH_KEY, lpCmdLine ? lpCmdLine : L"");
     // Delete the Branch instance after the message loop terminates
     unique_ptr<Branch> branchDeleter(branch);
 

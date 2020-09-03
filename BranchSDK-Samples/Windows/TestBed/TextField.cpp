@@ -44,6 +44,8 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, in
 void
 TextField::setText(const std::wstring& text)
 {
+	// Prevent multiple threads from clobbering the text area at the same time.
+	ScopeLock l(m_lock);
 	Edit_SetText(*this, text.c_str());
 }
 
