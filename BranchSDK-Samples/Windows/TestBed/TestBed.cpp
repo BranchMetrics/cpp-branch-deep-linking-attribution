@@ -120,9 +120,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    openButton.create(hWnd);
    outputTextField.create(hWnd);
 
-   openButton.setButtonPressCallback(std::function<void()>([]() {
+   openButton.setButtonPressCallback([]() {
        OutputDebugString(L"Button pressed\n");
-   }));
+   });
 
    UpdateWindow(hWnd);
 
