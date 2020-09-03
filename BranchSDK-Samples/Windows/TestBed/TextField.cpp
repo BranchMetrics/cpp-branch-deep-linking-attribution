@@ -46,7 +46,10 @@ TextField::setText(const std::wstring& text)
 {
 	// Prevent multiple threads from clobbering the text area at the same time.
 	ScopeLock l(m_lock);
-	Edit_SetText(*this, text.c_str());
+	HWND hwnd = getWindowHandle();
+	// May not have been created yet in some cases.
+	if (!hwnd) return;
+	Edit_SetText(hwnd, text.c_str());
 }
 
 std::wstring
@@ -63,5 +66,7 @@ TextField::getText() const
 void
 TextField::appendText(const std::wstring& text)
 {
+	// Prevent multiple threads from clobbering the text area at the same time.
+	ScopeLock l(m_lock);
 	setText(getText() + L"\r\n" + text);
 }
