@@ -12,5 +12,6 @@ public:
 
     void setText(const std::wstring& text);
     std::wstring getText() const;
-};
 
+    void appendText(const std::wstring& text);
+};

@@ -151,11 +151,38 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    openButton.setButtonPressCallback([]() {
        wstring url(L"https://win32.app.link/crtafBueu9");
-       outputTextField.setText(wstring(L"Opening ") + url);
-       branch->openSession(url, nullptr);
+       outputTextField.appendText(wstring(L"Opening ") + url);
+
+       struct OpenCallback : IRequestCallback
+       {
+           void onSuccess(int id, JSONObject payload)
+           {
+               outputTextField.appendText(wstring(L"Successful open response: ") + String(payload.stringify()).wstr());
+               done();
+           }
+
+           void onStatus(int id, int code, string message)
+           {
+               outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
+           }
+
+           void onError(int id, int code, string message)
+           {
+               outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
+               done();
+           }
+
+       private:
+           void done()
+           {
+               delete this;
+           }
+       };
+
+       branch->openSession(url, new OpenCallback);
    });
 
-   outputTextField.setText(L"Ready");
+   outputTextField.appendText(L"Ready");
 
    UpdateWindow(hWnd);
 

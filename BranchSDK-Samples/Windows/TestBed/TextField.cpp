@@ -11,7 +11,8 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, HM
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
 		windowName,
-		WS_VISIBLE | WS_CHILD,
+		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT |
+		ES_MULTILINE | ES_AUTOVSCROLL,
 		x,
 		y,
 		width,
@@ -27,7 +28,8 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, in
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
 		windowName,
-		WS_VISIBLE | WS_CHILD,
+		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | ES_LEFT |
+		ES_MULTILINE | ES_AUTOVSCROLL,
 		x,
 		y,
 		width,
@@ -57,10 +59,16 @@ std::wstring
 TextField::getText() const
 {
 	size_t length = Edit_GetTextLength(*this);
-	// ensure null termination in the buffer
+	// include space for null terminator
 	vector<wchar_t> buffer(length + 1);
-	memset(&buffer[0], 0, length);
+	memset(&buffer[0], 0, length + 1);
 
-	Edit_GetText(*this, &buffer[0], length);
-	return wstring(buffer.begin(), buffer.end());
+	Edit_GetText(*this, &buffer[0], length + 1);
+	return wstring(&buffer[0], &buffer[length]);
+}
+
+void
+TextField::appendText(const std::wstring& text)
+{
+	setText(getText() + L"\r\n" + text);
 }
