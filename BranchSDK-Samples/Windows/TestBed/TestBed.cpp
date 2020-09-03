@@ -82,9 +82,8 @@ openURL(const std::wstring& url)
 
 static
 void
-initBranch(const std::wstring& key, const std::wstring& initialUrl)
+setupBranchSDKLogging()
 {
-    // Set up Branch SDK logging
     // Note: Debug and Verbose levels compiled out in Release builds
     Log::setLevel(Log::Verbose);
     const char* appDataPath = getenv("AppData");
@@ -109,6 +108,13 @@ initBranch(const std::wstring& key, const std::wstring& initialUrl)
 
     // Generated and rolled over in this directory.
     Log::enableFileLogging(branchLogFilePath + "\\branch-sdk.log");
+}
+
+static
+void
+initBranch(const std::wstring& key, const std::wstring& initialUrl)
+{
+    setupBranchSDKLogging();
 
     // Now initialize the SDK
     AppInfo appInfo;
