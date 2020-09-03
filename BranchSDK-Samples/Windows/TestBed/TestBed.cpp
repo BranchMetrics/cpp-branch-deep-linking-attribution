@@ -30,9 +30,13 @@ static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed";
 // TODO: Define further buttons here
 static int const ID_TEXT_FIELD = 1000;
 static int const ID_OPEN_BUTTON = 1001;
+static int const ID_LOGIN_BUTTON = 1002;
+static int const ID_LOGOUT_BUTTON = 1003;
 
 TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
 Button openButton(L"Open", 20, 20, 400, 50, ID_OPEN_BUTTON);
+Button loginButton(L"Login", 20, 90, 400, 50, ID_LOGIN_BUTTON);
+Button logoutButton(L"Logout", 20, 160, 400, 50, ID_LOGOUT_BUTTON);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -83,6 +87,74 @@ openURL(const std::wstring& url)
     };
 
     branch->openSession(url, new OpenCallback);
+}
+
+static
+void
+login(const std::wstring& username)
+{
+
+    struct LoginCallback : IRequestCallback
+    {
+        void onSuccess(int id, JSONObject payload)
+        {
+            outputTextField.appendText(wstring(L"Successful login response: ") + String(payload.stringify()).wstr());
+            done();
+        }
+
+        void onStatus(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
+        }
+
+        void onError(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
+            done();
+        }
+
+    private:
+        void done()
+        {
+            delete this;
+        }
+    };
+
+    branch->setIdentity(username, new LoginCallback);
+}
+
+static
+void
+logout()
+{
+
+    struct LogoutCallback : IRequestCallback
+    {
+        void onSuccess(int id, JSONObject payload)
+        {
+            outputTextField.appendText(wstring(L"Successful logout response: ") + String(payload.stringify()).wstr());
+            done();
+        }
+
+        void onStatus(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch status: ") + String(message).wstr());
+        }
+
+        void onError(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch error: ") + String(message).wstr());
+            done();
+        }
+
+    private:
+        void done()
+        {
+            delete this;
+        }
+    };
+
+    branch->logout(new LogoutCallback);
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -185,9 +257,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    outputTextField.create(hWnd);
    openButton.create(hWnd);
+   loginButton.create(hWnd);
+   logoutButton.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
        openURL(L"https://win32.app.link/crtafBueu9");
+   });
+   loginButton.setButtonPressCallback([]() {
+       login(L"user1");
+   });
+   logoutButton.setButtonPressCallback([]() {
+       logout();
    });
 
    /*
@@ -231,6 +311,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             // TODO: Add further buttons here
             case ID_OPEN_BUTTON:
                 openButton.onPress();
+                break;
+            case ID_LOGIN_BUTTON:
+                loginButton.onPress();
+                break;
+            case ID_LOGOUT_BUTTON:
+                logoutButton.onPress();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
