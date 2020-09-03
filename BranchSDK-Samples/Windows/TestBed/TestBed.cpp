@@ -27,6 +27,7 @@ static constexpr wchar_t const* const BRANCH_KEY = L"key_live_oiT8IkxqCmpGcDT35t
 static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed";
 
 // Static layout
+// TODO: Define further buttons here
 static int const ID_TEXT_FIELD = 1000;
 static int const ID_OPEN_BUTTON = 1001;
 
@@ -182,6 +183,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        branch->openSession(url, new OpenCallback);
    });
 
+   /*
+    * TODO: Set up further buttons here.
+    */
+
    outputTextField.appendText(wstring(L"Initialized with key ") + BRANCH_KEY);
 
    UpdateWindow(hWnd);
@@ -215,6 +220,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             case IDM_EXIT:
                 DestroyWindow(hWnd);
                 break;
+
+            // TODO: Add further buttons here
             case ID_OPEN_BUTTON:
                 openButton.onPress();
                 break;
