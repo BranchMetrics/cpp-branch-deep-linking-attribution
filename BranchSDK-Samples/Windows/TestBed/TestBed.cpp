@@ -33,11 +33,17 @@ static int const ID_TEXT_FIELD = 1000;
 static int const ID_OPEN_BUTTON = 1001;
 static int const ID_LOGIN_BUTTON = 1002;
 static int const ID_LOGOUT_BUTTON = 1003;
+static int const ID_STANDARD_EVENT_BUTTON = 1004;
+static int const ID_CUSTOM_EVENT_BUTTON = 1005;
+static int const ID_GET_SHORT_URL_BUTTON = 1006;
 
 TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
-Button openButton(L"Open", 20, 20, 400, 50, ID_OPEN_BUTTON);
-Button loginButton(L"Login", 20, 90, 400, 50, ID_LOGIN_BUTTON);
-Button logoutButton(L"Logout", 20, 160, 400, 50, ID_LOGOUT_BUTTON);
+Button openButton(L"Open", 20, 20, 190, 50, ID_OPEN_BUTTON);
+Button loginButton(L"Login", 20, 90, 190, 50, ID_LOGIN_BUTTON);
+Button logoutButton(L"Logout", 20, 160, 190, 50, ID_LOGOUT_BUTTON);
+Button standardEventButton(L"Standard Event", 230, 20, 190, 50, ID_STANDARD_EVENT_BUTTON);
+Button customEventButton(L"Custom Event", 230, 90, 190, 50, ID_CUSTOM_EVENT_BUTTON);
+Button getShortURLButton(L"Get Short URL", 230, 160, 190, 50, ID_GET_SHORT_URL_BUTTON);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -297,6 +303,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    openButton.create(hWnd);
    loginButton.create(hWnd);
    logoutButton.create(hWnd);
+   standardEventButton.create(hWnd);
+   customEventButton.create(hWnd);
+   getShortURLButton.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
        openURL(L"https://win32.app.link/crtafBueu9");
@@ -306,6 +315,15 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    });
    logoutButton.setButtonPressCallback([]() {
        logout();
+   });
+   standardEventButton.setButtonPressCallback([]() {
+       outputTextField.appendText(L"TODO: Standard events");
+   });
+   customEventButton.setButtonPressCallback([]() {
+       outputTextField.appendText(L"TODO: Custom events");
+   });
+   getShortURLButton.setButtonPressCallback([]() {
+       outputTextField.appendText(L"TODO: Get short URL");
    });
 
    /*
@@ -355,6 +373,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case ID_LOGOUT_BUTTON:
                 logoutButton.onPress();
+                break;
+            case ID_STANDARD_EVENT_BUTTON:
+                standardEventButton.onPress();
+                break;
+            case ID_CUSTOM_EVENT_BUTTON:
+                customEventButton.onPress();
+                break;
+            case ID_GET_SHORT_URL_BUTTON:
+                getShortURLButton.onPress();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
