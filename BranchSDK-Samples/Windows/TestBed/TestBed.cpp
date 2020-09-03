@@ -31,8 +31,8 @@ static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed";
 static int const ID_TEXT_FIELD = 1000;
 static int const ID_OPEN_BUTTON = 1001;
 
-Button openButton(L"Open", 20, 20, 400, 50, ID_OPEN_BUTTON);
 TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
+Button openButton(L"Open", 20, 20, 400, 50, ID_OPEN_BUTTON);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -147,8 +147,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
 
-   openButton.create(hWnd);
    outputTextField.create(hWnd);
+   openButton.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
        wstring url(L"https://win32.app.link/crtafBueu9");
