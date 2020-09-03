@@ -53,6 +53,36 @@ INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 static
 void
+setupBranchSDKLogging()
+{
+    // Note: Debug and Verbose levels compiled out in Release builds
+    Log::setLevel(Log::Verbose);
+    const char* appDataPath = getenv("AppData");
+    string branchLogFilePath;
+    if (appDataPath) {
+        /*
+         * By default, put log file in %AppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Roaming\Branch\TestBed
+         */
+        branchLogFilePath = appDataPath;
+        branchLogFilePath += "\\Branch";
+        // May fail if the directory already exists. (Ignore return value.)
+        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
+
+        branchLogFilePath += "\\TestBed";
+        // May fail if the directory already exists. (Ignore return value.)
+        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
+    }
+    else {
+        // If the %AppData% env. var. is not set for some reason, use the cwd.
+        branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
+    }
+
+    // Generated and rolled over in this directory.
+    Log::enableFileLogging(branchLogFilePath + "\\branch-sdk.log");
+}
+
+static
+void
 openURL(const std::wstring& url)
 {
     outputTextField.appendText(wstring(L"Opening ") + url);
@@ -84,36 +114,6 @@ openURL(const std::wstring& url)
     };
 
     branch->openSession(url, new OpenCallback);
-}
-
-static
-void
-setupBranchSDKLogging()
-{
-    // Note: Debug and Verbose levels compiled out in Release builds
-    Log::setLevel(Log::Verbose);
-    const char* appDataPath = getenv("AppData");
-    string branchLogFilePath;
-    if (appDataPath) {
-        /*
-         * By default, put log file in %AppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Roaming\Branch\TestBed
-         */
-        branchLogFilePath = appDataPath;
-        branchLogFilePath += "\\Branch";
-        // May fail if the directory already exists. (Ignore return value.)
-        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
-
-        branchLogFilePath += "\\TestBed";
-        // May fail if the directory already exists. (Ignore return value.)
-        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
-    }
-    else {
-        // If the %AppData% env. var. is not set for some reason, use the cwd.
-        branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
-    }
-
-    // Generated and rolled over in this directory.
-    Log::enableFileLogging(branchLogFilePath + "\\branch-sdk.log");
 }
 
 static
@@ -204,6 +204,27 @@ logout()
     };
 
     branch->logout(new LogoutCallback);
+}
+
+static
+void
+logStandardEvent()
+{
+    outputTextField.appendText(L"TODO: Standard events");
+}
+
+static
+void
+logCustomEvent()
+{
+    outputTextField.appendText(L"TODO: Custom events");
+}
+
+static
+void
+getShortURL()
+{
+    outputTextField.appendText(L"TODO: Get short URL");
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -317,13 +338,13 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
        logout();
    });
    standardEventButton.setButtonPressCallback([]() {
-       outputTextField.appendText(L"TODO: Standard events");
+       logStandardEvent();
    });
    customEventButton.setButtonPressCallback([]() {
-       outputTextField.appendText(L"TODO: Custom events");
+       logCustomEvent();
    });
    getShortURLButton.setButtonPressCallback([]() {
-       outputTextField.appendText(L"TODO: Get short URL");
+       getShortURL();
    });
 
    /*
