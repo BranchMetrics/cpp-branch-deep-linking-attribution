@@ -36,11 +36,13 @@ static int const ID_LOGOUT_BUTTON = 1003;
 static int const ID_STANDARD_EVENT_BUTTON = 1004;
 static int const ID_CUSTOM_EVENT_BUTTON = 1005;
 static int const ID_GET_SHORT_URL_BUTTON = 1006;
+static int const ID_CLOSE_BUTTON = 1007;
 
 TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
 Button openButton(L"Open", 20, 20, 190, 50, ID_OPEN_BUTTON);
-Button loginButton(L"Login", 20, 90, 190, 50, ID_LOGIN_BUTTON);
-Button logoutButton(L"Logout", 20, 160, 190, 50, ID_LOGOUT_BUTTON);
+Button closeButton(L"Close", 20, 90, 190, 50, ID_CLOSE_BUTTON);
+Button loginButton(L"Login", 20, 160, 190, 50, ID_LOGIN_BUTTON);
+Button logoutButton(L"Logout", 20, 230, 190, 50, ID_LOGOUT_BUTTON);
 Button standardEventButton(L"Standard Event", 230, 20, 190, 50, ID_STANDARD_EVENT_BUTTON);
 Button customEventButton(L"Custom Event", 230, 90, 190, 50, ID_CUSTOM_EVENT_BUTTON);
 Button getShortURLButton(L"Get Short URL", 230, 160, 190, 50, ID_GET_SHORT_URL_BUTTON);
@@ -227,6 +229,40 @@ getShortURL()
     outputTextField.appendText(L"TODO: Get short URL");
 }
 
+static
+void
+closeSession()
+{
+    outputTextField.appendText(L"Closing session");
+
+    struct CloseCallback : IRequestCallback
+    {
+        void onSuccess(int id, JSONObject payload)
+        {
+            outputTextField.appendText(wstring(L"Successful close response: ") + String(payload.stringify()).wstr());
+            done();
+        }
+
+        void onStatus(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch close status: ") + String(message).wstr());
+        }
+
+        void onError(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch close error: ") + String(message).wstr());
+            done();
+        }
+    private:
+        void done()
+        {
+            delete this;
+        }
+    };
+
+    branch->closeSession(new CloseCallback);
+}
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -327,6 +363,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    standardEventButton.create(hWnd);
    customEventButton.create(hWnd);
    getShortURLButton.create(hWnd);
+   closeButton.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
        openURL(L"https://win32.app.link/crtafBueu9");
@@ -345,6 +382,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    });
    getShortURLButton.setButtonPressCallback([]() {
        getShortURL();
+   });
+   closeButton.setButtonPressCallback([]() {
+       closeSession();
    });
 
    /*
@@ -403,6 +443,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case ID_GET_SHORT_URL_BUTTON:
                 getShortURLButton.onPress();
+                break;
+            case ID_CLOSE_BUTTON:
+                closeButton.onPress();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);
