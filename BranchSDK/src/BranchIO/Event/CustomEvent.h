@@ -20,7 +20,7 @@ class BRANCHIO_DLL_EXPORT CustomEvent : public Event {
      * Event names that match Standard Events will be treated as Standard Events.
      * @param eventName Custom Event Name.
      */
-    explicit CustomEvent(const std::string &eventName);
+    explicit CustomEvent(const String &eventName);
 };
 
 }  // namespace BranchIO

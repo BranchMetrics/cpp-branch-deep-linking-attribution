@@ -39,7 +39,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      * @param propertyValue Value of the custom property
      * @return This object for chaining builder methods
      */
-    virtual BaseEvent& addCustomDataProperty(const std::string &propertyName, const std::string &propertyValue);
+    virtual BaseEvent& addCustomDataProperty(const String &propertyName, const String &propertyValue);
 
     /**
      * Get the custom data properties associated with this Branch Event.
@@ -68,7 +68,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      * @param eventName The "Name" of the event
      * @param jsonPtr Base JSON to start with
      */
-    BaseEvent(Defines::APIEndpoint apiEndpoint, const std::string &eventName, JSONObject::Ptr jsonPtr = nullptr);
+    BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, JSONObject::Ptr jsonPtr = nullptr);
 
     /**
      * Add a Raw Event Property Name and Value
@@ -76,7 +76,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      * @param propertyValue Property Value
      * @return this object for chaining builder methods
      */
-    BaseEvent& addEventProperty(const char *propertyName, const std::string &propertyValue);
+    BaseEvent& addEventProperty(const char *propertyName, const String& propertyValue);
 
     /**
      * Add a Raw Event Property Name and Value

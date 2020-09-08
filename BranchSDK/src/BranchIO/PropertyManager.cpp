@@ -3,8 +3,10 @@
 #include "BranchIO/PropertyManager.h"
 #include "BranchIO/JSONObject.h"
 #include "BranchIO/Util/Storage.h"
+#include "BranchIO/String.h"
 
 using namespace Poco;
+using namespace std;
 
 namespace BranchIO {
 
@@ -27,46 +29,48 @@ PropertyManager::operator=(const PropertyManager& other) {
 PropertyManager::~PropertyManager() = default;
 
 PropertyManager&
-PropertyManager::addProperty(const char *name, const std::string &value) {
+PropertyManager::addProperty(const String& name, const String& value) {
     Mutex::ScopedLock _l(_mutex);
 
-    if (value.length() == 0) {
-        remove(name);
+    string utf8Name(name.str());
+    string utf8Val(value.str());
+    if (value.str().length() == 0) {
+        remove(utf8Name);
     } else {
-        set(name, value);
+        set(utf8Name, utf8Val);
     }
     return *this;
 }
 
 PropertyManager&
-PropertyManager::addProperty(const char *name, int value) {
+PropertyManager::addProperty(const String& name, int value) {
     Mutex::ScopedLock _l(_mutex);
 
-    set(name, value);
+    set(name.str(), value);
     return *this;
 }
 
 PropertyManager&
-PropertyManager::addProperty(const char *name, double value) {
+PropertyManager::addProperty(const String& name, double value) {
     Mutex::ScopedLock _l(_mutex);
 
-    set(name, value);
+    set(name.str(), value);
     return *this;
 }
 
 PropertyManager&
-PropertyManager::addProperty(const char *name, const PropertyManager &value) {
+PropertyManager::addProperty(const String& name, const PropertyManager &value) {
     Mutex::ScopedLock _l(_mutex);
 
-    set(name, value);
+    set(name.str(), value);
     return *this;
 }
 
 PropertyManager&
-PropertyManager::addProperty(const char *name, const Poco::JSON::Array &value) {
+PropertyManager::addProperty(const String& name, const Poco::JSON::Array &value) {
     Mutex::ScopedLock _l(_mutex);
 
-    set(name, value);
+    set(name.str(), value);
     return *this;
 }
 

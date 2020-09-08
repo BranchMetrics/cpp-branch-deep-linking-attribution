@@ -47,6 +47,7 @@ class BRANCHIO_DLL_EXPORT StandardEvent : public Event {
         CLICK_AD,                       ///< Click Ad Event
         VIEW_AD                         ///< View Ad Event
     } Type;
+
     /**
      * Convert a StandardEvent to a String
      * @param eventType event type

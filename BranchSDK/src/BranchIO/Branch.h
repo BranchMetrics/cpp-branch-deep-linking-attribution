@@ -15,6 +15,7 @@
 #include "BranchIO/PackagingInfo.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/SessionInfo.h"
+#include "BranchIO/String.h"
 
 namespace BranchIO {
 
@@ -41,9 +42,7 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param pInfo Application Information.
      * @return a new instance of Branch
      */
-    static Branch *create(
-        const std::string &branchKey,
-        AppInfo *pInfo);
+    static Branch *create(const String& branchKey, AppInfo* pInfo);
 
     /**
      * Destructor.
@@ -55,7 +54,7 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param linkUrl Referring link, or an empty string if none.
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void openSession(const std::string &linkUrl = "", IRequestCallback *callback = nullptr);
+    virtual void openSession(const String& linkUrl = "", IRequestCallback* callback = nullptr);
 
     /**
      * Close a Branch Session.
@@ -70,17 +69,32 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     virtual void sendEvent(const BaseEvent &event, IRequestCallback *callback);
 
+    /*
+     * @todo(jdee): Get rid of runtime getters for compile-time constants
+     */
+
     /**
      * @return the SDK Version
      */
-    static const std::string &getVersion();
+    static std::string getVersion();
 
- public:
     /**
      * @todo(andyp): Revisit Scope.
      * @return the Branch Key used to initialize Branch.
      */
     std::string getBranchKey() const;
+
+#ifdef WIN32
+    /**
+     * @return the SDK Version as a UTF-16 string
+     */
+    static std::wstring getVersionW();
+
+    /**
+     * @return the Branch key as a UTF-16 string
+     */
+    std::wstring getBranchKeyW() const;
+#endif  // WIN32
 
     /**
      * From IPackagingInfo
@@ -114,7 +128,7 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param userId   A value containing the unique identifier of the user.
      * @param callback Callback to fire with success or failure notification.
      */
-    void setIdentity(const std::string& userId, IRequestCallback *callback);
+    void setIdentity(const String& userId, IRequestCallback* callback);
 
     /**
      * This method should be called if you know that a different person is about to use the app. For example,

@@ -10,6 +10,9 @@
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/StandardEvent.h>
 #include <BranchIO/LinkInfo.h>
+#include <BranchIO/Util/Log.h>
+
+#include <cassert>
 
 #define MAX_LOADSTRING 100
 
@@ -35,12 +38,17 @@ void shareColor(HWND);
 void setBackgroundColor(COLORREF color);
 void drawBackgroundColor(HDC, PRECT);
 void initializeBranch();
-void installApp();
 void openBranchSession();
 void closeBranchSession();
 
 int ColorRefToInt(COLORREF cr);
 
+// Branch-related constants
+const wchar_t* const URISCHEME = L"branchtest:";
+const wchar_t* const BRANCH_KEY = L"key_live_feebgAAhbH9Tv85H5wLQhpdaefiZv5Dv";
+
+// Used to store the URI received from the command line
+std::wstring launchUri;
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -49,6 +57,27 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
+
+    /*
+     * Enable verbose logging to the event log. Note that Debug and Verbose levels
+     * are compiled out in Release builds.
+     */
+    BranchIO::Log::setLevel(BranchIO::Log::Verbose);
+    BranchIO::Log::enableSystemLogging();
+
+    /*
+     * Store the URI that launched the app in launchUri, if there is one.
+     */
+    if (lpCmdLine) {
+        int argLength = lstrlen(lpCmdLine);
+        int schemeLength = lstrlen(URISCHEME);
+        std::wstring prefix(lpCmdLine, lpCmdLine + std::min(argLength, schemeLength));
+        if (prefix == URISCHEME) {
+            launchUri = lpCmdLine;
+        }
+    }
+
+    MessageBox(NULL, launchUri.c_str(), L"Launch URI", NULL);
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -167,9 +196,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         case IDM_PICKACOLOR:
             chooseColor(hWnd);
             break;
-        case IDM_INSTALL:
-            installApp();
-            break;
         case ID_SHARECOLOR:
             shareColor(hWnd);
             break;
@@ -230,75 +256,7 @@ INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     return (INT_PTR)FALSE;
 }
 
-
-#define BYTESIZE(str_len) (sizeof(TCHAR) * str_len)
-/**
- * Set the registry up to allow for this app to be opened via. a web click
- */
-void installApp()
-{
-    int bytesize = sizeof(TCHAR);
-
-    HKEY hKey;
-    LPCTSTR keyBase = TEXT("SOFTWARE\\Classes\\color");
-
-    // Step 1:  Create the Base Key and default values
-    LONG rc = RegCreateKeyEx(HKEY_CURRENT_USER, keyBase, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, NULL);
-    if (rc != ERROR_SUCCESS) {
-        OutputDebugStringA("Unable to create registry key");
-        return;
-    }
-
-    LPCTSTR baseDefaultValue = TEXT("URL:Color Picker");
-    rc = RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, (LPBYTE)baseDefaultValue, BYTESIZE(_tcslen(baseDefaultValue) + 1));
-
-    LPCTSTR keyProtocol = TEXT("URL Protocol");
-    LPCTSTR valProtocol = TEXT("");
-    rc = RegSetValueEx(hKey, keyProtocol, 0, REG_SZ, (LPBYTE)valProtocol, BYTESIZE(_tcslen(valProtocol) + 1));
-
-    // Step 2:  Set the executable location
-    TCHAR path[MAX_PATH];
-
-#ifdef UNICODE
-    HMODULE hModule = GetModuleHandleW(NULL);
-    GetModuleFileNameW(hModule, path, MAX_PATH);
-#else
-    HMODULE hModule = GetModuleHandleA(NULL);
-    GetModuleFileNameA(hModule, path, MAX_PATH);
-#endif
-
-    HKEY hKeyShell;
-    LPCTSTR keyShell = TEXT("shell\\open\\command");
-    rc = RegCreateKeyEx(hKey, keyShell, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKeyShell, NULL);
-
-    TCHAR valShell[MAX_PATH];
-    valShell[0] = 0;
-        lstrcat(valShell, TEXT("\""));
-        lstrcat(valShell, path);
-        lstrcat(valShell, TEXT("\" \"%1\""));
-
-    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, (LPBYTE)valShell, BYTESIZE(_tcslen(valShell) + 1));
-    rc = RegCloseKey(hKeyShell);
-
-    // Step 3: Set the default icon
-    HKEY hKeyIcon;
-    LPCTSTR keyIcon = TEXT("DefaultIcon");
-    rc = RegCreateKeyEx(hKey, keyIcon, 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKeyIcon, NULL);
-
-    valShell[0] = 0;
-        lstrcat(valShell, path);  // Specifically do *not* quote the icon path, as that doesn't work.
-        lstrcat(valShell, TEXT(",1"));
-
-    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, (LPBYTE)valShell, BYTESIZE(_tcslen(valShell) + 1));
-    rc = RegCloseKey(hKeyIcon);
-
-    // Step 4: Clean Up
-    rc = RegCloseKey(hKey);
-}
-
 // ============================================================================
-
-#define BRANCH_KEY "key_live_efTsR1fbTucbHvX3N5RsOaamDtlPFLap"
 
 BranchIO::Branch* _branchInstance;
 BranchIO::AppInfo _appInfo;
@@ -316,6 +274,12 @@ class MyRequestCallback : public BranchIO::IRequestCallback {
 protected:
     virtual void onSuccess(int id, BranchIO::JSONObject jsonResponse)
     {
+        /*
+         * Display any response from the SDK.
+         */
+        std::wstring wjson(BranchIO::String(jsonResponse.stringify()).wstr());
+        MessageBox(NULL, wjson.c_str(), L"Response payload", MB_OK);
+
         DEBUGLOG("Callback Success!  Response: ", jsonResponse.stringify().c_str());
     }
 
@@ -406,7 +370,14 @@ void openBranchSession()
 {
     OutputDebugStringW(L"openBranchSession()");
 
-    _branchInstance->openSession("", new MyOpenCallback);
+    /*
+     * Show the URI being opened, if any.
+     */
+    if (launchUri.length() > 0) {
+        MessageBox(NULL, launchUri.c_str(), L"Opening URI", MB_OK);
+    }
+
+    _branchInstance->openSession(launchUri, new MyOpenCallback);
 }
 
 void closeBranchSession()

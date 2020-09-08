@@ -1,3 +1,11 @@
+2020-08-12  Version 1.1.1
+  * Added support for wide strings via BranchIO::String adapter class.
+
+  All public API methods that accept a string now take a BranchIO::String,
+  which can be constructed automatically from std::string, std::wstring,
+  const char\* or const wchar_t\*. Two new getters, Branch::getBranchKeyW()
+  and Branch::getVersionW(), were also introduced.
+
 2020-05-13  Version 1.1.0
   * Improvements to thread safety of LinkInfo and its ancestors.
   * Eliminate queueing and retry of /v1/url requests. A long link will now be
