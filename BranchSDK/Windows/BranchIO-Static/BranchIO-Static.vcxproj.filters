@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\BranchIO">
+      <UniqueIdentifier>{0bc879a8-18c3-42a8-a62a-f6423848a203}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BranchIO">
+      <UniqueIdentifier>{fdbe4ada-50a6-4af2-b502-240a1f70876b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BranchIO\Event">
+      <UniqueIdentifier>{d3da00a3-48c7-4de8-8875-f2b932725f3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\BranchIO\Util">
+      <UniqueIdentifier>{3be652c8-dee7-4537-8789-4171c7540bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BranchIO\Event">
+      <UniqueIdentifier>{72e76f2d-8e5c-4def-aceb-967b6839d078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\BranchIO\Util">
+      <UniqueIdentifier>{9867bbed-81fc-4218-b705-027074498271}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\BranchIO\AdvertiserInfo.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\AppInfo.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Branch.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Defines.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\DeviceInfo.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\dll.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\fwd.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\IPackagingInfo.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\IRequestCallback.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\JSONArray.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\JSONObject.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\LinkInfo.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\PackagingInfo.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\PropertyManager.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Request.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\SessionInfo.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\String.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Version.h">
+      <Filter>Header Files\BranchIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Event\BaseEvent.h">
+      <Filter>Header Files\BranchIO\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Event\CustomEvent.h">
+      <Filter>Header Files\BranchIO\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Event\Event.h">
+      <Filter>Header Files\BranchIO\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Event\IdentityEvent.h">
+      <Filter>Header Files\BranchIO\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Event\SessionEvent.h">
+      <Filter>Header Files\BranchIO\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Event\StandardEvent.h">
+      <Filter>Header Files\BranchIO\Event</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\APIClientSession.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\IClientSession.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\IStorage.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\IStringConvertible.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\Log.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\MacAddress.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\RequestManager.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\Sleeper.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\Storage.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\StringUtils.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\UnixStorage.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\WindowsStorage.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\BranchIO\AdvertiserInfo.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\AppInfo.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Branch.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Defines.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\DeviceInfo.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\JSONObject.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\LinkInfo.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\PackagingInfo.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\PropertyManager.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Request.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\SessionInfo.cpp">
+      <Filter>Source Files\BranchIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Event\BaseEvent.cpp">
+      <Filter>Source Files\BranchIO\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Event\CustomEvent.cpp">
+      <Filter>Source Files\BranchIO\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Event\Event.cpp">
+      <Filter>Source Files\BranchIO\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Event\StandardEvent.cpp">
+      <Filter>Source Files\BranchIO\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\APIClientSession.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\IStringConvertible.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\Log.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\MacAddress.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\RequestManager.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\Sleeper.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\UnixStorage.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\WindowsStorage.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
