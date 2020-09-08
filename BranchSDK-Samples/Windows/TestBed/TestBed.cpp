@@ -310,6 +310,8 @@ getShortURL()
         {
             setFeature(L"testing");
             addControlParameter(L"$canonical_url", canonicalUrl);
+            addControlParameter(L"$desktop_url", canonicalUrl);
+            addControlParameter(L"$desktop_web_open_delay_ms", "3000");
         }
 
         void send(Branch* branch)
