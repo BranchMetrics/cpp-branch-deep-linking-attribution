@@ -11,6 +11,8 @@
 #include <memory>
 
 #include <BranchIO/Branch.h>
+#include <BranchIO/Event/CustomEvent.h>
+#include <BranchIO/Event/StandardEvent.h>
 #include <BranchIO/Util/Log.h>
 
 #define MAX_LOADSTRING 100
@@ -28,7 +30,7 @@ static constexpr wchar_t const* const BRANCH_KEY = L"key_live_oiT8IkxqCmpGcDT35t
 static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed:";
 
 // Static layout
-// TODO: Define further buttons here
+// Define any further buttons here
 static int const ID_TEXT_FIELD = 1000;
 static int const ID_OPEN_BUTTON = 1001;
 static int const ID_LOGIN_BUTTON = 1002;
@@ -212,14 +214,87 @@ static
 void
 logStandardEvent()
 {
-    outputTextField.appendText(L"TODO: Standard events");
+    StandardEvent event(StandardEvent::Type::PURCHASE);
+    event
+        .setCoupon("TestCoupon")
+        .setCurrency("USD")
+        .setDescription("Test Description")
+        .setRevenue(99.99)
+        .setSearchQuery("Some Search Query")
+        .setShipping(1.99)
+        .setTax(.99)
+        .setTransactionId("Transaction123");
+
+    string eventJson(event.toJSON().stringify());
+    outputTextField.appendText(wstring(L"Sending standard event: ") + String(eventJson).wstr());
+
+    struct StandardEventCallback : IRequestCallback
+    {
+        void onSuccess(int id, JSONObject payload)
+        {
+            outputTextField.appendText(wstring(L"Successful standard event response: ") + String(payload.stringify()).wstr());
+            done();
+        }
+
+        void onStatus(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch standard event status: ") + String(message).wstr());
+        }
+
+        void onError(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch standard event error: ") + String(message).wstr());
+            done();
+        }
+
+    private:
+        void done()
+        {
+            delete this;
+        }
+    };
+
+    branch->sendEvent(event, new StandardEventCallback);
 }
 
 static
 void
 logCustomEvent()
 {
-    outputTextField.appendText(L"TODO: Custom events");
+    CustomEvent event(L"MyCustomEvent");
+    event.setAdType(Event::AdType::BANNER);
+    event.addCustomDataProperty(L"foo", L"Bar");
+
+    string eventJson(event.toJSON().stringify());
+    outputTextField.appendText(wstring(L"Sending custom event: ") + String(eventJson).wstr());
+
+    struct CustomEventCallback : IRequestCallback
+    {
+        void onSuccess(int id, JSONObject payload)
+        {
+            outputTextField.appendText(wstring(L"Successful custom event response: ") + String(payload.stringify()).wstr());
+            done();
+        }
+
+        void onStatus(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch custom event status: ") + String(message).wstr());
+        }
+
+        void onError(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Branch custom event error: ") + String(message).wstr());
+            done();
+        }
+
+    private:
+        void done()
+        {
+            delete this;
+        }
+    };
+
+    branch->sendEvent(event, new CustomEventCallback);
 }
 
 static
@@ -388,7 +463,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    });
 
    /*
-    * TODO: Set up further buttons here.
+    * Set up any further buttons here.
     */
 
    outputTextField.appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + BRANCH_KEY);
@@ -425,7 +500,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 DestroyWindow(hWnd);
                 break;
 
-            // TODO: Add further buttons here
+            // Add any further buttons here
             case ID_OPEN_BUTTON:
                 openButton.onPress();
                 break;
