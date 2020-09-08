@@ -13,6 +13,7 @@
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/CustomEvent.h>
 #include <BranchIO/Event/StandardEvent.h>
+#include <BranchIO/LinkInfo.h>
 #include <BranchIO/Util/Log.h>
 
 #define MAX_LOADSTRING 100
@@ -301,7 +302,46 @@ static
 void
 getShortURL()
 {
-    outputTextField.appendText(L"TODO: Get short URL");
+    struct LinkRequest : LinkInfo, virtual IRequestCallback
+    {
+        LinkRequest(const std::wstring& canonicalUrl)
+        {
+            setFeature(L"testing");
+            addControlParameter(L"$canonical_url", canonicalUrl);
+        }
+
+        void send(Branch* branch)
+        {
+            createUrl(branch, this);
+        }
+
+        void onSuccess(int id, JSONObject payload)
+        {
+            outputTextField.appendText(wstring(L"Successfully generated URL: ") + String(payload.stringify()).wstr());
+            done();
+        }
+
+        void onStatus(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Status getting URL: ") + String(message).wstr());
+        }
+
+        void onError(int id, int code, string message)
+        {
+            outputTextField.appendText(wstring(L"Error getting URL: ") + String(message).wstr());
+            done();
+        }
+
+    private:
+        void done()
+        {
+            delete this;
+        }
+    };
+
+    LinkRequest* request = new LinkRequest(L"https://branch.io");
+    outputTextField.appendText(wstring(L"Getting URL: ") + String(request->toString()).wstr());
+    request->send(branch);
 }
 
 static
