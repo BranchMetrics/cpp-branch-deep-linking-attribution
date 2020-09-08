@@ -130,6 +130,8 @@ initBranch(const std::wstring& key, const std::wstring& initialUrl)
     // Now initialize the SDK
     AppInfo appInfo;
     appInfo.setAppVersion("1.0");
+    // TODO: Sort this out.
+    appInfo.setDeveloperIdentity("abc");
 
     branch = Branch::create(key, &appInfo);
 
