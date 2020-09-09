@@ -7,14 +7,7 @@
 #include "Button.h"
 #include "TextField.h"
 
-#include <algorithm>
-#include <memory>
-
-#include <BranchIO/Branch.h>
-#include <BranchIO/Event/CustomEvent.h>
-#include <BranchIO/Event/StandardEvent.h>
-#include <BranchIO/LinkInfo.h>
-#include <BranchIO/Util/Log.h>
+#include "BranchOperations.h"
 
 #define MAX_LOADSTRING 100
 
@@ -25,10 +18,6 @@ WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
 
 using namespace BranchIO;
 using namespace std;
-
-Branch* volatile branch(nullptr);
-static constexpr wchar_t const* const BRANCH_KEY = L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";
-static constexpr wchar_t const* const BRANCH_URI_SCHEME = L"testbed:";
 
 // Static layout
 // Define any further buttons here
@@ -56,332 +45,6 @@ BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
-static
-void
-setupBranchSDKLogging()
-{
-    // Note: Debug and Verbose levels compiled out in Release builds
-    Log::setLevel(Log::Verbose);
-    const char* appDataPath = getenv("AppData");
-    string branchLogFilePath;
-    if (appDataPath) {
-        /*
-         * By default, put log file in %AppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Roaming\Branch\TestBed
-         */
-        branchLogFilePath = appDataPath;
-        branchLogFilePath += "\\Branch";
-        // May fail if the directory already exists. (Ignore return value.)
-        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
-
-        branchLogFilePath += "\\TestBed";
-        // May fail if the directory already exists. (Ignore return value.)
-        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
-    }
-    else {
-        // If the %AppData% env. var. is not set for some reason, use the cwd.
-        branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
-    }
-
-    // Generated and rolled over in this directory.
-    Log::enableFileLogging(branchLogFilePath + "\\branch-sdk.log");
-}
-
-static
-void
-openURL(const std::wstring& url)
-{
-    outputTextField.appendText(wstring(L"Opening ") + url);
-
-    struct OpenCallback : IRequestCallback
-    {
-        void onSuccess(int id, JSONObject payload)
-        {
-            outputTextField.appendText(wstring(L"Successful open response: ") + String(payload.stringify()).wstr());
-            done();
-        }
-
-        void onStatus(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch open status: ") + String(message).wstr());
-        }
-
-        void onError(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch open error: ") + String(message).wstr());
-            done();
-        }
-
-    private:
-        void done()
-        {
-            delete this;
-        }
-    };
-
-    branch->openSession(url, new OpenCallback);
-}
-
-static
-void
-initBranch(const std::wstring& key, const std::wstring& initialUrl)
-{
-    setupBranchSDKLogging();
-
-    // Now initialize the SDK
-    AppInfo appInfo;
-    appInfo.setAppVersion("1.0");
-    // TODO: Sort this out.
-    appInfo.setDeveloperIdentity("abc");
-
-    branch = Branch::create(key, &appInfo);
-
-    wstring::size_type prefixLength = min(wstring(BRANCH_URI_SCHEME).length(), initialUrl.length());
-    wstring prefix = initialUrl.substr(0, prefixLength);
-    if (!initialUrl.empty() && prefix == BRANCH_URI_SCHEME)
-    {
-        // Open any URI passed at the command line
-        openURL(initialUrl);
-    }
-    else {
-        openURL(L"");
-    }
-}
-
-static
-void
-login(const std::wstring& username)
-{
-    struct LoginCallback : IRequestCallback
-    {
-        void onSuccess(int id, JSONObject payload)
-        {
-            outputTextField.appendText(wstring(L"Successful login response: ") + String(payload.stringify()).wstr());
-            done();
-        }
-
-        void onStatus(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch login status: ") + String(message).wstr());
-        }
-
-        void onError(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch login error: ") + String(message).wstr());
-            done();
-        }
-
-    private:
-        void done()
-        {
-            delete this;
-        }
-    };
-
-    branch->setIdentity(username, new LoginCallback);
-}
-
-static
-void
-logout()
-{
-    struct LogoutCallback : IRequestCallback
-    {
-        void onSuccess(int id, JSONObject payload)
-        {
-            outputTextField.appendText(wstring(L"Successful logout response: ") + String(payload.stringify()).wstr());
-            done();
-        }
-
-        void onStatus(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch logout status: ") + String(message).wstr());
-        }
-
-        void onError(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch logout error: ") + String(message).wstr());
-            done();
-        }
-
-    private:
-        void done()
-        {
-            delete this;
-        }
-    };
-
-    branch->logout(new LogoutCallback);
-}
-
-static
-void
-logStandardEvent()
-{
-    StandardEvent event(StandardEvent::Type::PURCHASE);
-    event
-        .setCoupon("TestCoupon")
-        .setCurrency("USD")
-        .setDescription("Test Description")
-        .setRevenue(99.99)
-        .setSearchQuery("Some Search Query")
-        .setShipping(1.99)
-        .setTax(.99)
-        .setTransactionId("Transaction123");
-
-    string eventJson(event.toJSON().stringify());
-    outputTextField.appendText(wstring(L"Sending standard event: ") + String(eventJson).wstr());
-
-    struct StandardEventCallback : IRequestCallback
-    {
-        void onSuccess(int id, JSONObject payload)
-        {
-            outputTextField.appendText(wstring(L"Successful standard event response: ") + String(payload.stringify()).wstr());
-            done();
-        }
-
-        void onStatus(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch standard event status: ") + String(message).wstr());
-        }
-
-        void onError(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch standard event error: ") + String(message).wstr());
-            done();
-        }
-
-    private:
-        void done()
-        {
-            delete this;
-        }
-    };
-
-    branch->sendEvent(event, new StandardEventCallback);
-}
-
-static
-void
-logCustomEvent()
-{
-    CustomEvent event(L"MyCustomEvent");
-    event.setAdType(Event::AdType::BANNER);
-    event.addCustomDataProperty(L"foo", L"Bar");
-
-    string eventJson(event.toJSON().stringify());
-    outputTextField.appendText(wstring(L"Sending custom event: ") + String(eventJson).wstr());
-
-    struct CustomEventCallback : IRequestCallback
-    {
-        void onSuccess(int id, JSONObject payload)
-        {
-            outputTextField.appendText(wstring(L"Successful custom event response: ") + String(payload.stringify()).wstr());
-            done();
-        }
-
-        void onStatus(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch custom event status: ") + String(message).wstr());
-        }
-
-        void onError(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch custom event error: ") + String(message).wstr());
-            done();
-        }
-
-    private:
-        void done()
-        {
-            delete this;
-        }
-    };
-
-    branch->sendEvent(event, new CustomEventCallback);
-}
-
-static
-void
-getShortURL()
-{
-    struct LinkRequest : LinkInfo, virtual IRequestCallback
-    {
-        LinkRequest(const std::wstring& canonicalUrl)
-        {
-            setFeature(L"testing");
-            addControlParameter(L"$canonical_url", canonicalUrl);
-            addControlParameter(L"$desktop_url", canonicalUrl);
-            addControlParameter(L"$desktop_web_open_delay_ms", "3000");
-        }
-
-        void send(Branch* branch)
-        {
-            createUrl(branch, this);
-        }
-
-        void onSuccess(int id, JSONObject payload)
-        {
-            outputTextField.appendText(wstring(L"Successfully generated URL: ") + String(payload.stringify()).wstr());
-            done();
-        }
-
-        void onStatus(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Status getting URL: ") + String(message).wstr());
-        }
-
-        void onError(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Error getting URL: ") + String(message).wstr());
-            done();
-        }
-
-    private:
-        void done()
-        {
-            delete this;
-        }
-    };
-
-    LinkRequest* request = new LinkRequest(L"https://branch.io");
-    outputTextField.appendText(wstring(L"Getting URL: ") + String(request->toString()).wstr());
-    request->send(branch);
-}
-
-static
-void
-closeSession()
-{
-    outputTextField.appendText(L"Closing session");
-
-    struct CloseCallback : IRequestCallback
-    {
-        void onSuccess(int id, JSONObject payload)
-        {
-            outputTextField.appendText(wstring(L"Successful close response: ") + String(payload.stringify()).wstr());
-            done();
-        }
-
-        void onStatus(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch close status: ") + String(message).wstr());
-        }
-
-        void onError(int id, int code, string message)
-        {
-            outputTextField.appendText(wstring(L"Branch close error: ") + String(message).wstr());
-            done();
-        }
-    private:
-        void done()
-        {
-            delete this;
-        }
-    };
-
-    branch->closeSession(new CloseCallback);
-}
-
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -391,9 +54,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(lpCmdLine);
 
     // Initialize Branch
-    initBranch(BRANCH_KEY, lpCmdLine ? lpCmdLine : L"");
-    // Delete the Branch instance after the message loop terminates
-    unique_ptr<Branch> branchDeleter(branch);
+    BranchOperations::initBranch(lpCmdLine ? lpCmdLine : L"", &outputTextField);
 
     // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
@@ -422,8 +83,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     return (int) msg.wParam;
 }
-
-
 
 //
 //  FUNCTION: MyRegisterClass()
@@ -475,6 +134,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
    ShowWindow(hWnd, nCmdShow);
 
+   /*
+    * Set up any further buttons here.
+    */
+
    outputTextField.create(hWnd);
    openButton.create(hWnd);
    loginButton.create(hWnd);
@@ -485,22 +148,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    closeButton.create(hWnd);
 
    openButton.setButtonPressCallback([]() {
-       openURL(L"https://win32.app.link/crtafBueu9");
+       BranchOperations::openURL(L"https://win32.app.link/crtafBueu9");
    });
    loginButton.setButtonPressCallback([]() {
-       login(L"user1");
+       BranchOperations::login(L"user1");
    });
-   logoutButton.setButtonPressCallback(logout);
-   standardEventButton.setButtonPressCallback(logStandardEvent);
-   customEventButton.setButtonPressCallback(logCustomEvent);
-   getShortURLButton.setButtonPressCallback(getShortURL);
-   closeButton.setButtonPressCallback(closeSession);
-
-   /*
-    * Set up any further buttons here.
-    */
-
-   outputTextField.appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + BRANCH_KEY);
+   logoutButton.setButtonPressCallback(BranchOperations::logout);
+   standardEventButton.setButtonPressCallback(BranchOperations::logStandardEvent);
+   customEventButton.setButtonPressCallback(BranchOperations::logCustomEvent);
+   getShortURLButton.setButtonPressCallback(BranchOperations::getShortURL);
+   closeButton.setButtonPressCallback(BranchOperations::closeSession);
 
    UpdateWindow(hWnd);
 

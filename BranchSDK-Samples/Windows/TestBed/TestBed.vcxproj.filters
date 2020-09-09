@@ -39,6 +39,9 @@
     <ClInclude Include="ScopeLock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BranchOperations.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestBed.cpp">
@@ -51,6 +54,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BranchOperations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

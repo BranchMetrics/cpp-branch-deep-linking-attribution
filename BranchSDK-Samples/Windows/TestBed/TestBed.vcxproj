@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BranchOperations.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BranchOperations.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="TestBed.cpp" />
     <ClCompile Include="TextField.cpp" />
