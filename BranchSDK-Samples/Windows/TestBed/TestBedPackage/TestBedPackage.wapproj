@@ -55,8 +55,8 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>8132C1C16AAB24EB2CA9CC95BBA6ADA1C2C0A930</PackageCertificateThumbprint>
     <EntryPointProjectUniqueName>..\TestBed.vcxproj</EntryPointProjectUniqueName>
+    <PackageCertificateKeyFile>Branch.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
