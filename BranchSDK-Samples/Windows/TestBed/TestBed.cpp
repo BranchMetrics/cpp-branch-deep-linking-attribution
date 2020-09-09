@@ -490,21 +490,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    loginButton.setButtonPressCallback([]() {
        login(L"user1");
    });
-   logoutButton.setButtonPressCallback([]() {
-       logout();
-   });
-   standardEventButton.setButtonPressCallback([]() {
-       logStandardEvent();
-   });
-   customEventButton.setButtonPressCallback([]() {
-       logCustomEvent();
-   });
-   getShortURLButton.setButtonPressCallback([]() {
-       getShortURL();
-   });
-   closeButton.setButtonPressCallback([]() {
-       closeSession();
-   });
+   logoutButton.setButtonPressCallback(logout);
+   standardEventButton.setButtonPressCallback(logStandardEvent);
+   customEventButton.setButtonPressCallback(logCustomEvent);
+   getShortURLButton.setButtonPressCallback(getShortURL);
+   closeButton.setButtonPressCallback(closeSession);
 
    /*
     * Set up any further buttons here.
