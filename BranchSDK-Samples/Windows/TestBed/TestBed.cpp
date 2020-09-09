@@ -159,6 +159,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    getShortURLButton.setButtonPressCallback(BranchOperations::getShortURL);
    closeButton.setButtonPressCallback(BranchOperations::closeSession);
 
+   BranchOperations::showInitializationMessage();
+
    UpdateWindow(hWnd);
 
    return TRUE;
