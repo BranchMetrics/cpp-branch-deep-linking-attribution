@@ -7,10 +7,10 @@
 
 using namespace std;
 
-TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, HMENU menu, HWND parent) :
+TextField::TextField(LPCWSTR text, int x, int y, int width, int height, HMENU menu, HWND parent) :
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
-		windowName,
+		text,
 		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_SIZEBOX | ES_LEFT |
 		ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY,
 		x,
@@ -24,10 +24,10 @@ TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, HM
 
 }
 
-TextField::TextField(LPCWSTR windowName, int x, int y, int width, int height, int menu, HWND parent) :
+TextField::TextField(LPCWSTR text, int x, int y, int width, int height, int menu, HWND parent) :
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
-		windowName,
+		text,
 		WS_BORDER | WS_CHILD | WS_VISIBLE | WS_VSCROLL | WS_SIZEBOX | ES_LEFT |
 		ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY,
 		x,

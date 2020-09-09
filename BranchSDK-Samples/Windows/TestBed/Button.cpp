@@ -1,10 +1,10 @@
 #include "Button.h"
 
-Button::Button(LPCWSTR windowName, int x, int y, int width, int height, HMENU menu, HWND parent) :
+Button::Button(LPCWSTR text, int x, int y, int width, int height, HMENU menu, HWND parent) :
 	Window(
 		WS_EX_TRANSPARENT,
 		L"Button",
-		windowName,
+		text,
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
 		x,
 		y,
@@ -17,11 +17,11 @@ Button::Button(LPCWSTR windowName, int x, int y, int width, int height, HMENU me
 
 }
 
-Button::Button(LPCWSTR windowName, int x, int y, int width, int height, int menu, HWND parent) :
+Button::Button(LPCWSTR text, int x, int y, int width, int height, int menu, HWND parent) :
 	Window(
 		WS_EX_TRANSPARENT,
 		L"Button",
-		windowName,
+		text,
 		WS_TABSTOP | WS_VISIBLE | WS_CHILD | BS_DEFPUSHBUTTON,
 		x,
 		y,

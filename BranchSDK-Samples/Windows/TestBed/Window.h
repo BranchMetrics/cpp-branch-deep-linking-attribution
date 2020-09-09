@@ -9,8 +9,8 @@
 class Window
 {
 public:
-	Window(DWORD exStyle, LPCWSTR className, LPCWSTR windowName, DWORD style, int x, int y, int width, int height, HMENU menu, HWND parent = nullptr);
-	Window(DWORD exStyle, LPCWSTR className, LPCWSTR windowName, DWORD style, int x, int y, int width, int height, int menu, HWND parent = nullptr);
+	Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, HMENU menu, HWND parent = nullptr);
+	Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, int menu, HWND parent = nullptr);
 	~Window();
 
 	// Thread-safe getter
@@ -49,7 +49,7 @@ private:
 
 	DWORD m_exStyle;
 	std::wstring m_className;
-	std::wstring m_windowName;
+	std::wstring m_text;
 	DWORD m_style;
 	int m_x, m_y, m_width, m_height;
 	HMENU m_menu;

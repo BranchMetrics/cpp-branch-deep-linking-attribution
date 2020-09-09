@@ -2,10 +2,10 @@
 
 #include <WinUser.h>
 
-Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR windowName, DWORD style, int x, int y, int width, int height, HMENU menu, HWND parent) :
+Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, HMENU menu, HWND parent) :
 	m_exStyle(exStyle),
 	m_className(className),
-	m_windowName(windowName),
+	m_text(text),
 	m_style(style),
 	m_x(x),
 	m_y(y),
@@ -18,10 +18,10 @@ Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR windowName, DWORD style
 	InitializeCriticalSection(&m_lock);
 }
 
-Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR windowName, DWORD style, int x, int y, int width, int height, int menu, HWND parent) :
+Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, int menu, HWND parent) :
 	m_exStyle(exStyle),
 	m_className(className),
-	m_windowName(windowName),
+	m_text(text),
 	m_style(style),
 	m_x(x),
 	m_y(y),
@@ -57,7 +57,7 @@ Window::create()
 	if (m_self) return m_self;
 	if (!m_parent) return nullptr;
 
-	m_self = CreateWindowEx(m_exStyle, m_className.c_str(), m_windowName.c_str(), m_style, m_x, m_y, m_width, m_height, m_parent, m_menu, NULL, NULL);
+	m_self = CreateWindowEx(m_exStyle, m_className.c_str(), m_text.c_str(), m_style, m_x, m_y, m_width, m_height, m_parent, m_menu, NULL, NULL);
 	return m_self;
 }
 
