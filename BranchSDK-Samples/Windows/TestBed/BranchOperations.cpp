@@ -350,7 +350,8 @@ BranchOperations::getShortURL()
         }
     };
 
-    LinkRequest* request = new LinkRequest(L"https://branch.io");
+    // TODO: Find a better place for this page.
+    LinkRequest* request = new LinkRequest(L"https://jdee.github.io/example-win32.html");
     outputTextField->appendText(wstring(L"Getting URL: ") + String(request->toString()).wstr());
     request->send(branch);
 }
