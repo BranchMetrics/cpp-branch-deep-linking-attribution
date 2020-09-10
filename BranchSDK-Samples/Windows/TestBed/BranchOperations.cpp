@@ -145,6 +145,8 @@ BranchOperations::shutDownBranch()
 {
     if (branch) delete branch;
     branch = nullptr;
+
+    DeleteCriticalSection(&lock);
 }
 
 void
