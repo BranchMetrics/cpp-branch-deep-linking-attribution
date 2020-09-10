@@ -2,7 +2,6 @@
 
 using namespace std;
 
-function<void(const wstring&)> Util::openCallback;
 HANDLE Util::namedMutex(nullptr);
 
 bool

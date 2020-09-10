@@ -254,7 +254,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 size_t length((size_t)cds->cbData / sizeof(wchar_t) - 1);
 
                 wstring payload(buffer, buffer + length);
-                Util::onOpenComplete(payload);
+                outputTextField.appendText(wstring(L"Forwarded open response: ") + payload);
             }
         }
         break;

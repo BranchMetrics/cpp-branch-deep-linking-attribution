@@ -8,7 +8,6 @@
 
 #include "ScopeLock.h"
 #include "TextField.h"
-#include "Util.h"
 
 using namespace BranchIO;
 using namespace std;
@@ -122,10 +121,6 @@ BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textFiel
     else {
         openURL(L"");
     }
-
-    Util::setOpenCallback([](const std::wstring& payload) {
-        outputTextField->appendText(wstring(L"Forwarded open response: ") + payload);
-    });
 
     // Just delete when we exit
     atexit(shutDownBranch);
