@@ -124,7 +124,7 @@ BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textFiel
     }
 
     Util::setOpenCallback([](const std::wstring& payload) {
-        outputTextField->appendText(payload);
+        outputTextField->appendText(wstring(L"Forwarded open response") + payload);
     });
 
     // Just delete when we exit
