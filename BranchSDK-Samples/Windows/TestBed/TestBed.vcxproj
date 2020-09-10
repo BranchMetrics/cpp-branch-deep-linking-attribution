@@ -159,6 +159,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestBed.h" />
     <ClInclude Include="TextField.h" />
+    <ClInclude Include="Util.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +167,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="TestBed.cpp" />
     <ClCompile Include="TextField.cpp" />
+    <ClCompile Include="Util.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>

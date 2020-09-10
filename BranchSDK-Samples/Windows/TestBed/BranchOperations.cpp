@@ -6,13 +6,19 @@
 #include <BranchIO/LinkInfo.h>
 #include <BranchIO/Util/Log.h>
 
+#include "ScopeLock.h"
 #include "TextField.h"
+#include "Util.h"
 
 using namespace BranchIO;
 using namespace std;
 
 BranchIO::Branch* BranchOperations::branch(nullptr);
 TextField* BranchOperations::outputTextField(nullptr);
+bool volatile BranchOperations::openComplete(false);
+CRITICAL_SECTION BranchOperations::lock;
+CONDITION_VARIABLE BranchOperations::openCompleteCondition;
+BranchIO::JSONObject BranchOperations::openResponse;
 
 void
 BranchOperations::setupSDKLogging()
@@ -46,6 +52,12 @@ BranchOperations::setupSDKLogging()
 void
 BranchOperations::openURL(const std::wstring& url)
 {
+    {
+        ScopeLock l(lock);
+        openComplete = false;
+        openResponse = JSONObject();
+    }
+
     outputTextField->appendText(wstring(L"Opening ") + url);
 
     struct OpenCallback : IRequestCallback
@@ -53,7 +65,7 @@ BranchOperations::openURL(const std::wstring& url)
         void onSuccess(int id, JSONObject payload)
         {
             outputTextField->appendText(wstring(L"Successful open response: ") + String(payload.stringify()).wstr());
-            done();
+            done(payload);
         }
 
         void onStatus(int id, int code, string message)
@@ -64,12 +76,18 @@ BranchOperations::openURL(const std::wstring& url)
         void onError(int id, int code, string message)
         {
             outputTextField->appendText(wstring(L"Branch open error: ") + String(message).wstr());
-            done();
+            done(JSONObject());
         }
 
     private:
-        void done()
+        void done(const JSONObject& response)
         {
+            {
+                ScopeLock l(lock);
+                openResponse = response;
+                openComplete = true;
+                WakeAllConditionVariable(&openCompleteCondition);
+            }
             delete this;
         }
     };
@@ -80,6 +98,9 @@ BranchOperations::openURL(const std::wstring& url)
 void
 BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textField)
 {
+    InitializeCriticalSection(&lock);
+    InitializeConditionVariable(&openCompleteCondition);
+
     outputTextField = textField;
     setupSDKLogging();
 
@@ -102,8 +123,26 @@ BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textFiel
         openURL(L"");
     }
 
+    Util::setOpenCallback([](const std::wstring& payload) {
+        outputTextField->appendText(payload);
+    });
+
     // Just delete when we exit
     atexit(shutDownBranch);
+}
+
+JSONObject
+BranchOperations::getOpenResponse()
+{
+    ScopeLock l(lock);
+    return openResponse;
+}
+
+void
+BranchOperations::waitForOpen(DWORD dwMilliseconds)
+{
+    ScopeLock l(lock);
+    while (!openComplete) SleepConditionVariableCS(&openCompleteCondition, &lock, dwMilliseconds);
 }
 
 void

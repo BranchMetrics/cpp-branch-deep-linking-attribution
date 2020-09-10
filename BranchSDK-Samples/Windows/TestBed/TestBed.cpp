@@ -4,8 +4,11 @@
 #include "framework.h"
 #include "TestBed.h"
 
+#include <BranchIO/String.h>
+
 #include "Button.h"
 #include "TextField.h"
+#include "Util.h"
 
 #include "BranchOperations.h"
 
@@ -51,14 +54,25 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
-    UNREFERENCED_PARAMETER(lpCmdLine);
+
+    // Initialize global strings
+    LoadStringW(hInstance, IDC_TESTBED, szWindowClass, MAX_LOADSTRING);
+    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 
     // Initialize Branch
     BranchOperations::initBranch(lpCmdLine ? lpCmdLine : L"", &outputTextField);
 
-    // Initialize global strings
-    LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-    LoadStringW(hInstance, IDC_TESTBED, szWindowClass, MAX_LOADSTRING);
+    // While the Branch open request is in flight, try to obtain the named mutex.
+    if (Util::isInstanceRunning())
+    {
+        // Wait for response from Branch, send to running instance, then exit
+        BranchOperations::waitForOpen(INFINITE);
+        String sResponse(BranchOperations::getOpenResponse().stringify());
+        Util::sendToRunningInstance(szWindowClass, sResponse.wstr());
+        // Now exit
+        return 0;
+    }
+
     MyRegisterClass(hInstance);
 
     // Perform application initialization:
@@ -229,6 +243,20 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         break;
     case WM_DESTROY:
         PostQuitMessage(0);
+        break;
+    case WM_COPYDATA:
+        {
+            COPYDATASTRUCT* cds = (COPYDATASTRUCT*)lParam;
+            if (cds->dwData == 'BNC')
+            {
+                // Open response received from another instance
+                const wchar_t* buffer((const wchar_t*)cds->lpData);
+                size_t length((size_t)cds->cbData / sizeof(wchar_t) - 1);
+
+                wstring payload(buffer, buffer + length);
+                Util::onOpenComplete(payload);
+            }
+        }
         break;
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
