@@ -137,7 +137,11 @@ void
 BranchOperations::waitForOpen(DWORD dwMilliseconds)
 {
     ScopeLock l(lock);
-    while (!openComplete) SleepConditionVariableCS(&openCompleteCondition, &lock, dwMilliseconds);
+    while (!openComplete)
+    {
+        // Break if the sleep fails (real error) or the timer expires.
+        if (!SleepConditionVariableCS(&openCompleteCondition, &lock, dwMilliseconds)) return;
+    }
 }
 
 void
