@@ -108,7 +108,7 @@ DeviceInfo::initMACAddress() {
     try {
         std::string nodeId = Poco::Environment::nodeId();
         setMACAddress(nodeId);
-    } catch (const Poco::SystemException &e) {
+    } catch (const Poco::SystemException &) {
         // TODO(andyp): Log
     }
 }
