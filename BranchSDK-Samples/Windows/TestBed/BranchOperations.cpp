@@ -9,8 +9,6 @@
 #include "ScopeLock.h"
 #include "TextField.h"
 
-#include <iostream>
-
 using namespace BranchIO;
 using namespace std;
 
@@ -49,7 +47,7 @@ BranchOperations::setupSDKLogging()
     // Generated and rolled over in this directory.
     ostringstream oss;
     oss << branchLogFilePath << "\\branch-sdk-" << GetCurrentProcessId() << ".log";
-    Log::enableFileLogging(oss.str().c_str());
+    Log::enableFileLogging(oss.str());
 }
 
 void
