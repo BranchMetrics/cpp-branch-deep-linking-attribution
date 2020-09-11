@@ -45,12 +45,12 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
 
     /**
      * Set the Developer Identity.
-     * Unique user id, also known as the Developer Id on your Branch Identity Dashboard
-     * Reference: https://docs.branch.io/apps/deep-linking-api/#user-read
+     * **Deprecated**: Please use Branch::setIdentity instead.
      * @param identity Unique User id.  Example: "steve"
      * @return This object for chaining builder methods
      */
     AppInfo& setDeveloperIdentity(const String& identity);
+#pragma deprecated(setDeveloperIdentity)
 
     /**
      * Set the Display information.

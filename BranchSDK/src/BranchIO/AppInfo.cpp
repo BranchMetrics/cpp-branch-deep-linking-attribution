@@ -4,6 +4,7 @@
 
 #include "BranchIO/Defines.h"
 #include "BranchIO/JSONObject.h"
+#include "BranchIO/Util/Log.h"
 
 namespace BranchIO {
 
@@ -24,10 +25,13 @@ AppInfo::setAppVersion(const String& appVersion) {
     return doAddProperty(Defines::JSONKEY_APP_VERSION, appVersion.str());
 }
 
+#pragma warning(disable: 4995)
 AppInfo&
 AppInfo::setDeveloperIdentity(const String& identity) {
+    BRANCH_LOG_W("AppInfo::setDeveloperIdentity is deprecated. Please use Branch::setIdentity instead.");
     return doAddProperty(Defines::JSONKEY_APP_DEVELOPER_IDENTITY, identity.str());
 }
+#pragma warning(default: 4995)
 
 AppInfo&
 AppInfo::setEnvironment(const String& environment) {

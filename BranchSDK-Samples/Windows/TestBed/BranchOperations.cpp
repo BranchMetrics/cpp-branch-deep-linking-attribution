@@ -109,7 +109,7 @@ BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textFiel
     AppInfo appInfo;
     appInfo.setAppVersion("1.0");
     // TODO: Sort this out.
-    appInfo.setDeveloperIdentity("abc");
+    // appInfo.setDeveloperIdentity("abc");
 
     branch = Branch::create(BRANCH_KEY, &appInfo);
 
