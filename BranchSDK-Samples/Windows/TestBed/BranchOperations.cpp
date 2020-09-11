@@ -45,7 +45,9 @@ BranchOperations::setupSDKLogging()
     }
 
     // Generated and rolled over in this directory.
-    Log::enableFileLogging(branchLogFilePath + "\\branch-sdk.log");
+    ostringstream oss;
+    oss << branchLogFilePath << "\\branch-sdk-" << GetCurrentProcessId() << ".log";
+    Log::enableFileLogging(oss.str());
 }
 
 void
