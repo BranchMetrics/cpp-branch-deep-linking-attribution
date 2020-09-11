@@ -80,7 +80,7 @@ class SessionCallback : public IRequestCallback {
                     JSONObject jsonData = JSONObject::parse(stringData);
                     jsonResponse.set("data", jsonData);
                 }
-                catch(Poco::Exception &e) {
+                catch(Poco::Exception &) {
                     // Error has already been logged.
                 }
             }
