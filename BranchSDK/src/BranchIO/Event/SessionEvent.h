@@ -36,7 +36,7 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
      */
     SessionOpenEvent() :
         SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {
-        std::string identity(Identity::instance().get().str());
+        std::string identity(Identity::get().str());
         if (!identity.empty()) {
             BRANCH_LOG_D("Found stored identity " << identity);
             addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);

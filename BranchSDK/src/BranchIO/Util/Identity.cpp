@@ -7,14 +7,8 @@ namespace BranchIO {
 
 static constexpr const char* const StorageKey = "session.identity";
 
-Identity&
-Identity::instance() {
-	static Identity _instance;
-	return _instance;
-}
-
 String
-Identity::get() const {
+Identity::get() {
 	return Storage::instance().getString(StorageKey);
 }
 

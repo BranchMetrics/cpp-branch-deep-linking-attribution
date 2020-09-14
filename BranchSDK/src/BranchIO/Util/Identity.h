@@ -4,19 +4,10 @@
 
 namespace BranchIO {
 
-class Identity {
- public:
-	static Identity& instance();
-
-	String get() const;
-	void set(const String& identity);
-	void clear();
-
- private:
-    Identity() {}
-	~Identity() {}
-	Identity(const Identity&) {}
-	Identity& operator=(const Identity&) { return *this; }
+struct Identity {
+	static String get();
+	static void set(const String& identity);
+	static void clear();
 };
 
 }  // namespace BranchIO

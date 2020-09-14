@@ -9,6 +9,7 @@
 #include "BranchIO/Event/IdentityEvent.h"
 #include "BranchIO/Event/SessionEvent.h"
 #include "BranchIO/IRequestCallback.h"
+#include "BranchIO/Util/Identity.h"
 #include "BranchIO/Util/Log.h"
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/Util/Storage.h"
@@ -209,7 +210,7 @@ Branch::logout(IRequestCallback *callback) {
 
 std::string
 Branch::getIdentity() {
-    return Storage::instance().getString(string(SESSIONSTORAGE) + ".identity");
+    return Identity::get().str();
 }
 
 void

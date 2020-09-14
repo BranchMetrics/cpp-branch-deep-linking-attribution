@@ -148,11 +148,11 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
             if (path == "/v1/profile") {
                 BRANCH_LOG_D("Successful login request");
                 string identity(requestBody.get("identity").toString());
-                Identity::instance().set(identity);
+                Identity::set(identity);
             }
             else if (path == "/v1/logout") {
                 BRANCH_LOG_D("Successful logout request")
-                Identity::instance().clear();
+                Identity::clear();
             }
 
             return true;
