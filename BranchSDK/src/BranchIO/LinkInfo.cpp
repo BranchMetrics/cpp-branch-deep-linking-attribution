@@ -358,10 +358,6 @@ LinkInfo::run() {
         JSONObject payload(*this);
         auto branch = getBranchInstance();
         payload.set("branch_key", branch->getBranchKey());
-        auto identity(branch->getAppInfo().getDeveloperIdentity());
-        if (!identity.empty()) {
-            payload.set("identity", identity);
-        }
 
         auto clientSession = getClientSession();
         // 2. POST & call back
@@ -383,15 +379,15 @@ LinkInfo::run() {
     }
     catch (Poco::Exception& e) {
         // Poco exceptions
-        BRANCH_LOG_E("Exception in RequestManager thread [" << e.what() << "]: " << e.message());
+        BRANCH_LOG_E("Exception in LinkInfo thread [" << e.what() << "]: " << e.message());
     }
     catch (std::exception& e) {
         // Other STL exceptions
-        BRANCH_LOG_E("Exception in RequestManager thread: " << e.what());
+        BRANCH_LOG_E("Exception in LinkInfo thread: " << e.what());
     }
     catch (...) {
         // Anything else
-        BRANCH_LOG_E("Unexpected exception in RequestManager thread.");
+        BRANCH_LOG_E("Unexpected exception in LinkInfo thread.");
     }
 }
 

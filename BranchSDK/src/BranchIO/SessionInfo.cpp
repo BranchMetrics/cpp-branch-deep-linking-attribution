@@ -8,8 +8,6 @@ using std::string;
 
 namespace BranchIO {
 
-const char *const SESSIONSTORAGE = "session";
-
 SessionInfo::SessionInfo() {
     // Load these fields from storage if present.
     std::string deviceFingerprint =

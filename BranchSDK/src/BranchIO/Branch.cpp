@@ -207,6 +207,11 @@ Branch::logout(IRequestCallback *callback) {
     }
 }
 
+std::string
+Branch::getIdentity() {
+   return Storage::instance().getString(string(SESSIONSTORAGE) + ".identity");
+}
+
 void
 Branch::stop() {
     getRequestManager()->stop();
