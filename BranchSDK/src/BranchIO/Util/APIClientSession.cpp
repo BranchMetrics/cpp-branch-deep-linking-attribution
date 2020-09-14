@@ -152,7 +152,7 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
             }
             else if (path == "/v1/logout") {
                 BRANCH_LOG_D("Successful logout request")
-                Identity::instance().set("");
+                Identity::instance().clear();
             }
 
             return true;

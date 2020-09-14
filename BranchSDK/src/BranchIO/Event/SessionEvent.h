@@ -7,6 +7,7 @@
 
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/Util/Identity.h"
+#include "BranchIO/Util/Log.h"
 #include "BranchIO/JSONObject.h"
 
 namespace BranchIO {
@@ -30,13 +31,14 @@ class BRANCHIO_DLL_EXPORT SessionEvent : public BaseEvent {
  */
 class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
  public:
-     /**
-      * Constructor.
-      */
-    explicit SessionOpenEvent() :
+    /**
+     * Constructor.
+     */
+    SessionOpenEvent() :
         SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {
-        String identity(Identity::instance().get());
-        if (!identity.str().empty()) {
+        std::string identity(Identity::instance().get().str());
+        if (!identity.empty()) {
+            BRANCH_LOG_D("Found stored identity " << identity);
             addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);
         }
     }

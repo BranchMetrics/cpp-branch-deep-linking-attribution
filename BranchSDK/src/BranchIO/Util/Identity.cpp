@@ -1,10 +1,11 @@
 #include "BranchIO/Util/Identity.h"
-#include "BranchIO/SessionInfo.h"
 #include "BranchIO/Util/Storage.h"
 
 using namespace std;
 
 namespace BranchIO {
+
+static constexpr const char* const StorageKey = "session.identity";
 
 Identity&
 Identity::instance() {
@@ -14,12 +15,17 @@ Identity::instance() {
 
 String
 Identity::get() const {
-	return Storage::instance().getString(string(SESSIONSTORAGE) + ".identity");
+	return Storage::instance().getString(StorageKey);
 }
 
 void
 Identity::set(const String& identity) {
-	Storage::instance().setString(string(SESSIONSTORAGE) + ".identity", identity.str());
+	Storage::instance().setString(StorageKey, identity.str());
+}
+
+void
+Identity::clear() {
+	Storage::instance().remove(StorageKey);
 }
 
 }  // namespace BranchIO

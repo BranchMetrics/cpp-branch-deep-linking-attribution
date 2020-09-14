@@ -10,6 +10,7 @@ class Identity {
 
 	String get() const;
 	void set(const String& identity);
+	void clear();
 
  private:
     Identity() {}
