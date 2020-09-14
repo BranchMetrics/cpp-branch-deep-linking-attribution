@@ -209,7 +209,7 @@ Branch::logout(IRequestCallback *callback) {
 
 std::string
 Branch::getIdentity() {
-   return Storage::instance().getString(string(SESSIONSTORAGE) + ".identity");
+    return Storage::instance().getString(string(SESSIONSTORAGE) + ".identity");
 }
 
 void
