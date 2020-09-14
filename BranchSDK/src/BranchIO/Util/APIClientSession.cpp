@@ -17,7 +17,8 @@
 
 #include "BranchIO/Defines.h"
 #include "BranchIO/IRequestCallback.h"
-#include "Log.h"
+#include "BranchIO/Util/Identity.h"
+#include "BranchIO/Util/Log.h"
 
 using namespace std;
 using namespace Poco;
@@ -94,7 +95,7 @@ APIClientSession::post(
 
         /* ----- Send the request and body ----- */
 
-        // bail out here and below immediately after any I/O, which can take
+        // bail out immediately before and after any I/O, which can take
         // time
         sendRequest(request, requestBody);
         if (isShuttingDown()) return false;
@@ -102,7 +103,7 @@ APIClientSession::post(
         BRANCH_LOG_D("Request sent. Waiting for response.");
 
         /* ----- Wait for the response ----- */
-        return processResponse(callback);
+        return processResponse(request, jsonPayload, callback);
     }
     catch (const Poco::Exception& e) {
         if (isShuttingDown()) return false;
@@ -125,7 +126,7 @@ APIClientSession::sendRequest(Poco::Net::HTTPRequest& request, const std::string
 }
 
 bool
-APIClientSession::processResponse(IRequestCallback& callback) {
+APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const JSONObject& requestBody, IRequestCallback& callback) {
     HTTPResponse response;
     // blocking socket read
     istream& rs = receiveResponse(response);
@@ -138,6 +139,22 @@ APIClientSession::processResponse(IRequestCallback& callback) {
     if (status == HTTPResponse::HTTP_OK) {
         try {
             callback.onSuccess(0, JSONObject::parse(rs));
+
+            // TODO: Rethink this whole event structure. Would be
+            // better to put all this in the relevant event classes,
+            // which don't live this long.
+            URI uri(request.getURI());
+            string path(uri.getPath());
+            if (path == "/v1/profile") {
+                BRANCH_LOG_D("Successful login request");
+                string identity(requestBody.get("identity").toString());
+                Identity::instance().set(identity);
+            }
+            else if (path == "/v1/logout") {
+                BRANCH_LOG_D("Successful logout request")
+                Identity::instance().set("");
+            }
+
             return true;
         } catch (Poco::JSON::JSONException&) {
             // Parsing Error.

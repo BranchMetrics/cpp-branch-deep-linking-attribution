@@ -141,6 +141,9 @@
     <ClInclude Include="..\..\src\BranchIO\Util\WindowsStorage.h">
       <Filter>Header Files\BranchIO\Util</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\Identity.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\BranchIO\AdvertiserInfo.cpp">
@@ -210,6 +213,9 @@
       <Filter>Source Files\BranchIO\Util</Filter>
     </ClCompile>
     <ClCompile Include="..\..\src\BranchIO\Util\WindowsStorage.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\Identity.cpp">
       <Filter>Source Files\BranchIO\Util</Filter>
     </ClCompile>
   </ItemGroup>

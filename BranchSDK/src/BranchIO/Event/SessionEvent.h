@@ -6,6 +6,7 @@
 #include <string>
 
 #include "BranchIO/Event/Event.h"
+#include "BranchIO/Util/Identity.h"
 #include "BranchIO/JSONObject.h"
 
 namespace BranchIO {
@@ -33,7 +34,12 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
       * Constructor.
       */
     explicit SessionOpenEvent() :
-        SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {}
+        SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {
+        String identity(Identity::instance().get());
+        if (!identity.str().empty()) {
+            addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);
+        }
+    }
 
     /**
      * Set the Link URL
