@@ -19,6 +19,7 @@
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Identity.h"
 #include "BranchIO/Util/Log.h"
+#include "BranchIO/Util/Storage.h"
 
 using namespace std;
 using namespace Poco;
@@ -140,19 +141,34 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
         try {
             callback.onSuccess(0, JSONObject::parse(rs));
 
-            // TODO: Rethink this whole event structure. Would be
+            // @todo(jdee): Rethink this whole event structure. Would be
             // better to put all this in the relevant event classes,
             // which don't live this long.
             URI uri(request.getURI());
             string path(uri.getPath());
+
+            if (requestBody.has(Defines::JSONKEY_SESSION_ID)) {
+                string sessionId(requestBody.get(Defines::JSONKEY_SESSION_ID).toString());
+                Storage::instance().setString("session.session_id", sessionId);
+            }
+
+            if (requestBody.has(Defines::JSONKEY_SESSION_IDENTITY)) {
+                string identityId(requestBody.get(Defines::JSONKEY_SESSION_IDENTITY).toString());
+                Storage::instance().setString("session.identity_id", identityId);
+            }
+
             if (path == "/v1/profile") {
                 BRANCH_LOG_D("Successful login request");
-                string identity(requestBody.get("identity").toString());
+                string identity(requestBody.get(Defines::JSONKEY_APP_IDENTITY).toString());
                 Identity::set(identity);
             }
             else if (path == "/v1/logout") {
-                BRANCH_LOG_D("Successful logout request")
+                BRANCH_LOG_D("Successful logout request");
                 Identity::clear();
+            }
+            else if (path == "/v1/close") {
+                BRANCH_LOG_D("Successful close request");
+                Storage::instance().remove("session.session_id");
             }
 
             return true;
