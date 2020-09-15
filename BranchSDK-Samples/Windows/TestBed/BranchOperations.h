@@ -28,6 +28,8 @@ struct BranchOperations
 	static void shutDownBranch();
 	static void showInitializationMessage();
 	static BranchIO::JSONObject getOpenResponse();
+	static std::wstring getTrackingButtonLabel();
+	static void toggleTracking();
 
 	static BranchIO::Branch* branch;
 	static TextField* outputTextField;

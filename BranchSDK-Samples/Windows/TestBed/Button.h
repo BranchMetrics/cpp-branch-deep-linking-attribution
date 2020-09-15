@@ -24,6 +24,8 @@ public:
         m_buttonPressCallback();
     }
 
+    void setText(const std::wstring& text);
+
 private:
     std::function<void()> m_buttonPressCallback;
 };
