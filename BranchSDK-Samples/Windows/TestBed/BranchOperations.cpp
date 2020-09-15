@@ -159,6 +159,14 @@ void
 BranchOperations::showInitializationMessage()
 {
     outputTextField->appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + BRANCH_KEY);
+    if (branch->getAdvertiserInfo().isTrackingDisabled())
+    {
+        outputTextField->appendText(L"Tracking disabled");
+    }
+    else
+    {
+        outputTextField->appendText(L"Tracking enabled");
+    }
 }
 
 void
