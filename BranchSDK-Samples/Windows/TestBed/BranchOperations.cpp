@@ -159,6 +159,14 @@ void
 BranchOperations::showInitializationMessage()
 {
     outputTextField->appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + BRANCH_KEY);
+    if (branch->getAdvertiserInfo().isTrackingDisabled())
+    {
+        outputTextField->appendText(L"Tracking disabled");
+    }
+    else
+    {
+        outputTextField->appendText(L"Tracking enabled");
+    }
 }
 
 void
@@ -389,4 +397,27 @@ BranchOperations::closeSession()
     };
 
     branch->closeSession(new CloseCallback);
+}
+
+std::wstring
+BranchOperations::getTrackingButtonLabel()
+{
+    const auto isDisabled = branch->getAdvertiserInfo().isTrackingDisabled();
+    return isDisabled ? L"Enable Tracking" : L"Disable Tracking";
+}
+
+void
+BranchOperations::toggleTracking()
+{
+    const auto isDisabled = branch->getAdvertiserInfo().isTrackingDisabled();
+    if (isDisabled)
+    {
+        branch->getAdvertiserInfo().enableTracking();
+        outputTextField->appendText(L"Tracking enabled");
+    }
+    else
+    {
+        branch->getAdvertiserInfo().disableTracking();
+        outputTextField->appendText(L"Tracking disabled");
+    }
 }
