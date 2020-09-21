@@ -172,7 +172,9 @@ Branch::closeSession(IRequestCallback *callback) {
 
 void
 Branch::sendEvent(const BaseEvent &event, IRequestCallback *callback) {
-    if (getAdvertiserInfo().isTrackingDisabled()) {
+    // Only open events are enqueued with tracking disabled. All tracking info is stripped out
+    // before transmission.
+    if (getAdvertiserInfo().isTrackingDisabled() && event.getAPIEndpoint() != Defines::REGISTER_OPEN) {
         if (callback) {
             callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");
             callback->onError(0, 0, "Tracking is disabled");
