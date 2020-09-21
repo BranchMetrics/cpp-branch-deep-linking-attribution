@@ -55,6 +55,7 @@ class BRANCHIO_DLL_EXPORT Defines {
     static constexpr const char* const JSONKEY_SESSION_FINGERPRINT = "device_fingerprint_id";  ///< Device Fingerprint ID
     static constexpr const char* const JSONKEY_SESSION_ID = "session_id";                      ///< Session Id
     static constexpr const char* const JSONKEY_SESSION_IDENTITY = "identity_id";               ///< Session Identity
+    static constexpr const char* const JSONKEY_TRACKING_DISABLED = "tracking_disabled";        ///< Tracking Disabled
 
     // Branch Url Path
     static constexpr const char* const BASE_PATH_V1 = "https://api.branch.io/";                ///< V1 Base Path
