@@ -161,8 +161,8 @@ RequestManager::RequestTask::runTask() {
         payload.remove(Defines::JSONKEY_SESSION_FINGERPRINT);      // device_fingerprint_id
         payload.remove(Defines::JSONKEY_SESSION_IDENTITY);         // identity_id
 
-	// Clear out storage as well
-	Storage::instance().remove("session.device_fingerprint_id");
+	    // Clear out storage as well
+	    Storage::instance().remove("session.device_fingerprint_id");
     }
 
     // Send request synchronously
