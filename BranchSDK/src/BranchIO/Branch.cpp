@@ -68,11 +68,11 @@ class SessionCallback : public IRequestCallback {
             // If keys exist, we set them on the Session Context.
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
-                bool isPersistent = !_context->getAdvertiserInfo().isTrackingDisabled();
-                string deviceFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT).toString());
-                _context->getSessionInfo().setFingerprintId(deviceFingerprintId, isPersistent);
+                if (!_context->getAdvertiserInfo().isTrackingDisabled()) {
+                    _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                    _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+                }
                 _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
-                _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
             }
 
             // Data comes back as String-encoded JSON...  let's fix that up

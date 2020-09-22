@@ -23,9 +23,8 @@ SessionInfo::SessionInfo() {
 SessionInfo::~SessionInfo() = default;
 
 SessionInfo&
-SessionInfo::setFingerprintId(const std::string &deviceFingerprint, bool isPersistent) {
-    if (isPersistent)
-        Storage::instance().setString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT), deviceFingerprint);
+SessionInfo::setFingerprintId(const std::string &deviceFingerprint) {
+    Storage::instance().setString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT), deviceFingerprint);
     return doAddProperty(Defines::JSONKEY_SESSION_FINGERPRINT, deviceFingerprint);
 }
 
