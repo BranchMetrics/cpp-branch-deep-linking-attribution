@@ -49,6 +49,7 @@ const char *Defines::JSONKEY_APP_VERSION = "app_version";
 const char *Defines::JSONKEY_SESSION_FINGERPRINT = "device_fingerprint_id";
 const char *Defines::JSONKEY_SESSION_ID = "session_id";
 const char *Defines::JSONKEY_SESSION_IDENTITY = "identity_id";
+const char *Defines::JSONKEY_TRACKING_DISABLED = "tracking_disabled";
 
 // Branch Url Path
 const char *Defines::BASE_PATH_V1 = "https://api.branch.io/";
