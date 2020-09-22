@@ -23,9 +23,10 @@ class BRANCHIO_DLL_EXPORT SessionInfo : public PropertyManager {
     /**
      * Set the Session Fingerprint ID.
      * @param deviceFingerprint as issued by the Branch server
+     * @param isPersistent also stored in persistence if true
      * @return This object for chaining builder methods
      */
-    virtual SessionInfo& setFingerprintId(const std::string &deviceFingerprint);
+    virtual SessionInfo& setFingerprintId(const std::string &deviceFingerprint, bool isPersistent = true);
 
     /**
      * Set the Session Identity Id.

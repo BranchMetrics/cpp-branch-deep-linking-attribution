@@ -68,7 +68,9 @@ class SessionCallback : public IRequestCallback {
             // If keys exist, we set them on the Session Context.
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
-                _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                bool isPersistent = !_context->getAdvertiserInfo().isTrackingDisabled();
+                string deviceFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT).toString());
+                _context->getSessionInfo().setFingerprintId(deviceFingerprintId, isPersistent);
                 _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
                 _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
             }
