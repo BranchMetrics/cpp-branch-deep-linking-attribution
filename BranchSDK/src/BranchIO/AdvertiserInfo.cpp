@@ -26,6 +26,9 @@ AdvertiserInfo &
 AdvertiserInfo::disableTracking() {
     trackingDisabled = true;
     Storage::instance().setBoolean(getPath(ADVERTISERSTORAGE, TRACKING_PREFERENCE_KEY), true);
+
+    // Clear out DFP as well
+    Storage::instance().remove("session.device_fingerprint_id");
     return *this;
 }
 
