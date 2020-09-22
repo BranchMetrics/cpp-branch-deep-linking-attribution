@@ -6,6 +6,54 @@
 
 namespace BranchIO {
 
+// GENERAL CONSTANTS
+const char *Defines::NO_BRANCH_VALUE = "";
+
+// JSON KEYS
+const char *Defines::JSONKEY_ADTYPE = "ad_type";
+const char *Defines::JSONKEY_AFFILIATION = "affiliation";
+const char *Defines::JSONKEY_COUPON = "coupon";
+const char *Defines::JSONKEY_CURRENCY = "currency";
+const char *Defines::JSONKEY_CUSTOMER_EVENT_ALIAS = "customer_event_alias";
+const char *Defines::JSONKEY_DESCRIPTION = "description";
+const char *Defines::JSONKEY_REVENUE = "revenue";
+const char *Defines::JSONKEY_SEARCHQUERY = "search_query";
+const char *Defines::JSONKEY_SHIPPING = "shipping";
+const char *Defines::JSONKEY_TAX = "tax";
+const char *Defines::JSONKEY_TRANSACTION_ID = "transaction_id";
+
+const char *Defines::JSONKEY_DEVICE_BRAND = "brand";
+const char *Defines::JSONKEY_DEVICE_COUNTRY = "country";
+const char *Defines::JSONKEY_DEVICE_LANGUAGE = "language";
+const char *Defines::JSONKEY_DEVICE_LOCAL_IP_ADDRESS = "local_ip";
+const char *Defines::JSONKEY_DEVICE_MAC_ADDRESS = "mac_address";
+const char *Defines::JSONKEY_DEVICE_MODEL = "model";
+const char *Defines::JSONKEY_DEVICE_OS = "os";
+const char *Defines::JSONKEY_DEVICE_OS_VERSION = "os_version";
+const char *Defines::JSONKEY_DEVICE_SCREEN_DPI = "screen_dpi";
+const char *Defines::JSONKEY_DEVICE_SCREEN_HEIGHT = "screen_height";
+const char *Defines::JSONKEY_DEVICE_SCREEN_WIDTH = "screen_width";
+
+const char *Defines::JSONKEY_APP_IDENTITY = "identity";
+const char *Defines::JSONKEY_APP_DEVELOPER_IDENTITY = "developer_identity";
+const char *Defines::JSONKEY_APP_ENVIRONMENT = "environment";
+const char *Defines::JSONKEY_APP_LAT_V1 = "lat_val";
+const char *Defines::JSONKEY_APP_LAT_V2 = "limit_ad_tracking";
+const char *Defines::JSONKEY_APP_LINK_URL = "app_link_url";
+const char *Defines::JSONKEY_APP_PACKAGE_NAME = "package_name";
+const char *Defines::JSONKEY_APP_SDK = "sdk";
+const char *Defines::JSONKEY_APP_SDK_VERSION = "sdk_version";
+const char *Defines::JSONKEY_APP_USER_AGENT = "user_agent";
+const char *Defines::JSONKEY_APP_VERSION = "app_version";
+
+const char *Defines::JSONKEY_SESSION_FINGERPRINT = "device_fingerprint_id";
+const char *Defines::JSONKEY_SESSION_ID = "session_id";
+const char *Defines::JSONKEY_SESSION_IDENTITY = "identity_id";
+
+// Branch Url Path
+const char *Defines::BASE_PATH_V1 = "https://api.branch.io/";
+const char *Defines::BASE_PATH_V2 = "https://api2.branch.io/";
+
 const char *PATH_GET_URL = "v1/url";
 const char *PATH_GET_APP = "v1/app-link-settings";
 const char *PATH_REGISTER_OPEN = "v1/open";

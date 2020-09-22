@@ -14,52 +14,51 @@ namespace BranchIO {
  */
 class BRANCHIO_DLL_EXPORT Defines {
  public:
-    static constexpr const char* const NO_BRANCH_VALUE = "";                                   ///< No Branch Value
+    static const char *NO_BRANCH_VALUE;                  ///< No Branch Value
 
-    static constexpr const char* const JSONKEY_ADTYPE = "ad_type";                             ///< Ad Type
-    static constexpr const char* const JSONKEY_AFFILIATION = "ad_type";                        ///< Affiliation
-    static constexpr const char* const JSONKEY_COUPON = "coupon";                              ///< Coupon Code
-    static constexpr const char* const JSONKEY_CURRENCY = "currency";                          ///< ISO4217 Currency Code
-    static constexpr const char* const JSONKEY_CUSTOMER_EVENT_ALIAS = "customer_event_alias";  ///< Customer Event Alias
-    static constexpr const char* const JSONKEY_DESCRIPTION = "description";                    ///< Description
-    static constexpr const char* const JSONKEY_REVENUE = "revenue";                            ///< Revenue
-    static constexpr const char* const JSONKEY_SEARCHQUERY = "search_query";                   ///< Search Query
-    static constexpr const char* const JSONKEY_SHIPPING = "shipping";                          ///< Shipping
-    static constexpr const char* const JSONKEY_TAX = "tax";                                    ///< Tax
-    static constexpr const char* const JSONKEY_TRANSACTION_ID = "transaction_id";              ///< Transaction Id
+    static const char *JSONKEY_ADTYPE;                   ///< Ad Type
+    static const char *JSONKEY_AFFILIATION;              ///< Affiliation
+    static const char *JSONKEY_COUPON;                   ///< Coupon Code
+    static const char *JSONKEY_CURRENCY;                 ///< ISO4217 Currency Code
+    static const char *JSONKEY_CUSTOMER_EVENT_ALIAS;     ///< Customer Event Alias
+    static const char *JSONKEY_DESCRIPTION;              ///< Description
+    static const char *JSONKEY_REVENUE;                  ///< Revenue
+    static const char *JSONKEY_SEARCHQUERY;              ///< Search Query
+    static const char *JSONKEY_SHIPPING;                 ///< Shipping
+    static const char *JSONKEY_TAX;                      ///< Tax
+    static const char *JSONKEY_TRANSACTION_ID;           ///< Transaction Id
 
-    static constexpr const char* const JSONKEY_DEVICE_BRAND = "brand";                         ///< Device Brand
-    static constexpr const char* const JSONKEY_DEVICE_COUNTRY = "country";                     ///< Device Country
-    static constexpr const char* const JSONKEY_DEVICE_LANGUAGE = "language";                   ///< ISO2 Language
-    static constexpr const char* const JSONKEY_DEVICE_LOCAL_IP_ADDRESS = "local_ip";           ///< Local IP Address
-    static constexpr const char* const JSONKEY_DEVICE_MAC_ADDRESS = "mac_address";             ///< Device MAC Address
-    static constexpr const char* const JSONKEY_DEVICE_MODEL = "model";                         ///< Device Model
-    static constexpr const char* const JSONKEY_DEVICE_OS = "os";                               ///< Device OS
-    static constexpr const char* const JSONKEY_DEVICE_OS_VERSION = "os_version";               ///< Device Version
-    static constexpr const char* const JSONKEY_DEVICE_SCREEN_DPI = "screen_dpi";               ///< Device Screen DPI
-    static constexpr const char* const JSONKEY_DEVICE_SCREEN_HEIGHT = "screen_height";         ///< Device Screen Height (pixels)
-    static constexpr const char* const JSONKEY_DEVICE_SCREEN_WIDTH = "screen_width";           ///< Device Screen Width (pixels)
+    static const char *JSONKEY_DEVICE_BRAND;             ///< Device Brand
+    static const char *JSONKEY_DEVICE_COUNTRY;           ///< Device Country
+    static const char *JSONKEY_DEVICE_LANGUAGE;          ///< ISO2 Language
+    static const char *JSONKEY_DEVICE_LOCAL_IP_ADDRESS;  ///< Local IP Address
+    static const char *JSONKEY_DEVICE_MAC_ADDRESS;       ///< Device MAC Address
+    static const char *JSONKEY_DEVICE_MODEL;             ///< Device Model
+    static const char *JSONKEY_DEVICE_OS;                ///< Device OS
+    static const char *JSONKEY_DEVICE_OS_VERSION;        ///< Device Version
+    static const char *JSONKEY_DEVICE_SCREEN_DPI;        ///< Device Screen DPI
+    static const char *JSONKEY_DEVICE_SCREEN_HEIGHT;     ///< Device Screen Height (pixels)
+    static const char *JSONKEY_DEVICE_SCREEN_WIDTH;      ///< Device Screen Width (pixels)
 
-    static constexpr const char* const JSONKEY_APP_IDENTITY = "identity";                      ///< Developer Identity, V1
-    static constexpr const char* const JSONKEY_APP_DEVELOPER_IDENTITY = "developer_identity";  ///< Developer Identity, V2
-    static constexpr const char* const JSONKEY_APP_ENVIRONMENT = "environment";                ///< App Environment
-    static constexpr const char* const JSONKEY_APP_LAT_V1 = "lat_val";                         ///< Limit App Tracking, V1
-    static constexpr const char* const JSONKEY_APP_LAT_V2 = "limit_ad_tracking";               ///< Limit App Tracking, V2
-    static constexpr const char* const JSONKEY_APP_LINK_URL = "app_link_url";                  ///< App Link Url
-    static constexpr const char* const JSONKEY_APP_PACKAGE_NAME = "package_name";              ///< App Package Name
-    static constexpr const char* const JSONKEY_APP_SDK = "sdk";                                ///< SDK
-    static constexpr const char* const JSONKEY_APP_SDK_VERSION = "sdk_version";                ///< SDK Version
-    static constexpr const char* const JSONKEY_APP_USER_AGENT = "user_agent";                  ///< User Agent
-    static constexpr const char* const JSONKEY_APP_VERSION = "app_version";                    ///< App Version
+    static const char *JSONKEY_APP_IDENTITY;             ///< User Identity
+    static const char *JSONKEY_APP_DEVELOPER_IDENTITY;   ///< App Developer Identity
+    static const char *JSONKEY_APP_ENVIRONMENT;          ///< App Environment
+    static const char *JSONKEY_APP_LAT_V1;               ///< Limit App Tracking, V1
+    static const char *JSONKEY_APP_LAT_V2;               ///< Limit App Tracking, V2
+    static const char *JSONKEY_APP_LINK_URL;             ///< App Link Url
+    static const char *JSONKEY_APP_PACKAGE_NAME;         ///< App Package Name
+    static const char *JSONKEY_APP_SDK;                  ///< SDK
+    static const char *JSONKEY_APP_SDK_VERSION;          ///< SDK Version
+    static const char *JSONKEY_APP_USER_AGENT;           ///< User Agent
+    static const char *JSONKEY_APP_VERSION;              ///< App Version
 
-    static constexpr const char* const JSONKEY_SESSION_FINGERPRINT = "device_fingerprint_id";  ///< Device Fingerprint ID
-    static constexpr const char* const JSONKEY_SESSION_ID = "session_id";                      ///< Session Id
-    static constexpr const char* const JSONKEY_SESSION_IDENTITY = "identity_id";               ///< Session Identity
-    static constexpr const char* const JSONKEY_TRACKING_DISABLED = "tracking_disabled";        ///< Tracking Disabled
+    static const char *JSONKEY_SESSION_FINGERPRINT;      ///< Session Fingerprint
+    static const char *JSONKEY_SESSION_ID;               ///< Session Id
+    static const char *JSONKEY_SESSION_IDENTITY;         ///< Session Identity
 
     // Branch Url Path
-    static constexpr const char* const BASE_PATH_V1 = "https://api.branch.io/";                ///< V1 Base Path
-    static constexpr const char* const BASE_PATH_V2 = "https://api2.branch.io/";               ///< V2 Base Path
+    static const char *BASE_PATH_V1;                     ///< V1 Base Path
+    static const char *BASE_PATH_V2;                     ///< V2 Base Path
 
  public:
     /**
