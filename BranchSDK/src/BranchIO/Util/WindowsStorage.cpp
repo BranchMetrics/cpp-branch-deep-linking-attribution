@@ -128,7 +128,10 @@ WindowsStorage::has(const std::string& key, Scope scope) const {
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    return WinRegistryKey(registryKey).exists(registryPath);
+    // Return true if a key or leaf exists at this path
+    return
+        WinRegistryKey(registryKey).exists(registryPath) ||
+        WinRegistryKey(registryKey + "\\" + registryPath).exists();
 }
 
 std::string
@@ -184,7 +187,10 @@ WindowsStorage::remove(const std::string& key, Scope scope) {
 
     if (!has(key, scope)) return false;
 
-    WinRegistryKey(registryKey).deleteValue(registryPath);
+    if (WinRegistryKey(registryKey).exists(registryPath))
+        WinRegistryKey(registryKey).deleteValue(registryPath);
+    else if (WinRegistryKey(registryKey + "\\" + registryPath).exists())
+        WinRegistryKey(registryKey + "\\" + registryPath).deleteKey();
 
     return true;
 }
