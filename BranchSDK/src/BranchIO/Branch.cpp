@@ -132,6 +132,7 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
      */
     IStorage& storage(Storage::instance());
     storage.setDefaultScope(Storage::User);
+    storage.setPrefix(branchKey);
 
     // operator new does not return NULL. It throws std::bad_alloc in case of
     // failure. no need to check this pointer.

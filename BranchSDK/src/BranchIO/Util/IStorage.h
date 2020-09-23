@@ -1,10 +1,12 @@
 // Copyright (c) 2019 Branch Metrics, Inc.
 
+#ifndef BRANCHIO_UTIL_ISTORAGE_H__
+#define BRANCHIO_UTIL_ISTORAGE_H__
+
 #include <memory>
 #include <string>
 
-#ifndef BRANCHIO_UTIL_ISTORAGE_H__
-#define BRANCHIO_UTIL_ISTORAGE_H__
+#include "BranchIO/String.h"
 
 namespace BranchIO {
 
@@ -38,6 +40,9 @@ struct IStorage {
      * @return *this
      */
     virtual IStorage& setDefaultScope(Scope scope) = 0;
+
+    virtual String getPrefix() const = 0;
+    virtual IStorage& setPrefix(const String& prefix) = 0;
 
     /**
      * Determine if the specified key is present for the specified scope

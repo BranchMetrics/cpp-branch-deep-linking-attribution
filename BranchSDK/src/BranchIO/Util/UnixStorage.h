@@ -9,8 +9,8 @@
 #include <cassert>
 #include <string>
 
-#include "IStorage.h"
-#include "Log.h"
+#include "BranchIO/Util/IStorage.h"
+#include "BranchIO/Util/Log.h"
 
 namespace BranchIO {
 
@@ -43,6 +43,9 @@ class UnixStorage : public virtual IStorage {
      * @copydoc IStorage::setDefaultScope
      */
     IStorage& setDefaultScope(Scope scope);
+
+    String getPrefix() const;
+    IStorage& setPrefix(const String& prefix);
 
     /**
      * @copydoc IStorage::has

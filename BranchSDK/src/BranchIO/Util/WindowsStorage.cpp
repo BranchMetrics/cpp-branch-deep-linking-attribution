@@ -5,7 +5,7 @@
 #include <cassert>
 #include <vector>
 
-#include "WindowsStorage.h"
+#include "BranchIO/Util/WindowsStorage.h"
 
 using namespace std;
 using namespace Poco;
@@ -51,6 +51,11 @@ WindowsStorage::getRegistryKeyAndPath(
         break;
     default:
         return false;  // in case int case to Scope enum
+    }
+
+    string prefix = getPrefix().str();
+    if (!prefix.empty()) {
+        rootPath += string("\\") + prefix;
     }
 
     // Glue everything together into one long root\a\b\c
@@ -101,6 +106,19 @@ IStorage&
 WindowsStorage::setDefaultScope(Scope scope) {
     Mutex::ScopedLock _l(_mutex);
     _defaultScope = scope;
+    return *this;
+}
+
+String
+WindowsStorage::getPrefix() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _prefix;
+}
+
+IStorage&
+WindowsStorage::setPrefix(const String& prefix) {
+    Mutex::ScopedLock _l(_mutex);
+    _prefix = prefix;
     return *this;
 }
 
