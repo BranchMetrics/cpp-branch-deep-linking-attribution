@@ -143,7 +143,7 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     // Remove global settings
     storage.remove("advertiser");
     storage.remove("session");
-    
+
     storage.setPrefix(branchKey.str());
 
     // Set these on the current app
