@@ -141,7 +141,8 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     string deviceFingerprintId = storage.getString("session.device_fingerprint_id");
 
     // Remove global settings
-    storage.clear();
+    storage.remove("advertiser");
+    storage.remove("session");
     
     storage.setPrefix(branchKey.str());
 
