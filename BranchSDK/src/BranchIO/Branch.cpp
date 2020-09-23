@@ -68,9 +68,11 @@ class SessionCallback : public IRequestCallback {
             // If keys exist, we set them on the Session Context.
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
-                _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                if (!_context->getAdvertiserInfo().isTrackingDisabled()) {
+                    _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                    _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+                }
                 _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
-                _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
             }
 
             // Data comes back as String-encoded JSON...  let's fix that up
@@ -172,7 +174,9 @@ Branch::closeSession(IRequestCallback *callback) {
 
 void
 Branch::sendEvent(const BaseEvent &event, IRequestCallback *callback) {
-    if (getAdvertiserInfo().isTrackingDisabled()) {
+    // Only open events are enqueued with tracking disabled. All tracking info is stripped out
+    // before transmission.
+    if (getAdvertiserInfo().isTrackingDisabled() && event.getAPIEndpoint() != Defines::REGISTER_OPEN) {
         if (callback) {
             callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");
             callback->onError(0, 0, "Tracking is disabled");
