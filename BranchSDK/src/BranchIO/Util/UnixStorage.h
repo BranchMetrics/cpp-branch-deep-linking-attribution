@@ -44,8 +44,8 @@ class UnixStorage : public virtual IStorage {
      */
     IStorage& setDefaultScope(Scope scope);
 
-    String getPrefix() const;
-    IStorage& setPrefix(const String& prefix);
+    std::string getPrefix() const;
+    IStorage& setPrefix(const std::string& prefix);
 
     /**
      * @copydoc IStorage::has

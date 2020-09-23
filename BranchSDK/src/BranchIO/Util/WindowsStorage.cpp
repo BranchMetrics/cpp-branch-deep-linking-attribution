@@ -53,7 +53,7 @@ WindowsStorage::getRegistryKeyAndPath(
         return false;  // in case int case to Scope enum
     }
 
-    string prefix = getPrefix().str();
+    string prefix = getPrefix();
     if (!prefix.empty()) {
         rootPath += string("\\") + prefix;
     }
@@ -109,14 +109,14 @@ WindowsStorage::setDefaultScope(Scope scope) {
     return *this;
 }
 
-String
+std::string
 WindowsStorage::getPrefix() const {
     Mutex::ScopedLock _l(_mutex);
     return _prefix;
 }
 
 IStorage&
-WindowsStorage::setPrefix(const String& prefix) {
+WindowsStorage::setPrefix(const std::string& prefix) {
     Mutex::ScopedLock _l(_mutex);
     _prefix = prefix;
     return *this;
@@ -204,6 +204,11 @@ WindowsStorage::clear(Scope scope) {
         break;
     default:
         return *this;
+    }
+
+    string prefix = getPrefix();
+    if (!prefix.empty()) {
+        registryKey += string("\\") + prefix;
     }
 
     WinRegistryKey(registryKey).deleteKey();

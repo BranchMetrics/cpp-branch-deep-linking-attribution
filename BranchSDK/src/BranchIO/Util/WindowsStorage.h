@@ -43,8 +43,8 @@ class WindowsStorage : public virtual IStorage {
      */
     IStorage& setDefaultScope(Scope scope);
 
-    String getPrefix() const;
-    IStorage& setPrefix(const String& prefix);
+    std::string getPrefix() const;
+    IStorage& setPrefix(const std::string& prefix);
 
     /**
      * @copydoc IStorage::has
@@ -101,7 +101,7 @@ class WindowsStorage : public virtual IStorage {
 
     mutable Poco::Mutex _mutex;
     Scope _defaultScope;
-    String _prefix;
+    std::string _prefix;
 };
 
 }  // namespace BranchIO

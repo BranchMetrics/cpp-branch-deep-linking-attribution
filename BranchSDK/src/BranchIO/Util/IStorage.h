@@ -6,8 +6,6 @@
 #include <memory>
 #include <string>
 
-#include "BranchIO/String.h"
-
 namespace BranchIO {
 
 /**
@@ -41,8 +39,8 @@ struct IStorage {
      */
     virtual IStorage& setDefaultScope(Scope scope) = 0;
 
-    virtual String getPrefix() const = 0;
-    virtual IStorage& setPrefix(const String& prefix) = 0;
+    virtual std::string getPrefix() const = 0;
+    virtual IStorage& setPrefix(const std::string& prefix) = 0;
 
     /**
      * Determine if the specified key is present for the specified scope

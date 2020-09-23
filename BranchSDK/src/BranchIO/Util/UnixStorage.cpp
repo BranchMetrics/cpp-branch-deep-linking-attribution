@@ -31,14 +31,14 @@ UnixStorage::setDefaultScope(Scope scope) {
     return *this;
 }
 
-String
+std::string
 UnixStorage::getPrefix() const {
     // unimplemented
-    return String();
+    return string();
 }
 
 IStorage&
-UnixStorage::setPrefix(const String& prefix) {
+UnixStorage::setPrefix(const std::string& prefix) {
     // unimplemented
     return *this;
 }

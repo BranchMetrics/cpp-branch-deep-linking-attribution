@@ -135,18 +135,18 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
 
     // Migrate global settings from old builds (before setting prefix). Assume these are from
     // a previous installation of the same app.
-    bool hasTrackingDisabled = storage.has("advertiser.tracking_disabled");
-    bool isTrackingDisabled = storage.getBoolean("advertiser.tracking_disabled");
+    storage.setPrefix("");  // in case Branch::create called more than once.
+    bool hasTrackingDisabled = storage.has("advertiser.trackingDisabled");
+    bool isTrackingDisabled = storage.getBoolean("advertiser.trackingDisabled");
     string deviceFingerprintId = storage.getString("session.device_fingerprint_id");
 
     // Remove global settings
-    if (hasTrackingDisabled) storage.remove("advertiser.tracking_disabled");
-    if (!deviceFingerprintId.empty()) storage.remove("session.device_fingerprint_id");
-
-    storage.setPrefix(branchKey);
+    storage.clear();
+    
+    storage.setPrefix(branchKey.str());
 
     // Set these on the current app
-    if (hasTrackingDisabled) storage.setBoolean("advertiser.tracking_disabled", isTrackingDisabled);
+    if (hasTrackingDisabled) storage.setBoolean("advertiser.trackingDisabled", isTrackingDisabled);
     if (!deviceFingerprintId.empty()) storage.setString("session.device_fingerprint_id", deviceFingerprintId);
 
     // operator new does not return NULL. It throws std::bad_alloc in case of
