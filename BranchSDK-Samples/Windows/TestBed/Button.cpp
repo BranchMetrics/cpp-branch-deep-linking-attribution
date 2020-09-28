@@ -33,3 +33,9 @@ Button::Button(LPCWSTR text, int x, int y, int width, int height, int menu, HWND
 {
 
 }
+
+void
+Button::setText(const std::wstring& text)
+{
+	SendMessage(*this, WM_SETTEXT, 0, (LPARAM)text.c_str());
+}

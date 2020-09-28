@@ -32,6 +32,7 @@ static int const ID_STANDARD_EVENT_BUTTON = 1004;
 static int const ID_CUSTOM_EVENT_BUTTON = 1005;
 static int const ID_GET_SHORT_URL_BUTTON = 1006;
 static int const ID_CLOSE_BUTTON = 1007;
+static int const ID_TRACKING_BUTTON = 1008;
 
 TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
 Button openButton(L"Open", 20, 20, 190, 50, ID_OPEN_BUTTON);
@@ -41,6 +42,7 @@ Button logoutButton(L"Logout", 20, 230, 190, 50, ID_LOGOUT_BUTTON);
 Button standardEventButton(L"Standard Event", 230, 20, 190, 50, ID_STANDARD_EVENT_BUTTON);
 Button customEventButton(L"Custom Event", 230, 90, 190, 50, ID_CUSTOM_EVENT_BUTTON);
 Button getShortURLButton(L"Get Short URL", 230, 160, 190, 50, ID_GET_SHORT_URL_BUTTON);
+Button trackingButton(L"Disable Tracking", 230, 230, 190, 50, ID_TRACKING_BUTTON);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -160,6 +162,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    customEventButton.create(hWnd);
    getShortURLButton.create(hWnd);
    closeButton.create(hWnd);
+   trackingButton.create(hWnd);
+
+   trackingButton.setText(BranchOperations::getTrackingButtonLabel());
 
    openButton.setButtonPressCallback([]() {
        BranchOperations::openURL(L"https://win32.app.link/crtafBueu9");
@@ -172,6 +177,10 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    customEventButton.setButtonPressCallback(BranchOperations::logCustomEvent);
    getShortURLButton.setButtonPressCallback(BranchOperations::getShortURL);
    closeButton.setButtonPressCallback(BranchOperations::closeSession);
+   trackingButton.setButtonPressCallback([]() {
+       BranchOperations::toggleTracking();
+       trackingButton.setText(BranchOperations::getTrackingButtonLabel());
+   });
 
    BranchOperations::showInitializationMessage();
 
@@ -228,6 +237,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case ID_CLOSE_BUTTON:
                 closeButton.onPress();
+                break;
+            case ID_TRACKING_BUTTON:
+                trackingButton.onPress();
                 break;
             default:
                 return DefWindowProc(hWnd, message, wParam, lParam);

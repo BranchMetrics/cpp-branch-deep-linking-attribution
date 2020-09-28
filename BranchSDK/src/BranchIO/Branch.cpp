@@ -69,9 +69,11 @@ class SessionCallback : public IRequestCallback {
             // If keys exist, we set them on the Session Context.
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
-                _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                if (!_context->getAdvertiserInfo().isTrackingDisabled()) {
+                    _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                    _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+                }
                 _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
-                _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
             }
 
             // Data comes back as String-encoded JSON...  let's fix that up
@@ -132,6 +134,27 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     IStorage& storage(Storage::instance());
     storage.setDefaultScope(Storage::User);
 
+    // Migrate global settings from old builds (before setting prefix). Assume these are from
+    // a previous installation of the same app.
+    storage.setPrefix("");  // in case Branch::create called more than once.
+    bool hasGlobalTrackingDisabled = storage.has("advertiser.trackingDisabled");
+    bool isGlobalTrackingDisabled = storage.getBoolean("advertiser.trackingDisabled");
+    string globalDeviceFingerprintId = storage.getString("session.device_fingerprint_id");
+
+    // Remove global settings
+    storage.remove("advertiser");
+    storage.remove("session");
+
+    storage.setPrefix(branchKey.str());
+
+    // Set these on the current app
+    if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisbled")) {
+        storage.setBoolean("advertiser.trackingDisabled", isGlobalTrackingDisabled);
+    }
+    if (!globalDeviceFingerprintId.empty() && !storage.has("session.device_fingerprint_id")) {
+        storage.setString("session.device_fingerprint_id", globalDeviceFingerprintId);
+    }
+
     // operator new does not return NULL. It throws std::bad_alloc in case of
     // failure. no need to check this pointer.
     if (pInfo) {
@@ -173,7 +196,9 @@ Branch::closeSession(IRequestCallback *callback) {
 
 void
 Branch::sendEvent(const BaseEvent &event, IRequestCallback *callback) {
-    if (getAdvertiserInfo().isTrackingDisabled()) {
+    // Only open events are enqueued with tracking disabled. All tracking info is stripped out
+    // before transmission.
+    if (getAdvertiserInfo().isTrackingDisabled() && event.getAPIEndpoint() != Defines::REGISTER_OPEN) {
         if (callback) {
             callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");
             callback->onError(0, 0, "Tracking is disabled");

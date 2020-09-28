@@ -55,6 +55,7 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_SESSION_FINGERPRINT;      ///< Session Fingerprint
     static const char *JSONKEY_SESSION_ID;               ///< Session Id
     static const char *JSONKEY_SESSION_IDENTITY;         ///< Session Identity
+    static const char *JSONKEY_TRACKING_DISABLED;        ///< Tracking Disabled
 
     // Branch Url Path
     static const char *BASE_PATH_V1;                     ///< V1 Base Path

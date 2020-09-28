@@ -7,7 +7,7 @@
 
 #include <string>
 
-#include "IStorage.h"
+#include "BranchIO/Util/IStorage.h"
 
 namespace BranchIO {
 
@@ -42,6 +42,9 @@ class WindowsStorage : public virtual IStorage {
      * @copydoc IStorage::setDefaultScope
      */
     IStorage& setDefaultScope(Scope scope);
+
+    std::string getPrefix() const;
+    IStorage& setPrefix(const std::string& prefix);
 
     /**
      * @copydoc IStorage::has
@@ -98,6 +101,7 @@ class WindowsStorage : public virtual IStorage {
 
     mutable Poco::Mutex _mutex;
     Scope _defaultScope;
+    std::string _prefix;
 };
 
 }  // namespace BranchIO

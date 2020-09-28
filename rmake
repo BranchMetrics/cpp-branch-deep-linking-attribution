@@ -20,7 +20,7 @@ then
 fi
 
 all_conan_profiles=$(conan profile list)
-if ! [[ $all_conan_profiles =~ $CONAN_PROFILE ]]
+if [ $all_conan_profiles !~ $CONAN_PROFILE ]
 then
   echo "Invalid value for CONAN_PROFILE \"$CONAN_PROFILE\". Please specify one of the following:"
   echo $all_conan_profiles
@@ -105,7 +105,6 @@ fi
 cd ../..
 
 # Lint
-pushd .
 cd BranchSDK/src
 ../tools/cpplint.py --linelength=120 --filter=-build/namespaces,-runtime/references --recursive --repository=. ./BranchIO/*.*
 if [ $? != 0 ]
@@ -113,7 +112,7 @@ then
   echo 'Linting failed.'
   exit 1
 fi
-popd
+cd ../..
 
 # build docs
 cd BranchSDK
