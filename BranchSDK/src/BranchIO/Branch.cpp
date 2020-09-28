@@ -145,7 +145,8 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     storage.remove("advertiser");
     storage.remove("session");
 
-    storage.setPrefix(branchKey.str());
+    auto utf8key(branchKey.str());
+    storage.setPrefix(utf8key);
 
     // Set these on the current app
     if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisbled")) {
@@ -155,13 +156,11 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
         storage.setString("session.device_fingerprint_id", globalDeviceFingerprintId);
     }
 
-    // operator new does not return NULL. It throws std::bad_alloc in case of
-    // failure. no need to check this pointer.
     if (pInfo) {
         instance->_packagingInfo.getAppInfo().addProperties(pInfo->toJSON());
     }
 
-    instance->_packagingInfo.setBranchKey(branchKey.str());
+    instance->_packagingInfo.setBranchKey(utf8key);
 
     instance->_requestManager = new RequestManager(instance->_packagingInfo);
     instance->_requestManager->start();
