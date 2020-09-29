@@ -45,8 +45,3 @@ enable_testing()
 # ------------
 ADD_SUBDIRECTORY(BranchSDK)
 include_directories("BranchSDK/src")
-
-# ------------
-# Example apps
-# ------------
-ADD_SUBDIRECTORY(BranchSDK-Samples)
