@@ -60,7 +60,7 @@ class BranchioConan(ConanFile):
             cmake.configure(build_dir=".", defs={'BUILD_SHARED_LIBS': build_shared_libs, 'CMAKE_BUILD_TYPE': self.settings.build_type})
         if self.should_build:
             # conan build --build
-            # build everything for now, including examples
+            # build everything for now
             # we're probably about to run unit tests anyway
             cmake.build()
         if self.should_install:
