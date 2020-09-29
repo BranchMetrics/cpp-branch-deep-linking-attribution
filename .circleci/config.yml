@@ -101,11 +101,5 @@ jobs:
           command: |
             cd build/Debug && ctest -C Debug
             cd ../Release && ctest -C Release
-      - run:
-          name: run Debug hello sample
-          command: ./build/Debug/bin/hello ${BRANCH_KEY}
-      - run:
-          name: run Release example
-          command: echo "0" | ./build/Release/bin/example -k {BRANCH_KEY} -p
       - store_artifacts:
           path: ./BranchSDK/docs/nativesdk.tar
