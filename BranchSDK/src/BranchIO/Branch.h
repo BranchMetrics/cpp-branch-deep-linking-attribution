@@ -58,6 +58,7 @@ class BRANCHIO_DLL_EXPORT Branch {
 
     /**
      * Close a Branch Session.
+     * **Note:** This function is a no-op. There is no need to call it.
      * @param callback Callback to fire with success or failure notification.
      */
     virtual void closeSession(IRequestCallback *callback = nullptr);

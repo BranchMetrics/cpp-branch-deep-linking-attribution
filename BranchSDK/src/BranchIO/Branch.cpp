@@ -198,9 +198,11 @@ Branch::openSession(const String& linkUrl, IRequestCallback* callback) {
 
 void
 Branch::closeSession(IRequestCallback *callback) {
-    SessionCallback *sessionCallback = new SessionCallback(&_packagingInfo, callback);
-    SessionCloseEvent event;
-    sendEvent(event, sessionCallback);
+    if (!callback) return;
+
+    BRANCH_LOG_D("Branch::closeSession is a no-op. It is not necessary to call this function.");
+    callback->onStatus(0, 0, "Branch::closeSession is a no-op. It is not necessary to call this function.");
+    callback->onSuccess(0, JSONObject());
 }
 
 void
