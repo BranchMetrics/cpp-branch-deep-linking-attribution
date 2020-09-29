@@ -75,18 +75,6 @@ class BRANCHIO_DLL_EXPORT SessionViewEvent: public SessionEvent {
         SessionEvent(Defines::APIEndpoint::REGISTER_VIEW, "View") {}
 };
 
-/**
- * (Internal) Session Management Event -- Session Close
- */
-class BRANCHIO_DLL_EXPORT SessionCloseEvent: public SessionEvent {
- public:
-     /**
-      * Constructor.
-      */
-    explicit SessionCloseEvent() :
-        SessionEvent(Defines::APIEndpoint::REGISTER_CLOSE, "Close") {}
-};
-
 }  // namespace BranchIO
 
 #endif  // BRANCHIO_EVENT_SESSIONEVENT_H__
