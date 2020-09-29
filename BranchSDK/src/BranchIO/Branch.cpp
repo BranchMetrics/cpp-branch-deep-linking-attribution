@@ -95,12 +95,18 @@ class SessionCallback : public IRequestCallback {
         if (_parentCallback) {
             _parentCallback->onSuccess(id, jsonResponse);
         }
+
+        // Either onSuccess or onError is guaranteed to be called only once on request completion.
+        done();
     }
 
     virtual void onError(int id, int error, std::string description) {
         if (_parentCallback) {
             _parentCallback->onError(id, error, description);
         }
+
+        // Either onSuccess or onError is guaranteed to be called only once on request completion.
+        done();
     }
 
     virtual void onStatus(int id, int error, std::string description) {
@@ -110,6 +116,10 @@ class SessionCallback : public IRequestCallback {
     }
 
  private:
+    void done() {
+        delete this;
+    }
+
     IPackagingInfo *_context;
     IRequestCallback *_parentCallback;
 };
