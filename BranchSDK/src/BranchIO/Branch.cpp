@@ -125,13 +125,6 @@ class SessionCallback : public IRequestCallback {
 };
 
 Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
-    Branch *instance = nullptr;
-#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-    instance = new BranchUnix();
-#elif defined(_WIN64) || defined(_WIN32)
-    instance = new BranchWindows();
-#endif
-
     /*
      * For now, we should use user-level storage (~/.branchio on Unix,
      * HKEY_CURRENT_USER on Windows) to avoid permission issues. Some
@@ -157,6 +150,14 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
 
     auto utf8key(branchKey.str());
     storage.setPrefix(utf8key);
+
+    // Must initialize Branch object after prefix set.
+    Branch* instance = nullptr;
+#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+    instance = new BranchUnix();
+#elif defined(_WIN64) || defined(_WIN32)
+    instance = new BranchWindows();
+#endif
 
     // Set these on the current app
     if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisbled")) {
