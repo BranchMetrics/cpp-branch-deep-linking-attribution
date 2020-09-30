@@ -159,6 +159,14 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     instance = new BranchWindows();
 #endif
 
+    // Must initialize Branch object after prefix set.
+    Branch* instance = nullptr;
+#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+    instance = new BranchUnix();
+#elif defined(_WIN64) || defined(_WIN32)
+    instance = new BranchWindows();
+#endif
+
     // Set these on the current app
     if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisbled")) {
         storage.setBoolean("advertiser.trackingDisabled", isGlobalTrackingDisabled);
