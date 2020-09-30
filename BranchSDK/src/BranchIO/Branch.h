@@ -140,7 +140,19 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     void logout(IRequestCallback *callback);
 
+    /**
+     * Get the current developer identity as a UTF-8 string
+     * @return the current developer identity (blank if none)
+     */
     static std::string getIdentity();
+
+#ifdef WIN32
+    /**
+     * Get the current developer identity as a UTF-16 string
+     * @return the current developer identity (blank if none)
+     */
+    static std::wstring getIdentityW();
+#endif  // WIN32
 
  private:
     /**

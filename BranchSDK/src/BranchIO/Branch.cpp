@@ -250,6 +250,13 @@ Branch::getIdentity() {
     return Identity::get().str();
 }
 
+#ifdef WIN32
+std::wstring
+Branch::getIdentityW() {
+    return Identity::get().wstr();
+}
+#endif  // WIN32
+
 void
 Branch::stop() {
     getRequestManager()->stop();
