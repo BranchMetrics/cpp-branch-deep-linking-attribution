@@ -94,12 +94,18 @@ class SessionCallback : public IRequestCallback {
         if (_parentCallback) {
             _parentCallback->onSuccess(id, jsonResponse);
         }
+
+        // Either onSuccess or onError is guaranteed to be called only once on request completion.
+        done();
     }
 
     virtual void onError(int id, int error, std::string description) {
         if (_parentCallback) {
             _parentCallback->onError(id, error, description);
         }
+
+        // Either onSuccess or onError is guaranteed to be called only once on request completion.
+        done();
     }
 
     virtual void onStatus(int id, int error, std::string description) {
@@ -109,18 +115,15 @@ class SessionCallback : public IRequestCallback {
     }
 
  private:
+    void done() {
+        delete this;
+    }
+
     IPackagingInfo *_context;
     IRequestCallback *_parentCallback;
 };
 
 Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
-    Branch *instance = nullptr;
-#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-    instance = new BranchUnix();
-#elif defined(_WIN64) || defined(_WIN32)
-    instance = new BranchWindows();
-#endif
-
     /*
      * For now, we should use user-level storage (~/.branchio on Unix,
      * HKEY_CURRENT_USER on Windows) to avoid permission issues. Some
@@ -145,6 +148,14 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     storage.remove("session");
 
     storage.setPrefix(branchKey.str());
+
+    // Must initialize Branch object after prefix set.
+    Branch* instance = nullptr;
+#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
+    instance = new BranchUnix();
+#elif defined(_WIN64) || defined(_WIN32)
+    instance = new BranchWindows();
+#endif
 
     // Set these on the current app
     if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisbled")) {
