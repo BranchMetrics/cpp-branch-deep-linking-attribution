@@ -37,10 +37,6 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
         SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {
 
         IStorage& storage(Storage::instance());
-        if (storage.has("session.session_id")) {
-            addEventProperty(Defines::JSONKEY_SESSION_ID, storage.getString("session.session_id"));
-        }
-
         if (storage.has("session.identity_id")) {
             addEventProperty(Defines::JSONKEY_SESSION_IDENTITY, storage.getString("session.identity_id"));
         }

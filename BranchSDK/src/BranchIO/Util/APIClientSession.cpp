@@ -146,11 +146,6 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
             URI uri(request.getURI());
             string path(uri.getPath());
 
-            if (responseBody.has(Defines::JSONKEY_SESSION_ID)) {
-                string sessionId(responseBody.get(Defines::JSONKEY_SESSION_ID).toString());
-                Storage::instance().setString("session.session_id", sessionId);
-            }
-
             if (responseBody.has(Defines::JSONKEY_SESSION_IDENTITY)) {
                 string identityId(responseBody.get(Defines::JSONKEY_SESSION_IDENTITY).toString());
                 Storage::instance().setString("session.identity_id", identityId);
