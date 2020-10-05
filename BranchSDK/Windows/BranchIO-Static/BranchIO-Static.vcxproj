@@ -55,7 +55,6 @@
     <ClInclude Include="..\..\src\BranchIO\Util\UnixStorage.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\WindowsStorage.h" />
     <ClInclude Include="..\..\src\BranchIO\Version.h" />
-    <ClInclude Include="..\..\src\BranchIO\Util\Identity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\BranchIO\AdvertiserInfo.cpp" />
@@ -81,7 +80,6 @@
     <ClCompile Include="..\..\src\BranchIO\Util\Sleeper.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\UnixStorage.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\WindowsStorage.cpp" />
-    <ClCompile Include="..\..\src\BranchIO\Util\Identity.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

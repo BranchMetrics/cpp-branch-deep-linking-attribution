@@ -9,7 +9,6 @@
 #include "BranchIO/Event/IdentityEvent.h"
 #include "BranchIO/Event/SessionEvent.h"
 #include "BranchIO/IRequestCallback.h"
-#include "BranchIO/Util/Identity.h"
 #include "BranchIO/Util/Log.h"
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/Util/Storage.h"
@@ -248,13 +247,13 @@ Branch::logout(IRequestCallback *callback) {
 
 std::string
 Branch::getIdentity() {
-    return Identity::get().str();
+    return Storage::instance().getString("session.identity");
 }
 
 #ifdef WIN32
 std::wstring
 Branch::getIdentityW() {
-    return Identity::get().wstr();
+    return String(getIdentity()).wstr();
 }
 #endif  // WIN32
 

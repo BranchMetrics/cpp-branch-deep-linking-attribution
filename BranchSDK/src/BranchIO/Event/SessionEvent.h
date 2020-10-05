@@ -6,7 +6,6 @@
 #include <string>
 
 #include "BranchIO/Event/Event.h"
-#include "BranchIO/Util/Identity.h"
 #include "BranchIO/Util/Storage.h"
 #include "BranchIO/JSONObject.h"
 
@@ -36,15 +35,12 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
      */
     SessionOpenEvent() :
         SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {
-        std::string identity(Identity::get().str());
-        if (!identity.empty()) {
-            addEventProperty(Defines::JSONKEY_APP_IDENTITY, identity);
-        }
 
         IStorage& storage(Storage::instance());
         if (storage.has("session.session_id")) {
             addEventProperty(Defines::JSONKEY_SESSION_ID, storage.getString("session.session_id"));
         }
+
         if (storage.has("session.identity_id")) {
             addEventProperty(Defines::JSONKEY_SESSION_IDENTITY, storage.getString("session.identity_id"));
         }
