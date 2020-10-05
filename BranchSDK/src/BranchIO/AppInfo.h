@@ -46,11 +46,12 @@ class BRANCHIO_DLL_EXPORT AppInfo : public PropertyManager {
     /**
      * Set the Developer Identity.
      * **Deprecated**: Please use Branch::setIdentity instead.
-     * @param identity Unique User id.  Example: "steve"
+     * @param identity Unique User id.  Example: "12345"
      * @return This object for chaining builder methods
      */
     AppInfo& setDeveloperIdentity(const String& identity);
-#pragma deprecated(setDeveloperIdentity)
+// for now, avoid causing build failures
+// #pragma deprecated(setDeveloperIdentity)
 
     /**
      * Set the Display information.
