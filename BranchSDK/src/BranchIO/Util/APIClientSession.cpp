@@ -165,10 +165,6 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
                 BRANCH_LOG_D("Successful logout request");
                 Storage::instance().remove("session.identity");
             }
-            else if (path == "/v1/close") {
-                BRANCH_LOG_D("Successful close request");
-                Storage::instance().remove("session.session_id");
-            }
 
             callback.onSuccess(0, responseBody);
 
