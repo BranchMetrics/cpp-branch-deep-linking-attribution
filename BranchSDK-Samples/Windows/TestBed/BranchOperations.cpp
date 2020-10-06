@@ -419,3 +419,9 @@ BranchOperations::toggleTracking()
         outputTextField->appendText(L"Tracking disabled");
     }
 }
+
+std::wstring
+BranchOperations::getIdentity()
+{
+    return branch->getIdentityW();
+}

@@ -30,6 +30,7 @@ struct BranchOperations
 	static BranchIO::JSONObject getOpenResponse();
 	static std::wstring getTrackingButtonLabel();
 	static void toggleTracking();
+	static std::wstring getIdentity();
 
 	static BranchIO::Branch* branch;
 	static TextField* outputTextField;
