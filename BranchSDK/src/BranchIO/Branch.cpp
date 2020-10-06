@@ -232,6 +232,24 @@ void
 Branch::setIdentity(const String& userId, IRequestCallback* callback) {
     if (getSessionInfo().hasSessionId()) {
         IdentityLoginEvent event(userId.str());
+        event.setResultHandler([this, userId](const JSONObject& result) {
+            /*
+             * Note that setIdentity just generates an error via sendEvent below
+             * if tracking is disabled. This callback is only invoked on successful
+             * completion of the request.
+             */
+            IStorage& storage(Storage::instance());
+            storage.setString("session.identity", userId.str());
+            if (result.has(Defines::JSONKEY_SESSION_ID)) {
+                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                getSessionInfo().setSessionId(sessionId);
+            }
+            if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
+                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
+                getSessionInfo().setIdentityId(identityId);
+                storage.setString("session.identity_id", identityId);
+            }
+        });
         sendEvent(event, callback);
     } else {
         if (callback) {
@@ -244,6 +262,19 @@ void
 Branch::logout(IRequestCallback *callback) {
     if (getSessionInfo().hasSessionId()) {
         IdentityLogoutEvent event;
+        event.setResultHandler([this](const JSONObject& result) {
+            IStorage& storage(Storage::instance());
+            storage.remove("session.identity");
+            if (result.has(Defines::JSONKEY_SESSION_ID)) {
+                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                getSessionInfo().setSessionId(sessionId);
+            }
+            if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
+                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
+                getSessionInfo().setIdentityId(identityId);
+                storage.setString("session.identity_id", identityId);
+            }
+        });
         sendEvent(event, callback);
     } else {
         if (callback) {
