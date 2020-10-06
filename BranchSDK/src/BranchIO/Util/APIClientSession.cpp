@@ -138,12 +138,11 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
     // @todo(jdee): Fine-tune this success-failure determination
     if (status == HTTPResponse::HTTP_OK) {
         try {
-            JSONObject responseBody = JSONObject::parse(rs);
-            result = responseBody;
+            result = JSONObject::parse(rs);
 
-            BRANCH_LOG_V("Response body: " << responseBody.stringify());
+            BRANCH_LOG_V("Response body: " << result.stringify());
 
-            callback.onSuccess(0, responseBody);
+            callback.onSuccess(0, result);
 
             return true;
         } catch (Poco::JSON::JSONException&) {
