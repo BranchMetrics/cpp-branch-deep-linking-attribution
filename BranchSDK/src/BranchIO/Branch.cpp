@@ -4,6 +4,8 @@
 
 #include <string>
 
+using namespace std;
+
 #include "BranchIO/DeviceInfo.h"
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/Event/IdentityEvent.h"
@@ -69,8 +71,11 @@ class SessionCallback : public IRequestCallback {
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
                 if (!_context->getAdvertiserInfo().isTrackingDisabled()) {
-                    if (jsonResponse.has(Defines::JSONKEY_SESSION_FINGERPRINT))
-                        _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
+                    if (jsonResponse.has(Defines::JSONKEY_SESSION_FINGERPRINT)) {
+                        static const char* const key = Defines::JSONKEY_SESSION_FINGERPRINT;
+                        string deviceFingerprintId(jsonResponse.get(key).toString());
+                        _context->getSessionInfo().setFingerprintId(deviceFingerprintId);
+                    }
                     if (jsonResponse.has(Defines::JSONKEY_SESSION_IDENTITY))
                         _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
                 }
@@ -80,7 +85,7 @@ class SessionCallback : public IRequestCallback {
             // Data comes back as String-encoded JSON...  let's fix that up
             if (jsonResponse.has("data")) {
                 try {
-                    std::string stringData = jsonResponse.get("data");
+                    string stringData = jsonResponse.get("data");
                     JSONObject jsonData = JSONObject::parse(stringData);
                     jsonResponse.set("data", jsonData);
                 }
@@ -101,7 +106,7 @@ class SessionCallback : public IRequestCallback {
         done();
     }
 
-    virtual void onError(int id, int error, std::string description) {
+    virtual void onError(int id, int error, string description) {
         if (_parentCallback) {
             _parentCallback->onError(id, error, description);
         }
@@ -110,7 +115,7 @@ class SessionCallback : public IRequestCallback {
         done();
     }
 
-    virtual void onStatus(int id, int error, std::string description) {
+    virtual void onStatus(int id, int error, string description) {
         if (_parentCallback) {
             _parentCallback->onStatus(id, error, description);
         }
@@ -247,13 +252,13 @@ Branch::logout(IRequestCallback *callback) {
     }
 }
 
-std::string
+string
 Branch::getIdentity() {
     return Storage::instance().getString("session.identity");
 }
 
 #ifdef WIN32
-std::wstring
+wstring
 Branch::getIdentityW() {
     return String(getIdentity()).wstr();
 }
@@ -305,23 +310,23 @@ Branch::getRequestManager() const {
     return _requestManager;
 }
 
-std::string
+string
 Branch::getBranchKey() const {
     Poco::Mutex::ScopedLock _l(_mutex);
     return _packagingInfo.getBranchKey();
 }
 
-std::string Branch::getVersion() {
+string Branch::getVersion() {
     return VER_FILE_VERSION_STR;
 }
 
 #ifdef WIN32
 
-std::wstring Branch::getVersionW() {
+wstring Branch::getVersionW() {
     return String(getVersion()).wstr();
 }
 
-std::wstring Branch::getBranchKeyW() const {
+wstring Branch::getBranchKeyW() const {
     return String(getBranchKey()).wstr();
 }
 

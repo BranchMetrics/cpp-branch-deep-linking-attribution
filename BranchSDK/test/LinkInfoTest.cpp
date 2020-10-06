@@ -110,7 +110,7 @@ TEST_F(LinkInfoTest, CreateUrl) {
     LinkInfo info;
     info.setClientSession(&mClientSession);
 
-    EXPECT_CALL(mClientSession, post("/v1/url", _, _)).Times(1).WillOnce(Return(true));
+    EXPECT_CALL(mClientSession, post("/v1/url", _, _, _)).Times(1).WillOnce(Return(true));
 
     info.createUrl(mBranch, &mCallback);
 }
@@ -121,7 +121,7 @@ TEST_F(LinkInfoTest, FallbackToLongUrl) {
      */
     struct FailingClientSession : public virtual IClientSession {
         void stop() {}
-        bool post(const string& path, const JSONObject& payload, IRequestCallback& callback) {
+        bool post(const string& path, const JSONObject& payload, IRequestCallback& callback, JSONObject& result) {
             callback.onError(0, 0, "something happened");
             return true;
         }
