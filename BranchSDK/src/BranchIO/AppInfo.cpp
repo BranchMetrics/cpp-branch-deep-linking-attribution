@@ -29,7 +29,6 @@ AppInfo::setAppVersion(const String& appVersion) {
 AppInfo&
 AppInfo::setDeveloperIdentity(const String& identity) {
     BRANCH_LOG_W("AppInfo::setDeveloperIdentity is deprecated. Please use Branch::setIdentity instead.");
-    return doAddProperty(Defines::JSONKEY_APP_DEVELOPER_IDENTITY, identity.str());
 }
 #pragma warning(default: 4995)
 
