@@ -18,7 +18,6 @@
 #include "BranchIO/Defines.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Log.h"
-#include "BranchIO/Util/Storage.h"
 
 using namespace std;
 using namespace Poco;
