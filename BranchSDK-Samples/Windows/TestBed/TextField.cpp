@@ -50,6 +50,7 @@ TextField::setText(const std::wstring& text)
 	// May not have been created yet in some cases.
 	if (!hwnd) return;
 	Edit_SetText(hwnd, text.c_str());
+	SendMessage(hwnd, WM_VSCROLL, SB_BOTTOM, 0);
 }
 
 std::wstring
