@@ -433,7 +433,8 @@ BranchOperations::getSessionInfo()
     // Branch::getSessionInfo() const returns const SessionInfo&.
     // The first is protected. The second is public. To access it, have to cast to
     // const Branch*.
-    auto const& sessionInfo = static_cast<const Branch*>(branch)->getSessionInfo();
+    const Branch* cBranch(branch);
+    auto const& sessionInfo = cBranch->getSessionInfo();
 
     wstring result(L"Session Info:\r\n");
     String deviceFingerprintId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_FINGERPRINT));
