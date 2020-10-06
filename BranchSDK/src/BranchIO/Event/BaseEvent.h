@@ -77,12 +77,10 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
     /**
      * Invoke the result handler for this event
      * @param result the result to pass to the handler
-     * @return *this
      */
-    BaseEvent& handleResult(const JSONObject& result) {
+    void handleResult(const JSONObject& result) const {
         Poco::Mutex::ScopedLock _l(mMutex);
         mResultHandler(result);
-        return *this;
     }
 
  protected:
