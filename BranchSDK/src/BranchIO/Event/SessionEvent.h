@@ -6,8 +6,6 @@
 #include <string>
 
 #include "BranchIO/Event/Event.h"
-#include "BranchIO/Util/Storage.h"
-#include "BranchIO/JSONObject.h"
 
 namespace BranchIO {
 
@@ -35,11 +33,6 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
      */
     SessionOpenEvent() :
         SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {
-
-        IStorage& storage(Storage::instance());
-        if (storage.has("session.identity_id")) {
-            addEventProperty(Defines::JSONKEY_SESSION_IDENTITY, storage.getString("session.identity_id"));
-        }
     }
 
     /**

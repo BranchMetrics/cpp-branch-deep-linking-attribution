@@ -91,6 +91,10 @@ BaseEvent::packageV1Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject)
     jsonObject += packagingInfo.getDeviceInfo().toJSON();
     jsonObject += packagingInfo.getAppInfo().toJSON();
 
+    if (getAPIEndpoint() == Defines::APIEndpoint::REGISTER_OPEN && jsonObject.has(Defines::JSONKEY_SESSION_ID)) {
+        jsonObject.remove(Defines::JSONKEY_SESSION_ID);
+    }
+
     // Ad Tracking Limited
     jsonObject.set(Defines::JSONKEY_APP_LAT_V1, (packagingInfo.getAdvertiserInfo().isTrackingLimited() ? 1 : 0));
 }

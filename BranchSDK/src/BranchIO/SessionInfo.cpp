@@ -2,6 +2,7 @@
 
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/Defines.h"
+#include "BranchIO/Util/Log.h"
 #include "BranchIO/Util/Storage.h"
 
 using std::string;
@@ -12,9 +13,15 @@ SessionInfo::SessionInfo() {
     // Load these fields from storage if present.
     std::string deviceFingerprint =
             Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT));
+    std::string identityId =
+            Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_IDENTITY));
 
     if (!deviceFingerprint.empty()) {
         doAddProperty(Defines::JSONKEY_SESSION_FINGERPRINT, deviceFingerprint);
+    }
+
+    if (!identityId.empty()) {
+        doAddProperty(Defines::JSONKEY_SESSION_IDENTITY, identityId);
     }
 }
 

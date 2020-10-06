@@ -146,6 +146,15 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
             URI uri(request.getURI());
             string path(uri.getPath());
 
+            if (responseBody.has(Defines::JSONKEY_SESSION_ID)) {
+                string sessionId(responseBody.get(Defines::JSONKEY_SESSION_ID).toString());
+                // @todo(jdee): Get this back to the Branch/SessionInfo objects for non-open events.
+                // This also changes with login/logout events.
+            }
+
+            /*
+             * @todo(jdee): Verify if we get these when tracking disabled and filter if necessary.
+             */
             if (responseBody.has(Defines::JSONKEY_SESSION_IDENTITY)) {
                 string identityId(responseBody.get(Defines::JSONKEY_SESSION_IDENTITY).toString());
                 Storage::instance().setString("session.identity_id", identityId);
@@ -153,8 +162,10 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
 
             if (path == "/v1/profile") {
                 BRANCH_LOG_D("Successful login request");
-                string identity(requestBody.get(Defines::JSONKEY_APP_IDENTITY).toString());
-                Storage::instance().setString("session.identity", identity);
+;               if (requestBody.has(Defines::JSONKEY_APP_IDENTITY)) {
+                    string identity(requestBody.get(Defines::JSONKEY_APP_IDENTITY).toString());
+                    Storage::instance().setString("session.identity", identity);
+                }
             }
             else if (path == "/v1/logout") {
                 BRANCH_LOG_D("Successful logout request");
