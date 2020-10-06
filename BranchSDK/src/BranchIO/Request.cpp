@@ -19,7 +19,7 @@ int32_t const Request::MaxBackoffMillis = 120000;
 
 Request::Request() : _attemptCount(0), _canceled(false) { }
 
-void Request::send(
+JSONObject Request::send(
     Defines::APIEndpoint api,
     const JSONObject& jsonPayload,
     IRequestCallback &callback,
@@ -31,9 +31,10 @@ void Request::send(
         path = "/";
     }
 
+    JSONObject result;
     while (!isCanceled() && getAttemptCount() < MaxAttemptCount) {
         // POST the request
-        if (clientSession->post(path, jsonPayload, callback)) {
+        if (clientSession->post(path, jsonPayload, callback, result)) {
             break;
         }
 
@@ -53,7 +54,7 @@ void Request::send(
     if (getAttemptCount() >= MaxAttemptCount) {
         BRANCH_LOG_E("Maximum number of retries reached.");
         callback.onError(0, 0, "Maximum number of retries reached.");
-        return;
+        return result;
     }
 
     if (isCanceled()) {
@@ -61,10 +62,11 @@ void Request::send(
         // Don't call the user's error callback after cancellation.
         // @todo(jdee): Review this.
         callback.onStatus(0, 0, "Request canceled");
-        return;
+        return result;
     }
 
     BRANCH_LOG_V("POST Success");
+    return result;
 }
 
 void

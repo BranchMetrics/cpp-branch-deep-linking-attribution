@@ -361,9 +361,10 @@ LinkInfo::run() {
 
         auto clientSession = getClientSession();
         // 2. POST & call back
+        JSONObject result;
         if (clientSession) {
             // Use in unit tests.
-            clientSession->post("/v1/url", payload, *this);
+            clientSession->post("/v1/url", payload, *this, result);
         } else {
             APIClientSession apiClientSession(BRANCH_IO_URL_BASE);
 
@@ -373,7 +374,7 @@ LinkInfo::run() {
             // synchronous call but calls callback. blocks till callback invoked.
             setClientSession(&apiClientSession);
             // blocking socket write & read
-            apiClientSession.post("/v1/url", payload, *this);
+            apiClientSession.post("/v1/url", payload, *this, result);
             setClientSession(nullptr);
         }
     }

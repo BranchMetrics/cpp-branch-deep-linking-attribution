@@ -165,14 +165,17 @@ RequestManager::RequestTask::runTask() {
     // Send request synchronously
     // _clientSession may be passed in for testing. If not, we
     // create a real one here
+    JSONObject result;
     if (_manager.getClientSession()) {
-        _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
+        result = _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
     } else {
         APIClientSession clientSession(BRANCH_IO_URL_BASE);
         _manager.setClientSession(&clientSession);
-        _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
+        result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
         _manager.setClientSession(nullptr);
     }
+
+    _event.handleResult(result);
 }
 
 }  // namespace BranchIO

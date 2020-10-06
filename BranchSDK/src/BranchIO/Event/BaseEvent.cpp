@@ -23,7 +23,8 @@ static const char *JSONKEY_ADVERTISING_IDS = "advertising_ids";
 
 BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, JSONObject::Ptr jsonPtr) :
     mAPIEndpoint(apiEndpoint),
-    mEventName(eventName.str()) {
+    mEventName(eventName.str()),
+    mResultHandler([](const JSONObject&) {}) {
 
     if (jsonPtr.get()) {
         // Copy the key/values
@@ -37,7 +38,8 @@ BaseEvent::BaseEvent(const BaseEvent &other) :
     PropertyManager(other),
     mAPIEndpoint(other.mAPIEndpoint),
     mEventName(other.mEventName),
-    mCustomData(other.mCustomData) {
+    mCustomData(other.mCustomData),
+    mResultHandler(other.mResultHandler) {
 }
 
 BaseEvent::~BaseEvent() = default;
