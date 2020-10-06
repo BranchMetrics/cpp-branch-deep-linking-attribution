@@ -425,3 +425,24 @@ BranchOperations::getIdentity()
 {
     return branch->getIdentityW();
 }
+
+std::wstring
+BranchOperations::getSessionInfo()
+{
+    // Branch::getSessionInfo() returns SessionInfo&.
+    // Branch::getSessionInfo() const returns const SessionInfo&.
+    // The first is protected. The second is public. To access it, have to cast to
+    // const Branch*.
+    auto const& sessionInfo = static_cast<const Branch*>(branch)->getSessionInfo();
+
+    wstring result(L"Session Info:\r\n");
+    String deviceFingerprintId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_FINGERPRINT));
+    String identityId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_IDENTITY));
+    String sessionId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_ID));
+
+    result += L" Device Fingerprint ID: " + deviceFingerprintId.wstr() + L"\r\n";
+    result += L" Identity ID: " + identityId.wstr() + L"\r\n";
+    result += L" Session ID: " + sessionId.wstr() + L"\r\n";
+
+    return result;
+}
