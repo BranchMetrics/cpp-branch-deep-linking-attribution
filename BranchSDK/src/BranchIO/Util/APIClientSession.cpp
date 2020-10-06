@@ -103,7 +103,7 @@ APIClientSession::post(
         BRANCH_LOG_D("Request sent. Waiting for response.");
 
         /* ----- Wait for the response ----- */
-        return processResponse(request, jsonPayload, callback, result);
+        return processResponse(callback, result);
     }
     catch (const Poco::Exception& e) {
         if (isShuttingDown()) return false;
@@ -126,7 +126,7 @@ APIClientSession::sendRequest(Poco::Net::HTTPRequest& request, const std::string
 }
 
 bool
-APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const JSONObject& requestBody, IRequestCallback& callback, JSONObject& result) {
+APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result) {
     HTTPResponse response;
     // blocking socket read
     istream& rs = receiveResponse(response);
@@ -140,12 +140,6 @@ APIClientSession::processResponse(Poco::Net::HTTPRequest const& request, const J
         try {
             JSONObject responseBody = JSONObject::parse(rs);
             result = responseBody;
-
-            // @todo(jdee): Rethink this whole event structure. Would be
-            // better to put all this in the relevant event classes,
-            // which don't live this long.
-            URI uri(request.getURI());
-            string path(uri.getPath());
 
             BRANCH_LOG_V("Response body: " << responseBody.stringify());
 

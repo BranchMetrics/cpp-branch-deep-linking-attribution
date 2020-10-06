@@ -79,7 +79,7 @@ class APIClientSession
      * @param callback callback for the response/error
      * @return true on success, false otherwise
      */
-    bool processResponse(Poco::Net::HTTPRequest const& request, const JSONObject& requestBody, IRequestCallback& callback, JSONObject& result);
+    bool processResponse(IRequestCallback& callback, JSONObject& result);
 
  private:
     mutable Poco::Mutex _mutex;
