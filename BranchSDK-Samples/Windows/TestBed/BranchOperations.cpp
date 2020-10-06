@@ -24,11 +24,11 @@ BranchOperations::setupSDKLogging()
 {
     // Note: Debug and Verbose levels compiled out in Release builds
     Log::setLevel(Log::Verbose);
-    const char* appDataPath = getenv("AppData");
+    const char* appDataPath = getenv("LocalAppData");
     string branchLogFilePath;
     if (appDataPath) {
         /*
-         * By default, put log file in %AppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Roaming\Branch\TestBed
+         * By default, put log file in %LocalAppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Local\Branch\TestBed
          */
         branchLogFilePath = appDataPath;
         branchLogFilePath += "\\Branch";
@@ -40,7 +40,7 @@ BranchOperations::setupSDKLogging()
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
     }
     else {
-        // If the %AppData% env. var. is not set for some reason, use the cwd.
+        // If the %LocalAppData% env. var. is not set for some reason, use the cwd.
         branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
     }
 
