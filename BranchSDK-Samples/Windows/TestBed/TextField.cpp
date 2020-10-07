@@ -1,5 +1,6 @@
 #include "TextField.h"
 
+#include <cassert>
 #include <vector>
 
 #include "Windowsx.h"
@@ -65,9 +66,18 @@ TextField::getText() const
 }
 
 void
-TextField::appendText(const std::wstring& text)
+TextField::appendText(const std::wstring& text, size_t maxLength)
 {
 	// Prevent multiple threads from clobbering the text area at the same time.
 	ScopeLock l(m_lock);
-	setText(getText() + L"\r\n" + text);
+	wstring newText = getText() + L"\r\n" + text;
+	// Limit text length
+	const wstring::size_type total = newText.length();
+	const int offset = total - maxLength;
+	if (offset > 0)
+	{
+		newText = newText.substr(offset, maxLength - 1);
+	}
+	assert(newText.length() <= maxLength);
+	setText(newText);
 }
