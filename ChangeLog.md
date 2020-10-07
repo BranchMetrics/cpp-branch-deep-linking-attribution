@@ -8,6 +8,12 @@
 
   This release includes no breaking API changes.
 
+  Deep linking was incorrectly disabled in previous releases when tracking is
+  disabled. In this release, open events will be sent to the server without any
+  identifiable fields. The response will be received normally by the caller.
+  Only opening links and generating short URLs will work with tracking disabled.
+  All other Branch functionality will return errors.
+
   The `Branch::closeSession` method no longer does anything of value and may be
   removed. Session closes are automatically inferred by the server.
 
