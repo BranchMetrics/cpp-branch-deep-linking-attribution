@@ -3,6 +3,7 @@
 #ifndef BRANCHIO_EVENT_BASEEVENT_H_
 #define BRANCHIO_EVENT_BASEEVENT_H_
 
+#include <functional>
 #include <string>
 #include "BranchIO/Defines.h"
 #include "BranchIO/fwd.h"
@@ -61,6 +62,27 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      */
     virtual void package(IPackagingInfo &packagingInfo, JSONObject &jsonPackage) const;
 
+    /**
+     * Set an optional function to be invoked on successful completion of the event. Defaults
+     * to a no-op.
+     * @param resultHandler a function accepting a reference to a const JSONObject, which will receive the result
+     * @return *this
+     */
+    BaseEvent& setResultHandler(const std::function<void(const JSONObject&)>& resultHandler) {
+        Poco::Mutex::ScopedLock _l(mMutex);
+        mResultHandler = resultHandler;
+        return *this;
+    }
+
+    /**
+     * Invoke the result handler for this event
+     * @param result the result to pass to the handler
+     */
+    void handleResult(const JSONObject& result) const {
+        Poco::Mutex::ScopedLock _l(mMutex);
+        mResultHandler(result);
+    }
+
  protected:
     /**
      * Constructor
@@ -104,6 +126,9 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
 
     // Custom Data is rendered as a sibling to the event data
     JSONObject mCustomData;
+
+    // Result callback
+    std::function<void(const JSONObject&)> mResultHandler;
 };
 
 }  // namespace BranchIO

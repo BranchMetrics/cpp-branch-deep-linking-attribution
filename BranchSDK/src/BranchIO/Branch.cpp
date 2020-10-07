@@ -4,6 +4,8 @@
 
 #include <string>
 
+using namespace std;
+
 #include "BranchIO/DeviceInfo.h"
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/Event/IdentityEvent.h"
@@ -69,8 +71,13 @@ class SessionCallback : public IRequestCallback {
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
                 if (!_context->getAdvertiserInfo().isTrackingDisabled()) {
-                    _context->getSessionInfo().setFingerprintId(jsonResponse.get(Defines::JSONKEY_SESSION_FINGERPRINT));
-                    _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+                    if (jsonResponse.has(Defines::JSONKEY_SESSION_FINGERPRINT)) {
+                        static const char* const key = Defines::JSONKEY_SESSION_FINGERPRINT;
+                        string deviceFingerprintId(jsonResponse.get(key).toString());
+                        _context->getSessionInfo().setFingerprintId(deviceFingerprintId);
+                    }
+                    if (jsonResponse.has(Defines::JSONKEY_SESSION_IDENTITY))
+                        _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
                 }
                 _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
             }
@@ -78,7 +85,7 @@ class SessionCallback : public IRequestCallback {
             // Data comes back as String-encoded JSON...  let's fix that up
             if (jsonResponse.has("data")) {
                 try {
-                    std::string stringData = jsonResponse.get("data");
+                    string stringData = jsonResponse.get("data");
                     JSONObject jsonData = JSONObject::parse(stringData);
                     jsonResponse.set("data", jsonData);
                 }
@@ -99,7 +106,7 @@ class SessionCallback : public IRequestCallback {
         done();
     }
 
-    virtual void onError(int id, int error, std::string description) {
+    virtual void onError(int id, int error, string description) {
         if (_parentCallback) {
             _parentCallback->onError(id, error, description);
         }
@@ -108,7 +115,7 @@ class SessionCallback : public IRequestCallback {
         done();
     }
 
-    virtual void onStatus(int id, int error, std::string description) {
+    virtual void onStatus(int id, int error, string description) {
         if (_parentCallback) {
             _parentCallback->onStatus(id, error, description);
         }
@@ -147,7 +154,8 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     storage.remove("advertiser");
     storage.remove("session");
 
-    storage.setPrefix(branchKey.str());
+    auto utf8key(branchKey.str());
+    storage.setPrefix(utf8key);
 
     // Must initialize Branch object after prefix set.
     Branch* instance = nullptr;
@@ -165,13 +173,11 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
         storage.setString("session.device_fingerprint_id", globalDeviceFingerprintId);
     }
 
-    // operator new does not return NULL. It throws std::bad_alloc in case of
-    // failure. no need to check this pointer.
     if (pInfo) {
         instance->_packagingInfo.getAppInfo().addProperties(pInfo->toJSON());
     }
 
-    instance->_packagingInfo.setBranchKey(branchKey.str());
+    instance->_packagingInfo.setBranchKey(utf8key);
 
     instance->_requestManager = new RequestManager(instance->_packagingInfo);
     instance->_requestManager->start();
@@ -199,9 +205,12 @@ Branch::openSession(const String& linkUrl, IRequestCallback* callback) {
 
 void
 Branch::closeSession(IRequestCallback *callback) {
-    SessionCallback *sessionCallback = new SessionCallback(&_packagingInfo, callback);
-    SessionCloseEvent event;
-    sendEvent(event, sessionCallback);
+    BRANCH_LOG_D("Branch::closeSession is a no-op. It is not necessary to call this function.");
+
+    if (!callback) return;
+
+    callback->onStatus(0, 0, "Branch::closeSession is a no-op. It is not necessary to call this function.");
+    callback->onSuccess(0, JSONObject());
 }
 
 void
@@ -223,6 +232,24 @@ void
 Branch::setIdentity(const String& userId, IRequestCallback* callback) {
     if (getSessionInfo().hasSessionId()) {
         IdentityLoginEvent event(userId.str());
+        event.setResultHandler([this, userId](const JSONObject& result) {
+            /*
+             * Note that setIdentity just generates an error via sendEvent below
+             * if tracking is disabled. This callback is only invoked on successful
+             * completion of the request.
+             */
+            IStorage& storage(Storage::instance());
+            storage.setString("session.identity", userId.str());
+            if (result.has(Defines::JSONKEY_SESSION_ID)) {
+                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                getSessionInfo().setSessionId(sessionId);
+            }
+            if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
+                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
+                getSessionInfo().setIdentityId(identityId);
+                storage.setString("session.identity_id", identityId);
+            }
+        });
         sendEvent(event, callback);
     } else {
         if (callback) {
@@ -235,6 +262,19 @@ void
 Branch::logout(IRequestCallback *callback) {
     if (getSessionInfo().hasSessionId()) {
         IdentityLogoutEvent event;
+        event.setResultHandler([this](const JSONObject& result) {
+            IStorage& storage(Storage::instance());
+            storage.remove("session.identity");
+            if (result.has(Defines::JSONKEY_SESSION_ID)) {
+                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                getSessionInfo().setSessionId(sessionId);
+            }
+            if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
+                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
+                getSessionInfo().setIdentityId(identityId);
+                storage.setString("session.identity_id", identityId);
+            }
+        });
         sendEvent(event, callback);
     } else {
         if (callback) {
@@ -242,6 +282,18 @@ Branch::logout(IRequestCallback *callback) {
         }
     }
 }
+
+string
+Branch::getIdentity() {
+    return Storage::instance().getString("session.identity");
+}
+
+#ifdef WIN32
+wstring
+Branch::getIdentityW() {
+    return String(getIdentity()).wstr();
+}
+#endif  // WIN32
 
 void
 Branch::stop() {
@@ -289,23 +341,23 @@ Branch::getRequestManager() const {
     return _requestManager;
 }
 
-std::string
+string
 Branch::getBranchKey() const {
     Poco::Mutex::ScopedLock _l(_mutex);
     return _packagingInfo.getBranchKey();
 }
 
-std::string Branch::getVersion() {
+string Branch::getVersion() {
     return VER_FILE_VERSION_STR;
 }
 
 #ifdef WIN32
 
-std::wstring Branch::getVersionW() {
+wstring Branch::getVersionW() {
     return String(getVersion()).wstr();
 }
 
-std::wstring Branch::getBranchKeyW() const {
+wstring Branch::getBranchKeyW() const {
     return String(getBranchKey()).wstr();
 }
 

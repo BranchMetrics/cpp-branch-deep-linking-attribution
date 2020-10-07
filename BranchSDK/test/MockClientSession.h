@@ -8,7 +8,7 @@
 struct MockClientSession : public virtual BranchIO::IClientSession
 {
     void stop() {}
-    MOCK_METHOD3(post, bool(const std::string&, const BranchIO::JSONObject&, BranchIO::IRequestCallback&));
+    MOCK_METHOD4(post, bool(const std::string&, const BranchIO::JSONObject&, BranchIO::IRequestCallback&, BranchIO::JSONObject&));
 };
 
 #endif // __MOCK_CLIENT_SESSION_H__

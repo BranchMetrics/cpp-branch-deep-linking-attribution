@@ -26,12 +26,14 @@ struct IClientSession {
      * @param path API Endpoint
      * @param jsonPayload JSON Payload to send
      * @param callback Interface for success and failure response.
+     * @param result On success, the response body is stored here.
      * @return true if successful
      */
     virtual bool post(
         const std::string& path,
         const JSONObject& jsonPayload,
-        IRequestCallback& callback) = 0;
+        IRequestCallback& callback,
+        JSONObject& result) = 0;
 };
 
 }  // namespace BranchIO

@@ -24,11 +24,11 @@ BranchOperations::setupSDKLogging()
 {
     // Note: Debug and Verbose levels compiled out in Release builds
     Log::setLevel(Log::Verbose);
-    const char* appDataPath = getenv("AppData");
+    const char* appDataPath = getenv("LocalAppData");
     string branchLogFilePath;
     if (appDataPath) {
         /*
-         * By default, put log file in %AppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Roaming\Branch\TestBed
+         * By default, put log file in %LocalAppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Local\Branch\TestBed
          */
         branchLogFilePath = appDataPath;
         branchLogFilePath += "\\Branch";
@@ -40,7 +40,7 @@ BranchOperations::setupSDKLogging()
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
     }
     else {
-        // If the %AppData% env. var. is not set for some reason, use the cwd.
+        // If the %LocalAppData% env. var. is not set for some reason, use the cwd.
         branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
     }
 
@@ -108,8 +108,6 @@ BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textFiel
     // Now initialize the SDK
     AppInfo appInfo;
     appInfo.setAppVersion("1.0");
-    // TODO: Sort this out.
-    appInfo.setDeveloperIdentity("abc");
 
     branch = Branch::create(BRANCH_KEY, &appInfo);
 
@@ -420,4 +418,45 @@ BranchOperations::toggleTracking()
         branch->getAdvertiserInfo().disableTracking();
         outputTextField->appendText(L"Tracking disabled");
     }
+}
+
+std::wstring
+BranchOperations::getIdentity()
+{
+    return branch->getIdentityW();
+}
+
+std::wstring
+BranchOperations::getSessionInfo()
+{
+    // Branch::getSessionInfo() returns SessionInfo&.
+    // Branch::getSessionInfo() const returns const SessionInfo&.
+    // The first is protected. The second is public. To access it, have to cast to
+    // const Branch*.
+    const Branch* cBranch(branch);
+    auto const& sessionInfo = cBranch->getSessionInfo();
+
+    wstring result(L"Session Info:\r\n");
+    String deviceFingerprintId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_FINGERPRINT));
+    String identityId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_IDENTITY));
+    String sessionId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_ID));
+
+    /*
+     * If tracking is disabled, identity_id and device_fingerprint_id are not sent to the API. They
+     * are also removed from Registry storage. They remain in the SessionInfo object. Clearing them
+     * in the SDK is troublesome without a potential API change, e.g. branch->disableTracking()
+     * instead of branch->getAdvertiserInfo().disableTracking(). For now, just omit them from the
+     * output here since they are not used in the SDK.
+     */
+    if (branch->getAdvertiserInfo().isTrackingDisabled()) {
+        result += L" Device Fingerprint ID:\r\n";
+        result += L" Identity ID:\r\n";
+    }
+    else {
+        result += L" Device Fingerprint ID: " + deviceFingerprintId.wstr() + L"\r\n";
+        result += L" Identity ID: " + identityId.wstr() + L"\r\n";
+    }
+    result += L" Session ID: " + sessionId.wstr() + L"\r\n";
+
+    return result;
 }
