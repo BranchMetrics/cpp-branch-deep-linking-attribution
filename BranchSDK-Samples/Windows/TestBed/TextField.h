@@ -11,5 +11,6 @@ public:
     void setText(const std::wstring& text);
     std::wstring getText() const;
 
-    void appendText(const std::wstring& text);
+    // maxLength limits the character count in the Edit control to avoid growing without bound.
+    void appendText(const std::wstring& text, size_t maxLength = 100000);
 };
