@@ -1,3 +1,60 @@
+2020-10-07  Version 1.1.2
+  * Fixed deep linking when tracking disabled
+  * Fixed developer identity (`setIdentity`/`logout`)
+  * Removed all `/v1/close` traffic from the SDK
+  * Implemented per-app Registry storage
+  * Fixed bad OS Version sent to server
+  * Introduced TestBed QA app
+
+  This release includes no breaking API changes.
+
+  The `Branch::closeSession` method no longer does anything of value and may be
+  removed. Session closes are automatically inferred by the server.
+
+  **Per-app Storage**
+
+  Storage of Branch-related settings is usually per app in all other existing
+  SDKs, often because of app sandboxing. Win32 is a rare environment where apps
+  frequently operate outside a sandbox and can collide. Most of the information
+  Branch stores must be per app. This release scopes all Registry-based storage
+  to the app key in use. As of this release, only one app key may be used at a
+  time (only one `Branch` instance at a time).
+
+  Previous builds erroneously stored information under
+  `HKEY_CURRENT_USER\Software\BranchIO`. Now each app will use
+  `HKCU\Software\BranchIO\<branch-key>`, e.g.
+  `HKCU\Software\BranchIO\key_live_xyz`. Any setting from a previous version of
+  the SDK not scoped to a Branch key, in particular
+  `HKCU\Software\BranchIO\advertiser\trackingDisabled`, will be assumed to have
+  come from the current app. These settings will be migrated to
+  `HKCU\Software\BranchIO\<branch-key>`
+  (`HKCU\Software\BranchIO\<branch-key>\advertiser\trackingDisabled`) and then
+  removed from the global location.
+
+  **Developer Identity**
+
+  The `AppInfo::setDeveloperIdentity` method no longer does anything. The way
+  it was used in certain examples was misleading. "Developer Identity" is an
+  _identity_ meaningful to the _developer_ of the app. That is usually a user
+  ID in the app developer's environment. It simply identifies the user in events
+  recorded by Branch in whatever way is convenient for the developer. This is
+  distinct from Branch's own notion of an Identity, represented by the
+  `identity_id`. Any calls to the `AppInfo::setDeveloperIdentity` method
+  should be removed.
+
+  To associate a developer identity with the current app session, use
+  `Branch::setIdentity`. The `Branch::logout` function removes that association.
+  A new function `Branch::getIdentity` returns the current developer identity.
+
+  Note that `setIdentity` and `logout` must be called after opening a session.
+  The identity is persistent through multiple sessions once the association is
+  made or removed.
+
+  **TestBed**
+
+  The repo now includes a `TestBed` app for QA that represents a standard
+  Win32 implementation of the SDK.
+
 2020-08-12  Version 1.1.1
   * Added support for wide strings via BranchIO::String adapter class.
 
