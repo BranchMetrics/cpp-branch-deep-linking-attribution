@@ -1,4 +1,4 @@
-2020-10-07  Version 1.1.2
+## 2020-10-07  Version 1.1.2
   * Fixed deep linking when tracking disabled
   * Fixed developer identity (`setIdentity`/`logout`)
   * Removed all `/v1/close` traffic from the SDK
@@ -55,7 +55,7 @@
   The repo now includes a `TestBed` app for QA that represents a standard
   Win32 implementation of the SDK.
 
-2020-08-12  Version 1.1.1
+## 2020-08-12  Version 1.1.1
   * Added support for wide strings via BranchIO::String adapter class.
 
   All public API methods that accept a string now take a BranchIO::String,
@@ -63,7 +63,7 @@
   const char\* or const wchar_t\*. Two new getters, Branch::getBranchKeyW()
   and Branch::getVersionW(), were also introduced.
 
-2020-05-13  Version 1.1.0
+## 2020-05-13  Version 1.1.0
   * Improvements to thread safety of LinkInfo and its ancestors.
   * Eliminate queueing and retry of /v1/url requests. A long link will now be
     generated immediately on any request failure.
@@ -87,10 +87,10 @@
   request. This will be improved in a future release.~~ Each 'LinkInfo' instance
   is reusable.
 
-2020-05-01  Version 1.0.1
+## 2020-05-01  Version 1.0.1
   * Updated Poco dependency to ~=1.9.4, allowing patch revisions via `conan install --update`.
     This addresses an HTTPS failure on Windows.
 
-2019-11-22  Version 1.0.0
+## 2019-11-22  Version 1.0.0
   * _*Master Release*_
   * Initial Revision
