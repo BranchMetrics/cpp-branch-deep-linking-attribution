@@ -12,6 +12,7 @@
 
 using Poco::Net::NetworkInterface;
 using Poco::Net::IPAddress;
+using namespace std;
 
 namespace BranchIO {
 
@@ -55,7 +56,16 @@ DeviceInfo::setOs(const std::string &os) {
 
 DeviceInfo&
 DeviceInfo::setOsVersion(const std::string &osVersion) {
-    return doAddProperty(Defines::JSONKEY_DEVICE_OS_VERSION, osVersion);
+    /*
+     * Remove any trailing non-numeric component to generate x.y[.z]
+     */
+    string::size_type firstNonNumeric(osVersion.find_first_not_of("0123456789."));
+    string actualOsVersion(osVersion);
+    if (firstNonNumeric != string::npos) {
+        actualOsVersion = osVersion.substr(0, firstNonNumeric);
+    }
+
+    return doAddProperty(Defines::JSONKEY_DEVICE_OS_VERSION, actualOsVersion);
 }
 
 DeviceInfo&
@@ -108,7 +118,7 @@ DeviceInfo::initMACAddress() {
     try {
         std::string nodeId = Poco::Environment::nodeId();
         setMACAddress(nodeId);
-    } catch (const Poco::SystemException &e) {
+    } catch (const Poco::SystemException &) {
         // TODO(andyp): Log
     }
 }

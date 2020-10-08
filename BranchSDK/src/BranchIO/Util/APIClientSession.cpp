@@ -17,7 +17,7 @@
 
 #include "BranchIO/Defines.h"
 #include "BranchIO/IRequestCallback.h"
-#include "Log.h"
+#include "BranchIO/Util/Log.h"
 
 using namespace std;
 using namespace Poco;
@@ -80,7 +80,8 @@ bool
 APIClientSession::post(
     const std::string& path,
     const JSONObject& jsonPayload,
-    IRequestCallback& callback) {
+    IRequestCallback& callback,
+    JSONObject& result) {
     if (isShuttingDown()) return false;
 
     try {
@@ -94,7 +95,7 @@ APIClientSession::post(
 
         /* ----- Send the request and body ----- */
 
-        // bail out here and below immediately after any I/O, which can take
+        // bail out immediately before and after any I/O, which can take
         // time
         sendRequest(request, requestBody);
         if (isShuttingDown()) return false;
@@ -102,7 +103,7 @@ APIClientSession::post(
         BRANCH_LOG_D("Request sent. Waiting for response.");
 
         /* ----- Wait for the response ----- */
-        return processResponse(callback);
+        return processResponse(callback, result);
     }
     catch (const Poco::Exception& e) {
         if (isShuttingDown()) return false;
@@ -125,7 +126,7 @@ APIClientSession::sendRequest(Poco::Net::HTTPRequest& request, const std::string
 }
 
 bool
-APIClientSession::processResponse(IRequestCallback& callback) {
+APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result) {
     HTTPResponse response;
     // blocking socket read
     istream& rs = receiveResponse(response);
@@ -137,7 +138,12 @@ APIClientSession::processResponse(IRequestCallback& callback) {
     // @todo(jdee): Fine-tune this success-failure determination
     if (status == HTTPResponse::HTTP_OK) {
         try {
-            callback.onSuccess(0, JSONObject::parse(rs));
+            result = JSONObject::parse(rs);
+
+            BRANCH_LOG_V("Response body: " << result.stringify());
+
+            callback.onSuccess(0, result);
+
             return true;
         } catch (Poco::JSON::JSONException&) {
             // Parsing Error.

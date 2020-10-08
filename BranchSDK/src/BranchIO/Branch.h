@@ -58,6 +58,7 @@ class BRANCHIO_DLL_EXPORT Branch {
 
     /**
      * Close a Branch Session.
+     * **Note:** This function is a no-op. There is no need to call it.
      * @param callback Callback to fire with success or failure notification.
      */
     virtual void closeSession(IRequestCallback *callback = nullptr);
@@ -138,6 +139,20 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @param callback Callback to fire with success or failure notification.
      */
     void logout(IRequestCallback *callback);
+
+    /**
+     * Get the current developer identity as a UTF-8 string
+     * @return the current developer identity (blank if none)
+     */
+    static std::string getIdentity();
+
+#ifdef WIN32
+    /**
+     * Get the current developer identity as a UTF-16 string
+     * @return the current developer identity (blank if none)
+     */
+    static std::wstring getIdentityW();
+#endif  // WIN32
 
  private:
     /**

@@ -35,8 +35,9 @@ class Request {
      * @param jsonPayload JSON Payload to send
      * @param callback Interface for success and failure response.
      * @param clientSession IClientSession to use for the request
+     * @return The response body
      */
-    void send(
+    JSONObject send(
         Defines::APIEndpoint api,
         const JSONObject& jsonPayload,
         IRequestCallback &callback,

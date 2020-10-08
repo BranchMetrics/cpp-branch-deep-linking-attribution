@@ -5,8 +5,11 @@
 #include <Poco/TaskNotification.h>
 #include <cassert>
 
-#include "IClientSession.h"
-#include "Log.h"
+#include "BranchIO/Util/IClientSession.h"
+#include "BranchIO/AdvertiserInfo.h"
+#include "BranchIO/IPackagingInfo.h"
+#include "BranchIO/Util/Log.h"
+#include "BranchIO/Util/Storage.h"
 
 using namespace Poco;
 
@@ -147,17 +150,32 @@ RequestManager::RequestTask::runTask() {
     JSONObject payload;
     _event.package(_manager.getPackagingInfo(), payload);
 
+    if (_manager.getPackagingInfo().getAdvertiserInfo().isTrackingDisabled()) {
+        payload.set(Defines::JSONKEY_TRACKING_DISABLED, true);
+        // remove all identifiable fields
+        // Based on https://github.com/BranchMetrics/ios-branch-deep-linking-attribution/blob/master/Branch-SDK/BNCServerInterface.m#L396-L411
+        payload.remove(Defines::JSONKEY_APP_DEVELOPER_IDENTITY);   // developer_identity
+        payload.remove(Defines::JSONKEY_APP_IDENTITY);             // identity
+        payload.remove(Defines::JSONKEY_DEVICE_LOCAL_IP_ADDRESS);  // local_ip
+        payload.remove(Defines::JSONKEY_DEVICE_MAC_ADDRESS);       // mac_address
+        payload.remove(Defines::JSONKEY_SESSION_FINGERPRINT);      // device_fingerprint_id
+        payload.remove(Defines::JSONKEY_SESSION_IDENTITY);         // identity_id
+    }
+
     // Send request synchronously
     // _clientSession may be passed in for testing. If not, we
     // create a real one here
+    JSONObject result;
     if (_manager.getClientSession()) {
-        _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
+        result = _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
     } else {
         APIClientSession clientSession(BRANCH_IO_URL_BASE);
         _manager.setClientSession(&clientSession);
-        _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
+        result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
         _manager.setClientSession(nullptr);
     }
+
+    _event.handleResult(result);
 }
 
 }  // namespace BranchIO

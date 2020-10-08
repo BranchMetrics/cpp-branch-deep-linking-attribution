@@ -50,6 +50,8 @@ class BRANCHIO_DLL_EXPORT SessionInfo : public PropertyManager {
     virtual SessionInfo& doAddProperty(const char *name, const std::string &value);
 };
 
+constexpr const char* const SESSIONSTORAGE = "session";
+
 }  // namespace BranchIO
 
 #endif  // BRANCHIO_SESSIONINFO_H__

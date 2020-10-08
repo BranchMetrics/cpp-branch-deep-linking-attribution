@@ -44,11 +44,6 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
     PropertyManager& operator=(const PropertyManager& other);
 
     /**
-     * Destructor.
-     */
-    virtual ~PropertyManager();
-
-    /**
      * @return this object as a string
      */
     virtual std::string toString() const;

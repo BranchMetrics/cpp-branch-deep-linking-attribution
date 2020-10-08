@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.12)
 
 # TODO(jdee): Set the version in one place and pass it around.
-project(root VERSION 1.1.1 LANGUAGES CXX)
+project(root VERSION 1.1.2 LANGUAGES CXX)
 
 # Determines handling of RPATH and related variables when building dylibs on Mac.
 # TODO(jdee): Review this. RPATH is an issue on Unix right now.
@@ -45,8 +45,3 @@ enable_testing()
 # ------------
 ADD_SUBDIRECTORY(BranchSDK)
 include_directories("BranchSDK/src")
-
-# ------------
-# Example apps
-# ------------
-ADD_SUBDIRECTORY(BranchSDK-Samples)

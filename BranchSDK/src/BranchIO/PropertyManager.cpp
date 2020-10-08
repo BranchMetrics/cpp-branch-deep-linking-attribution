@@ -23,10 +23,8 @@ PropertyManager::PropertyManager(const PropertyManager &other)
 
 PropertyManager&
 PropertyManager::operator=(const PropertyManager& other) {
-    return dynamic_cast<PropertyManager&>(JSONObject::operator=(other));
+    return static_cast<PropertyManager&>(JSONObject::operator=(other));
 }
-
-PropertyManager::~PropertyManager() = default;
 
 PropertyManager&
 PropertyManager::addProperty(const String& name, const String& value) {

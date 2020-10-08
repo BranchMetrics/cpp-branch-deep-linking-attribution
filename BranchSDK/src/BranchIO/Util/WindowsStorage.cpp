@@ -5,7 +5,7 @@
 #include <cassert>
 #include <vector>
 
-#include "WindowsStorage.h"
+#include "BranchIO/Util/WindowsStorage.h"
 
 using namespace std;
 using namespace Poco;
@@ -51,6 +51,11 @@ WindowsStorage::getRegistryKeyAndPath(
         break;
     default:
         return false;  // in case int case to Scope enum
+    }
+
+    string prefix = getPrefix();
+    if (!prefix.empty()) {
+        rootPath += string("\\") + prefix;
     }
 
     // Glue everything together into one long root\a\b\c
@@ -104,13 +109,29 @@ WindowsStorage::setDefaultScope(Scope scope) {
     return *this;
 }
 
+std::string
+WindowsStorage::getPrefix() const {
+    Mutex::ScopedLock _l(_mutex);
+    return _prefix;
+}
+
+IStorage&
+WindowsStorage::setPrefix(const std::string& prefix) {
+    Mutex::ScopedLock _l(_mutex);
+    _prefix = prefix;
+    return *this;
+}
+
 bool
 WindowsStorage::has(const std::string& key, Scope scope) const {
     string registryKey, registryPath;
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    return WinRegistryKey(registryKey).exists(registryPath);
+    // Return true if a key or leaf exists at this path
+    return
+        WinRegistryKey(registryKey).exists(registryPath) ||
+        WinRegistryKey(registryKey + "\\" + registryPath).exists();
 }
 
 std::string
@@ -166,7 +187,10 @@ WindowsStorage::remove(const std::string& key, Scope scope) {
 
     if (!has(key, scope)) return false;
 
-    WinRegistryKey(registryKey).deleteValue(registryPath);
+    if (WinRegistryKey(registryKey).exists(registryPath))
+        WinRegistryKey(registryKey).deleteValue(registryPath);
+    else if (WinRegistryKey(registryKey + "\\" + registryPath).exists())
+        WinRegistryKey(registryKey + "\\" + registryPath).deleteKey();
 
     return true;
 }
@@ -186,6 +210,11 @@ WindowsStorage::clear(Scope scope) {
         break;
     default:
         return *this;
+    }
+
+    string prefix = getPrefix();
+    if (!prefix.empty()) {
+        registryKey += string("\\") + prefix;
     }
 
     WinRegistryKey(registryKey).deleteKey();

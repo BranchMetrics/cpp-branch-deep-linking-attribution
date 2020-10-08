@@ -31,6 +31,18 @@ UnixStorage::setDefaultScope(Scope scope) {
     return *this;
 }
 
+std::string
+UnixStorage::getPrefix() const {
+    // unimplemented
+    return string();
+}
+
+IStorage&
+UnixStorage::setPrefix(const std::string& prefix) {
+    // unimplemented
+    return *this;
+}
+
 bool
 UnixStorage::has(const std::string& key, Scope scope) const {
     Mutex::ScopedLock _l(_mutex);

@@ -25,7 +25,13 @@ AdvertiserInfo::addId(AdIdType type, const std::string &value) {
 AdvertiserInfo &
 AdvertiserInfo::disableTracking() {
     trackingDisabled = true;
-    Storage::instance().setBoolean(getPath(ADVERTISERSTORAGE, TRACKING_PREFERENCE_KEY), true);
+    auto& storage(Storage::instance());
+    storage.setBoolean(getPath(ADVERTISERSTORAGE, TRACKING_PREFERENCE_KEY), true);
+
+    // Clear out identifiable state as well
+    storage.remove("session.device_fingerprint_id");
+    storage.remove("session.identity");
+    storage.remove("session.identity_id");
     return *this;
 }
 

@@ -23,7 +23,9 @@ TEST(BranchDeviceInfoTest, TestSetters)
         .setMACAddress("My MACAddress")
         .setModel("My model")
         .setOs("My os")
-        .setOsVersion("My osVersion")
+	// Note os_version is stripped out because it is converted to a blank string.
+	// This is why this test case passes.
+        .setOsVersion("My osVersion")  
         .setSDK("My sdk")
         .setSDKVersion("My sdkVersion")
         .setUserAgent("My userAgent");
@@ -38,4 +40,15 @@ TEST(BranchDeviceInfoTest, TestSetters)
 
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
     }
+}
+
+TEST(BranchDeviceInfoTest, TestOsVersion)
+{
+    DeviceInfo info;
+
+    info.setOsVersion("6.2 (Build 9200)");
+
+    string osVersion = info.getStringProperty("os_version");
+
+    ASSERT_EQ(osVersion, "6.2");
 }

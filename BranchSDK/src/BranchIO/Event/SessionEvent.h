@@ -6,7 +6,6 @@
 #include <string>
 
 #include "BranchIO/Event/Event.h"
-#include "BranchIO/JSONObject.h"
 
 namespace BranchIO {
 
@@ -29,11 +28,12 @@ class BRANCHIO_DLL_EXPORT SessionEvent : public BaseEvent {
  */
 class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
  public:
-     /**
-      * Constructor.
-      */
-    explicit SessionOpenEvent() :
-        SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {}
+    /**
+     * Constructor.
+     */
+    SessionOpenEvent() :
+        SessionEvent(Defines::APIEndpoint::REGISTER_OPEN, "Open") {
+    }
 
     /**
      * Set the Link URL
@@ -58,18 +58,6 @@ class BRANCHIO_DLL_EXPORT SessionViewEvent: public SessionEvent {
       */
     explicit SessionViewEvent() :
         SessionEvent(Defines::APIEndpoint::REGISTER_VIEW, "View") {}
-};
-
-/**
- * (Internal) Session Management Event -- Session Close
- */
-class BRANCHIO_DLL_EXPORT SessionCloseEvent: public SessionEvent {
- public:
-     /**
-      * Constructor.
-      */
-    explicit SessionCloseEvent() :
-        SessionEvent(Defines::APIEndpoint::REGISTER_CLOSE, "Close") {}
 };
 
 }  // namespace BranchIO

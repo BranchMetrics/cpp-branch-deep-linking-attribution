@@ -49,7 +49,8 @@ class APIClientSession
     bool post(
         const std::string& path,
         const JSONObject& jsonPayload,
-        IRequestCallback& callback);
+        IRequestCallback& callback,
+        JSONObject& result);
 
     /**
      * @todo(jdee): Document
@@ -78,7 +79,7 @@ class APIClientSession
      * @param callback callback for the response/error
      * @return true on success, false otherwise
      */
-    bool processResponse(IRequestCallback& callback);
+    bool processResponse(IRequestCallback& callback, JSONObject& result);
 
  private:
     mutable Poco::Mutex _mutex;

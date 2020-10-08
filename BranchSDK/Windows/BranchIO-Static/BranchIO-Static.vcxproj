@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\BranchIO\AdvertiserInfo.h" />
+    <ClInclude Include="..\..\src\BranchIO\AppInfo.h" />
+    <ClInclude Include="..\..\src\BranchIO\Branch.h" />
+    <ClInclude Include="..\..\src\BranchIO\Defines.h" />
+    <ClInclude Include="..\..\src\BranchIO\DeviceInfo.h" />
+    <ClInclude Include="..\..\src\BranchIO\dll.h" />
+    <ClInclude Include="..\..\src\BranchIO\Event\BaseEvent.h" />
+    <ClInclude Include="..\..\src\BranchIO\Event\CustomEvent.h" />
+    <ClInclude Include="..\..\src\BranchIO\Event\Event.h" />
+    <ClInclude Include="..\..\src\BranchIO\Event\IdentityEvent.h" />
+    <ClInclude Include="..\..\src\BranchIO\Event\SessionEvent.h" />
+    <ClInclude Include="..\..\src\BranchIO\Event\StandardEvent.h" />
+    <ClInclude Include="..\..\src\BranchIO\fwd.h" />
+    <ClInclude Include="..\..\src\BranchIO\IPackagingInfo.h" />
+    <ClInclude Include="..\..\src\BranchIO\IRequestCallback.h" />
+    <ClInclude Include="..\..\src\BranchIO\JSONArray.h" />
+    <ClInclude Include="..\..\src\BranchIO\JSONObject.h" />
+    <ClInclude Include="..\..\src\BranchIO\LinkInfo.h" />
+    <ClInclude Include="..\..\src\BranchIO\PackagingInfo.h" />
+    <ClInclude Include="..\..\src\BranchIO\PropertyManager.h" />
+    <ClInclude Include="..\..\src\BranchIO\Request.h" />
+    <ClInclude Include="..\..\src\BranchIO\SessionInfo.h" />
+    <ClInclude Include="..\..\src\BranchIO\String.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\APIClientSession.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\IClientSession.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\IStorage.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\IStringConvertible.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\Log.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\MacAddress.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\RequestManager.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\Sleeper.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\Storage.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\StringUtils.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\UnixStorage.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\WindowsStorage.h" />
+    <ClInclude Include="..\..\src\BranchIO\Version.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\BranchIO\AdvertiserInfo.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\AppInfo.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Branch.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Defines.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\DeviceInfo.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Event\BaseEvent.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Event\CustomEvent.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Event\Event.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Event\StandardEvent.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\JSONObject.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\LinkInfo.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\PackagingInfo.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\PropertyManager.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Request.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\SessionInfo.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\APIClientSession.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\IStringConvertible.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\Log.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\MacAddress.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\RequestManager.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\Sleeper.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\UnixStorage.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\WindowsStorage.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{4f51dc46-1a0e-467d-8ca4-af37e134c0a4}</ProjectGuid>
+    <RootNamespace>BranchIOStatic</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;DEBUG;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;$(ConanIncludeDirectories)%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;DEBUG;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
