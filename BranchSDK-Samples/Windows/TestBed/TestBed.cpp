@@ -65,19 +65,16 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     LoadStringW(hInstance, IDC_TESTBED, szWindowClass, MAX_LOADSTRING);
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
 
-    // Initialize Branch
-    BranchOperations::initBranch(lpCmdLine ? lpCmdLine : L"", &outputTextField);
-
-    // While the Branch open request is in flight, try to obtain the named mutex.
+    // Forward this link to the running instance if there is one.
     if (Util::isInstanceRunning())
     {
-        // Wait for response from Branch, send to running instance, then exit
-        BranchOperations::waitForOpen(INFINITE);
-        String sResponse(BranchOperations::getOpenResponse().stringify());
-        Util::sendToRunningInstance(szWindowClass, sResponse.wstr());
+        Util::sendToRunningInstance(szWindowClass, lpCmdLine);
         // Now exit
         return 0;
     }
+
+    // Initialize Branch
+    BranchOperations::initBranch(lpCmdLine ? lpCmdLine : L"", &outputTextField);
 
     MyRegisterClass(hInstance);
 
@@ -289,8 +286,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 const wchar_t* buffer((const wchar_t*)cds->lpData);
                 size_t length((size_t)cds->cbData / sizeof(wchar_t) - 1);
 
-                wstring payload(buffer, buffer + length);
-                outputTextField.appendText(wstring(L"Forwarded open response: ") + payload);
+                wstring url(buffer, buffer + length);
+                BranchOperations::openURL(url);
             }
         }
         break;

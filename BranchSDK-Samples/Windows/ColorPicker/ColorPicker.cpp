@@ -359,7 +359,6 @@ void initializeBranch()
     _appInfo
         .setAppVersion("1.0")
         .setCountryCode("US")
-        .setDeveloperIdentity("Branch Metrics")
         .setEnvironment("FULL_APP")
         .setLanguage("en");
 
