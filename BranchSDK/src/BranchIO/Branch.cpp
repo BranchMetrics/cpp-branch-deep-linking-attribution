@@ -151,7 +151,12 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     string globalDeviceFingerprintId = storage.getString("session.device_fingerprint_id");
 
     // Remove global settings
-    storage.remove("advertiser");
+    /*
+     * In case more than one app with an older version of this SDK disabled tracking in the past,
+     * do not remove this old global setting for advertiser.trackingDisabled. All apps updating
+     * to this version of the SDK will import the older global setting.
+     */
+    // storage.remove("advertiser");
     storage.remove("session");
 
     auto utf8key(branchKey.str());
