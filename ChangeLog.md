@@ -34,8 +34,7 @@
   `HKCU\Software\BranchIO\advertiser\trackingDisabled`, will be assumed to have
   come from the current app. These settings will be migrated to
   `HKCU\Software\BranchIO\<branch-key>`
-  (`HKCU\Software\BranchIO\<branch-key>\advertiser\trackingDisabled`) and then
-  removed from the global location.
+  (`HKCU\Software\BranchIO\<branch-key>\advertiser\trackingDisabled`).
 
   **Developer Identity**
 
