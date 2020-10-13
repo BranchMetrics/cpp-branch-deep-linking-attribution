@@ -22,9 +22,9 @@ the app.
 
 ## Logs
 
-SDK logs appear in `%AppData%\Branch\TestBed\branch-sdk.log`. The `AppData` environment variable usually expands to `%HomeDrive%%HomePath%\AppData\Roaming`. Note that `AppData` is a hidden folder. In Git Bash, the easiest way to view the log is:
+SDK logs appear in `%LocalAppData%\Branch\TestBed\branch-sdk.log`. The `LocalAppData` environment variable usually expands to `%HomeDrive%%HomePath%\AppData\Local`. Note that `AppData` is a hidden folder. In Git Bash, the easiest way to view the log is:
 
-`$ tail -f ~/AppData/Roaming/Branch/TestBed/branch-sdk.log`
+`$ tail -f ~/AppData/Local/Branch/TestBed/branch-sdk.log`
 
 Note that the logs may roll over when they exceed a certain size.
 
