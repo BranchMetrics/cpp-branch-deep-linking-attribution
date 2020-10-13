@@ -37,16 +37,14 @@ static int const ID_GET_IDENTITY_BUTTON = 1009;
 static int const ID_SHOW_SESSION_BUTTON = 1010;
 
 TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
-Button openButton(L"Open", 20, 20, 190, 50, ID_OPEN_BUTTON);
-Button closeButton(L"Close", 20, 90, 190, 50, ID_CLOSE_BUTTON);
-Button loginButton(L"Login", 20, 160, 190, 50, ID_LOGIN_BUTTON);
-Button logoutButton(L"Logout", 20, 230, 190, 50, ID_LOGOUT_BUTTON);
+Button loginButton(L"Login", 20, 20, 190, 50, ID_LOGIN_BUTTON);
+Button logoutButton(L"Logout", 20, 90, 190, 50, ID_LOGOUT_BUTTON);
 Button standardEventButton(L"Standard Event", 230, 20, 190, 50, ID_STANDARD_EVENT_BUTTON);
 Button customEventButton(L"Custom Event", 230, 90, 190, 50, ID_CUSTOM_EVENT_BUTTON);
 Button getShortURLButton(L"Get Short URL", 230, 160, 190, 50, ID_GET_SHORT_URL_BUTTON);
-Button trackingButton(L"Disable Tracking", 230, 230, 190, 50, ID_TRACKING_BUTTON);
-Button getIdentityButton(L"Get Identity", 20, 300, 190, 50, ID_GET_IDENTITY_BUTTON);
-Button showSessionButton(L"Show Session", 230, 300, 190, 50, ID_SHOW_SESSION_BUTTON);
+Button trackingButton(L"Disable Tracking", 20, 230, 190, 50, ID_TRACKING_BUTTON);
+Button getIdentityButton(L"Get Identity", 20, 160, 190, 50, ID_GET_IDENTITY_BUTTON);
+Button showSessionButton(L"Show Session", 230, 230, 190, 50, ID_SHOW_SESSION_BUTTON);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -156,22 +154,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     */
 
    outputTextField.create(hWnd);
-   openButton.create(hWnd);
    loginButton.create(hWnd);
    logoutButton.create(hWnd);
    standardEventButton.create(hWnd);
    customEventButton.create(hWnd);
    getShortURLButton.create(hWnd);
-   closeButton.create(hWnd);
    trackingButton.create(hWnd);
    getIdentityButton.create(hWnd);
    showSessionButton.create(hWnd);
 
    trackingButton.setText(BranchOperations::getTrackingButtonLabel());
 
-   openButton.setButtonPressCallback([]() {
-       BranchOperations::openURL(L"https://win32.app.link/crtafBueu9");
-   });
    loginButton.setButtonPressCallback([]() {
        BranchOperations::login(L"user1");
    });
@@ -179,7 +172,6 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    standardEventButton.setButtonPressCallback(BranchOperations::logStandardEvent);
    customEventButton.setButtonPressCallback(BranchOperations::logCustomEvent);
    getShortURLButton.setButtonPressCallback(BranchOperations::getShortURL);
-   closeButton.setButtonPressCallback(BranchOperations::closeSession);
    trackingButton.setButtonPressCallback([]() {
        BranchOperations::toggleTracking();
        trackingButton.setText(BranchOperations::getTrackingButtonLabel());
@@ -232,9 +224,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
 
             // Add any further buttons here
-            case ID_OPEN_BUTTON:
-                openButton.onPress();
-                break;
             case ID_LOGIN_BUTTON:
                 loginButton.onPress();
                 break;
@@ -249,9 +238,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case ID_GET_SHORT_URL_BUTTON:
                 getShortURLButton.onPress();
-                break;
-            case ID_CLOSE_BUTTON:
-                closeButton.onPress();
                 break;
             case ID_TRACKING_BUTTON:
                 trackingButton.onPress();
