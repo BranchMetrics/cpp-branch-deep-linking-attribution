@@ -25,13 +25,11 @@ using namespace std;
 // Static layout
 // Define any further buttons here
 static int const ID_TEXT_FIELD = 1000;
-static int const ID_OPEN_BUTTON = 1001;
 static int const ID_LOGIN_BUTTON = 1002;
 static int const ID_LOGOUT_BUTTON = 1003;
 static int const ID_STANDARD_EVENT_BUTTON = 1004;
 static int const ID_CUSTOM_EVENT_BUTTON = 1005;
 static int const ID_GET_SHORT_URL_BUTTON = 1006;
-static int const ID_CLOSE_BUTTON = 1007;
 static int const ID_TRACKING_BUTTON = 1008;
 static int const ID_GET_IDENTITY_BUTTON = 1009;
 static int const ID_SHOW_SESSION_BUTTON = 1010;
