@@ -52,7 +52,6 @@ const char *Defines::JSONKEY_SESSION_IDENTITY = "identity_id";
 const char *Defines::JSONKEY_TRACKING_DISABLED = "tracking_disabled";
 
 // Branch Url Path
-const char *Defines::BASE_PATH_V1 = "https://api.branch.io/";
 const char *Defines::BASE_PATH_V2 = "https://api2.branch.io/";
 
 const char *PATH_GET_URL = "v1/url";
