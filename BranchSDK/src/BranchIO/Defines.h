@@ -113,10 +113,6 @@ class BRANCHIO_DLL_EXPORT Defines {
 
 }  // namespace BranchIO
 
-#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
 #define BRANCH_IO_URL_BASE BranchIO::Defines::BASE_PATH_V2
-#else
-#define BRANCH_IO_URL_BASE BranchIO::Defines::BASE_PATH_V1
-#endif
 
 #endif  // BRANCHIO_DEFINES_H__
