@@ -133,7 +133,19 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
     if (isShuttingDown()) return false;
 
     HTTPResponse::HTTPStatus status = response.getStatus();
-    BRANCH_LOG_D(status << " " << response.getReason());
+
+    string requestId;
+    try {
+        requestId = response["X-Branch-Request-Id"];
+    }
+    catch (NotFoundException&) {
+    }
+    if (!requestId.empty()) {
+        BRANCH_LOG_D("[" << requestId << "] " << status << " " << response.getReason());
+    }
+    else {
+        BRANCH_LOG_D(status << " " << response.getReason());
+    }
 
     // @todo(jdee): Fine-tune this success-failure determination
     if (status == HTTPResponse::HTTP_OK) {
