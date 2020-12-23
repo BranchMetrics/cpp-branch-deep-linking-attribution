@@ -10,6 +10,7 @@
 #include "BranchIO/AdvertiserInfo.h"
 
 using Poco::Mutex;
+using namespace std;
 
 namespace BranchIO {
 
@@ -92,6 +93,11 @@ BaseEvent::packageV1Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject)
     jsonObject += packagingInfo.getSessionInfo().toJSON();
     jsonObject += packagingInfo.getDeviceInfo().toJSON();
     jsonObject += packagingInfo.getAppInfo().toJSON();
+
+    string waid = packagingInfo.getAdvertiserInfo().getStringProperty(Defines::JSONKEY_WINDOWS_ADVERTISING_ID);
+    if (!waid.empty()) {
+        jsonObject.set(Defines::JSONKEY_WINDOWS_ADVERTISING_ID, waid);
+    }
 
     if (getAPIEndpoint() == Defines::APIEndpoint::REGISTER_OPEN && jsonObject.has(Defines::JSONKEY_SESSION_ID)) {
         jsonObject.remove(Defines::JSONKEY_SESSION_ID);
