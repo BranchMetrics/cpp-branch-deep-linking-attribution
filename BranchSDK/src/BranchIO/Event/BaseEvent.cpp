@@ -96,7 +96,7 @@ BaseEvent::packageV1Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject)
 
     string waid = packagingInfo.getAdvertiserInfo().getStringProperty(Defines::JSONKEY_WINDOWS_ADVERTISING_ID);
     if (!waid.empty()) {
-        jsonObject.set(Defines::JSONKEY_WINDOWS_ADVERTISING_ID, waid);
+        jsonObject.set(JSONKEY_ADVERTISING_IDS, packagingInfo.getAdvertiserInfo().toJSON());
     }
 
     if (getAPIEndpoint() == Defines::APIEndpoint::REGISTER_OPEN && jsonObject.has(Defines::JSONKEY_SESSION_ID)) {
