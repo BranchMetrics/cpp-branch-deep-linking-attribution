@@ -111,6 +111,12 @@ BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textFiel
 
     branch = Branch::create(BRANCH_KEY, &appInfo);
 
+    /*
+     * The Windows Advertising Identifier requires a UWP dependency and is not ordinarily available
+     * for Win32. If you have it available, you can pass it here.
+     */
+    branch->getAdvertiserInfo().addId(AdvertiserInfo::WINDOWS_ADVERTISING_ID, "my-waid");
+
     wstring::size_type prefixLength = min(wstring(BRANCH_URI_SCHEME).length(), initialUrl.length());
     wstring prefix = initialUrl.substr(0, prefixLength);
     if (!initialUrl.empty() && prefix == BRANCH_URI_SCHEME)
