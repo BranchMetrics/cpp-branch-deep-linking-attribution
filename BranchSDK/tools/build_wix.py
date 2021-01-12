@@ -60,5 +60,14 @@ SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyHeaders"})
 SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX64"})
 SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX86"})
 
+# os.path.abspath builds the right kind of path for the os, using
+# backslashes on Windows without typing \\ every time here.
+build_root = os.path.abspath(os.path.dirname(__file__) + "../../build")
+
+for build in os.listdir(build_root):
+    stage_root = os.path.abspath(build_root + "/" + build + "/stage")
+    include_root = os.path.abspath(stage_root + "/include")
+    lib_root = os.path.abspath(stage_root + "/lib")
+
 output = prettify(root)
 print(output)
