@@ -11,6 +11,32 @@ def prettify(elem):
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="  ")
 
+"""
+Produces a nested tree of Directory elements like:
+
+          <Directory Id="INCLUDEFOLDER" Name="include">
+            <Directory Id="BRANCHIOINCLUDEFOLDER" Name="BranchIO">
+              <Directory Id="BRANCHIOEVENTINCLUDEFOLDER" Name="Event" />
+            </Directory>
+          </Directory>
+"""
+def wix_directory(elem, path, prefix):
+    basepath = os.path.basename(path)
+    directory_id = prefix + basepath.upper()
+    wdir = SubElement(elem, "Directory", {
+        "Id": directory_id,
+        "Name": basepath
+        })
+
+    files = os.listdir(path)
+    for f in files:
+        full_path = os.path.join(path, f)
+        if not os.path.isdir(full_path):
+            continue
+        wix_directory(wdir, full_path, directory_id)
+
+    return wdir
+
 # TODO: Don't necessarily need ET here, since we're just generating
 # text, but this may be more flexible.
 
@@ -60,14 +86,22 @@ SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyHeaders"})
 SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX64"})
 SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX86"})
 
-# os.path.abspath builds the right kind of path for the os, using
-# backslashes on Windows without typing \\ every time here.
+# os.path.abspath & os.path.join build the right kind of path for the os,
+# using backslashes on Windows without typing \\ every time here.
 build_root = os.path.abspath(os.path.dirname(__file__) + "../../build")
 
-for build in os.listdir(build_root):
-    stage_root = os.path.abspath(build_root + "/" + build + "/stage")
-    include_root = os.path.abspath(stage_root + "/include")
-    lib_root = os.path.abspath(stage_root + "/lib")
+# TODO: If possible, generate one installer for both archs with
+# both release and debug. Otherwise, one per arch.
+# for build in os.listdir(build_root):
+#     stage_root = os.path.join(build_root, build, "stage")
+#     include_root = os.path.join(stage_root, "include")
+#     lib_root = os.path.join(stage_root, "lib")
+
+stage_root = os.path.join(build_root, "Releasex64", "stage")
+include_root = os.path.join(stage_root, "include")
+lib_root = os.path.join(stage_root, "lib")
+
+wix_directory(root, include_root, "")
 
 output = prettify(root)
 print(output)
