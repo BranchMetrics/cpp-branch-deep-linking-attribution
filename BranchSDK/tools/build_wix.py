@@ -90,18 +90,37 @@ SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX86"})
 # using backslashes on Windows without typing \\ every time here.
 build_root = os.path.abspath(os.path.dirname(__file__) + "../../build")
 
+# Take all header files from Releasex64 arbitrarily, since they
+# don't vary by build.
+stage_root = os.path.join(build_root, "Releasex64", "stage")
+include_root = os.path.join(stage_root, "include")
+lib_root = os.path.join(stage_root, "lib")
+
+fragment = SubElement(root, "Fragment")
+source_dir = SubElement(fragment, "Directory", {
+    "Id": "TARGETDIR",
+    "Name": "SourceDir"
+    })
+# C:\Program Files (x86)
+program_files_folder = SubElement(source_dir, "Directory", {
+    "Id": "ProgramFilesFolder"
+    })
+# C:\Program Files (x86)\Branch SDK
+branch_sdk_install_folder = SubElement(program_files_folder, "Directory", {
+    "Id": "INSTALLFOLDER",
+    "Name": "Branch SDK"
+    })
+
+# Recursively build a nested tree of Directory elements to describe
+# all header folders to be installed.
+wix_directory(branch_sdk_install_folder, include_root, "")
+
 # TODO: If possible, generate one installer for both archs with
 # both release and debug. Otherwise, one per arch.
 # for build in os.listdir(build_root):
 #     stage_root = os.path.join(build_root, build, "stage")
 #     include_root = os.path.join(stage_root, "include")
 #     lib_root = os.path.join(stage_root, "lib")
-
-stage_root = os.path.join(build_root, "Releasex64", "stage")
-include_root = os.path.join(stage_root, "include")
-lib_root = os.path.join(stage_root, "lib")
-
-wix_directory(root, include_root, "")
 
 output = prettify(root)
 print(output)
