@@ -26,7 +26,7 @@ def prettify(elem):
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="  ")
 
-# Method used to generate a unique identifier for a directory.
+# Method used to generate a unique identifier for a file or directory.
 def file_identifier(path):
     split_path = os.path.splitdrive(path)
     path_components = split_path[1].split(os.sep)
@@ -51,26 +51,8 @@ def file_identifier(path):
 
     return name
 
-# -----
-# ----- Conveniences to make specific ET elements
-# -----
-
-def make_directory_elem(elem, identifier, name=None):
-    if name:
-        return SubElement(elem, "Directory", {"Id": identifier, "Name": name})
-    else:
-        return SubElement(elem, "Directory", {"Id": identifier})
-
-def make_component_elem(elem, identifier, directory):
-    # TODO: Generating a new UUID each time here. If that's an issue,
-    # can put these in a JSON file and add if/when new directories
-    # appear.
-    return SubElement(elem, "Component", {"Id": identifier, "Directory": directory, "Guid": str(uuid4())})
-
-def make_file_elem(elem, identifier, source):
-    return SubElement(elem, "File", {"Id": identifier, "Source": source})
-
-# Find all subdirectories to all depths
+# Find all subdirectories to all depths. Returns a flat list, for
+# a ComponentGroup.
 def all_subdirs(path):
     if not os.path.isdir(path):
         return []
@@ -91,6 +73,29 @@ def all_subdirs(path):
         nested = all_subdirs(d)
         result = result + nested
     return result
+
+# -----
+# ----- Conveniences to make specific ET elements
+# -----
+
+def make_directory_elem(elem, identifier, name=None):
+    if name:
+        return SubElement(elem, "Directory", {"Id": identifier, "Name": name})
+    else:
+        return SubElement(elem, "Directory", {"Id": identifier})
+
+def make_component_elem(elem, identifier, directory):
+    # TODO: Generating a new UUID each time here. If that's an issue,
+    # can put these in a JSON file and add if/when new directories
+    # appear.
+    return SubElement(elem, "Component", {"Id": identifier, "Directory": directory, "Guid": str(uuid4())})
+
+def make_file_elem(elem, identifier, source):
+    return SubElement(elem, "File", {"Id": identifier, "Source": source})
+
+# -----
+# ----- Methods to generate Wix XML from the contents of a given path
+# -----
 
 """
 Produces a nested tree of Directory elements like:
@@ -150,6 +155,10 @@ def wix_components(elem, paths, include_subdirs=True):
         if include_subdirs:
             alldirs = alldirs + all_subdirs(path)
         return [wix_component(elem, d) for d in alldirs]
+
+# -----
+# ----- Begin XML generation
+# -----
 
 # -----
 # ----- General header elements
@@ -230,13 +239,13 @@ branch_sdk_install_folder = make_directory_elem(program_files_folder, "INSTALLFO
 # all header folders to be installed.
 wix_directory(branch_sdk_install_folder, include_root)
 
-lib_folder = make_directory_elem(branch_sdk_install_folder, "LIBFOLDER", "lib")
-x64_lib_folder = make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
-x86_lib_folder = make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
-x64_debug_folder = make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
-x86_debug_folder = make_directory_elem(x86_lib_folder, "X86DEBUGLIBFOLDER", "Debug")
-x64_release_folder = make_directory_elem(x64_lib_folder, "X64RELEASELIBFOLDER", "release")
-x86_release_folder = make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", "release")
+make_directory_elem(branch_sdk_install_folder, "LIBFOLDER", "lib")
+make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
+make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
+make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
+make_directory_elem(x86_lib_folder, "X86DEBUGLIBFOLDER", "Debug")
+make_directory_elem(x64_lib_folder, "X64RELEASELIBFOLDER", "release")
+make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", "release")
 
 # -----
 # ----- ComponentGroup list Fragment
@@ -245,9 +254,9 @@ x86_release_folder = make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", 
 
 cg_fragment = SubElement(root, "Fragment")
 branch_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchHeaders"})
+third_party_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyHeaders"})
 branch_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX64"})
 branch_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX86"})
-third_party_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyHeaders"})
 third_party_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX64"})
 third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX86"})
 
@@ -257,6 +266,10 @@ wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
 wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
 # zlib headers are directly in the include_root
 wix_components(third_party_headers, include_root, False)
+
+# -----
+# ----- End XML generation
+# -----
 
 # -----
 # ----- Generate output
