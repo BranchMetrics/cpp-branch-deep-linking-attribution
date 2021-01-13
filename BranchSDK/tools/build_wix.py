@@ -139,9 +139,13 @@ def wix_component(elem, path):
 Recursively generates a flat, unnested list of Component elements
 within a component group.
 """
-def wix_components(elem, path):
-    alldirs = [path] + all_subdirs(path)
-    return [wix_component(elem, d) for d in alldirs]
+def wix_components(elem, paths):
+    if not type(paths) is list:
+        paths = [paths]
+
+    for path in paths:
+        alldirs = [path] + all_subdirs(path)
+        return [wix_component(elem, d) for d in alldirs]
 
 # -----
 # ----- General header elements
@@ -246,6 +250,7 @@ third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "Th
 # TODO: Use wix_components to generate the contents of each of the
 # CG elements above.
 wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
+wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
 
 # -----
 # ----- Generate output
