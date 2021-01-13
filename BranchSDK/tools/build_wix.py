@@ -132,6 +132,8 @@ def wix_component(elem, path):
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     for f in os.listdir(path):
         fullpath = os.path.join(path, f)
+        if os.path.isdir(fullpath):
+            continue
         source = fullpath.replace(repo_root, "$(var.projectDir)\\..\\..\\..")
         file_elem = make_file_elem(component, file_identifier(fullpath), source)
 
@@ -139,12 +141,14 @@ def wix_component(elem, path):
 Recursively generates a flat, unnested list of Component elements
 within a component group.
 """
-def wix_components(elem, paths):
+def wix_components(elem, paths, include_subdirs=True):
     if not type(paths) is list:
         paths = [paths]
 
     for path in paths:
-        alldirs = [path] + all_subdirs(path)
+        alldirs = [path]
+        if include_subdirs:
+            alldirs = alldirs + all_subdirs(path)
         return [wix_component(elem, d) for d in alldirs]
 
 # -----
@@ -251,6 +255,8 @@ third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "Th
 # CG elements above.
 wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
 wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
+# zlib headers are directly in the include_root
+wix_components(third_party_headers, include_root, False)
 
 # -----
 # ----- Generate output
