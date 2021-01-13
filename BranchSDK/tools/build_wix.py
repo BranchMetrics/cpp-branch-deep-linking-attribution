@@ -11,6 +11,12 @@ def prettify(elem):
     reparsed = minidom.parseString(rough_string)
     return reparsed.toprettyxml(indent="  ")
 
+def make_directory_elem(elem, identifier, name=None):
+    if name:
+        return SubElement(elem, "Directory", {"Id": identifier, "Name": name})
+    else:
+        return SubElement(elem, "Directory", {"Id": identifier})
+
 """
 Produces a nested tree of Directory elements like:
 
@@ -23,10 +29,7 @@ Produces a nested tree of Directory elements like:
 def wix_directory(elem, path, prefix):
     basepath = os.path.basename(path)
     directory_id = prefix + basepath.upper()
-    wdir = SubElement(elem, "Directory", {
-        "Id": directory_id,
-        "Name": basepath
-        })
+    wdir = make_directory_elem(elem, directory_id, basepath)
 
     files = os.listdir(path)
     for f in files:
@@ -96,20 +99,12 @@ stage_root = os.path.join(build_root, "Releasex64", "stage")
 include_root = os.path.join(stage_root, "include")
 lib_root = os.path.join(stage_root, "lib")
 
-fragment = SubElement(root, "Fragment")
-source_dir = SubElement(fragment, "Directory", {
-    "Id": "TARGETDIR",
-    "Name": "SourceDir"
-    })
+dir_fragment = SubElement(root, "Fragment")
+source_dir = make_directory_elem(dir_fragment, "TARGETDIR", "SourceDir")
 # C:\Program Files (x86)
-program_files_folder = SubElement(source_dir, "Directory", {
-    "Id": "ProgramFilesFolder"
-    })
+program_files_folder = make_directory_elem(source_dir, "ProgramFilesDir")
 # C:\Program Files (x86)\Branch SDK
-branch_sdk_install_folder = SubElement(program_files_folder, "Directory", {
-    "Id": "INSTALLFOLDER",
-    "Name": "Branch SDK"
-    })
+branch_sdk_install_folder = make_directory_elem(program_files_folder, "INSTALLFOLDER", "Branch SDK")
 
 # Recursively build a nested tree of Directory elements to describe
 # all header folders to be installed.
