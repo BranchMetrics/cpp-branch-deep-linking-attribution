@@ -1,3 +1,8 @@
+"""
+Script to build Product.wxs for Wix installer using the output
+of stage.py under build\*\stage.
+"""
+
 import json, os, shutil
 from xml.dom import minidom
 import xml.etree.ElementTree as ET
@@ -127,3 +132,6 @@ x86_release_folder = make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", 
 
 output = prettify(root)
 print(output)
+
+output_path = os.path.abspath(build_root + "/../BranchSDK/Windows/BranchInstaller/Product.wxs")
+open(output_path, "w").write(output)
