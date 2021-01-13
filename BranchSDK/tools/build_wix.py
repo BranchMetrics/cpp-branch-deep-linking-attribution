@@ -117,5 +117,13 @@ wix_directory(branch_sdk_install_folder, include_root, "")
 #     include_root = os.path.join(stage_root, "include")
 #     lib_root = os.path.join(stage_root, "lib")
 
+lib_folder = make_directory_elem(branch_sdk_install_folder, "LIBFOLDER", "lib")
+x64_lib_folder = make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
+x86_lib_folder = make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
+x64_debug_folder = make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
+x86_debug_folder = make_directory_elem(x86_lib_folder, "X86DEBUGLIBFOLDER", "Debug")
+x64_release_folder = make_directory_elem(x64_lib_folder, "X64RELEASELIBFOLDER", "release")
+x86_release_folder = make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", "release")
+
 output = prettify(root)
 print(output)
