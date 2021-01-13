@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+
 """
 Script to build Product.wxs for Wix installer using the output
 of stage.py under build\*\stage.
