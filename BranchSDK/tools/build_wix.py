@@ -133,7 +133,8 @@ include_root = os.path.join(stage_root, "include")
 lib_root = os.path.join(stage_root, "lib")
 
 # -----
-# ----- Directory tree Fragment. Defines directories to be populated on install.
+# ----- Directory tree Fragment.
+# ----- Defines directories to be populated on install.
 # -----
 
 dir_fragment = SubElement(root, "Fragment")
@@ -157,7 +158,15 @@ x86_release_folder = make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", 
 
 # -----
 # ----- ComponentGroup list Fragment
+# ----- Defines individual files to be installed.
 # -----
+cg_fragment = SubElement(root, "Fragment")
+branch_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchHeaders"})
+branch_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX64"})
+branch_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX86"})
+third_party_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyHeaders"})
+third_party_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX64"})
+third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX86"})
 
 # -----
 # ----- Generate output
