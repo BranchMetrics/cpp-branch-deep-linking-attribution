@@ -88,7 +88,11 @@ def make_component_elem(elem, identifier, directory):
     # TODO: Generating a new UUID each time here. If that's an issue,
     # can put these in a JSON file and add if/when new directories
     # appear.
-    return SubElement(elem, "Component", {"Id": identifier, "Directory": directory, "Guid": str(uuid4())})
+    return SubElement(elem, "Component", {
+        "Id": identifier,
+        "Directory": directory,
+        "Guid": str(uuid4())
+        })
 
 def make_file_elem(elem, identifier, source):
     return SubElement(elem, "File", {"Id": identifier, "Source": source})
@@ -256,8 +260,8 @@ cg_fragment = SubElement(root, "Fragment")
 branch_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchHeaders"})
 third_party_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyHeaders"})
 branch_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX64"})
-branch_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX86"})
 third_party_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX64"})
+branch_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX86"})
 third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX86"})
 
 # TODO: Use wix_components to generate the contents of each of the
@@ -266,6 +270,28 @@ wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
 wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
 # zlib headers are directly in the include_root
 wix_components(third_party_headers, include_root, False)
+
+branch_debug_lib64_folder = SubElement(branch_libraries_x64, "Component", {
+    "Id": "BranchLibrariesDebugX64",
+    "Directory": "X64DEBUGLIBFOLDER"
+    })
+branch_release_lib64_folder = SubElement(branch_libraries_x64, "Component", {
+    "Id": "BranchLibrariesReleaseX64",
+    "Directory": "X64RELEASELIBFOLDER"
+    })
+branch_debug_lib86_folder = SubElement(branch_libraries_x86, "Component", {
+    "Id": "BranchLibrariesDebugX86",
+    "Directory": "X86DEBUGLIBFOLDER"
+    })
+branch_release_lib86_folder = SubElement(branch_libraries_x86, "Component", {
+    "Id": "BranchLibrariesReleaseX86",
+    "Directory": "X86RELEASELIBFOLDER"
+    })
+
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\BranchIO.lib")
+make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\BranchIO.lib")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\BranchIO.lib")
+make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\..\..\..\build\Release\stage\lib\BranchIO.lib")
 
 # -----
 # ----- End XML generation
