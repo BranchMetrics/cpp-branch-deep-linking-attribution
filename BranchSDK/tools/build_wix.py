@@ -154,7 +154,7 @@ def wix_component(elem, path, identifier=None):
         fullpath = os.path.join(path, f)
         if os.path.isdir(fullpath):
             continue
-        source = fullpath.replace(repo_root, "$(var.projectDir)\\..\\..\\..")
+        source = fullpath.replace(repo_root, "$(var.ProjectDir)\\..\\..\\..")
         file_elem = make_file_elem(component, file_identifier(fullpath), source)
 
 """
