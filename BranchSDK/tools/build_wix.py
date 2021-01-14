@@ -164,7 +164,7 @@ product = SubElement(root, "Product", {
     "Id": "*",
     "Name": "Branch C++ SDK for Windows",
     "Language": "1033",
-    "Version": "0.1.0",
+    "Version": "1.1.2", # TODO: Yet another place the version appears. Needs to be automatically propgated from one place.
     "Manufacturer": "Branch Metrics, Inc.",
     "UpgradeCode": "29b1dc08-2190-48f0-bc3c-7455381f2156"
     })
