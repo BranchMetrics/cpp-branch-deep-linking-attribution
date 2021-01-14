@@ -292,7 +292,7 @@ make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.Pr
 make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\stage\lib\BranchIO.lib")
 make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\stage\lib\BranchIO.lib")
 
-x64_debug_lib_path = os.path.join(build_root, "Debug64", "stage", "lib")
+x64_debug_lib_path = os.path.join(build_root, "Debugx64", "stage", "lib")
 x64_release_lib_path = os.path.join(build_root, "Releasex64", "stage", "lib")
 x86_debug_lib_path = os.path.join(build_root, "Debug", "stage", "lib")
 x86_release_lib_path = os.path.join(build_root, "Release", "stage", "lib")
