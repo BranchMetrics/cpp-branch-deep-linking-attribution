@@ -51,6 +51,9 @@ def file_identifier(path):
     if path.endswith(".h"):
         return name.replace(".H", "HEADER")
 
+    if path.endswith(".lib"):
+        return name.replace(".LIB", "LIBRARY")
+
     return name
 
 # Find all subdirectories to all depths. Returns a flat list, for
