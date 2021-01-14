@@ -174,7 +174,7 @@ SubElement(product, "Package", {
     "InstallScope": "perMachine"
     })
 SubElement(product, "MajorUpgrade", {
-    "DowngradeErrorMessage": "A newer version of [ProductName] is already installed."
+    "DowngradeErrorMessage": "A newer version of Branch C++ SDK for Windows is already installed."
     })
 SubElement(product, "Media", {
     "Id": "1",
