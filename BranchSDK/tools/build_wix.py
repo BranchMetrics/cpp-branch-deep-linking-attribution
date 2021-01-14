@@ -244,8 +244,8 @@ branch_sdk_install_folder = make_directory_elem(program_files_folder, "INSTALLFO
 wix_directory(branch_sdk_install_folder, include_root)
 
 make_directory_elem(branch_sdk_install_folder, "LIBFOLDER", "lib")
-make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
-make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
+make_directory_elem(lib_root, "X64LIBFOLDER", "x64")
+make_directory_elem(lib_root, "X86LIBFOLDER", "x86")
 make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
 make_directory_elem(x86_lib_folder, "X86DEBUGLIBFOLDER", "Debug")
 make_directory_elem(x64_lib_folder, "X64RELEASELIBFOLDER", "release")
