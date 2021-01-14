@@ -316,8 +316,9 @@ wix_component(third_party_libraries_x86, x86_release_lib_path, "X86RELEASELIBFOL
 # -----
 
 output = prettify(root)
-print(output)
 
-# TODO: Re-enable disk output once done
-# output_path = os.path.abspath(build_root + "/../BranchSDK/Windows/BranchInstaller/Product.wxs")
-# open(output_path, "w").write(output)
+# Useful for debugging
+# print(output)
+
+output_path = os.path.abspath(build_root + "/../BranchSDK/Windows/BranchInstaller/Product.wxs")
+open(output_path, "w").write(output)
