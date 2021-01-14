@@ -27,54 +27,13 @@ def prettify(elem):
     return reparsed.toprettyxml(indent="  ")
 
 # Method used to generate a unique identifier for a file or directory.
-# E.g
-# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/include -> INCLUDEFOLDER
-# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/include/BranchIO -> INCLUDEBRANCHIOFOLDER
-# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/include/BranchIO/Branch.h -> INCLUDEBRANCHIOBRANCHHEADER
-# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/lib/libPocoFoundationmd.lib -> LIBX64LIBPOCOFOUNDATIONMDLIBRARY
-# /path/to/cpp-branch-deep-linking-attribution/build/Release/stage/lib/libPocoFoundationmd.lib -> LIBX86LIBPOCOFOUNDATIONMDLIBRARY
 def file_identifier(path):
-    split_path = os.path.splitdrive(path)
-    path_components = split_path[1].split(os.sep)
-    name = ""
-
-    ignoring = True
-    for component in path_components:
-        # Once we find include or lib as a path component,
-        # stop ignoring and concatenate the remaining components.
-        if component == "include":
-            ignoring = False
-
-        # Deps have the same library names under Debugx64 and Debug as well as
-        # under Releasex64 and Release.
-        if component == "lib":
-            ignoring = False
-            if "Release" in path_components:
-                name = name + "LIBX86"
-            elif "Releasex64" in path_components:
-                name = name + "LIBX64"
-            elif "Debug" in path_components:
-                name = name + "LIBDX86"
-            else: # Debugx64
-                name = name + "LIBDX64"
-            continue
-
-        if ignoring:
-            continue
-
-        name = name + component.upper()
-
-    if os.path.isdir(path):
-        return name + "FOLDER"
-
-    # TODO: Make this more general with re?
-    if path.endswith(".h"):
-        return name.replace(".H", "HEADER")
-
-    if path.endswith(".lib"):
-        return name.replace(".LIB", "LIBRARY")
-
-    return name
+    build_root = os.path.abspath(os.path.dirname(__file__) + "../../build")
+    # Wix error message:
+    #  Identifiers may contain ASCII characters A-Z, a-z, digits,
+    #  underscores (_), or periods (.).  Every identifier must
+    #  begin with either a letter or an underscore.
+    return path.replace(build_root + os.sep, "").replace(os.sep, ".")
 
 # Find all subdirectories to all depths. Returns a flat list, for
 # a ComponentGroup.
@@ -312,10 +271,10 @@ branch_release_lib64_folder = make_component_elem(branch_libraries_x64, "BranchL
 branch_debug_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesDebugX86", "X86DEBUGLIBFOLDER")
 branch_release_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesReleaseX86", "X86RELEASELIBFOLDER")
 
-make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\stage\lib\BranchIO.lib")
-make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\lib\BranchIO.lib")
-make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\stage\lib\BranchIO.lib")
-make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\stage\lib\BranchIO.lib")
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.lib")
+make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\lib\BranchIO.lib")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.lib")
+make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\lib\BranchIO.lib")
 
 x64_debug_lib_path = os.path.join(build_root, "Debugx64", "stage", "lib")
 x64_release_lib_path = os.path.join(build_root, "Releasex64", "stage", "lib")
