@@ -140,6 +140,12 @@ def wix_component(elem, path):
 
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     for f in os.listdir(path):
+        # Hack: BranchIO.lib goes into its own manuall-created ComponentGroup.
+        # Just ignore that library for now, if we're in a folder that has it.
+        # Otherwise, this has no effect.
+        if path == "BranchIO.lib":
+            continue
+
         fullpath = os.path.join(path, f)
         if os.path.isdir(fullpath):
             continue
@@ -268,30 +274,33 @@ third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "Th
 # CG elements above.
 wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
 wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
-# zlib headers are directly in the include_root
+# zlib headers are directly in the include_root. Don't include subdirs.
 wix_components(third_party_headers, include_root, False)
 
-branch_debug_lib64_folder = SubElement(branch_libraries_x64, "Component", {
-    "Id": "BranchLibrariesDebugX64",
-    "Directory": "X64DEBUGLIBFOLDER"
-    })
-branch_release_lib64_folder = SubElement(branch_libraries_x64, "Component", {
-    "Id": "BranchLibrariesReleaseX64",
-    "Directory": "X64RELEASELIBFOLDER"
-    })
-branch_debug_lib86_folder = SubElement(branch_libraries_x86, "Component", {
-    "Id": "BranchLibrariesDebugX86",
-    "Directory": "X86DEBUGLIBFOLDER"
-    })
-branch_release_lib86_folder = SubElement(branch_libraries_x86, "Component", {
-    "Id": "BranchLibrariesReleaseX86",
-    "Directory": "X86RELEASELIBFOLDER"
-    })
+# The BranchIO.lib sits in the same lib folder with the third-party libs. This
+# is as it should be, to avoid making devs pass multiple library paths at
+# link time. Manually add it to its own ComponentGroups and ignore it in
+# wix_component to allow the rest to be scooped up into the third-party
+# CGs.
+branch_debug_lib64_folder = make_component_elem(branch_libraries_x64,  "BranchLibrariesDebugX64", "X64DEBUGLIBFOLDER")
+branch_release_lib64_folder = make_component_elem(branch_libraries_x64, "BranchLibrariesReleaseX64", "X64RELEASELIBFOLDER")
+branch_debug_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesDebugX86", "X86DEBUGLIBFOLDER")
+branch_release_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesReleaseX86", "X86RELEASELIBFOLDER")
 
 make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\stage\lib\BranchIO.lib")
 make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\lib\BranchIO.lib")
 make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\stage\lib\BranchIO.lib")
 make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\stage\lib\BranchIO.lib")
+
+x64_debug_lib_path = os.path.join(build_root, "Debug64", "stage", "lib")
+x64_release_lib_path = os.path.join(build_root, "Releasex64", "stage", "lib")
+x86_debug_lib_path = os.path.join(build_root, "Debug", "stage", "lib")
+x86_release_lib_path = os.path.join(build_root, "Release", "stage", "lib")
+
+wix_components(third_party_libraries_x64, x64_debug_lib_path)
+wix_components(third_party_libraries_x64, x64_release_lib_path)
+wix_components(third_party_libraries_x86, x86_debug_lib_path)
+wix_components(third_party_libraries_x86, x86_release_lib_path)
 
 # -----
 # ----- End XML generation
