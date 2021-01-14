@@ -299,10 +299,10 @@ x64_release_lib_path = os.path.join(build_root, "Releasex64", "stage", "lib")
 x86_debug_lib_path = os.path.join(build_root, "Debug", "stage", "lib")
 x86_release_lib_path = os.path.join(build_root, "Release", "stage", "lib")
 
-wix_components(third_party_libraries_x64, x64_debug_lib_path)
-wix_components(third_party_libraries_x64, x64_release_lib_path)
-wix_components(third_party_libraries_x86, x86_debug_lib_path)
-wix_components(third_party_libraries_x86, x86_release_lib_path)
+wix_component(third_party_libraries_x64, x64_debug_lib_path)
+wix_component(third_party_libraries_x64, x64_release_lib_path)
+wix_component(third_party_libraries_x86, x86_debug_lib_path)
+wix_component(third_party_libraries_x86, x86_release_lib_path)
 
 # -----
 # ----- End XML generation
