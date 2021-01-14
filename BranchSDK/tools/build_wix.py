@@ -49,10 +49,14 @@ def file_identifier(path):
         # under Releasex64 and Release.
         if component == "lib":
             ignoring = False
-            if "Release" in path_components or "Debug" in path_components:
+            if "Release" in path_components:
                 name = name + "LIBX86"
-            else:
+            elif "Releasex64" in path_components:
                 name = name + "LIBX64"
+            elif "Debug" in path_components:
+                name = name + "LIBDX86"
+            else: # Debugx64
+                name = name + "LIBDX64"
             continue
 
         if ignoring:
