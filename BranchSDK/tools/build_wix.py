@@ -27,6 +27,12 @@ def prettify(elem):
     return reparsed.toprettyxml(indent="  ")
 
 # Method used to generate a unique identifier for a file or directory.
+# E.g
+# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/include -> INCLUDEFOLDER
+# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/include/BranchIO -> INCLUDEBRANCHIOFOLDER
+# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/include/BranchIO/Branch.h -> INCLUDEBRANCHIOBRANCHHEADER
+# /path/to/cpp-branch-deep-linking-attribution/build/Releasex64/stage/lib/libPocoFoundationmd.lib -> LIBX64LIBPOCOFOUNDATIONMDLIBRARY
+# /path/to/cpp-branch-deep-linking-attribution/build/Release/stage/lib/libPocoFoundationmd.lib -> LIBX86LIBPOCOFOUNDATIONMDLIBRARY
 def file_identifier(path):
     split_path = os.path.splitdrive(path)
     path_components = split_path[1].split(os.sep)
@@ -36,8 +42,18 @@ def file_identifier(path):
     for component in path_components:
         # Once we find include or lib as a path component,
         # stop ignoring and concatenate the remaining components.
-        if component == "include" or component == "lib":
+        if component == "include":
             ignoring = False
+
+        # Deps have the same library names under Debugx64 and Debug as well as
+        # under Releasex64 and Release.
+        if component == "lib":
+            ignoring = False
+            if "Release" in path_components or "Debug" in path_components:
+                name = name + "LIBX86"
+            else:
+                name = name + "LIBX64"
+            continue
 
         if ignoring:
             continue
