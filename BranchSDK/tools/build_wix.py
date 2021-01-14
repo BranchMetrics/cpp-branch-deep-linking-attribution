@@ -288,10 +288,10 @@ branch_release_lib86_folder = SubElement(branch_libraries_x86, "Component", {
     "Directory": "X86RELEASELIBFOLDER"
     })
 
-make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\BranchIO.lib")
-make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\BranchIO.lib")
-make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\BranchIO.lib")
-make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\..\..\..\build\Release\stage\lib\BranchIO.lib")
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\stage\lib\BranchIO.lib")
+make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\lib\BranchIO.lib")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\stage\lib\BranchIO.lib")
+make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\stage\lib\BranchIO.lib")
 
 # -----
 # ----- End XML generation
