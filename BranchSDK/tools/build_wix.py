@@ -186,7 +186,7 @@ SubElement(product, "Icon", {
     "SourceFile": "branch-badge-dark.ico"
     })
 SubElement(product, "Property", {
-    "Id": "ARPPRODUCTION",
+    "Id": "ARPPRODUCTICON",
     "Value": "branch.ico"
     })
 
