@@ -34,7 +34,9 @@ def file_identifier(path):
 
     ignoring = True
     for component in path_components:
-        if component == "include":
+        # Once we find include or lib as a path component,
+        # stop ignoring and concatenate the remaining components.
+        if component == "include" or component == "lib":
             ignoring = False
 
         if ignoring:
@@ -143,7 +145,7 @@ def wix_component(elem, path):
         # Hack: BranchIO.lib goes into its own manuall-created ComponentGroup.
         # Just ignore that library for now, if we're in a folder that has it.
         # Otherwise, this has no effect.
-        if path == "BranchIO.lib":
+        if f == "BranchIO.lib":
             continue
 
         fullpath = os.path.join(path, f)
