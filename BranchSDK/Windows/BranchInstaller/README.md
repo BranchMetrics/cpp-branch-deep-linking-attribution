@@ -55,7 +55,7 @@ Debug:
 ```
 BranchIO.lib
 advapi32.lib
-PocoNetmd.lib
+PocoNetmdd.lib
 PocoNetSSLWinmdd.lib
 PocoCryptomdd.lib
 PocoDatamdd.lib
