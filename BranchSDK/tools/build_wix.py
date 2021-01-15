@@ -148,7 +148,8 @@ def wix_components(elem, paths, include_subdirs=True):
         alldirs = [path]
         if include_subdirs:
             alldirs = alldirs + all_subdirs(path)
-        return [wix_component(elem, d) for d in alldirs]
+
+    return [wix_component(elem, d) for d in alldirs]
 
 # -----
 # ----- Begin XML generation
