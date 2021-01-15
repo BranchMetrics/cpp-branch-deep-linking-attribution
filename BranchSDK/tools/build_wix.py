@@ -255,7 +255,7 @@ third_party_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "Th
 branch_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX86"})
 third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX86"})
 
-# TODO: Use wix_components to generate the contents of each of the
+# Use wix_components to generate the contents of each of the
 # CG elements above.
 wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
 wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
