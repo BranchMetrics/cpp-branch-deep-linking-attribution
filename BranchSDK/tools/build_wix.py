@@ -169,9 +169,8 @@ product = SubElement(root, "Product", {
     "UpgradeCode": "29b1dc08-2190-48f0-bc3c-7455381f2156"
     })
 SubElement(product, "Package", {
-    "InstallerVersion": "200",
-    "Compressed": "yes",
-    "InstallScope": "perMachine"
+    "InstallerVersion": "200", "Compressed": "yes", "InstallScope":
+    "perMachine"
     })
 SubElement(product, "MajorUpgrade", {
     "DowngradeErrorMessage": "A newer version of Branch C++ SDK for Windows is already installed."
@@ -225,7 +224,7 @@ lib_root = os.path.join(stage_root, "lib")
 dir_fragment = SubElement(root, "Fragment")
 source_dir = make_directory_elem(dir_fragment, "TARGETDIR", "SourceDir")
 # C:\Program Files (x86)
-program_files_folder = make_directory_elem(source_dir, "ProgramFilesDir")
+program_files_folder = make_directory_elem(source_dir, "ProgramFilesFolder")
 # C:\Program Files (x86)\Branch SDK
 branch_sdk_install_folder = make_directory_elem(program_files_folder, "INSTALLFOLDER", "Branch SDK")
 
