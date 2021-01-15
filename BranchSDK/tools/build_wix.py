@@ -144,8 +144,9 @@ def wix_components(elem, paths, include_subdirs=True):
     if not type(paths) is list:
         paths = [paths]
 
+    alldirs = []
     for path in paths:
-        alldirs = [path]
+        alldirs.append(path)
         if include_subdirs:
             alldirs = alldirs + all_subdirs(path)
 
