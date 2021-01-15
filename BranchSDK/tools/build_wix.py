@@ -237,8 +237,8 @@ x64_lib_folder = make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
 x86_lib_folder = make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
 make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
 make_directory_elem(x86_lib_folder, "X86DEBUGLIBFOLDER", "Debug")
-make_directory_elem(x64_lib_folder, "X64RELEASELIBFOLDER", "release")
-make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", "release")
+make_directory_elem(x64_lib_folder, "X64RELEASELIBFOLDER", "Release")
+make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", "Release")
 
 # -----
 # ----- ComponentGroup list Fragment
