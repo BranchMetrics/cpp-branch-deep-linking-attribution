@@ -53,7 +53,7 @@ configuration:
 
 Debug:
 ```
-BranchIO.lib
+BranchIOmdd.lib
 advapi32.lib
 PocoNetmdd.lib
 PocoNetSSLWinmdd.lib
@@ -76,7 +76,7 @@ zlib.lib
 
 Release:
 ```
-BranchIO.lib
+BranchIOmd.lib
 advapi32.lib
 PocoNetmd.lib
 PocoNetSSLWinmd.lib
