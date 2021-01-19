@@ -78,8 +78,11 @@ def make_component_elem(elem, identifier, directory):
         "Guid": str(uuid4())
         })
 
-def make_file_elem(elem, identifier, source):
-    return SubElement(elem, "File", {"Id": identifier, "Source": source})
+def make_file_elem(elem, identifier, source, name=None):
+    if name:
+        return SubElement(elem, "File", {"Id": identifier, "Name": name, "Source": source})
+    else:
+        return SubElement(elem, "File", {"Id": identifier, "Source": source})
 
 # -----
 # ----- Methods to generate Wix XML from the contents of a given path
@@ -272,10 +275,10 @@ branch_release_lib64_folder = make_component_elem(branch_libraries_x64, "BranchL
 branch_debug_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesDebugX86", "X86DEBUGLIBFOLDER")
 branch_release_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesReleaseX86", "X86RELEASELIBFOLDER")
 
-make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.lib")
-make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\lib\BranchIO.lib")
-make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.lib")
-make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\lib\BranchIO.lib")
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.lib", "BranchIOmdd.lib")
+make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\lib\BranchIO.lib", "BranchIOmd.lib")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.lib", "BranchIOmdd.lib")
+make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\lib\BranchIO.lib", "BranchIOmd.lib")
 
 x64_debug_lib_path = os.path.join(build_root, "Debugx64", "stage", "lib")
 x64_release_lib_path = os.path.join(build_root, "Releasex64", "stage", "lib")
