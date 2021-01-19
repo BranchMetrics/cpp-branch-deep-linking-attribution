@@ -186,13 +186,18 @@ SubElement(product, "Media", {
     "EmbedCab": "yes"
     })
 SubElement(product, "Icon", {
-    "Id": "branch.ico",
+    "Id": "branch.exe",
     "SourceFile": "branch-badge-dark.ico"
     })
 SubElement(product, "Property", {
     "Id": "ARPPRODUCTICON",
-    "Value": "branch.ico"
+    "Value": "branch.exe"
     })
+SubElement(product, "Property", {
+    "Id": "ARPHELPLINK",
+    "Value": "https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"
+    })
+SubElement(product, "UIRef", { "Id": "WixUI_InstallDir" })
 
 feature = SubElement(product, "Feature", {
     "Id": "ProductFeature",

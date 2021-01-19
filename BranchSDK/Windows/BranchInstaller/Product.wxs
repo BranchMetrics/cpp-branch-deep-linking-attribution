@@ -5,8 +5,10 @@
     <Package Compressed="yes" InstallScope="perMachine" InstallerVersion="200"/>
     <MajorUpgrade DowngradeErrorMessage="A newer version of Branch C++ SDK for Windows is already installed."/>
     <Media Cabinet="cab1.cab" EmbedCab="yes" Id="1"/>
-    <Icon Id="branch.ico" SourceFile="branch-badge-dark.ico"/>
-    <Property Id="ARPPRODUCTICON" Value="branch.ico"/>
+    <Icon Id="branch.exe" SourceFile="branch-badge-dark.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="branch.exe"/>
+    <Property Id="ARPHELPLINK" Value="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"/>
+    <UIRef Id="WixUI_InstallDir"/>
     <Feature Id="ProductFeature" Level="1" Title="Branch Installer">
       <ComponentGroupRef Id="BranchHeaders"/>
       <ComponentGroupRef Id="BranchLibrariesX64"/>
@@ -59,7 +61,7 @@
   </Fragment>
   <Fragment>
     <ComponentGroup Id="BranchHeaders">
-      <Component Directory="Releasex64.stage.include.BranchIO" Guid="1e428be2-ca06-45e7-aac0-f7bd020b4156" Id="Releasex64.stage.include.BranchIO">
+      <Component Directory="Releasex64.stage.include.BranchIO" Guid="b5a47996-aa1e-4c93-a47d-439ce127ae28" Id="Releasex64.stage.include.BranchIO">
         <File Id="Releasex64.stage.include.BranchIO.AdvertiserInfo.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AdvertiserInfo.h"/>
         <File Id="Releasex64.stage.include.BranchIO.AppInfo.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AppInfo.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Branch.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Branch.h"/>
@@ -79,7 +81,7 @@
         <File Id="Releasex64.stage.include.BranchIO.String.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\String.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Version.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Version.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.BranchIO.Event" Guid="3fb0a556-72b8-475f-a5c1-d2f477f8e3a1" Id="Releasex64.stage.include.BranchIO.Event">
+      <Component Directory="Releasex64.stage.include.BranchIO.Event" Guid="88a8e3e6-0c75-4def-8a9a-020035a536f9" Id="Releasex64.stage.include.BranchIO.Event">
         <File Id="Releasex64.stage.include.BranchIO.Event.BaseEvent.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\BaseEvent.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Event.CustomEvent.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\CustomEvent.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Event.Event.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\Event.h"/>
@@ -87,7 +89,7 @@
         <File Id="Releasex64.stage.include.BranchIO.Event.SessionEvent.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\SessionEvent.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Event.StandardEvent.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Event\StandardEvent.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.BranchIO.Util" Guid="3a4d674a-bef1-4194-8579-8276442138de" Id="Releasex64.stage.include.BranchIO.Util">
+      <Component Directory="Releasex64.stage.include.BranchIO.Util" Guid="b7648c30-a39f-4940-acb3-03870278c5fd" Id="Releasex64.stage.include.BranchIO.Util">
         <File Id="Releasex64.stage.include.BranchIO.Util.APIClientSession.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\APIClientSession.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Util.IClientSession.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\IClientSession.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Util.IStorage.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\IStorage.h"/>
@@ -103,7 +105,7 @@
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyHeaders">
-      <Component Directory="Releasex64.stage.include.Poco" Guid="dba6f4f8-d8b9-4e4a-9d1b-bd93a8097784" Id="Releasex64.stage.include.Poco">
+      <Component Directory="Releasex64.stage.include.Poco" Guid="a6a9982a-4b3b-4cfb-888d-8049eabd7aa6" Id="Releasex64.stage.include.Poco">
         <File Id="Releasex64.stage.include.Poco.AbstractCache.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractCache.h"/>
         <File Id="Releasex64.stage.include.Poco.AbstractDelegate.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractDelegate.h"/>
         <File Id="Releasex64.stage.include.Poco.AbstractEvent.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AbstractEvent.h"/>
@@ -428,7 +430,7 @@
         <File Id="Releasex64.stage.include.Poco.zconf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\zconf.h"/>
         <File Id="Releasex64.stage.include.Poco.zlib.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\zlib.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Crypto" Guid="39cec761-16c3-49e7-8ad1-0dc9c805ff41" Id="Releasex64.stage.include.Poco.Crypto">
+      <Component Directory="Releasex64.stage.include.Poco.Crypto" Guid="656b1a4a-a235-475e-b463-7f5d6227153d" Id="Releasex64.stage.include.Poco.Crypto">
         <File Id="Releasex64.stage.include.Poco.Crypto.Cipher.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\Cipher.h"/>
         <File Id="Releasex64.stage.include.Poco.Crypto.CipherFactory.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CipherFactory.h"/>
         <File Id="Releasex64.stage.include.Poco.Crypto.CipherImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\CipherImpl.h"/>
@@ -453,7 +455,7 @@
         <File Id="Releasex64.stage.include.Poco.Crypto.RSAKeyImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\RSAKeyImpl.h"/>
         <File Id="Releasex64.stage.include.Poco.Crypto.X509Certificate.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Crypto\X509Certificate.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Data" Guid="916a596d-300d-4e6d-b7c1-a42755035cd1" Id="Releasex64.stage.include.Poco.Data">
+      <Component Directory="Releasex64.stage.include.Poco.Data" Guid="4321b2a4-a415-4082-9389-da263b4fc0ee" Id="Releasex64.stage.include.Poco.Data">
         <File Id="Releasex64.stage.include.Poco.Data.AbstractBinder.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractBinder.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.AbstractBinding.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractBinding.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.AbstractExtraction.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\AbstractExtraction.h"/>
@@ -504,7 +506,7 @@
         <File Id="Releasex64.stage.include.Poco.Data.Transaction.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\Transaction.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.TypeHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\TypeHandler.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.DOM" Guid="59614b5b-8105-4d0f-a509-2f7808cd47d8" Id="Releasex64.stage.include.Poco.DOM">
+      <Component Directory="Releasex64.stage.include.Poco.DOM" Guid="912ced1b-a3a2-43a5-b684-8f04924f4899" Id="Releasex64.stage.include.Poco.DOM">
         <File Id="Releasex64.stage.include.Poco.DOM.AbstractContainerNode.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\AbstractContainerNode.h"/>
         <File Id="Releasex64.stage.include.Poco.DOM.AbstractNode.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\AbstractNode.h"/>
         <File Id="Releasex64.stage.include.Poco.DOM.Attr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Attr.h"/>
@@ -547,14 +549,14 @@
         <File Id="Releasex64.stage.include.Poco.DOM.Text.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\Text.h"/>
         <File Id="Releasex64.stage.include.Poco.DOM.TreeWalker.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DOM\TreeWalker.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Dynamic" Guid="c4f47d93-f2c8-46a1-9c29-4005759de67c" Id="Releasex64.stage.include.Poco.Dynamic">
+      <Component Directory="Releasex64.stage.include.Poco.Dynamic" Guid="0ad5591f-f3bd-4fd7-b03f-afb80df704dd" Id="Releasex64.stage.include.Poco.Dynamic">
         <File Id="Releasex64.stage.include.Poco.Dynamic.Pair.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Pair.h"/>
         <File Id="Releasex64.stage.include.Poco.Dynamic.Struct.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Struct.h"/>
         <File Id="Releasex64.stage.include.Poco.Dynamic.Var.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\Var.h"/>
         <File Id="Releasex64.stage.include.Poco.Dynamic.VarHolder.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\VarHolder.h"/>
         <File Id="Releasex64.stage.include.Poco.Dynamic.VarIterator.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Dynamic\VarIterator.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.JSON" Guid="b670b9c7-76d5-48ae-a43e-4e281e5f32e3" Id="Releasex64.stage.include.Poco.JSON">
+      <Component Directory="Releasex64.stage.include.Poco.JSON" Guid="35990a7b-02b4-4a2e-b6ec-626b9dddc902" Id="Releasex64.stage.include.Poco.JSON">
         <File Id="Releasex64.stage.include.Poco.JSON.Array.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Array.h"/>
         <File Id="Releasex64.stage.include.Poco.JSON.Handler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Handler.h"/>
         <File Id="Releasex64.stage.include.Poco.JSON.JSON.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\JSON.h"/>
@@ -569,7 +571,7 @@
         <File Id="Releasex64.stage.include.Poco.JSON.Template.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Template.h"/>
         <File Id="Releasex64.stage.include.Poco.JSON.TemplateCache.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\TemplateCache.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Net" Guid="abcc983c-0082-4893-aa82-6168127becca" Id="Releasex64.stage.include.Poco.Net">
+      <Component Directory="Releasex64.stage.include.Poco.Net" Guid="7b5cd913-eff6-43f6-8dea-256e5c5163de" Id="Releasex64.stage.include.Poco.Net">
         <File Id="Releasex64.stage.include.Poco.Net.AbstractHTTPRequestHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\AbstractHTTPRequestHandler.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.AcceptCertificateHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\AcceptCertificateHandler.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.AutoSecBufferDesc.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\AutoSecBufferDesc.h"/>
@@ -706,7 +708,7 @@
         <File Id="Releasex64.stage.include.Poco.Net.WebSocketImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\WebSocketImpl.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.X509Certificate.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\X509Certificate.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Redis" Guid="9af99417-8481-4e9c-8345-1e430c2b287a" Id="Releasex64.stage.include.Poco.Redis">
+      <Component Directory="Releasex64.stage.include.Poco.Redis" Guid="98418f39-9e10-46d0-8c8f-65525a9757d8" Id="Releasex64.stage.include.Poco.Redis">
         <File Id="Releasex64.stage.include.Poco.Redis.Array.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Redis\Array.h"/>
         <File Id="Releasex64.stage.include.Poco.Redis.AsyncReader.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Redis\AsyncReader.h"/>
         <File Id="Releasex64.stage.include.Poco.Redis.Client.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Redis\Client.h"/>
@@ -719,7 +721,7 @@
         <File Id="Releasex64.stage.include.Poco.Redis.RedisStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Redis\RedisStream.h"/>
         <File Id="Releasex64.stage.include.Poco.Redis.Type.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Redis\Type.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.SAX" Guid="b71d999c-00ed-45b2-98bf-957ed06b4e8c" Id="Releasex64.stage.include.Poco.SAX">
+      <Component Directory="Releasex64.stage.include.Poco.SAX" Guid="29d5d005-2385-41b6-a06d-1d757da824a4" Id="Releasex64.stage.include.Poco.SAX">
         <File Id="Releasex64.stage.include.Poco.SAX.Attributes.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\Attributes.h"/>
         <File Id="Releasex64.stage.include.Poco.SAX.AttributesImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\AttributesImpl.h"/>
         <File Id="Releasex64.stage.include.Poco.SAX.ContentHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\ContentHandler.h"/>
@@ -741,7 +743,7 @@
         <File Id="Releasex64.stage.include.Poco.SAX.XMLFilterImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLFilterImpl.h"/>
         <File Id="Releasex64.stage.include.Poco.SAX.XMLReader.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SAX\XMLReader.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Util" Guid="5a59ad9e-1aee-4fc4-ba37-25e3b13fbb86" Id="Releasex64.stage.include.Poco.Util">
+      <Component Directory="Releasex64.stage.include.Poco.Util" Guid="59f3f544-fd86-42e1-909a-e7a6aec5544f" Id="Releasex64.stage.include.Poco.Util">
         <File Id="Releasex64.stage.include.Poco.Util.AbstractConfiguration.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\AbstractConfiguration.h"/>
         <File Id="Releasex64.stage.include.Poco.Util.Application.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\Application.h"/>
         <File Id="Releasex64.stage.include.Poco.Util.ConfigurationMapper.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\ConfigurationMapper.h"/>
@@ -776,7 +778,7 @@
         <File Id="Releasex64.stage.include.Poco.Util.WinService.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\WinService.h"/>
         <File Id="Releasex64.stage.include.Poco.Util.XMLConfiguration.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Util\XMLConfiguration.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.XML" Guid="37ba2fe1-d6a3-44a8-9248-43b518c288ba" Id="Releasex64.stage.include.Poco.XML">
+      <Component Directory="Releasex64.stage.include.Poco.XML" Guid="1c419e1e-d287-417b-b88b-e2a8ebbfbd22" Id="Releasex64.stage.include.Poco.XML">
         <File Id="Releasex64.stage.include.Poco.XML.Content.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\XML\Content.h"/>
         <File Id="Releasex64.stage.include.Poco.XML.expat.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\XML\expat.h"/>
         <File Id="Releasex64.stage.include.Poco.XML.expat_external.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\XML\expat_external.h"/>
@@ -794,7 +796,7 @@
         <File Id="Releasex64.stage.include.Poco.XML.XMLString.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\XML\XMLString.h"/>
         <File Id="Releasex64.stage.include.Poco.XML.XMLWriter.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\XML\XMLWriter.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Zip" Guid="5d5a30e1-f1f6-4d7f-b8dd-6ea5fb51fe36" Id="Releasex64.stage.include.Poco.Zip">
+      <Component Directory="Releasex64.stage.include.Poco.Zip" Guid="8377ce60-49d5-4065-b40f-4be4518fd909" Id="Releasex64.stage.include.Poco.Zip">
         <File Id="Releasex64.stage.include.Poco.Zip.Add.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Zip\Add.h"/>
         <File Id="Releasex64.stage.include.Poco.Zip.AutoDetectStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Zip\AutoDetectStream.h"/>
         <File Id="Releasex64.stage.include.Poco.Zip.Compress.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Zip\Compress.h"/>
@@ -819,7 +821,7 @@
         <File Id="Releasex64.stage.include.Poco.Zip.ZipStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Zip\ZipStream.h"/>
         <File Id="Releasex64.stage.include.Poco.Zip.ZipUtil.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Zip\ZipUtil.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Data.MySQL" Guid="49d68aab-3b8a-4e0e-861c-c81b01e02d44" Id="Releasex64.stage.include.Poco.Data.MySQL">
+      <Component Directory="Releasex64.stage.include.Poco.Data.MySQL" Guid="edf75880-13dc-43c3-9230-8b6c40e11b32" Id="Releasex64.stage.include.Poco.Data.MySQL">
         <File Id="Releasex64.stage.include.Poco.Data.MySQL.Binder.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Binder.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.MySQL.Connector.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Connector.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.MySQL.Extractor.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Extractor.h"/>
@@ -832,7 +834,7 @@
         <File Id="Releasex64.stage.include.Poco.Data.MySQL.StatementExecutor.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\StatementExecutor.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.MySQL.Utility.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\MySQL\Utility.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.Poco.Data.ODBC" Guid="0c25cfc2-fe42-4a1b-a138-c11920a09ea2" Id="Releasex64.stage.include.Poco.Data.ODBC">
+      <Component Directory="Releasex64.stage.include.Poco.Data.ODBC" Guid="224bbbbf-b4cc-43e5-896d-62b9cf1af89d" Id="Releasex64.stage.include.Poco.Data.ODBC">
         <File Id="Releasex64.stage.include.Poco.Data.ODBC.Binder.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Binder.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.ODBC.ConnectionHandle.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\ConnectionHandle.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.ODBC.Connector.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Connector.h"/>
@@ -854,7 +856,7 @@
         <File Id="Releasex64.stage.include.Poco.Data.ODBC.Unicode_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Unicode_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.ODBC.Utility.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Utility.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.openssl" Guid="72b73fc3-189a-4411-b5ea-6dd7221d1d4f" Id="Releasex64.stage.include.openssl">
+      <Component Directory="Releasex64.stage.include.openssl" Guid="b120cd7b-fc5c-419e-b75f-f3a6a19402bb" Id="Releasex64.stage.include.openssl">
         <File Id="Releasex64.stage.include.openssl.aes.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\aes.h"/>
         <File Id="Releasex64.stage.include.openssl.asn1.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1.h"/>
         <File Id="Releasex64.stage.include.openssl.asn1t.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1t.h"/>
@@ -931,21 +933,21 @@
         <File Id="Releasex64.stage.include.openssl.x509v3.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509v3.h"/>
         <File Id="Releasex64.stage.include.openssl.x509_vfy.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509_vfy.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include" Guid="7b95c55c-3185-4eb6-8035-2a7852bff7a7" Id="Releasex64.stage.include">
+      <Component Directory="Releasex64.stage.include" Guid="848c53dc-e2a4-4ddf-b529-e7306bff4163" Id="Releasex64.stage.include">
         <File Id="Releasex64.stage.include.zconf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zconf.h"/>
         <File Id="Releasex64.stage.include.zlib.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zlib.h"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchLibrariesX64">
-      <Component Directory="X64DEBUGLIBFOLDER" Guid="8cbfb890-113e-4f5c-8bf7-e021bdd2d498" Id="BranchLibrariesDebugX64">
+      <Component Directory="X64DEBUGLIBFOLDER" Guid="a76580d9-8231-4b96-b63c-c115628dbb43" Id="BranchLibrariesDebugX64">
         <File Id="BranchDebugX64Library" Name="BranchIOmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\lib\BranchIO.lib"/>
       </Component>
-      <Component Directory="X64RELEASELIBFOLDER" Guid="e273e2f3-8be2-4f1a-ab57-0bc5e94cf7f4" Id="BranchLibrariesReleaseX64">
+      <Component Directory="X64RELEASELIBFOLDER" Guid="84047027-71f0-41b3-bceb-21683a6785ec" Id="BranchLibrariesReleaseX64">
         <File Id="BranchReleaseX64Library" Name="BranchIOmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\lib\BranchIO.lib"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX64">
-      <Component Directory="X64DEBUGLIBFOLDER" Guid="32651b8c-7e06-47cb-bd10-e700e66acf94" Id="X64DEBUGLIBFOLDER">
+      <Component Directory="X64DEBUGLIBFOLDER" Guid="5ef46640-a3d1-430c-832b-e97dfcf62705" Id="X64DEBUGLIBFOLDER">
         <File Id="Debugx64.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\libeay32.lib"/>
         <File Id="Debugx64.stage.lib.PocoCryptomdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoCryptomdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoDatamdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoDatamdd.lib"/>
@@ -962,7 +964,7 @@
         <File Id="Debugx64.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\ssleay32.lib"/>
         <File Id="Debugx64.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\zlib.lib"/>
       </Component>
-      <Component Directory="X64RELEASELIBFOLDER" Guid="16cf4335-1901-43fa-9624-c4be102ebafa" Id="X64RELEASELIBFOLDER">
+      <Component Directory="X64RELEASELIBFOLDER" Guid="bc9d65d7-c828-4109-8d07-52a8b94f0c55" Id="X64RELEASELIBFOLDER">
         <File Id="Releasex64.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\libeay32.lib"/>
         <File Id="Releasex64.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoCryptomd.lib"/>
         <File Id="Releasex64.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoDatamd.lib"/>
@@ -981,15 +983,15 @@
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchLibrariesX86">
-      <Component Directory="X86DEBUGLIBFOLDER" Guid="fa9ad094-4fec-4f93-875b-cdeb49d87ca0" Id="BranchLibrariesDebugX86">
+      <Component Directory="X86DEBUGLIBFOLDER" Guid="51c1f619-bd83-40c5-932a-bb81c50d6714" Id="BranchLibrariesDebugX86">
         <File Id="BranchDebugX86Library" Name="BranchIOmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\lib\BranchIO.lib"/>
       </Component>
-      <Component Directory="X86RELEASELIBFOLDER" Guid="ddd4d0c9-f2cb-4d6a-842e-ed40e479106a" Id="BranchLibrariesReleaseX86">
+      <Component Directory="X86RELEASELIBFOLDER" Guid="653cc343-82ea-4f11-ab50-6b99e7cb99bc" Id="BranchLibrariesReleaseX86">
         <File Id="BranchReleaseX86Library" Name="BranchIOmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\lib\BranchIO.lib"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX86">
-      <Component Directory="X86DEBUGLIBFOLDER" Guid="8c9aae9c-1cbb-45b7-be99-b7f283d65a49" Id="X86DEBUGLIBFOLDER">
+      <Component Directory="X86DEBUGLIBFOLDER" Guid="c9f27faa-4ba4-460e-917f-66196752dfc3" Id="X86DEBUGLIBFOLDER">
         <File Id="Debug.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\libeay32.lib"/>
         <File Id="Debug.stage.lib.PocoCryptomdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoCryptomdd.lib"/>
         <File Id="Debug.stage.lib.PocoDatamdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoDatamdd.lib"/>
@@ -1006,7 +1008,7 @@
         <File Id="Debug.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\ssleay32.lib"/>
         <File Id="Debug.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\zlib.lib"/>
       </Component>
-      <Component Directory="X86RELEASELIBFOLDER" Guid="6d5a7fe7-550e-4b93-aaf3-0d1d052dc564" Id="X86RELEASELIBFOLDER">
+      <Component Directory="X86RELEASELIBFOLDER" Guid="d795758d-69f8-4b4b-80a9-0fe683d2814a" Id="X86RELEASELIBFOLDER">
         <File Id="Release.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\libeay32.lib"/>
         <File Id="Release.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoCryptomd.lib"/>
         <File Id="Release.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoDatamd.lib"/>
