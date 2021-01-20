@@ -206,6 +206,10 @@ SubElement(product, "WixVariable", {
     "Id": "WixUIDialogBmp",
     "Value": "branch-background.bmp"
     })
+SubElement(product, "WixVariable", {
+    "Id": "WixUIBannerBmp",
+    "Value": "branch-baner.bmp"
+    })
 
 feature = SubElement(product, "Feature", {
     "Id": "ProductFeature",
