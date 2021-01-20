@@ -15,6 +15,26 @@ import xml.etree.ElementTree as ET
 from xml.etree.ElementTree import Comment, Element, SubElement
 
 # -----
+# ----- JSON Guid map
+# -----
+
+def guid_for_id(identifier):
+    file_path = "component-ids.json"
+
+    # load stored component IDs from disk if any
+    component_ids = json.load(open(file_path, "r"))
+
+    component_id = component_ids.get(identifier, None)
+    if not component_id:
+        component_id = str(uuid4())
+        component_ids[identifier] = component_id
+        f = open(file_path, "w")
+        json.dump(component_ids, f)
+        f.close()
+
+    return component_id
+
+# -----
 # ----- Utilities used below
 # -----
 
@@ -69,13 +89,10 @@ def make_directory_elem(elem, identifier, name=None):
         return SubElement(elem, "Directory", {"Id": identifier})
 
 def make_component_elem(elem, identifier, directory):
-    # TODO: Generating a new UUID each time here. If that's an issue,
-    # can put these in a JSON file and add if/when new directories
-    # appear.
     return SubElement(elem, "Component", {
         "Id": identifier,
         "Directory": directory,
-        "Guid": str(uuid4())
+        "Guid": guid_for_id(identifier)
         })
 
 def make_file_elem(elem, identifier, source, name=None):
