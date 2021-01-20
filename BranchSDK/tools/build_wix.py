@@ -197,7 +197,7 @@ SubElement(product, "Property", {
     "Id": "ARPHELPLINK",
     "Value": "https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"
     })
-SubElement(product, "UIRef", { "Id": "WixUI_InstallDir" })
+SubElement(product, "UIRef", { "Id": "WixUI_InstallDir_NoLic" })
 SubElement(product, "WixVariable", { "Id": "WixUIDialogBmp", "Value": "branch-background.bmp"})
 
 feature = SubElement(product, "Feature", {
