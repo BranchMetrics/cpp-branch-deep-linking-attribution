@@ -133,6 +133,7 @@ zlib.lib
 ![Libraries](./assets/libraries.png)
 ![Libraries Detail](./assets/libraries-detail.png)
 
-Your app should now build and run.
+Your app should now build and run. See the [TestBed](../../BranchSDK-Samples/Windows/TestBed)
+app for reference.
 
 Continue to integration in the next section (Section III of [Integrating the Branch SDK](https://help.branch.io/developers-hub/docs/windows-cpp-basic-integration#integrating-the-branch-sdk)).
