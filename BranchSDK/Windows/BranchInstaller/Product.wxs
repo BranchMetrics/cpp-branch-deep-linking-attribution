@@ -10,19 +10,23 @@
     <UIRef Id="WixUI_FeatureTree_NoLic"/>
     <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
-    <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Display="expand">
+    <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Display="expand" Description="Core Branch SDK (required)">
       <ComponentGroupRef Id="BranchHeaders"/>
-      <Feature Id="BranchSDKX64Feature" Title="64-bit Libraries">
+      <Feature Id="BranchSDKX64Feature" Title="64-bit Libraries" Description="64-bit Branch SDK libraries">
         <ComponentGroupRef Id="BranchLibrariesX64"/>
       </Feature>
-      <Feature Id="BranchSDKX86Feature" Title="32-bit Libraries">
+      <Feature Id="BranchSDKX86Feature" Title="32-bit Libraries" Description="32-bit Branch SDK libraries">
         <ComponentGroupRef Id="BranchLibrariesX86"/>
       </Feature>
     </Feature>
-    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries">
+    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco and dependencies (openssl, zlib; optional). Installed in the same location as the Branch SDK.">
       <ComponentGroupRef Id="ThirdPartyHeaders"/>
-      <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
-      <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>
+      <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco, openssl and zlib libraries">
+        <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
+      </Feature>
+      <Feature Id="ThirdPartyX86Feature" Title="32-bit Libraries" Description="32-bit Poco, openssl and zlib libraries">
+        <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>
+      </Feature>
     </Feature>
   </Product>
 </Wix>
