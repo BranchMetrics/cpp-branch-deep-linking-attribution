@@ -1,10 +1,8 @@
-[Integrating the Branch SDK]:(https://help.branch.io/developers-hub/docs/windows-cpp-basic-integration#integrating-the-branch-sdk)
-
 # \[DRAFT\] Branch C++ SDK for Windows Installation and Setup
 
 **Note:**
 This is draft documentation to replace the installation and setup instructions
-through Section II of [Integrating the Branch SDK]. No conanfile.txt is required.
+through Section II of [Integrating the Branch SDK](https://help.branch.io/developers-hub/docs/windows-cpp-basic-integration#integrating-the-branch-sdk). No conanfile.txt is required.
 Nothing after that should require major edits.
 
 ## Adding the Branch SDK to a Windows Solution
@@ -137,4 +135,4 @@ zlib.lib
 
 Your app should now build and run.
 
-Continue to integration in the next section (Section III of [Integrating the Branch SDK]).
+Continue to integration in the next section (Section III of [Integrating the Branch SDK](https://help.branch.io/developers-hub/docs/windows-cpp-basic-integration#integrating-the-branch-sdk)).
