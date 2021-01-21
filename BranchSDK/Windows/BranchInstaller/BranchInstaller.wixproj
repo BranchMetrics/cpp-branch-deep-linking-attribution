@@ -20,7 +20,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Product.wxs" />
-    <Compile Include="WixUI_InstallDir_NoLic.wxs" />
+    <Compile Include="WixUI_FeatureTree_NoLic.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUIExtension">

@@ -8,14 +8,15 @@
     <Icon Id="branch.exe" SourceFile="branch-badge-dark.ico"/>
     <Property Id="ARPPRODUCTICON" Value="branch.exe"/>
     <Property Id="ARPHELPLINK" Value="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"/>
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
-    <UIRef Id="WixUI_InstallDir_NoLic"/>
+    <UIRef Id="WixUI_FeatureTree_NoLic"/>
     <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
-    <Feature Id="ProductFeature" Level="1" Title="Branch Installer">
+    <Feature Id="BranchSDKFeature" Level="1" Title="Branch SDK">
       <ComponentGroupRef Id="BranchHeaders"/>
       <ComponentGroupRef Id="BranchLibrariesX64"/>
       <ComponentGroupRef Id="BranchLibrariesX86"/>
+    </Feature>
+    <Feature Id="ThirdPartyLibsFeature" Level="1" Title="Third-Party Libraries">
       <ComponentGroupRef Id="ThirdPartyHeaders"/>
       <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
       <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>

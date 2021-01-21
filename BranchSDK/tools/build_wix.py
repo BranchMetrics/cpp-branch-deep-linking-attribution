@@ -214,11 +214,7 @@ SubElement(product, "Property", {
     "Id": "ARPHELPLINK",
     "Value": "https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"
     })
-SubElement(product, "Property", {
-    "Id": "WIXUI_INSTALLDIR",
-    "Value": "INSTALLFOLDER"
-    })
-SubElement(product, "UIRef", { "Id": "WixUI_InstallDir_NoLic" })
+SubElement(product, "UIRef", { "Id": "WixUI_FeatureTree_NoLic" })
 SubElement(product, "WixVariable", {
     "Id": "WixUIDialogBmp",
     "Value": "branch-background.bmp"
@@ -228,9 +224,14 @@ SubElement(product, "WixVariable", {
     "Value": "branch-banner.bmp"
     })
 
-feature = SubElement(product, "Feature", {
-    "Id": "ProductFeature",
-    "Title": "Branch Installer",
+branch_sdk_feature = SubElement(product, "Feature", {
+    "Id": "BranchSDKFeature",
+    "Title": "Branch SDK",
+    "Level": "1"
+    })
+third_party_libs_feature = SubElement(product, "Feature", {
+    "Id": "ThirdPartyLibsFeature",
+    "Title": "Third-Party Libraries",
     "Level": "1"
     })
 
@@ -238,12 +239,13 @@ feature = SubElement(product, "Feature", {
 # ----- ComponentGroups to be included (defined below)
 # -----
 
-SubElement(feature, "ComponentGroupRef", {"Id": "BranchHeaders"})
-SubElement(feature, "ComponentGroupRef", {"Id": "BranchLibrariesX64"})
-SubElement(feature, "ComponentGroupRef", {"Id": "BranchLibrariesX86"})
-SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyHeaders"})
-SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX64"})
-SubElement(feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX86"})
+SubElement(branch_sdk_feature, "ComponentGroupRef", {"Id": "BranchHeaders"})
+SubElement(branch_sdk_feature, "ComponentGroupRef", {"Id": "BranchLibrariesX64"})
+SubElement(branch_sdk_feature, "ComponentGroupRef", {"Id": "BranchLibrariesX86"})
+
+SubElement(third_party_libs_feature, "ComponentGroupRef", {"Id": "ThirdPartyHeaders"})
+SubElement(third_party_libs_feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX64"})
+SubElement(third_party_libs_feature, "ComponentGroupRef", {"Id": "ThirdPartyLibrariesX86"})
 
 # os.path.abspath & os.path.join build the right kind of path for the os,
 # using backslashes on Windows without typing \\ every time here.
