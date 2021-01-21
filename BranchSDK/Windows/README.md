@@ -49,7 +49,8 @@ Open your project's Properties in Visual Studio.
 
 Under `C/C++ > General`, add
 `C:\Program Files (x86)\Branch SDK\include` to `Additional Include Directories`
-for All Configurations and All Platforms.
+for All Configurations and All Platforms. The corresponding
+command-line option is ` /I"C:\Program Files (x86)\Branch SDK\include"`.
 
 ![Include Path](./assets/include-path.png)
 ![Include Path Detail](./assets/include-path-detail.png)
@@ -58,10 +59,22 @@ for All Configurations and All Platforms.
 
 Under `C/C++ > Preprocessor`, add `POCO_STATIC=ON`, `POCO_NO_AUTOMATIC_LIBS` and
 `WIN32` (for both x86 and x64) in `Preprocessor Defines`. Also define `DEBUG` in
-Debug builds. All screenshots are for Debug x64 where configurations differ.
+Debug builds. All screenshots are for Debug x64 where configurations differ. The
+command-line flags are
+`/D "POCO_STATIC=ON" /D "POCO_NO_AUTOMATIC_LIBS" /D "WIN32"` (Release) or
+`/D "DEBUG" /D "POCO_STATIC=ON" /D "POCO_NO_AUTOMATIC_LIBS" /D "WIN32"` (Debug).
 
 ![Preprocessor Settings](./assets/preprocessor.png)
 ![Preprocessor Settings Detail](./assets/preprocessor-detail.png)
+
+#### Verify Runtime Library
+
+The Branch SDK requires the `/MD` or `/MDd` compiler flag to select the
+Multi-threaded DLL or Multi-threaded Debug DLL C Runtime Library. Under
+`C/C++ > Code Generation`, select the appropriate option for Debug (`/MDd`) or
+Release (`/MD`).
+
+![Multi-threaded DLL Runtime Library](./assets/mdd.png)
 
 #### Add library paths
 
@@ -75,6 +88,9 @@ configuration and platform to `Additional Library Search Paths`:
   C:\Program Files (x86)\Branch SDK\lib\x86\Debug
 - Release x86:
   C:\Program Files (x86)\Branch SDK\lib\x86\Release
+
+The command-line option for Debug x64, e.g., is
+`/LIBPATH:"C:\Program Files (x86)\Branch SDK\lib\x64\Debug"`.
 
 ![Library Path](./assets/lib-path.png)
 ![Library Path Detail](./assets/lib-path-detail.png)
