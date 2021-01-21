@@ -16,8 +16,7 @@ class BranchioConan(ConanFile):
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
         "windows",
-        "macos",
-        "linux",
+        "win32",
         "c++",
         "branch",
         "metrics",
