@@ -1,3 +1,22 @@
+<!--
+  https://wixtoolset.org//documentation/manual/v3/wixui/wixui_customizations.html
+
+  "Changing the UI sequence of a built-in dialog set" [Using WixUI_FeatureTree instead of WixUI_InstallDir]
+
+  For example, to remove the LicenseAgreementDlg from the WixUI_InstallDir dialog set,
+  you would do the following:
+  1. Copy the full contents of the <Fragment/> defined in WixUI_InstallDir.wxs in the
+     WiX source code to your project.
+     [Source is here: https://github.com/AnalogJ/Wix3.6Toolset/blob/master/RC0-source/wix36-sources/src/ext/UIExtension/wixlib/WixUI_FeatureTree.wxs]
+  2. Remove the <Publish/> elements that are used to add Back and Next events for the
+     LicenseAgreementDlg.
+  3. Change the <Publish/> element that is used to add a Next event to the WelcomeDlg
+     to go to the InstallDirDlg instead of the LicenseAgreementDlg. For example:
+     <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">1</Publish>
+  4. Change the <Publish/> element that is used to add a Back event to the InstallDirDlg
+     to go to the WelcomeDlg instead of the LicenseAgreementDlg. For example:
+     <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg">1</Publish>
+  -->
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
     <Fragment>
         <UI Id="WixUI_FeatureTree_NoLic">
