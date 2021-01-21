@@ -6,7 +6,7 @@
     <ProductVersion>3.10</ProductVersion>
     <ProjectGuid>cf182d2e-244f-411e-bfb5-4e19f859804c</ProjectGuid>
     <SchemaVersion>2.0</SchemaVersion>
-    <OutputName>BranchInstaller</OutputName>
+    <OutputName>BranchSDK</OutputName>
     <OutputType>Package</OutputType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
