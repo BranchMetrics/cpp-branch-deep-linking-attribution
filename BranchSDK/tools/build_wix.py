@@ -252,10 +252,10 @@ branch_debug_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLib
 branch_release_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesReleaseX86", "X86RELEASELIBFOLDER")
 
 make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.lib", "BranchIOmdd.lib")
-make_file_elem(branch_debug_lib64_folder, "BranchDebugX64PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.pdb", "BranchIOmdd.pdb")
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.pdb")
 make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\lib\BranchIO.lib", "BranchIOmd.lib")
 make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.lib", "BranchIOmdd.lib")
-make_file_elem(branch_debug_lib86_folder, "BranchDebugX86PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.pdb", "BranchIOmdd.pdb")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.pdb")
 make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\lib\BranchIO.lib", "BranchIOmd.lib")
 
 x64_debug_lib_path = os.path.join(build_root, "Debugx64", "stage", "lib")
