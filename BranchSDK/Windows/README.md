@@ -13,12 +13,19 @@ Visual Studio 2019 (Earlier versions are not supported.)
 
 ### Download the SDK
 
-The Branch SDK Installer is available for download [here](https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution/releases/download/1.2.0-rc1/BranchSDK.msi). This downloads a file called
+The Branch SDK Installer is available for download [here](https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution/releases/download/1.2.0-rc2/BranchSDK.msi). This downloads a file called
 `BranchSDK.msi`.
 
 (_Note:_ Once released, we should be able to
 replace this with a permanent unversioned URL to avoid updating with each
 release.)
+
+(_Note:_ Before release, it's always best to uninstall any previous version
+of the MSI manually, under Add/Remove Programs, before installing a new
+version. Wix does not support a version like 1.2.0-rc2. As a result of
+running two different installers with the same version, you may end up with
+two or more entries under Add/Remove Programs for this SDK. This will not
+be an issue after release.)
 
 ### Install the SDK
 
