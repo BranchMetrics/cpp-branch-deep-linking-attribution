@@ -32,6 +32,7 @@ BaseEvent& SessionOpenEvent::setLinkUrl(const String &url) {
 
 		// Defines::JSONKEY_APP_LINK_URL is "link_identifier". See Defines.cpp.
                 addEventProperty(Defines::JSONKEY_APP_LINK_URL, linkClickId);
+                break;
             }
         }
     } catch (Exception& e) {
