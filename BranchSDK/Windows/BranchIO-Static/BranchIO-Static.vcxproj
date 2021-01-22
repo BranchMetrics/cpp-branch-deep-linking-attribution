@@ -65,6 +65,7 @@
     <ClCompile Include="..\..\src\BranchIO\Event\BaseEvent.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Event\CustomEvent.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Event\Event.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Event\SessionEvent.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Event\StandardEvent.cpp" />
     <ClCompile Include="..\..\src\BranchIO\JSONObject.cpp" />
     <ClCompile Include="..\..\src\BranchIO\LinkInfo.cpp" />

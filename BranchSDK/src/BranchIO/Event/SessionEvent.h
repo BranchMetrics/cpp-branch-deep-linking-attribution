@@ -40,12 +40,7 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
      * @param url Referring link, or an empty string if none.
      * @return this object for chaining builder methods
      */
-    virtual BaseEvent& setLinkUrl(const String &url) {
-        if (url.str().length() > 0) {
-            addEventProperty(Defines::JSONKEY_APP_LINK_URL, url);
-        }
-        return *this;
-    }
+    BaseEvent& setLinkUrl(const String& url);
 };
 
 /**
