@@ -1,12 +1,20 @@
 #! /usr/bin/env python
 
 """
-Script to build Product.wxs for Wix installer using the output
-of stage.py under build\*\stage.
+Script to build BranchSDK\Windows\BranchInstaller\Components.wxs for
+Wix installer using the products of stage.py under build\*\stage.
+
+Works best when run from the same directory (BranchSDK\tools), e.g.:
+
+    cd BranchSDK\tools
+    python build_wix.py
 """
 
 # TODO: Don't necessarily need ET here, since we're just generating
 # text, but this may be more flexible.
+
+# TODO: Use heat.exe to replace all or most of this script.
+# https://wixtoolset.org/documentation/manual/v3/overview/heat.html
 
 import json, os, shutil
 from uuid import uuid4
@@ -144,10 +152,10 @@ def wix_component(elem, path, identifier=None):
 
     repo_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     for f in os.listdir(path):
-        # Hack: BranchIO.lib goes into its own manuall-created ComponentGroup.
+        # Hack: BranchIO.lib goes into its own manually-created ComponentGroup.
         # Just ignore that library for now, if we're in a folder that has it.
         # Otherwise, this has no effect.
-        if f == "BranchIO.lib":
+        if f == "BranchIO.lib" or f == "BranchIO.pdb":
             continue
 
         fullpath = os.path.join(path, f)
@@ -244,8 +252,10 @@ branch_debug_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLib
 branch_release_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesReleaseX86", "X86RELEASELIBFOLDER")
 
 make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.lib", "BranchIOmdd.lib")
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.pdb")
 make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\lib\BranchIO.lib", "BranchIOmd.lib")
 make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.lib", "BranchIOmdd.lib")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.pdb")
 make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\lib\BranchIO.lib", "BranchIOmd.lib")
 
 x64_debug_lib_path = os.path.join(build_root, "Debugx64", "stage", "lib")
