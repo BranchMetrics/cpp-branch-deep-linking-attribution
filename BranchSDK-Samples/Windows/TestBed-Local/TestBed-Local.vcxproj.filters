@@ -45,6 +45,9 @@
     <ClInclude Include="..\TestBed\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BranchKey.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TestBed-Local.rc">
