@@ -45,22 +45,11 @@
     <ClInclude Include="..\TestBed\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BranchKey.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TestBed-Local.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="TestBed-Local.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\TestBed\BranchOperations.cpp">
@@ -81,5 +70,13 @@
     <ClCompile Include="..\TestBed\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="TestBed-Local.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
