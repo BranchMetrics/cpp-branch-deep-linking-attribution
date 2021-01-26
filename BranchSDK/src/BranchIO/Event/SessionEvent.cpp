@@ -26,15 +26,13 @@ BaseEvent& SessionOpenEvent::setLinkUrl(const String &url) {
 	auto queryParams = uri.getQueryParameters();
 	for (URI::QueryParameters::const_iterator it=queryParams.begin(); it != queryParams.end(); ++it) {
             if (it->first == "link_click_id") {
-                // BRANCH_LOG_D("Found raw link_click_id: " << it->second);
                 /* For now, send as a string
                 unsigned long long linkClickId(0);
                 istringstream iss(it->second);
                 iss >> linkClickId;
                 // */
 
-                // Defines::JSONKEY_APP_LINK_URL is "link_identifier". See Defines.cpp.
-                addEventProperty(Defines::JSONKEY_APP_LINK_URL, it->second);
+                addEventProperty(Defines::JSONKEY_LINK_IDENTIFIER, it->second);
                 break;
             }
         }

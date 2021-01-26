@@ -10,6 +10,6 @@ TEST(SessionOpenEventTest, TestLinkIdentifier)
 {
     SessionOpenEvent openEvent;
     openEvent.setLinkUrl("test://open?link_click_id=811645508874040815");
-    auto linkIdentifier = openEvent.getStringProperty(Defines::JSONKEY_APP_LINK_URL);
+    auto linkIdentifier = openEvent.getStringProperty(Defines::JSONKEY_LINK_IDENTIFIER);
     ASSERT_EQ(linkIdentifier, "811645508874040815");
 }
