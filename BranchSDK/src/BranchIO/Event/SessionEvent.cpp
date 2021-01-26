@@ -23,8 +23,8 @@ BaseEvent& SessionOpenEvent::setLinkUrl(const String &url) {
 
         // vector<pair<string, string>>
         // ordered, not associative container
-	auto queryParams = uri.getQueryParameters();
-	for (URI::QueryParameters::const_iterator it=queryParams.begin(); it != queryParams.end(); ++it) {
+        auto queryParams = uri.getQueryParameters();
+        for (URI::QueryParameters::const_iterator it=queryParams.begin(); it != queryParams.end(); ++it) {
             if (it->first == "link_click_id") {
                 /* For now, send as a string
                 unsigned long long linkClickId(0);
