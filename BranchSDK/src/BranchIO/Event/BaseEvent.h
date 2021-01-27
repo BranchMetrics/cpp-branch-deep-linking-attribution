@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #ifndef BRANCHIO_EVENT_BASEEVENT_H_
 #define BRANCHIO_EVENT_BASEEVENT_H_

@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #include <string>
 #include <sstream>
@@ -39,7 +39,7 @@ const char *Defines::JSONKEY_APP_DEVELOPER_IDENTITY = "developer_identity";
 const char *Defines::JSONKEY_APP_ENVIRONMENT = "environment";
 const char *Defines::JSONKEY_APP_LAT_V1 = "lat_val";
 const char *Defines::JSONKEY_APP_LAT_V2 = "limit_ad_tracking";
-const char *Defines::JSONKEY_APP_LINK_URL = "link_identifier";
+const char *Defines::JSONKEY_APP_LINK_URL = "app_link_url";
 const char *Defines::JSONKEY_APP_PACKAGE_NAME = "package_name";
 const char *Defines::JSONKEY_APP_SDK = "sdk";
 const char *Defines::JSONKEY_APP_SDK_VERSION = "sdk_version";
@@ -51,7 +51,7 @@ const char *Defines::JSONKEY_SESSION_ID = "session_id";
 const char *Defines::JSONKEY_SESSION_IDENTITY = "identity_id";
 const char *Defines::JSONKEY_TRACKING_DISABLED = "tracking_disabled";
 const char* Defines::JSONKEY_WINDOWS_ADVERTISING_ID = "windows_advertising_id";
-
+const char* Defines::JSONKEY_LINK_IDENTIFIER = "link_identifier";
 // Branch Url Path
 const char *Defines::BASE_PATH_V2 = "https://api2.branch.io/";
 

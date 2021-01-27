@@ -212,5 +212,8 @@
     <ClCompile Include="..\..\src\BranchIO\Util\WindowsStorage.cpp">
       <Filter>Source Files\BranchIO\Util</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Event\SessionEvent.cpp">
+      <Filter>Source Files\BranchIO\Event</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

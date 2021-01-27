@@ -70,7 +70,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
 
     // Initialize Branch
-    BranchOperations::initBranch(lpCmdLine ? lpCmdLine : L"", &outputTextField);
+    BranchOperations::initBranch(BRANCH_KEY, BRANCH_URI_SCHEME, lpCmdLine ? lpCmdLine : L"", &outputTextField);
 
     MyRegisterClass(hInstance);
 
