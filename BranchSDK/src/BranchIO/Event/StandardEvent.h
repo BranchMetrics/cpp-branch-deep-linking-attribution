@@ -31,6 +31,8 @@ class BRANCHIO_DLL_EXPORT StandardEvent : public Event {
         VIEW_ITEMS,                     ///< View Items Event
         RATE,                           ///< Rate Event
         SHARE,                          ///< Share Event
+        INITIATE_STREAM,                ///< Initiate Stream
+        COMPLETE_STREAM,                ///< Complete Stream
 
         // User lifecycle events
         COMPLETE_REGISTRATION,          ///< Complete Registration
