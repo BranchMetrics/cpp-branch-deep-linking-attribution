@@ -45,6 +45,9 @@
     <ClInclude Include="..\TestBed\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Registration.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TestBed-Basic.rc">
@@ -76,6 +79,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\TestBed\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Registration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
