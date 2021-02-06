@@ -17,7 +17,7 @@ Button::Button(LPCWSTR text, int x, int y, int width, int height, HMENU menu, HW
 
 }
 
-Button::Button(LPCWSTR text, int x, int y, int width, int height, int menu, HWND parent) :
+Button::Button(LPCWSTR text, int x, int y, int width, int height, long long menu, HWND parent) :
 	Window(
 		WS_EX_TRANSPARENT,
 		L"Button",

@@ -25,7 +25,7 @@ TextField::TextField(LPCWSTR text, int x, int y, int width, int height, HMENU me
 
 }
 
-TextField::TextField(LPCWSTR text, int x, int y, int width, int height, int menu, HWND parent) :
+TextField::TextField(LPCWSTR text, int x, int y, int width, int height, long long menu, HWND parent) :
 	Window(WS_EX_TRANSPARENT,
 		L"Edit",
 		text,
@@ -58,7 +58,7 @@ std::wstring
 TextField::getText() const
 {
 	HWND hwnd = getWindowHandle();
-	size_t length = Edit_GetTextLength(hwnd);
+	DWORD length = Edit_GetTextLength(hwnd);
 	// include space for null terminator
 	vector<wchar_t> buffer(length + 1);
 	Edit_GetText(hwnd, &buffer[0], length + 1);
@@ -73,7 +73,7 @@ TextField::appendText(const std::wstring& text, size_t maxLength)
 	wstring newText = getText() + L"\r\n" + text;
 	// Limit text length
 	const wstring::size_type total = newText.length();
-	const int offset = total - maxLength;
+	const size_t offset = total - maxLength;
 	if (offset > 0)
 	{
 		newText = newText.substr(offset, maxLength - 1);

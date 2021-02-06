@@ -10,7 +10,7 @@ class Window
 {
 public:
 	Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, HMENU menu, HWND parent = nullptr);
-	Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, int menu, HWND parent = nullptr);
+	Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, long long menu, HWND parent = nullptr);
 	~Window();
 
 	// Thread-safe getter

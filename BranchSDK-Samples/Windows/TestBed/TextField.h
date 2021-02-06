@@ -6,7 +6,7 @@ class TextField :
 {
 public:
     TextField(LPCWSTR text, int x, int y, int width, int height, HMENU menu, HWND parent = nullptr);
-    TextField(LPCWSTR text, int x, int y, int width, int height, int menu, HWND parent = nullptr);
+    TextField(LPCWSTR text, int x, int y, int width, int height, long long menu, HWND parent = nullptr);
 
     void setText(const std::wstring& text);
     std::wstring getText() const;

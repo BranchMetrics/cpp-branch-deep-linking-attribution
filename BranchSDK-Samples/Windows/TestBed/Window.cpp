@@ -18,7 +18,7 @@ Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int 
 	InitializeCriticalSection(&m_lock);
 }
 
-Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, int menu, HWND parent) :
+Window::Window(DWORD exStyle, LPCWSTR className, LPCWSTR text, DWORD style, int x, int y, int width, int height, long long menu, HWND parent) :
 	m_exStyle(exStyle),
 	m_className(className),
 	m_text(text),
