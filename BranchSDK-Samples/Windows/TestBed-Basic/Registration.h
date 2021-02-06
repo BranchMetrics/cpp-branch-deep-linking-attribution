@@ -2,4 +2,4 @@
 
 #include <string>
 
-extern void registerApp(const std::wstring& windowClass, const std::wstring& uriScheme);
+extern void registerApp(const std::wstring& uriScheme);

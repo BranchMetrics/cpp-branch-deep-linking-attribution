@@ -6,7 +6,7 @@ using namespace std;
 /**
  * Create registry entry for URI protocol activation
  */
-void registerApp(const std::wstring& windowClass, const std::wstring& uriScheme)
+void registerApp(const std::wstring& uriScheme)
 {
     HKEY hKey(nullptr);
     wstring keyBase(L"SOFTWARE\\Classes\\");
@@ -20,8 +20,8 @@ void registerApp(const std::wstring& windowClass, const std::wstring& uriScheme)
     }
 
     wstring baseDefaultValue(L"URL:");
-    baseDefaultValue += windowClass;
-    (void)RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, LPBYTE(baseDefaultValue.c_str()), DWORD(keyBase.length() + 1));
+    baseDefaultValue += uriScheme;
+    (void)RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, LPBYTE(baseDefaultValue.c_str()), baseDefaultValue.length() * sizeof(wchar_t));
     (void)RegSetValueEx(hKey, L"URL Protocol", 0, REG_SZ, LPBYTE(L""), 0);
 
     // Step 2:  Set the executable location
@@ -36,7 +36,7 @@ void registerApp(const std::wstring& windowClass, const std::wstring& uriScheme)
     wstring valShell(L"\"");
     valShell += wstring(path) + L"\" \"%1\"";
 
-    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), DWORD(valShell.length() + 1));
+    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), valShell.length() * sizeof(wchar_t));
     rc = RegCloseKey(hKeyShell);
 
     // Step 3: Set the default icon
@@ -47,7 +47,7 @@ void registerApp(const std::wstring& windowClass, const std::wstring& uriScheme)
     valShell = path;
     valShell += L",1";
 
-    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), DWORD(valShell.length() + 1));
+    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), valShell.length() * sizeof(wchar_t));
     rc = RegCloseKey(hKeyIcon);
 
     // Step 4: Clean Up
