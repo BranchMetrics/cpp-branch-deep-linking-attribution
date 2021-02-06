@@ -6,10 +6,11 @@ using namespace std;
 /**
  * Set the registry up to allow for this app to be opened via. a web click
  */
-void registerApp(const std::wstring& windowClass)
+void registerApp(const std::wstring& windowClass, const std::wstring& uriScheme)
 {
     HKEY hKey(nullptr);
-    wstring keyBase(L"SOFTWARE\\Classes\\" BRANCH_URI_SCHEME);
+    wstring keyBase(L"SOFTWARE\\Classes\\");
+    keyBase += uriScheme;
 
     // Step 1:  Create the Base Key and default values
     LONG rc = RegCreateKeyEx(HKEY_CURRENT_USER, keyBase.c_str(), 0, NULL, REG_OPTION_NON_VOLATILE, KEY_WRITE, NULL, &hKey, NULL);
@@ -20,7 +21,7 @@ void registerApp(const std::wstring& windowClass)
 
     wstring baseDefaultValue(L"URL:");
     baseDefaultValue += windowClass;
-    (void)RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, (LPBYTE)baseDefaultValue.c_str(), keyBase.length() + 1);
+    (void)RegSetValueEx(hKey, TEXT(""), 0, REG_SZ, LPBYTE(baseDefaultValue.c_str()), DWORD(keyBase.length() + 1));
     (void)RegSetValueEx(hKey, L"URL Protocol", 0, REG_SZ, LPBYTE(L""), 0);
 
     // Step 2:  Set the executable location
@@ -35,7 +36,7 @@ void registerApp(const std::wstring& windowClass)
     wstring valShell(L"\"");
     valShell += wstring(path) + L"\" \"%1\"";
 
-    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), valShell.length() + 1);
+    rc = RegSetValueEx(hKeyShell, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), DWORD(valShell.length() + 1));
     rc = RegCloseKey(hKeyShell);
 
     // Step 3: Set the default icon
@@ -46,7 +47,7 @@ void registerApp(const std::wstring& windowClass)
     valShell = path;
     valShell += L",1";
 
-    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), valShell.length() + 1);
+    rc = RegSetValueEx(hKeyIcon, TEXT(""), 0, REG_SZ, LPBYTE(valShell.c_str()), DWORD(valShell.length() + 1));
     rc = RegCloseKey(hKeyIcon);
 
     // Step 4: Clean Up
