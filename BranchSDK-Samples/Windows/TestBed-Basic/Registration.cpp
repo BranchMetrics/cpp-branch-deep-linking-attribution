@@ -4,7 +4,7 @@
 using namespace std;
 
 /**
- * Set the registry up to allow for this app to be opened via. a web click
+ * Create registry entry for URI protocol activation
  */
 void registerApp(const std::wstring& windowClass, const std::wstring& uriScheme)
 {
