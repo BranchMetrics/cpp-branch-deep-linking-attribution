@@ -158,7 +158,6 @@
     <ClInclude Include="..\TestBed\Util.h" />
     <ClInclude Include="..\TestBed\Window.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Registration.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TestBed-Basic.h" />
@@ -177,7 +176,6 @@
     <ClCompile Include="..\TestBed\TextField.cpp" />
     <ClCompile Include="..\TestBed\Util.cpp" />
     <ClCompile Include="..\TestBed\Window.cpp" />
-    <ClCompile Include="Registration.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\BranchSDK\Windows\BranchIO-Static\BranchIO-Static.vcxproj">
