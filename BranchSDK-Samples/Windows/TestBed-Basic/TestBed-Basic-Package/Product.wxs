@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Branch TestBed (Basic)" Language="1033" Version="1.0.0.0" Manufacturer="Branch Metrics, Inc." UpgradeCode="f66f62db-fbea-4c26-b0e3-ab91241a71da">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of TestBed (Basic) is already installed." />
+
+		<Feature Id="ProductFeature" Title="TestBed (Basic) Application" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+    <Media Cabinet="cab1.cab" EmbedCab="yes" Id="1"/>
+
+    <UIRef Id="WixUI_InstallDir_NoLic"/>
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Icon Id="branch.exe" SourceFile="branch-badge-dark.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="branch.exe"/>
+    <Property Id="ARPHELPLINK" Value="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"/>
+    <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
+    <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Branch TestBed (Basic)" >
+          <Directory Id="INSTALLBINFOLDER" Name="bin" />
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLBINFOLDER" >
+			<Component Id="TestBedBinary">
+        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)\..\x64\Debug\TestBed-Basic.exe" />
+      </Component>
+    </ComponentGroup>
+	</Fragment>
+</Wix>
