@@ -31,8 +31,21 @@
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLBINFOLDER" >
-			<Component Id="TestBedBinary">
+			<Component Id="TestBedBinary" Guid="b5efe49a-f3f1-4623-b82e-9b2500d8f340">
         <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)\..\x64\Debug\TestBed-Basic.exe" />
+
+        <!-- Add registry entries for URI redirection -->
+        <!-- testbedbasic is the URI scheme from the Branch Dashboard -->
+				<RegistryKey Root="HKCU" Key="SOFTWARE\Classes\testbedbasic" >
+          <RegistryValue Value="URL:testbedbasic" Type="string" KeyPath="yes" />
+					<RegistryValue Name="URL Protocol" Value="" Type="string" />
+          <RegistryKey Key="DefaultIcon">
+            <RegistryValue Value="[INSTALLBINFOLDER]TestBed-Basic.exe,1" Type="string"/>
+          </RegistryKey>
+          <RegistryKey Key="shell\open\command">
+            <RegistryValue Value='"[INSTALLBINFOLDER]TestBed-Basic.exe" "%1"' Type="string"/>
+          </RegistryKey>
+        </RegistryKey>
       </Component>
     </ComponentGroup>
 	</Fragment>
