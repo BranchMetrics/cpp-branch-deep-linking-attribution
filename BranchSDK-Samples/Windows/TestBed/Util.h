@@ -10,6 +10,6 @@ struct Util
 	static void sendToRunningInstance(const std::wstring& windowClass, const std::wstring& payload);
 
 private:
-	static constexpr wchar_t const* const MutexName = L"68A98988-CF40-41B6-83A7-AA7B17AC9CD5";
+	static constexpr wchar_t const* const MutexName = MUTEX_NAME;
 	static HANDLE namedMutex;
 };
