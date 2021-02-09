@@ -86,7 +86,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DETECT_MEMORY_LEAKS;BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -120,7 +120,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";WIN32;DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>DETECT_MEMORY_LEAKS;BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";WIN32;DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>

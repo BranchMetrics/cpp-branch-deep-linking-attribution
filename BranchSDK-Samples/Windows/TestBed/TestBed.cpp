@@ -12,6 +12,14 @@
 
 #include "BranchOperations.h"
 
+#ifdef DETECT_MEMORY_LEAKS
+// Memory leak profiling/detection
+// https://docs.microsoft.com/en-us/visualstudio/debugger/finding-memory-leaks-using-the-crt-library?view=vs-2019
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#endif // DETECT_MEMORY_LEAKS
+
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -56,6 +64,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_ int       nCmdShow)
 {
     UNREFERENCED_PARAMETER(hPrevInstance);
+
+#ifdef DETECT_MEMORY_LEAKS
+    // Memory leak profiling/detection
+    // https://docs.microsoft.com/en-us/visualstudio/debugger/finding-memory-leaks-using-the-crt-library?view=vs-2019
+    _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif // DETECT_MEMORY_LEAKS
 
     // Initialize global strings
     LoadStringW(hInstance, IDC_TESTBED, szWindowClass, MAX_LOADSTRING);
