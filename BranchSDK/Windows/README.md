@@ -13,7 +13,7 @@ Visual Studio 2019 (Earlier versions are not supported.)
 
 ### Download the SDK
 
-The Branch SDK Installer is available for download [here](https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution/releases/download/1.2.0-rc2/BranchSDK.msi). This downloads a file called
+The Branch SDK Installer is available for download [here](https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution/releases/download/1.2.0-rc3/BranchSDK.msi). This downloads a file called
 `BranchSDK.msi`.
 
 (_Note:_ Once released, we should be able to
