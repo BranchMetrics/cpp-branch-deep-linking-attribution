@@ -38,12 +38,16 @@
               <Directory Id="X86RELEASELIBFOLDER" Name="Release"/>
             </Directory>
           </Directory>
+          <Directory Id="LICENSEFOLDER" Name="licenses"/>
         </Directory>
       </Directory>
     </Directory>
   </Fragment>
   <Fragment>
     <ComponentGroup Id="BranchHeaders">
+      <Component Directory="LICENSEFOLDER" Guid="c476d3e5-66fa-4689-9a03-1fee2b8403d7" Id="BranchLicense">
+        <File Id="BranchLicense" Name="LICENSE.txt" Source="$(var.ProjectDir)\..\..\..\LICENSE"/>
+      </Component>
       <Component Directory="Releasex64.stage.include.BranchIO" Guid="e4c5d9ed-da88-450d-9142-42c8306246fb" Id="Releasex64.stage.include.BranchIO">
         <File Id="Releasex64.stage.include.BranchIO.AdvertiserInfo.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AdvertiserInfo.h"/>
         <File Id="Releasex64.stage.include.BranchIO.AppInfo.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AppInfo.h"/>
@@ -919,6 +923,11 @@
       <Component Directory="Releasex64.stage.include" Guid="ac1a8143-7c11-4dec-bf84-111b8b2b0093" Id="Releasex64.stage.include">
         <File Id="Releasex64.stage.include.zconf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zconf.h"/>
         <File Id="Releasex64.stage.include.zlib.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zlib.h"/>
+      </Component>
+      <Component Directory="LICENSEFOLDER" Guid="37a92faa-7f32-4483-8a05-0ef404be8e5d" Id="ThirdPartyLicenses">
+        <File Id="PocoLicense" Source="C:\Users\jgvd3\github\BranchMetrics\cpp-branch-deep-linking-attribution\build\Releasex64\stage\licenses\LICENSE-Poco.txt"/>
+        <File Id="OpenSSLLicense" Source="C:\Users\jgvd3\github\BranchMetrics\cpp-branch-deep-linking-attribution\build\Releasex64\stage\licenses\LICENSE-OpenSSL.txt"/>
+        <File Id="ZlibLicense" Source="C:\Users\jgvd3\github\BranchMetrics\cpp-branch-deep-linking-attribution\build\Releasex64\stage\licenses\LICENSE-zlib.txt"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchLibrariesX64">
