@@ -38,12 +38,16 @@
               <Directory Id="X86RELEASELIBFOLDER" Name="Release"/>
             </Directory>
           </Directory>
+          <Directory Id="LICENSEFOLDER" Name="licenses"/>
         </Directory>
       </Directory>
     </Directory>
   </Fragment>
   <Fragment>
     <ComponentGroup Id="BranchHeaders">
+      <Component Directory="LICENSEFOLDER" Guid="c476d3e5-66fa-4689-9a03-1fee2b8403d7" Id="BranchLicense">
+        <File Id="BranchLicense" Name="LICENSE.txt" Source="$(var.ProjectDir)\..\..\..\LICENSE"/>
+      </Component>
       <Component Directory="Releasex64.stage.include.BranchIO" Guid="e4c5d9ed-da88-450d-9142-42c8306246fb" Id="Releasex64.stage.include.BranchIO">
         <File Id="Releasex64.stage.include.BranchIO.AdvertiserInfo.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AdvertiserInfo.h"/>
         <File Id="Releasex64.stage.include.BranchIO.AppInfo.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\AppInfo.h"/>
@@ -920,6 +924,11 @@
         <File Id="Releasex64.stage.include.zconf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zconf.h"/>
         <File Id="Releasex64.stage.include.zlib.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zlib.h"/>
       </Component>
+      <Component Directory="LICENSEFOLDER" Guid="37a92faa-7f32-4483-8a05-0ef404be8e5d" Id="ThirdPartyLicenses">
+        <File Id="PocoLicense" Source="C:\Users\jgvd3\github\BranchMetrics\cpp-branch-deep-linking-attribution\build\Releasex64\stage\licenses\LICENSE-Poco.txt"/>
+        <File Id="OpenSSLLicense" Source="C:\Users\jgvd3\github\BranchMetrics\cpp-branch-deep-linking-attribution\build\Releasex64\stage\licenses\LICENSE-OpenSSL.txt"/>
+        <File Id="ZlibLicense" Source="C:\Users\jgvd3\github\BranchMetrics\cpp-branch-deep-linking-attribution\build\Releasex64\stage\licenses\LICENSE-zlib.txt"/>
+      </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchLibrariesX64">
       <Component Directory="X64DEBUGLIBFOLDER" Guid="6b538925-ded6-4bbf-8b59-64495e0e3b9c" Id="BranchLibrariesDebugX64">
@@ -932,7 +941,15 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX64">
       <Component Directory="X64DEBUGLIBFOLDER" Guid="5a94d40d-f719-40f4-86a1-8b897cfc4b70" Id="X64DEBUGLIBFOLDER">
+        <File Id="Debugx64.stage.lib.Crypto.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Crypto.pdb"/>
+        <File Id="Debugx64.stage.lib.Data.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Data.pdb"/>
+        <File Id="Debugx64.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Encodings.pdb"/>
+        <File Id="Debugx64.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Foundation.pdb"/>
+        <File Id="Debugx64.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\JSON.pdb"/>
         <File Id="Debugx64.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\libeay32.lib"/>
+        <File Id="Debugx64.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Net.pdb"/>
+        <File Id="Debugx64.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSL.pdb"/>
+        <File Id="Debugx64.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSLWin.pdb"/>
         <File Id="Debugx64.stage.lib.PocoCryptomdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoCryptomdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoDatamdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoDatamdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoEncodingsmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoEncodingsmdd.lib"/>
@@ -945,7 +962,13 @@
         <File Id="Debugx64.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoZipmdd.lib"/>
+        <File Id="Debugx64.stage.lib.Redis.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Redis.pdb"/>
         <File Id="Debugx64.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\ssleay32.lib"/>
+        <File Id="Debugx64.stage.lib.unit_tests.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\unit_tests.pdb"/>
+        <File Id="Debugx64.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Util.pdb"/>
+        <File Id="Debugx64.stage.lib.vc142.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\vc142.pdb"/>
+        <File Id="Debugx64.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\XML.pdb"/>
+        <File Id="Debugx64.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Zip.pdb"/>
         <File Id="Debugx64.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\zlib.lib"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="c9f2a7b9-560d-4ff7-bd7b-5535a60b1123" Id="X64RELEASELIBFOLDER">
@@ -977,7 +1000,15 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX86">
       <Component Directory="X86DEBUGLIBFOLDER" Guid="0db87ca1-c644-47df-a72e-85913578c98a" Id="X86DEBUGLIBFOLDER">
+        <File Id="Debug.stage.lib.Crypto.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Crypto.pdb"/>
+        <File Id="Debug.stage.lib.Data.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Data.pdb"/>
+        <File Id="Debug.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Encodings.pdb"/>
+        <File Id="Debug.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Foundation.pdb"/>
+        <File Id="Debug.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\JSON.pdb"/>
         <File Id="Debug.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\libeay32.lib"/>
+        <File Id="Debug.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Net.pdb"/>
+        <File Id="Debug.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSL.pdb"/>
+        <File Id="Debug.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSLWin.pdb"/>
         <File Id="Debug.stage.lib.PocoCryptomdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoCryptomdd.lib"/>
         <File Id="Debug.stage.lib.PocoDatamdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoDatamdd.lib"/>
         <File Id="Debug.stage.lib.PocoEncodingsmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoEncodingsmdd.lib"/>
@@ -990,7 +1021,13 @@
         <File Id="Debug.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debug.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.lib"/>
         <File Id="Debug.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoZipmdd.lib"/>
+        <File Id="Debug.stage.lib.Redis.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Redis.pdb"/>
         <File Id="Debug.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\ssleay32.lib"/>
+        <File Id="Debug.stage.lib.unit_tests.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\unit_tests.pdb"/>
+        <File Id="Debug.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Util.pdb"/>
+        <File Id="Debug.stage.lib.vc142.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\vc142.pdb"/>
+        <File Id="Debug.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\XML.pdb"/>
+        <File Id="Debug.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Zip.pdb"/>
         <File Id="Debug.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\zlib.lib"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="db6ede4d-cc8f-4c26-918a-01de8c5ea904" Id="X86RELEASELIBFOLDER">

@@ -162,7 +162,7 @@ def wix_component(elem, path, identifier=None):
         if os.path.isdir(fullpath):
             continue
         source = fullpath.replace(repo_root, "$(var.ProjectDir)\\..\\..\\..")
-        file_elem = make_file_elem(component, file_identifier(fullpath), source)
+        make_file_elem(component, file_identifier(fullpath), source)
 
 """
 Recursively generates a flat, unnested list of Component elements
@@ -196,6 +196,7 @@ build_root = os.path.abspath(os.path.dirname(__file__) + "../../build")
 stage_root = os.path.join(build_root, "Releasex64", "stage")
 include_root = os.path.join(stage_root, "include")
 lib_root = os.path.join(stage_root, "lib")
+license_root = os.path.join(stage_root, "licenses")
 
 # -----
 # ----- Directory tree Fragment.
@@ -214,6 +215,7 @@ branch_sdk_install_folder = make_directory_elem(program_files_folder, "INSTALLFO
 wix_directory(branch_sdk_install_folder, include_root)
 
 lib_folder = make_directory_elem(branch_sdk_install_folder, "LIBFOLDER", "lib")
+license_folder = make_directory_elem(branch_sdk_install_folder, "LICENSEFOLDER", "licenses")
 x64_lib_folder = make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
 x86_lib_folder = make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
 make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
@@ -228,6 +230,9 @@ make_directory_elem(x86_lib_folder, "X86RELEASELIBFOLDER", "Release")
 
 cg_fragment = SubElement(root, "Fragment")
 branch_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchHeaders"})
+branch_license = make_component_elem(branch_headers, "BranchLicense", "LICENSEFOLDER")
+make_file_elem(branch_license, "BranchLicense", "$(var.ProjectDir)\\..\\..\\..\\LICENSE", "LICENSE.txt")
+
 third_party_headers = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyHeaders"})
 branch_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX64"})
 third_party_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX64"})
@@ -240,6 +245,10 @@ wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
 wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
 # zlib headers are directly in the include_root. Don't include subdirs.
 wix_components(third_party_headers, include_root, False)
+third_party_licenses = make_component_elem(third_party_headers, "ThirdPartyLicenses", "LICENSEFOLDER")
+make_file_elem(third_party_licenses, "PocoLicense", os.path.join(license_root, "LICENSE-Poco.txt"))
+make_file_elem(third_party_licenses, "OpenSSLLicense", os.path.join(license_root, "LICENSE-OpenSSL.txt"))
+make_file_elem(third_party_licenses, "ZlibLicense", os.path.join(license_root, "LICENSE-zlib.txt"))
 
 # The BranchIO.lib sits in the same lib folder with the third-party libs. This
 # is as it should be, to avoid making devs pass multiple library paths at
