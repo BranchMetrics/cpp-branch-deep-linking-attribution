@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Branch TestBed (Basic)" Language="1033" Version="1.0.0.0" Manufacturer="Branch Metrics, Inc." UpgradeCode="f66f62db-fbea-4c26-b0e3-ab91241a71da">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of TestBed (Basic) is already installed." />
+
+		<Feature Id="ProductFeature" Title="TestBed (Basic) Application" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+    <Media Cabinet="cab1.cab" EmbedCab="yes" Id="1"/>
+
+    <UIRef Id="WixUI_InstallDir_NoLic"/>
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Icon Id="branch.exe" SourceFile="branch-badge-dark.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="branch.exe"/>
+    <Property Id="ARPHELPLINK" Value="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"/>
+    <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
+    <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Branch TestBed (Basic)" >
+          <Directory Id="INSTALLBINFOLDER" Name="bin" />
+        </Directory>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLBINFOLDER" >
+			<Component Id="TestBedBinary" Guid="b5efe49a-f3f1-4623-b82e-9b2500d8f340">
+        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\Release\TestBed-Basic.exe" />
+
+        <!-- Add Registry entries for URI redirection -->
+        <!-- testbedbasic is the URI scheme from the Branch Dashboard -->
+				<RegistryKey Root="HKCU" Key="SOFTWARE\Classes\testbedbasic" >
+          <RegistryValue Value="URL:testbedbasic" Type="string" KeyPath="yes" />
+					<RegistryValue Name="URL Protocol" Value="" Type="string" />
+          <RegistryKey Key="DefaultIcon">
+            <RegistryValue Value="[INSTALLBINFOLDER]TestBed-Basic.exe,1" Type="string"/>
+          </RegistryKey>
+          <RegistryKey Key="shell\open\command">
+            <RegistryValue Value='"[INSTALLBINFOLDER]TestBed-Basic.exe" "%1"' Type="string"/>
+          </RegistryKey>
+        </RegistryKey>
+      </Component>
+    </ComponentGroup>
+	</Fragment>
+</Wix>

@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #include "BranchIO/Event/StandardEvent.h"
 #include "BranchIO/Defines.h"
@@ -7,29 +7,31 @@
 namespace BranchIO {
 
 // Branch Standard Events
-const char *SE_ADD_TO_CART = "ADD_TO_CART";
-const char *SE_ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
-const char *SE_VIEW_CART = "VIEW_CART";
-const char *SE_INITIATE_PURCHASE = "INITIATE_PURCHASE";
-const char *SE_ADD_PAYMENT_INFO = "ADD_PAYMENT_INFO";
-const char *SE_PURCHASE = "PURCHASE";
-const char *SE_SPEND_CREDITS = "SPEND_CREDITS";
-const char *SE_SEARCH = "SEARCH";
-const char *SE_VIEW_ITEM = "VIEW_ITEM";
-const char *SE_VIEW_ITEMS = "VIEW_ITEMS";
-const char *SE_RATE = "RATE";
-const char *SE_SHARE = "SHARE";
-const char *SE_COMPLETE_REGISTRATION = "COMPLETE_REGISTRATION";
-const char *SE_COMPLETE_TUTORIAL = "COMPLETE_TUTORIAL";
-const char *SE_ACHIEVE_LEVEL = "ACHIEVE_LEVEL";
-const char *SE_UNLOCK_ACHIEVEMENT = "UNLOCK_ACHIEVEMENT";
-const char *SE_INVITE = "INVITE";
-const char *SE_LOGIN = "LOGIN";
-const char *SE_RESERVE = "RESERVE";
-const char *SE_SUBSCRIBE = "SUBSCRIBE";
-const char *SE_START_TRIAL = "START_TRIAL";
-const char *SE_CLICK_AD = "CLICK_AD";
-const char *SE_VIEW_AD = "VIEW_AD";
+static constexpr const char* const SE_ADD_TO_CART = "ADD_TO_CART";
+static constexpr const char* const SE_ADD_TO_WISHLIST = "ADD_TO_WISHLIST";
+static constexpr const char* const SE_VIEW_CART = "VIEW_CART";
+static constexpr const char* const SE_INITIATE_PURCHASE = "INITIATE_PURCHASE";
+static constexpr const char* const SE_ADD_PAYMENT_INFO = "ADD_PAYMENT_INFO";
+static constexpr const char* const SE_PURCHASE = "PURCHASE";
+static constexpr const char* const SE_SPEND_CREDITS = "SPEND_CREDITS";
+static constexpr const char* const SE_SEARCH = "SEARCH";
+static constexpr const char* const SE_VIEW_ITEM = "VIEW_ITEM";
+static constexpr const char* const SE_VIEW_ITEMS = "VIEW_ITEMS";
+static constexpr const char* const SE_RATE = "RATE";
+static constexpr const char* const SE_SHARE = "SHARE";
+static constexpr const char* const SE_COMPLETE_REGISTRATION = "COMPLETE_REGISTRATION";
+static constexpr const char* const SE_COMPLETE_TUTORIAL = "COMPLETE_TUTORIAL";
+static constexpr const char* const SE_ACHIEVE_LEVEL = "ACHIEVE_LEVEL";
+static constexpr const char* const SE_UNLOCK_ACHIEVEMENT = "UNLOCK_ACHIEVEMENT";
+static constexpr const char* const SE_INVITE = "INVITE";
+static constexpr const char* const SE_LOGIN = "LOGIN";
+static constexpr const char* const SE_RESERVE = "RESERVE";
+static constexpr const char* const SE_SUBSCRIBE = "SUBSCRIBE";
+static constexpr const char* const SE_START_TRIAL = "START_TRIAL";
+static constexpr const char* const SE_CLICK_AD = "CLICK_AD";
+static constexpr const char* const SE_VIEW_AD = "VIEW_AD";
+static constexpr const char* const SE_INITIATE_STREAM = "INITIATE_STREAM";
+static constexpr const char* const SE_COMPLETE_STREAM = "COMPLETE_STREAM";
 
 StandardEvent::StandardEvent(StandardEvent::Type eventType) :
     Event(Defines::APIEndpoint::TRACK_STANDARD_EVENT, StandardEvent::stringify(eventType)) { }
@@ -83,6 +85,10 @@ StandardEvent::stringify(StandardEvent::Type eventType) {
             return SE_CLICK_AD;
         case StandardEvent::VIEW_AD:
             return SE_VIEW_AD;
+        case StandardEvent::INITIATE_STREAM:
+            return SE_INITIATE_STREAM;
+        case StandardEvent::COMPLETE_STREAM:
+            return SE_COMPLETE_STREAM;
     }
 
     return Defines::NO_BRANCH_VALUE;

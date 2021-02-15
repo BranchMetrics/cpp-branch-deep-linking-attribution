@@ -11,13 +11,12 @@ class BranchioConan(ConanFile):
     # ----- Package metadata -----
     name = "BranchIO"
     # TODO(jdee): Set the version in one place and propagate it
-    version = "1.1.2"
+    version = "1.2.0"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
         "windows",
-        "macos",
-        "linux",
+        "win32",
         "c++",
         "branch",
         "metrics",
@@ -90,25 +89,3 @@ class BranchioConan(ConanFile):
             self.cpp_info.libs.extend(["kernel32", "advapi32"])
             if self.options.shared:
                 self.cpp_info.defines.append("BRANCHIO_DLL")
-
-    # Recursively copy src directory into dst directory
-    # excludes is a list of patterns to exclude
-    def copyall(self, src, dst, excludes=[]):
-        # ignores is a function to be passed to copytree
-        ignores = shutil.ignore_patterns(*excludes)
-        all_files = os.listdir(src)
-        # rejects is a set of all files matching the excludes
-        rejected = ignores(src, all_files)
-        files = [f for f in all_files if f not in rejected]
-
-        for f in files:
-            path = src + "/" + f
-            if os.path.isdir(path) and os.path.exists(dst + "/" +f):
-                # copytree fails if the destination directory already exists.
-                # That's the purpose of this function. Call it recursively in
-                # this case.
-                copyall(path, dst + "/" +f, excludes=excludes)
-            elif os.path.isdir(path):
-                shutil.copytree(path, dst + "/" + f, ignore=ignores)
-            else:
-                shutil.copy(path, dst)

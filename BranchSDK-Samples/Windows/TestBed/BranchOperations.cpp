@@ -18,6 +18,8 @@ bool volatile BranchOperations::openComplete(false);
 CRITICAL_SECTION BranchOperations::lock;
 CONDITION_VARIABLE BranchOperations::openCompleteCondition;
 BranchIO::JSONObject BranchOperations::openResponse;
+std::wstring BranchOperations::s_branchKey;
+std::wstring BranchOperations::s_uriScheme;
 
 void
 BranchOperations::setupSDKLogging()
@@ -97,23 +99,31 @@ BranchOperations::openURL(const std::wstring& url)
 }
 
 void
-BranchOperations::initBranch(const std::wstring& initialUrl, TextField* textField)
+BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& initialUrl, TextField* textField)
 {
     InitializeCriticalSection(&lock);
     InitializeConditionVariable(&openCompleteCondition);
 
     outputTextField = textField;
+    s_branchKey = branchKey;
+    s_uriScheme = uriScheme;
     setupSDKLogging();
 
     // Now initialize the SDK
     AppInfo appInfo;
     appInfo.setAppVersion("1.0");
 
-    branch = Branch::create(BRANCH_KEY, &appInfo);
+    branch = Branch::create(branchKey, &appInfo);
 
-    wstring::size_type prefixLength = min(wstring(BRANCH_URI_SCHEME).length(), initialUrl.length());
+    /*
+     * The Windows Advertising Identifier requires a UWP dependency and is not ordinarily available
+     * for Win32. If you have it available, you can pass it here.
+     */
+    branch->getAdvertiserInfo().addId(AdvertiserInfo::WINDOWS_ADVERTISING_ID, "my-waid");
+
+    wstring::size_type prefixLength = min(uriScheme.length(), initialUrl.length());
     wstring prefix = initialUrl.substr(0, prefixLength);
-    if (!initialUrl.empty() && prefix == BRANCH_URI_SCHEME)
+    if (!initialUrl.empty() && prefix == uriScheme)
     {
         // Open any URI passed at the command line
         openURL(initialUrl);
@@ -156,7 +166,7 @@ BranchOperations::shutDownBranch()
 void
 BranchOperations::showInitializationMessage()
 {
-    outputTextField->appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + BRANCH_KEY);
+    outputTextField->appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + s_branchKey);
     if (branch->getAdvertiserInfo().isTrackingDisabled())
     {
         outputTextField->appendText(L"Tracking disabled");

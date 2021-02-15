@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #ifndef BRANCHIO_EVENT_STANDARDEVENT_H__
 #define BRANCHIO_EVENT_STANDARDEVENT_H__
@@ -31,6 +31,8 @@ class BRANCHIO_DLL_EXPORT StandardEvent : public Event {
         VIEW_ITEMS,                     ///< View Items Event
         RATE,                           ///< Rate Event
         SHARE,                          ///< Share Event
+        INITIATE_STREAM,                ///< Initiate Stream
+        COMPLETE_STREAM,                ///< Complete Stream
 
         // User lifecycle events
         COMPLETE_REGISTRATION,          ///< Complete Registration

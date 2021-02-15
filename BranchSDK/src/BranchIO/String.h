@@ -1,4 +1,4 @@
-// Copyright (c) 2020 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #ifndef BRANCHIO_STRING_H__
 #define BRANCHIO_STRING_H__

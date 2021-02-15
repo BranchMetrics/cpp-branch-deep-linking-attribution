@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #include "RequestManager.h"
 
@@ -160,6 +160,7 @@ RequestManager::RequestTask::runTask() {
         payload.remove(Defines::JSONKEY_DEVICE_MAC_ADDRESS);       // mac_address
         payload.remove(Defines::JSONKEY_SESSION_FINGERPRINT);      // device_fingerprint_id
         payload.remove(Defines::JSONKEY_SESSION_IDENTITY);         // identity_id
+        payload.remove("advertising_ids");
     }
 
     // Send request synchronously

@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #ifndef BRANCHIO_DEFINES_H__
 #define BRANCHIO_DEFINES_H__
@@ -56,6 +56,8 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_SESSION_ID;               ///< Session Id
     static const char *JSONKEY_SESSION_IDENTITY;         ///< Session Identity
     static const char *JSONKEY_TRACKING_DISABLED;        ///< Tracking Disabled
+    static const char* JSONKEY_WINDOWS_ADVERTISING_ID;   ///< Windows Advertising ID
+    static const char* JSONKEY_LINK_IDENTIFIER;          ///< link_click_id from inbound URI
 
     // Branch Url Path
     static const char *BASE_PATH_V1;                     ///< V1 Base Path
@@ -113,10 +115,6 @@ class BRANCHIO_DLL_EXPORT Defines {
 
 }  // namespace BranchIO
 
-#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
 #define BRANCH_IO_URL_BASE BranchIO::Defines::BASE_PATH_V2
-#else
-#define BRANCH_IO_URL_BASE BranchIO::Defines::BASE_PATH_V1
-#endif
 
 #endif  // BRANCHIO_DEFINES_H__

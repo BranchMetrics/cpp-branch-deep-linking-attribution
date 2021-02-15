@@ -1,3 +1,4 @@
+._.DS_Store
 .DS_Store
 .idea
 .vs
@@ -15,5 +16,6 @@ Release
 .conan
 
 Testing
+Thumbs.db
 
 docs

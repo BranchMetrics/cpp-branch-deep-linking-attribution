@@ -1,4 +1,4 @@
-// Copyright (c) 2019 Branch Metrics, Inc.
+// Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #ifndef BRANCHIO_IPACKAGINGINFO_H__
 #define BRANCHIO_IPACKAGINGINFO_H__
