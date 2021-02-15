@@ -1,3 +1,30 @@
+## 2021-02-15  Version 1.2.0
+  * Corrected `link_identifier` in `/v1/open` requests.
+  * Added `X-Branch-Request-Id` to debug logs.
+  * Use api2.branch.io instead of api.branch.io for better security.
+  * Corrected advertising identifiers in `/v1/open` requests.
+  * Added support for `INITIATE_STREAM` and `COMPLETE_STREAM` standard v2 events.
+  * Added MSI distribution.
+  * Added multiple TestBed flavors to illustrate different modes of URI-scheme
+    association.
+
+  This release includes no breaking API changes.
+
+  In addition to Conan, the SDK is also now distributed via MSI. This is attached
+  to each GitHub release tag. This integration method is
+  [thorougly documented](https://help.branch.io/developers-hub/docs/windows-cpp-basic-integration#1-download--install-the-branch-sdk)
+  and much easier than using Conan with Visual Studio. Conan users may continue
+  using Conan for integration.
+
+  Several flavors of TestBed are available to
+  [illustrate methods of integration and URI association](https://help.branch.io/developers-hub/docs/windows-cpp-testing#sample-apps).
+
+  **Known issues**
+  - The MSI has been signed with a self-signed certificate. This may result in
+    Windows Defender generating an alert on first install of a new release.
+    Select "More Info" to install the MSI. This will be addressed in a
+    subsequent release.
+
 ## 2020-10-07  Version 1.1.2
   * Fixed deep linking when tracking disabled
   * Fixed developer identity (`setIdentity`/`logout`)
