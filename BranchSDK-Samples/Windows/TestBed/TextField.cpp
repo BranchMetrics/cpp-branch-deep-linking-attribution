@@ -73,9 +73,9 @@ TextField::appendText(const std::wstring& text, size_t maxLength)
 	wstring newText = getText() + L"\r\n" + text;
 	// Limit text length
 	const wstring::size_type total = newText.length();
-	const __int64 offset = total - maxLength;
-	if (offset > 0)
+	if (total > maxLength)
 	{
+		const size_t offset = total - maxLength;
 		newText = newText.substr(offset, maxLength - 1);
 	}
 	assert(newText.length() <= maxLength);
