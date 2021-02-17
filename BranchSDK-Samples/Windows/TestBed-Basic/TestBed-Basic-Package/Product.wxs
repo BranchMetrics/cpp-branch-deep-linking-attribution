@@ -32,7 +32,7 @@
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLBINFOLDER" >
 			<Component Id="TestBedBinary" Guid="b5efe49a-f3f1-4623-b82e-9b2500d8f340">
-        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\Release\TestBed-Basic.exe" />
+        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\Debug\TestBed-Basic.exe" />
 
         <!-- Add Registry entries for URI redirection -->
         <!-- testbedbasic is the URI scheme from the Branch Dashboard -->
