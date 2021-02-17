@@ -72,7 +72,7 @@ TextField::appendText(const std::wstring& text, size_t maxLength)
 	ScopeLock l(m_lock);
 	wstring newText = getText() + L"\r\n" + text;
 	// Limit text length
-	const size_t total = min(maxLength, newText.length());
+	const wstring::size_type total = newText.length();
 	if (total > maxLength)
 	{
 		const size_t offset = total - maxLength;
