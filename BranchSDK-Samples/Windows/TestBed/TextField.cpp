@@ -75,7 +75,7 @@ TextField::appendText(const std::wstring& text, size_t maxLength)
 	const size_t total = min(maxLength, newText.length());
 	if (total > maxLength)
 	{
-		const SSIZE_T offset = total - maxLength;
+		const size_t offset = total - maxLength;
 		newText = newText.substr(offset, maxLength - 1);
 	}
 	assert(newText.length() <= maxLength);
