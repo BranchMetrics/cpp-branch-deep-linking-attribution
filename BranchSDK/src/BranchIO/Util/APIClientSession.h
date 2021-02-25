@@ -21,12 +21,6 @@ class APIClientSession
       public virtual IClientSession {
  public:
     /**
-     * @return SSL session context
-     * @todo(jdee): Document
-     */
-    static Poco::Net::Context::Ptr getContext();
-
-    /**
      * @return this instance
      * @todo(jdee): Document
      */

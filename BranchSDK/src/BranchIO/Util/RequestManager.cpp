@@ -2,6 +2,8 @@
 
 #include "RequestManager.h"
 
+#include <Poco/Net/PrivateKeyPassphraseHandler.h>
+#include <Poco/Net/SSLManager.h>
 #include <Poco/TaskNotification.h>
 #include <cassert>
 
@@ -12,6 +14,7 @@
 #include "BranchIO/Util/Storage.h"
 
 using namespace Poco;
+using Poco::Net::Context;
 
 namespace BranchIO {
 
@@ -22,6 +25,42 @@ RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *cl
     _clientSession(clientSession),
     _shuttingDown(false),
     _currentRequest(nullptr) {
+    // https://pocoproject.org/docs/Poco.Net.Context.html
+    /*
+     * From <Poco/Net/Context.h>:
+     * 	Context(Usage usage,
+		const std::string& certificateNameOrPath, 
+		VerificationMode verMode = VERIFY_RELAXED,
+		int options = OPT_DEFAULTS,
+		const std::string& certificateStoreName = CERT_STORE_MY);
+			/// Creates a Context.
+			/// 
+			///   * usage specifies whether the context is used by a client or server,
+			///     as well as which protocol to use.
+			///   * certificateNameOrPath specifies either the subject name of the certificate to use,
+			///     or the path of a PKCS #12 file containing the certificate and corresponding private key.
+			///     If a subject name is specified, the certificate must be located in the certificate 
+			///     store specified by certificateStoreName. If a path is given, the OPT_LOAD_CERT_FROM_FILE
+			///     option must be set.
+			///   * verificationMode specifies whether and how peer certificates are validated.
+			///   * options is a combination of Option flags.
+			///   * certificateStoreName specifies the name of the Windows certificate store
+			///     to use for loading the certificate. Predefined constants
+			///     CERT_STORE_MY, CERT_STORE_ROOT, etc. can be used.
+			///
+			/// Note: you can use OpenSSL to convert a certificate and private key in PEM format
+			/// into PKCS #12 format required to import into the Context:
+			///
+			///     openssl pkcs12 -export -inkey cert.key -in cert.crt -out cert.pfx 
+
+     */
+    Poco::Net::SSLManager::instance().initializeClient(0, 0, new Context(
+        Context::TLS_CLIENT_USE,
+        "" /* no client cert required */,
+        Context::VERIFY_NONE, /* no client cert required */
+        Context::OPT_DEFAULTS, /* OPT_PERFORM_REVOCATION_CHECK | OPT_TRUST_ROOTS_WIN_CERT_STORE | OPT_USE_STRONG_CRYPTO */
+        Context::CERT_STORE_CA
+    ));
 }
 
 RequestManager::~RequestManager() {
@@ -153,7 +192,7 @@ RequestManager::RequestTask::runTask() {
     if (_manager.getPackagingInfo().getAdvertiserInfo().isTrackingDisabled()) {
         payload.set(Defines::JSONKEY_TRACKING_DISABLED, true);
         // remove all identifiable fields
-        // Based on https://github.com/BranchMetrics/ios-branch-deep-linking-attribution/blob/master/Branch-SDK/BNCServerInterface.m#L396-L411
+        // Based on https://github.com/BranchMetrics/ios-branch-deep-linking-attribution/blob/master/Branch-SDK/BNCServerInterface.m around line 400.
         payload.remove(Defines::JSONKEY_APP_DEVELOPER_IDENTITY);   // developer_identity
         payload.remove(Defines::JSONKEY_APP_IDENTITY);             // identity
         payload.remove(Defines::JSONKEY_DEVICE_LOCAL_IP_ADDRESS);  // local_ip
@@ -165,12 +204,12 @@ RequestManager::RequestTask::runTask() {
 
     // Send request synchronously
     // _clientSession may be passed in for testing. If not, we
-    // create a real one here
+    // create/reuse a real one here
     JSONObject result;
     if (_manager.getClientSession()) {
         result = _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
     } else {
-        APIClientSession clientSession(BRANCH_IO_URL_BASE);
+        APIClientSession& clientSession(APIClientSession::instance());
         _manager.setClientSession(&clientSession);
         result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
         _manager.setClientSession(nullptr);
