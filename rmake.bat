@@ -115,7 +115,12 @@ conan install ..\..\conanfile.py^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
   --options Poco:enable_mongodb=False^
+  --options Poco:enable_data_mysql=False^
+  --options Poco:enable_data_odbc=False^
+  --options Poco:enable_data_postgresql=False^
   --options Poco:enable_data_sqlite=False^
+  --options Poco:enable_jwt=False^
+  --options Poco:enable_netssl=True^
   --build outdated
 
 if ERRORLEVEL 1 (
@@ -157,7 +162,12 @@ conan create ..\.. branch/testing^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
   --options Poco:enable_mongodb=False^
+  --options Poco:enable_data_mysql=False^
+  --options Poco:enable_data_odbc=False^
+  --options Poco:enable_data_postgresql=False^
   --options Poco:enable_data_sqlite=False^
+  --options Poco:enable_jwt=False^
+  --options Poco:enable_netssl=True^
   --build outdated
 
 echo Building stage from conan cache
