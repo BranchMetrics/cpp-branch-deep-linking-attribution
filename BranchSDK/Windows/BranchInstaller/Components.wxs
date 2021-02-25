@@ -10,16 +10,19 @@
               <Directory Id="Releasex64.stage.include.BranchIO.Event" Name="Event"/>
               <Directory Id="Releasex64.stage.include.BranchIO.Util" Name="Util"/>
             </Directory>
+            <Directory Id="Releasex64.stage.include.libpq" Name="libpq"/>
             <Directory Id="Releasex64.stage.include.openssl" Name="openssl"/>
             <Directory Id="Releasex64.stage.include.Poco" Name="Poco">
               <Directory Id="Releasex64.stage.include.Poco.Crypto" Name="Crypto"/>
               <Directory Id="Releasex64.stage.include.Poco.Data" Name="Data">
                 <Directory Id="Releasex64.stage.include.Poco.Data.MySQL" Name="MySQL"/>
                 <Directory Id="Releasex64.stage.include.Poco.Data.ODBC" Name="ODBC"/>
+                <Directory Id="Releasex64.stage.include.Poco.Data.PostgreSQL" Name="PostgreSQL"/>
               </Directory>
               <Directory Id="Releasex64.stage.include.Poco.DOM" Name="DOM"/>
               <Directory Id="Releasex64.stage.include.Poco.Dynamic" Name="Dynamic"/>
               <Directory Id="Releasex64.stage.include.Poco.JSON" Name="JSON"/>
+              <Directory Id="Releasex64.stage.include.Poco.JWT" Name="JWT"/>
               <Directory Id="Releasex64.stage.include.Poco.Net" Name="Net"/>
               <Directory Id="Releasex64.stage.include.Poco.Redis" Name="Redis"/>
               <Directory Id="Releasex64.stage.include.Poco.SAX" Name="SAX"/>
@@ -117,6 +120,7 @@
         <File Id="Releasex64.stage.include.Poco.ASCIIEncoding.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ASCIIEncoding.h"/>
         <File Id="Releasex64.stage.include.Poco.AsyncChannel.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AsyncChannel.h"/>
         <File Id="Releasex64.stage.include.Poco.AtomicCounter.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AtomicCounter.h"/>
+        <File Id="Releasex64.stage.include.Poco.AtomicFlag.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AtomicFlag.h"/>
         <File Id="Releasex64.stage.include.Poco.AutoPtr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AutoPtr.h"/>
         <File Id="Releasex64.stage.include.Poco.AutoReleasePool.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\AutoReleasePool.h"/>
         <File Id="Releasex64.stage.include.Poco.Base32Decoder.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Base32Decoder.h"/>
@@ -142,6 +146,8 @@
         <File Id="Releasex64.stage.include.Poco.Configurable.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Configurable.h"/>
         <File Id="Releasex64.stage.include.Poco.ConsoleChannel.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ConsoleChannel.h"/>
         <File Id="Releasex64.stage.include.Poco.CountingStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\CountingStream.h"/>
+        <File Id="Releasex64.stage.include.Poco.DataURIStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DataURIStream.h"/>
+        <File Id="Releasex64.stage.include.Poco.DataURIStreamFactory.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DataURIStreamFactory.h"/>
         <File Id="Releasex64.stage.include.Poco.DateTime.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTime.h"/>
         <File Id="Releasex64.stage.include.Poco.DateTimeFormat.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTimeFormat.h"/>
         <File Id="Releasex64.stage.include.Poco.DateTimeFormatter.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DateTimeFormatter.h"/>
@@ -155,7 +161,6 @@
         <File Id="Releasex64.stage.include.Poco.DirectoryIterator.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator.h"/>
         <File Id="Releasex64.stage.include.Poco.DirectoryIteratorStrategy.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIteratorStrategy.h"/>
         <File Id="Releasex64.stage.include.Poco.DirectoryIterator_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator_UNIX.h"/>
-        <File Id="Releasex64.stage.include.Poco.DirectoryIterator_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.DirectoryIterator_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryIterator_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.DirectoryWatcher.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DirectoryWatcher.h"/>
         <File Id="Releasex64.stage.include.Poco.DynamicAny.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\DynamicAny.h"/>
@@ -165,7 +170,6 @@
         <File Id="Releasex64.stage.include.Poco.Environment.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment.h"/>
         <File Id="Releasex64.stage.include.Poco.Environment_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_UNIX.h"/>
         <File Id="Releasex64.stage.include.Poco.Environment_VX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_VX.h"/>
-        <File Id="Releasex64.stage.include.Poco.Environment_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.Environment_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.Environment_WINCE.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Environment_WINCE.h"/>
         <File Id="Releasex64.stage.include.Poco.Error.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Error.h"/>
@@ -195,7 +199,6 @@
         <File Id="Releasex64.stage.include.Poco.FileStream_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\FileStream_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.File_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_UNIX.h"/>
         <File Id="Releasex64.stage.include.Poco.File_VX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_VX.h"/>
-        <File Id="Releasex64.stage.include.Poco.File_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.File_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.File_WINCE.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\File_WINCE.h"/>
         <File Id="Releasex64.stage.include.Poco.Format.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Format.h"/>
@@ -234,7 +237,6 @@
         <File Id="Releasex64.stage.include.Poco.LocalDateTime.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LocalDateTime.h"/>
         <File Id="Releasex64.stage.include.Poco.LogFile.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile.h"/>
         <File Id="Releasex64.stage.include.Poco.LogFile_STD.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile_STD.h"/>
-        <File Id="Releasex64.stage.include.Poco.LogFile_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.LogFile_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LogFile_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.Logger.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Logger.h"/>
         <File Id="Releasex64.stage.include.Poco.LoggingFactory.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\LoggingFactory.h"/>
@@ -258,12 +260,10 @@
         <File Id="Releasex64.stage.include.Poco.NamedEvent.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedEvent.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedEvent_Android.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedEvent_Android.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedEvent_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedEvent_UNIX.h"/>
-        <File Id="Releasex64.stage.include.Poco.NamedEvent_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedEvent_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedEvent_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedEvent_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedMutex.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedMutex.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedMutex_Android.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedMutex_Android.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedMutex_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedMutex_UNIX.h"/>
-        <File Id="Releasex64.stage.include.Poco.NamedMutex_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedMutex_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedMutex_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedMutex_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.NamedTuple.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NamedTuple.h"/>
         <File Id="Releasex64.stage.include.Poco.NestedDiagnosticContext.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\NestedDiagnosticContext.h"/>
@@ -281,9 +281,13 @@
         <File Id="Releasex64.stage.include.Poco.ObjectPool.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ObjectPool.h"/>
         <File Id="Releasex64.stage.include.Poco.Observer.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Observer.h"/>
         <File Id="Releasex64.stage.include.Poco.Optional.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Optional.h"/>
+        <File Id="Releasex64.stage.include.Poco.OrderedMap.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\OrderedMap.h"/>
+        <File Id="Releasex64.stage.include.Poco.OrderedSet.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\OrderedSet.h"/>
+        <File Id="Releasex64.stage.include.Poco.ordered_hash.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ordered_hash.h"/>
+        <File Id="Releasex64.stage.include.Poco.ordered_map.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ordered_map.h"/>
+        <File Id="Releasex64.stage.include.Poco.ordered_set.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\ordered_set.h"/>
         <File Id="Releasex64.stage.include.Poco.Path.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Path.h"/>
         <File Id="Releasex64.stage.include.Poco.Path_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Path_UNIX.h"/>
-        <File Id="Releasex64.stage.include.Poco.Path_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Path_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.Path_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Path_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.Path_WINCE.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Path_WINCE.h"/>
         <File Id="Releasex64.stage.include.Poco.PatternFormatter.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\PatternFormatter.h"/>
@@ -307,7 +311,6 @@
         <File Id="Releasex64.stage.include.Poco.Process.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Process.h"/>
         <File Id="Releasex64.stage.include.Poco.Process_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Process_UNIX.h"/>
         <File Id="Releasex64.stage.include.Poco.Process_VX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Process_VX.h"/>
-        <File Id="Releasex64.stage.include.Poco.Process_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Process_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.Process_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Process_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.Process_WINCE.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Process_WINCE.h"/>
         <File Id="Releasex64.stage.include.Poco.PurgeStrategy.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\PurgeStrategy.h"/>
@@ -333,11 +336,11 @@
         <File Id="Releasex64.stage.include.Poco.Semaphore_VX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Semaphore_VX.h"/>
         <File Id="Releasex64.stage.include.Poco.Semaphore_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Semaphore_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.SHA1Engine.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SHA1Engine.h"/>
+        <File Id="Releasex64.stage.include.Poco.SHA2Engine.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SHA2Engine.h"/>
         <File Id="Releasex64.stage.include.Poco.SharedLibrary.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedLibrary.h"/>
         <File Id="Releasex64.stage.include.Poco.SharedLibrary_HPUX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedLibrary_HPUX.h"/>
         <File Id="Releasex64.stage.include.Poco.SharedLibrary_UNIX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedLibrary_UNIX.h"/>
         <File Id="Releasex64.stage.include.Poco.SharedLibrary_VX.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedLibrary_VX.h"/>
-        <File Id="Releasex64.stage.include.Poco.SharedLibrary_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedLibrary_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.SharedLibrary_WIN32U.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedLibrary_WIN32U.h"/>
         <File Id="Releasex64.stage.include.Poco.SharedMemory.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedMemory.h"/>
         <File Id="Releasex64.stage.include.Poco.SharedMemory_DUMMY.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\SharedMemory_DUMMY.h"/>
@@ -558,6 +561,13 @@
         <File Id="Releasex64.stage.include.Poco.JSON.Template.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\Template.h"/>
         <File Id="Releasex64.stage.include.Poco.JSON.TemplateCache.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JSON\TemplateCache.h"/>
       </Component>
+      <Component Directory="Releasex64.stage.include.Poco.JWT" Guid="5a58b864-75fb-4ed6-af99-b4edec018f8d" Id="Releasex64.stage.include.Poco.JWT">
+        <File Id="Releasex64.stage.include.Poco.JWT.JWT.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JWT\JWT.h"/>
+        <File Id="Releasex64.stage.include.Poco.JWT.JWTException.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JWT\JWTException.h"/>
+        <File Id="Releasex64.stage.include.Poco.JWT.Serializer.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JWT\Serializer.h"/>
+        <File Id="Releasex64.stage.include.Poco.JWT.Signer.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JWT\Signer.h"/>
+        <File Id="Releasex64.stage.include.Poco.JWT.Token.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\JWT\Token.h"/>
+      </Component>
       <Component Directory="Releasex64.stage.include.Poco.Net" Guid="e8193dd6-42c5-4bbb-b82c-aca3f8446eea" Id="Releasex64.stage.include.Poco.Net">
         <File Id="Releasex64.stage.include.Poco.Net.AbstractHTTPRequestHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\AbstractHTTPRequestHandler.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.AcceptCertificateHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\AcceptCertificateHandler.h"/>
@@ -570,6 +580,7 @@
         <File Id="Releasex64.stage.include.Poco.Net.DatagramSocketImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\DatagramSocketImpl.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.DialogSocket.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\DialogSocket.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.DNS.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\DNS.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.EscapeHTMLStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\EscapeHTMLStream.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.FilePartSource.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\FilePartSource.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.FTPClientSession.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\FTPClientSession.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.FTPStreamFactory.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\FTPStreamFactory.h"/>
@@ -588,6 +599,7 @@
         <File Id="Releasex64.stage.include.Poco.Net.HTTPHeaderStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\HTTPHeaderStream.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.HTTPIOStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\HTTPIOStream.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.HTTPMessage.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\HTTPMessage.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.HTTPNTLMCredentials.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\HTTPNTLMCredentials.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.HTTPRequest.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\HTTPRequest.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.HTTPRequestHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\HTTPRequestHandler.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.HTTPRequestHandlerFactory.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\HTTPRequestHandlerFactory.h"/>
@@ -629,11 +641,13 @@
         <File Id="Releasex64.stage.include.Poco.Net.MulticastSocket.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\MulticastSocket.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.MultipartReader.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\MultipartReader.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.MultipartWriter.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\MultipartWriter.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.MultiSocketPoller.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\MultiSocketPoller.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.NameValueCollection.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NameValueCollection.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.Net.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\Net.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.NetException.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NetException.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.NetSSL.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NetSSL.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.NetworkInterface.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NetworkInterface.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.NTLMCredentials.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NTLMCredentials.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.NTPClient.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NTPClient.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.NTPEventArgs.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NTPEventArgs.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.NTPPacket.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\NTPPacket.h"/>
@@ -666,6 +680,7 @@
         <File Id="Releasex64.stage.include.Poco.Net.ServerSocket.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\ServerSocket.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.ServerSocketImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\ServerSocketImpl.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.Session.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\Session.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.SingleSocketPoller.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\SingleSocketPoller.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.SMTPChannel.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\SMTPChannel.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.SMTPClientSession.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\SMTPClientSession.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.Socket.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\Socket.h"/>
@@ -681,6 +696,7 @@
         <File Id="Releasex64.stage.include.Poco.Net.SocketStream.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\SocketStream.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.SSLException.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\SSLException.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.SSLManager.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\SSLManager.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.SSPINTLMCredentials.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\SSPINTLMCredentials.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.StreamSocket.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\StreamSocket.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.StreamSocketImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\StreamSocketImpl.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.StringPartSource.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\StringPartSource.h"/>
@@ -689,6 +705,11 @@
         <File Id="Releasex64.stage.include.Poco.Net.TCPServerConnectionFactory.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\TCPServerConnectionFactory.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.TCPServerDispatcher.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\TCPServerDispatcher.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.TCPServerParams.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\TCPServerParams.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.UDPClient.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\UDPClient.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.UDPHandler.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\UDPHandler.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.UDPServer.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\UDPServer.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.UDPServerParams.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\UDPServerParams.h"/>
+        <File Id="Releasex64.stage.include.Poco.Net.UDPSocketReader.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\UDPSocketReader.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.Utility.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\Utility.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.VerificationErrorArgs.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\VerificationErrorArgs.h"/>
         <File Id="Releasex64.stage.include.Poco.Net.WebSocket.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Net\WebSocket.h"/>
@@ -843,6 +864,19 @@
         <File Id="Releasex64.stage.include.Poco.Data.ODBC.Unicode_WIN32.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Unicode_WIN32.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.ODBC.Utility.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\ODBC\Utility.h"/>
       </Component>
+      <Component Directory="Releasex64.stage.include.Poco.Data.PostgreSQL" Guid="4b49ab29-a8e6-42f7-a0ba-a50655bb87ea" Id="Releasex64.stage.include.Poco.Data.PostgreSQL">
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.Binder.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\Binder.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.Connector.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\Connector.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.Extractor.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\Extractor.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.PostgreSQL.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\PostgreSQL.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.PostgreSQLException.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\PostgreSQLException.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.PostgreSQLStatementImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\PostgreSQLStatementImpl.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.PostgreSQLTypes.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\PostgreSQLTypes.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.SessionHandle.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\SessionHandle.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.SessionImpl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\SessionImpl.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.StatementExecutor.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\StatementExecutor.h"/>
+        <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.Utility.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\Utility.h"/>
+      </Component>
       <Component Directory="Releasex64.stage.include.openssl" Guid="1b72cb36-73d9-4ccd-9a65-6f6939a40b8c" Id="Releasex64.stage.include.openssl">
         <File Id="Releasex64.stage.include.openssl.aes.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\aes.h"/>
         <File Id="Releasex64.stage.include.openssl.asn1.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1.h"/>
@@ -945,7 +979,12 @@
         <File Id="Debugx64.stage.lib.Data.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Data.pdb"/>
         <File Id="Debugx64.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Encodings.pdb"/>
         <File Id="Debugx64.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Foundation.pdb"/>
+        <File Id="Debugx64.stage.lib.gmock.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\gmock.pdb"/>
+        <File Id="Debugx64.stage.lib.gmock_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\gmock_main.pdb"/>
+        <File Id="Debugx64.stage.lib.gtest.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\gtest.pdb"/>
+        <File Id="Debugx64.stage.lib.gtest_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\gtest_main.pdb"/>
         <File Id="Debugx64.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\JSON.pdb"/>
+        <File Id="Debugx64.stage.lib.JWT.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\JWT.pdb"/>
         <File Id="Debugx64.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\libeay32.lib"/>
         <File Id="Debugx64.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Net.pdb"/>
         <File Id="Debugx64.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSL.pdb"/>
@@ -955,6 +994,7 @@
         <File Id="Debugx64.stage.lib.PocoEncodingsmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoEncodingsmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoFoundationmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJSONmdd.lib"/>
+        <File Id="Debugx64.stage.lib.PocoJWTmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJWTmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoNetSSLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLWinmdd.lib"/>
@@ -972,12 +1012,17 @@
         <File Id="Debugx64.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\zlib.lib"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="c9f2a7b9-560d-4ff7-bd7b-5535a60b1123" Id="X64RELEASELIBFOLDER">
+        <File Id="Releasex64.stage.lib.gmock.pdb" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\gmock.pdb"/>
+        <File Id="Releasex64.stage.lib.gmock_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\gmock_main.pdb"/>
+        <File Id="Releasex64.stage.lib.gtest.pdb" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\gtest.pdb"/>
+        <File Id="Releasex64.stage.lib.gtest_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\gtest_main.pdb"/>
         <File Id="Releasex64.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\libeay32.lib"/>
         <File Id="Releasex64.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoCryptomd.lib"/>
         <File Id="Releasex64.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoDatamd.lib"/>
         <File Id="Releasex64.stage.lib.PocoEncodingsmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoEncodingsmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoFoundationmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoJSONmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoJSONmd.lib"/>
+        <File Id="Releasex64.stage.lib.PocoJWTmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoJWTmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoNetmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoNetSSLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetSSLmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoNetSSLWinmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetSSLWinmd.lib"/>
@@ -1004,7 +1049,12 @@
         <File Id="Debug.stage.lib.Data.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Data.pdb"/>
         <File Id="Debug.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Encodings.pdb"/>
         <File Id="Debug.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Foundation.pdb"/>
+        <File Id="Debug.stage.lib.gmock.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\gmock.pdb"/>
+        <File Id="Debug.stage.lib.gmock_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\gmock_main.pdb"/>
+        <File Id="Debug.stage.lib.gtest.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\gtest.pdb"/>
+        <File Id="Debug.stage.lib.gtest_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\gtest_main.pdb"/>
         <File Id="Debug.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\JSON.pdb"/>
+        <File Id="Debug.stage.lib.JWT.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\JWT.pdb"/>
         <File Id="Debug.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\libeay32.lib"/>
         <File Id="Debug.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Net.pdb"/>
         <File Id="Debug.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSL.pdb"/>
@@ -1014,6 +1064,7 @@
         <File Id="Debug.stage.lib.PocoEncodingsmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoEncodingsmdd.lib"/>
         <File Id="Debug.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoFoundationmdd.lib"/>
         <File Id="Debug.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJSONmdd.lib"/>
+        <File Id="Debug.stage.lib.PocoJWTmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJWTmdd.lib"/>
         <File Id="Debug.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetmdd.lib"/>
         <File Id="Debug.stage.lib.PocoNetSSLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLmdd.lib"/>
         <File Id="Debug.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLWinmdd.lib"/>
@@ -1031,12 +1082,17 @@
         <File Id="Debug.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\zlib.lib"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="db6ede4d-cc8f-4c26-918a-01de8c5ea904" Id="X86RELEASELIBFOLDER">
+        <File Id="Release.stage.lib.gmock.pdb" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\gmock.pdb"/>
+        <File Id="Release.stage.lib.gmock_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\gmock_main.pdb"/>
+        <File Id="Release.stage.lib.gtest.pdb" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\gtest.pdb"/>
+        <File Id="Release.stage.lib.gtest_main.pdb" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\gtest_main.pdb"/>
         <File Id="Release.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\libeay32.lib"/>
         <File Id="Release.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoCryptomd.lib"/>
         <File Id="Release.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoDatamd.lib"/>
         <File Id="Release.stage.lib.PocoEncodingsmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoEncodingsmd.lib"/>
         <File Id="Release.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoFoundationmd.lib"/>
         <File Id="Release.stage.lib.PocoJSONmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoJSONmd.lib"/>
+        <File Id="Release.stage.lib.PocoJWTmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoJWTmd.lib"/>
         <File Id="Release.stage.lib.PocoNetmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetmd.lib"/>
         <File Id="Release.stage.lib.PocoNetSSLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetSSLmd.lib"/>
         <File Id="Release.stage.lib.PocoNetSSLWinmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetSSLWinmd.lib"/>
