@@ -246,9 +246,9 @@ wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Po
 # zlib headers are directly in the include_root. Don't include subdirs.
 wix_components(third_party_headers, include_root, False)
 third_party_licenses = make_component_elem(third_party_headers, "ThirdPartyLicenses", "LICENSEFOLDER")
-make_file_elem(third_party_licenses, "PocoLicense", os.path.join(license_root, "LICENSE-Poco.txt"))
-make_file_elem(third_party_licenses, "OpenSSLLicense", os.path.join(license_root, "LICENSE-OpenSSL.txt"))
-make_file_elem(third_party_licenses, "ZlibLicense", os.path.join(license_root, "LICENSE-zlib.txt"))
+make_file_elem(third_party_licenses, "PocoLicense", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\licenses\LICENSE-Poco.txt")
+make_file_elem(third_party_licenses, "OpenSSLLicense", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\licenses\LICENSE-OpenSSL.txt")
+make_file_elem(third_party_licenses, "ZlibLicense", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\licenses\LICENSE-Zlib.txt")
 
 # The BranchIO.lib sits in the same lib folder with the third-party libs. This
 # is as it should be, to avoid making devs pass multiple library paths at
