@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -105,7 +105,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";WIN32;DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";WIN32;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -176,11 +176,6 @@
     <ClCompile Include="..\TestBed\TextField.cpp" />
     <ClCompile Include="..\TestBed\Util.cpp" />
     <ClCompile Include="..\TestBed\Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\BranchSDK\Windows\BranchIO-Static\BranchIO-Static.vcxproj">
-      <Project>{4f51dc46-1a0e-467d-8ca4-af37e134c0a4}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
