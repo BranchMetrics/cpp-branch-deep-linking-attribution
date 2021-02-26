@@ -59,7 +59,7 @@ RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *cl
         "" /* no client cert required */,
         Context::VERIFY_NONE, /* no client cert required */
         Context::OPT_DEFAULTS, /* OPT_PERFORM_REVOCATION_CHECK | OPT_TRUST_ROOTS_WIN_CERT_STORE | OPT_USE_STRONG_CRYPTO */
-        Context::CERT_STORE_CA
+        Context::CERT_STORE_ROOT /* Cert:\LocalMachine\Root */
     ));
 }
 
