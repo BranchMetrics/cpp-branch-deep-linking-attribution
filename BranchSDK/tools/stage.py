@@ -28,19 +28,24 @@ def copyall(src, dst, excludes=[]):
 
 # TODO: Collapse this and the above and/or rethink this whole idea, remove conan
 # from build process. Makes a flat copy of all *.pdb files from a recursive search.
-def copy_pdbs(src, dst):
+def copy_pdbs(src, dst, excludes=[]):
     if not os.path.exists(src):
         return
+
+    ignores = shutil.ignore_patterns(*excludes)
     all_files = os.listdir(src)
+    # rejects is a set of all files matching the excludes
+    rejected = ignores(src, all_files)
+    files = [f for f in all_files if f not in rejected]
 
     # TODO: Use a re with os.path.splitext or something
-    for f in [f for f in all_files if f.endswith(".pdb") or f.endswith(".PDB")]:
+    for f in [f for f in files if f.endswith(".pdb") or f.endswith(".PDB")]:
         path = os.path.join(src, f)
         shutil.copy(path, dst)
 
-    for d in [f for f in all_files if os.path.isdir(os.path.join(src, f))]:
+    for d in [f for f in files if os.path.isdir(os.path.join(src, f))]:
         path = os.path.join(src, d)
-        copy_pdbs(path, dst)
+        copy_pdbs(path, dst, excludes=excludes)
 
 # TODO: Collapse this and the above and/or rethink this whole idea, remove conan
 # from build process. Makes a copy of all LICENSE files from the conan source cache.
@@ -76,7 +81,7 @@ makedirs("stage/licenses")
 
 # Skip Poco's MongoDB and SQLiteData modules, which we don't require.
 # Also CppUnit, which one of our deps uses.
-excludes = ["CppUnit", "*gtest*", "*gmock*", "*MongoDB*", "*SQLite*", "*Redis*"]
+excludes = ["CppUnit", "*gtest*", "*gmock*", "*MongoDB*", "*SQLite*", "*Redis*", "*unit_test*"]
 
 for item in installed:
     recipe = item["recipe"]
@@ -98,4 +103,4 @@ for item in installed:
 
         # pdbs are under build_path
         build_path = os.path.join((os.path.dirname(os.path.dirname(rootpath))), "build", build_id)
-        copy_pdbs(build_path, "stage/lib")
+        copy_pdbs(build_path, "stage/lib", excludes=excludes)

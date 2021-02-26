@@ -1013,10 +1013,7 @@
         <File Id="Debugx64.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoZipmdd.lib"/>
-        <File Id="Debugx64.stage.lib.Redis.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Redis.pdb"/>
-        <File Id="Debugx64.stage.lib.unit_tests.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\unit_tests.pdb"/>
         <File Id="Debugx64.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Util.pdb"/>
-        <File Id="Debugx64.stage.lib.vc142.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\vc142.pdb"/>
         <File Id="Debugx64.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\XML.pdb"/>
         <File Id="Debugx64.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Zip.pdb"/>
         <File Id="Debugx64.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\zlib.lib"/>
@@ -1070,10 +1067,7 @@
         <File Id="Debug.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debug.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.lib"/>
         <File Id="Debug.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoZipmdd.lib"/>
-        <File Id="Debug.stage.lib.Redis.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Redis.pdb"/>
-        <File Id="Debug.stage.lib.unit_tests.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\unit_tests.pdb"/>
         <File Id="Debug.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Util.pdb"/>
-        <File Id="Debug.stage.lib.vc142.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\vc142.pdb"/>
         <File Id="Debug.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\XML.pdb"/>
         <File Id="Debug.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Zip.pdb"/>
         <File Id="Debug.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\zlib.lib"/>
