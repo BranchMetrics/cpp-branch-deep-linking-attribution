@@ -209,7 +209,7 @@ RequestManager::RequestTask::runTask() {
     if (_manager.getClientSession()) {
         result = _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
     } else {
-        APIClientSession& clientSession(APIClientSession::instance());
+        APIClientSession clientSession(BRANCH_IO_URL_BASE);
         _manager.setClientSession(&clientSession);
         result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
         _manager.setClientSession(nullptr);
