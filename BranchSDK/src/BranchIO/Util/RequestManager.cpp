@@ -25,35 +25,6 @@ RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *cl
     _clientSession(clientSession),
     _shuttingDown(false),
     _currentRequest(nullptr) {
-    // https://pocoproject.org/docs/Poco.Net.Context.html
-    /*
-     * From <Poco/Net/Context.h>:
-     * 	Context(Usage usage,
-		const std::string& certificateNameOrPath, 
-		VerificationMode verMode = VERIFY_RELAXED,
-		int options = OPT_DEFAULTS,
-		const std::string& certificateStoreName = CERT_STORE_MY);
-			/// Creates a Context.
-			/// 
-			///   * usage specifies whether the context is used by a client or server,
-			///     as well as which protocol to use.
-			///   * certificateNameOrPath specifies either the subject name of the certificate to use,
-			///     or the path of a PKCS #12 file containing the certificate and corresponding private key.
-			///     If a subject name is specified, the certificate must be located in the certificate 
-			///     store specified by certificateStoreName. If a path is given, the OPT_LOAD_CERT_FROM_FILE
-			///     option must be set.
-			///   * verificationMode specifies whether and how peer certificates are validated.
-			///   * options is a combination of Option flags.
-			///   * certificateStoreName specifies the name of the Windows certificate store
-			///     to use for loading the certificate. Predefined constants
-			///     CERT_STORE_MY, CERT_STORE_ROOT, etc. can be used.
-			///
-			/// Note: you can use OpenSSL to convert a certificate and private key in PEM format
-			/// into PKCS #12 format required to import into the Context:
-			///
-			///     openssl pkcs12 -export -inkey cert.key -in cert.crt -out cert.pfx 
-
-     */
     /*
      * Note that the following call will always generate an exception warning message in Visual Studio like:
      * Exception thrown at 0x00007FF87DB8D759 in TestBed-Local.exe: Microsoft C++ exception: Poco::Net::NoCertificateException at memory location 0x000000FD251FC1F0.
@@ -61,7 +32,7 @@ RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *cl
      * https://github.com/pocoproject/poco/blob/poco-1.10.1/NetSSL_Win/src/SecureSocketImpl.cpp#L692.
      * This is not a fatal error. API clients do not supply a cert for authentication.
      */
-    Poco::Net::SSLManager::instance().initializeClient(0, 0, new Context(Context::TLS_CLIENT_USE, "" /* no client cert required */));
+    Poco::Net::SSLManager::instance().initializeClient(nullptr, nullptr, new Context(Context::TLS_CLIENT_USE, "" /* no client cert required */));
 }
 
 RequestManager::~RequestManager() {
