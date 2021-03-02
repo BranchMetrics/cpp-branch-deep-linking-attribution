@@ -11,7 +11,7 @@ class BranchioConan(ConanFile):
     # ----- Package metadata -----
     name = "BranchIO"
     # TODO(jdee): Set the version in one place and propagate it
-    version = "1.2.0"
+    version = "1.2.1"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
@@ -40,7 +40,7 @@ class BranchioConan(ConanFile):
 
     # ----- Package dependencies -----
     # Allow patch updates to Poco
-    requires = "Poco/[~=1.9.4]@pocoproject/stable"
+    requires = ("Poco/[~=1.10.1]@pocoproject/stable", ("OpenSSL/[>=1.1.1c <3.0]@conan/stable", "override"))
     build_requires = "gtest/1.8.1@bincrafters/stable"
 
     def build(self):
