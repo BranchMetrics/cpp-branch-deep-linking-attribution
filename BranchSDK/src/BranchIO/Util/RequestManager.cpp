@@ -2,6 +2,8 @@
 
 #include "RequestManager.h"
 
+#include <Poco/Net/PrivateKeyPassphraseHandler.h>
+#include <Poco/Net/SSLManager.h>
 #include <Poco/TaskNotification.h>
 #include <cassert>
 
@@ -12,6 +14,7 @@
 #include "BranchIO/Util/Storage.h"
 
 using namespace Poco;
+using Poco::Net::Context;
 
 namespace BranchIO {
 
@@ -22,6 +25,14 @@ RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *cl
     _clientSession(clientSession),
     _shuttingDown(false),
     _currentRequest(nullptr) {
+    /*
+     * Note that the following call will always generate an exception warning message in Visual Studio like:
+     * Exception thrown at 0x00007FF87DB8D759 in TestBed-Local.exe: Microsoft C++ exception: Poco::Net::NoCertificateException at memory location 0x000000FD251FC1F0.
+     * This is deliberately thrown by Poco internally when initializing a secure socket:
+     * https://github.com/pocoproject/poco/blob/poco-1.10.1/NetSSL_Win/src/SecureSocketImpl.cpp#L692.
+     * This is not a fatal error. API clients do not supply a cert for authentication.
+     */
+    Poco::Net::SSLManager::instance().initializeClient(nullptr, nullptr, new Context(Context::TLS_CLIENT_USE, "" /* no client cert required */));
 }
 
 RequestManager::~RequestManager() {
@@ -153,7 +164,7 @@ RequestManager::RequestTask::runTask() {
     if (_manager.getPackagingInfo().getAdvertiserInfo().isTrackingDisabled()) {
         payload.set(Defines::JSONKEY_TRACKING_DISABLED, true);
         // remove all identifiable fields
-        // Based on https://github.com/BranchMetrics/ios-branch-deep-linking-attribution/blob/master/Branch-SDK/BNCServerInterface.m#L396-L411
+        // Based on https://github.com/BranchMetrics/ios-branch-deep-linking-attribution/blob/master/Branch-SDK/BNCServerInterface.m around line 400.
         payload.remove(Defines::JSONKEY_APP_DEVELOPER_IDENTITY);   // developer_identity
         payload.remove(Defines::JSONKEY_APP_IDENTITY);             // identity
         payload.remove(Defines::JSONKEY_DEVICE_LOCAL_IP_ADDRESS);  // local_ip
@@ -165,15 +176,20 @@ RequestManager::RequestTask::runTask() {
 
     // Send request synchronously
     // _clientSession may be passed in for testing. If not, we
-    // create a real one here
+    // create/reuse a real one here
     JSONObject result;
     if (_manager.getClientSession()) {
         result = _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
     } else {
-        APIClientSession clientSession(BRANCH_IO_URL_BASE);
-        _manager.setClientSession(&clientSession);
-        result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
-        _manager.setClientSession(nullptr);
+        try {
+            APIClientSession clientSession(BRANCH_IO_URL_BASE);
+            _manager.setClientSession(&clientSession);
+            result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
+            _manager.setClientSession(nullptr);
+        }
+        catch (Poco::Exception& e) {
+            BRANCH_LOG_E("Connection failed. " << e.what() << ": " << e.message());
+        }
     }
 
     _event.handleResult(result);

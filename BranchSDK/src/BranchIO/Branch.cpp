@@ -171,7 +171,7 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
 #endif
 
     // Set these on the current app
-    if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisbled")) {
+    if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisabled")) {
         storage.setBoolean("advertiser.trackingDisabled", isGlobalTrackingDisabled);
     }
     if (!globalDeviceFingerprintId.empty() && !storage.has("session.device_fingerprint_id")) {

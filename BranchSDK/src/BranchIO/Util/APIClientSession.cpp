@@ -9,6 +9,7 @@
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
 #include <Poco/Net/NetException.h>
+#include <Poco/Net/SSLManager.h>
 #include <Poco/NullStream.h>
 #include <Poco/StreamCopier.h>
 #include <Poco/URI.h>
@@ -25,19 +26,6 @@ using namespace Poco::Net;
 
 namespace BranchIO {
 
-Poco::Net::Context::Ptr APIClientSession::getContext() {
-    return new Context
-#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-        // Unix / Mac
-        (Context::CLIENT_USE, "", "", "",
-         Context::VERIFY_NONE, 9, false,
-         "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
-#else
-        // Windows
-        (Context::CLIENT_USE, "");
-#endif
-}
-
 APIClientSession&
 APIClientSession::instance() {
     // constructed the first time through
@@ -48,7 +36,7 @@ APIClientSession::instance() {
 APIClientSession::APIClientSession(const std::string& urlBase) :
     HTTPSClientSession(URI(urlBase).getHost(),
     URI(urlBase).getPort(),
-    getContext()),
+    Poco::Net::SSLManager::instance().defaultClientContext()),
     _urlBase(urlBase),
     _shuttingDown(false) {
 }
@@ -107,7 +95,10 @@ APIClientSession::post(
     }
     catch (const Poco::Exception& e) {
         if (isShuttingDown()) return false;
-        callback.onStatus(0, 0, string(e.what()) + ": " + e.message());
+        string description(e.what());
+        description += ": " + e.message();
+        BRANCH_LOG_W("Request failed. " << description);
+        callback.onStatus(0, 0, description);
     }
     return false;
 }
