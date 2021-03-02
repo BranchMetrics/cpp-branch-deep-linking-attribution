@@ -95,7 +95,10 @@ APIClientSession::post(
     }
     catch (const Poco::Exception& e) {
         if (isShuttingDown()) return false;
-        callback.onStatus(0, 0, string(e.what()) + ": " + e.message());
+        string description(e.what());
+        description += ": " + e.message();
+        BRANCH_LOG_W("Request failed. " << description);
+        callback.onStatus(0, 0, description);
     }
     return false;
 }

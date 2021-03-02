@@ -54,13 +54,14 @@ RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *cl
 			///     openssl pkcs12 -export -inkey cert.key -in cert.crt -out cert.pfx 
 
      */
-    Poco::Net::SSLManager::instance().initializeClient(0, 0, new Context(
-        Context::TLS_CLIENT_USE,
-        "" /* no client cert required */,
-        Context::VERIFY_NONE, /* no client cert required */
-        Context::OPT_DEFAULTS, /* OPT_PERFORM_REVOCATION_CHECK | OPT_TRUST_ROOTS_WIN_CERT_STORE | OPT_USE_STRONG_CRYPTO */
-        Context::CERT_STORE_ROOT /* Cert:\LocalMachine\Root */
-    ));
+    /*
+     * Note that the following call will always generate an exception warning message in Visual Studio like:
+     * Exception thrown at 0x00007FF87DB8D759 in TestBed-Local.exe: Microsoft C++ exception: Poco::Net::NoCertificateException at memory location 0x000000FD251FC1F0.
+     * This is deliberately thrown by Poco internally when initializing a secure socket:
+     * https://github.com/pocoproject/poco/blob/poco-1.10.1/NetSSL_Win/src/SecureSocketImpl.cpp#L692.
+     * This is not a fatal error. API clients do not supply a cert for authentication.
+     */
+    Poco::Net::SSLManager::instance().initializeClient(0, 0, new Context(Context::TLS_CLIENT_USE, "" /* no client cert required */));
 }
 
 RequestManager::~RequestManager() {
@@ -209,10 +210,15 @@ RequestManager::RequestTask::runTask() {
     if (_manager.getClientSession()) {
         result = _request.send(_event.getAPIEndpoint(), payload, *_callback, _manager.getClientSession());
     } else {
-        APIClientSession clientSession(BRANCH_IO_URL_BASE);
-        _manager.setClientSession(&clientSession);
-        result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
-        _manager.setClientSession(nullptr);
+        try {
+            APIClientSession clientSession(BRANCH_IO_URL_BASE);
+            _manager.setClientSession(&clientSession);
+            result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
+            _manager.setClientSession(nullptr);
+        }
+        catch (Poco::Exception& e) {
+            BRANCH_LOG_E("Connection failed. " << e.what() << ": " << e.message());
+        }
     }
 
     _event.handleResult(result);
