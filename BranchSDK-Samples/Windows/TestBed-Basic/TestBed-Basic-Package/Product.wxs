@@ -35,14 +35,15 @@
             Icon="branch.exe" />
         </File>
       </Component>
-      <Component Id="ExamplePage" Guid="fc9d0d52-7c4e-4402-b189-db6711b3d154">
-        <File Id="example.html" Source="$(var.ProjectDir)..\example.html" KeyPath="yes">
-          <Shortcut Id="ExamplePageShortcut"
-            Name="Example Page"
+      <Component Id="WelcomePage" Guid="fc9d0d52-7c4e-4402-b189-db6711b3d154">
+        <File Id="Welcome.html" Source="$(var.ProjectDir)..\Welcome.html" KeyPath="yes">
+          <Shortcut Id="WelcomePageShortcut"
+            Name="Welcome Page"
             Directory="ApplicationProgramsFolder"
             Description="Example Page for Branch TestBed (Basic)"
             Advertise="yes" />
         </File>
+        <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\branch-badge-dark.png" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
       </Component>
       <Component Id="TestBedURIScheme" Guid="502eb451-4bb1-4f67-8016-ba0009fb8d6a">
@@ -64,7 +65,7 @@
     <Feature Id="ProductFeature" Title="TestBed (Basic) Application" Level="1" AllowAdvertise="yes" TypicalDefault="advertise">
       <ComponentRef Id="TestBedBinary" />
       <ComponentRef Id="TestBedURIScheme"/>
-      <ComponentRef Id="ExamplePage"/>
+      <ComponentRef Id="WelcomePage"/>
     </Feature>
   </Product>
 </Wix>
