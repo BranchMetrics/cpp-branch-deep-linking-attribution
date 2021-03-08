@@ -45,6 +45,7 @@
             Icon="branch.exe" />
         </File>
         <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\branch-badge-dark.png" />
+        <File Id="WelcomePageFavicon" Source="$(var.ProjectDir)..\small.ico" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
       </Component>
       <Component Id="TestBedURIScheme" Guid="502eb451-4bb1-4f67-8016-ba0009fb8d6a">
