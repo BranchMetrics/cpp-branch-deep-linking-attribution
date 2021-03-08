@@ -40,8 +40,9 @@
           <Shortcut Id="WelcomePageShortcut"
             Name="Welcome Page"
             Directory="ApplicationProgramsFolder"
-            Description="Example Page for Branch TestBed (Basic)"
-            Advertise="yes" />
+            Description="Welcome Page for Branch TestBed (Basic)"
+            Advertise="yes"
+            Icon="branch.exe" />
         </File>
         <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\branch-badge-dark.png" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
