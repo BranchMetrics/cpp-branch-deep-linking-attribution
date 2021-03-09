@@ -19,7 +19,7 @@
         <ComponentGroupRef Id="BranchLibrariesX86"/>
       </Feature>
     </Feature>
-    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco and dependencies (openssl, zlib; optional). Installed in the same location as the Branch SDK.">
+    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco 1.10.1 and dependencies (openssl 1.1.1c, zlib 1.2.11; optional). Installed in the same location as the Branch SDK.">
       <ComponentGroupRef Id="ThirdPartyHeaders"/>
       <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco, openssl and zlib libraries">
         <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
@@ -28,24 +28,14 @@
         <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>
       </Feature>
     </Feature>
-    <Feature Id="TestBedApp" Title="TestBed Demo Application" Description="Branch TestBed demo application" Level="1" AllowAdvertise="yes" TypicalDefault="advertise">
+    <Feature Id="TestBedApp" Title="TestBed Demo Application" Description="Branch TestBed demo application">
+      <ComponentRef Id="WelcomePage"/>
       <ComponentRef Id="TestBedBinary"/>
       <ComponentRef Id="TestBedURIScheme"/>
-      <ComponentRef Id="WelcomePage"/>
     </Feature>
 
     <DirectoryRef Id="INSTALLFOLDER">
-      <Component Id="TestBedBinary" Guid="53ac529a-bde3-4664-9003-bda705372ea7">
-        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\Debug\TestBed-Basic.exe" KeyPath="yes" Checksum="yes">
-          <Shortcut Id="ApplicationStartMenuShortcut"
-            Name="Branch TestBed (Basic)"
-            Directory="ApplicationProgramsFolder"
-            Description="Branch TestBed demo application"
-            WorkingDirectory="INSTALLFOLDER"
-            Advertise="yes"
-            Icon="branch.exe" />
-        </File>
-      </Component>
+      <!-- Start menu shortcuts under Branch SDK -->
       <Component Id="WelcomePage" Guid="64a4f20e-bca3-4a49-a7e0-3dcf21b8dec6">
         <File Id="Welcome.html" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\Welcome.html" KeyPath="yes">
           <Shortcut Id="WelcomePageShortcut"
@@ -59,11 +49,22 @@
         <File Id="WelcomePageFavicon" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\small.ico" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
       </Component>
+      <Component Id="TestBedBinary" Guid="53ac529a-bde3-4664-9003-bda705372ea7">
+        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\Debug\TestBed-Basic.exe" KeyPath="yes" Checksum="yes">
+          <Shortcut Id="ApplicationStartMenuShortcut"
+            Name="Branch TestBed"
+            Directory="ApplicationProgramsFolder"
+            Description="Branch TestBed demo application"
+            WorkingDirectory="INSTALLFOLDER"
+            Advertise="yes"
+            Icon="branch.exe" />
+        </File>
+      </Component>
       <Component Id="TestBedURIScheme" Guid="32616d7d-b63b-425d-b567-8fb8df9aabfa">
         <!-- Add Registry entries for URI redirection -->
         <!-- testbedbasic is the URI scheme from the Branch Dashboard -->
         <RegistryKey Root="HKCU" Key="SOFTWARE\Classes\testbedbasic" >
-          <RegistryValue Value="URL:testbedbasic" Type="string" />
+          <RegistryValue Value="Branch TestBed (Basic)" Type="string" />
           <RegistryValue Name="URL Protocol" Value="" Type="string" />
           <RegistryKey Key="DefaultIcon">
             <RegistryValue Value="[INSTALLFOLDER]TestBed-Basic.exe,1" Type="string"/>
@@ -80,7 +81,8 @@
   <Fragment>
     <DirectoryRef Id="TARGETDIR">
       <Directory Id="ProgramMenuFolder">
-        <Directory Id="ApplicationProgramsFolder" Name="Branch TestBed (Basic)" />
+        <!-- Name of folder in Start Menu -->
+        <Directory Id="ApplicationProgramsFolder" Name="Branch SDK" />
       </Directory>
     </DirectoryRef>
   </Fragment>
