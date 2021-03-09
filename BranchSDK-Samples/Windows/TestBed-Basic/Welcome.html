@@ -10,31 +10,59 @@
             body {
                 background-image: url("branch-badge-dark.png");
                 background-color: #363636;
+                background-repeat: no-repeat;
             }
             h1 {
                 color: white;
             }
-            a:link {
-                color: #00ccff;
+            a {
+                text-decoration: none;
             }
-            a:visited {
-                color: gray;
+            a:link, a:visited {
+                color: #88aaff;
             }
-            a:hover, a:active {
-                color: #88eeff;
+            a:hover {
+                color: #ccccff;
+            }
+            span.link {
+                border-radius: 5px;
+                background-color: rgb(0.4, 0.4, 0.4, 0.4);
+                padding: 8px;
+                margin: 4px;
+                display: inline-block;
+                width: 100%;
+                align-content: flex-start;
             }
         </style>
     </head>
     <body>
         <h1>Welcome to the Branch Metrics C++/Win32 SDK</h1>
-        <a href="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview">SDK Documentation</a>
-        <br />
-        <a href="https://0vzx2.app.link/opSPRMKeFdb">TestBed (Basic) Demo App</a>
-        <br />
-        <a href="https://dashboard.branch.io">Branch Dashboard</a>
-        <br />
-        <a href="https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution">Source Code (GitHub)</a>
-        <br />
-        <a href="https://help.branch.io/using-branch/page/submit-a-ticket">Branch Support</a>
+        <table>
+            <tr>
+                <td>
+                    <a href="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview" target="_blank"><span class="link">SDK Documentation</span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://0vzx2.app.link/opSPRMKeFdb" target="_blank"><span class="link">Open Demo App from a Branch Link</span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://dashboard.branch.io" target="_blank"><span class="link">Branch Dashboard</span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution" target="_blank"><span class="link">Source Code (GitHub)</span></a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a href="https://help.branch.io/using-branch/page/submit-a-ticket" target="_blank"><span class="link">Branch Support</span></a>
+                </td>
+            </tr>
+        </table>
     </body>
 </html>
