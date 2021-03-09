@@ -984,7 +984,7 @@
     <ComponentGroup Id="BranchLibrariesX64">
       <Component Directory="X64DEBUGLIBFOLDER" Guid="6b538925-ded6-4bbf-8b59-64495e0e3b9c" Id="BranchLibrariesDebugX64">
         <File Id="BranchDebugX64Library" Name="BranchIOmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\lib\BranchIO.lib"/>
-        <File Id="BranchDebugX64PDB" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\lib\BranchIO.pdb"/>
+        <File Id="BranchDebugX64PDB" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\BranchIO.pdb"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="14030dd2-fad4-4d5a-baf2-20abdda3be0c" Id="BranchLibrariesReleaseX64">
         <File Id="BranchReleaseX64Library" Name="BranchIOmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\lib\BranchIO.lib"/>
@@ -1038,7 +1038,7 @@
     <ComponentGroup Id="BranchLibrariesX86">
       <Component Directory="X86DEBUGLIBFOLDER" Guid="054b215a-7743-4fe3-b212-a4798cfc305d" Id="BranchLibrariesDebugX86">
         <File Id="BranchDebugX86Library" Name="BranchIOmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\lib\BranchIO.lib"/>
-        <File Id="BranchDebugX86PDB" Source="$(var.ProjectDir)\..\..\..\build\Debug\lib\BranchIO.pdb"/>
+        <File Id="BranchDebugX86PDB" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\BranchIO.pdb"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="c8b9e075-e963-4283-993d-b1ed2e853ea7" Id="BranchLibrariesReleaseX86">
         <File Id="BranchReleaseX86Library" Name="BranchIOmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\lib\BranchIO.lib"/>
