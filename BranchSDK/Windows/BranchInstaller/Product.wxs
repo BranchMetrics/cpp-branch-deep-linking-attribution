@@ -7,11 +7,30 @@
     <Icon Id="branch.exe" SourceFile="branch-badge-dark.ico"/>
     <Property Id="ARPPRODUCTICON" Value="branch.exe"/>
     <Property Id="ARPHELPLINK" Value="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"/>
-    <UIRef Id="WixUI_FeatureTree_NoLic"/>
+
+    <!-- UI Definition -->
+    <UI>
+      <UIRef Id="WixUI_FeatureTree_NoLic"/>
+      <Publish Dialog="ExitDialog"
+              Control="Finish"
+              Event="DoAction"
+              Value="LaunchFile">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+
+    <!-- Optionally display Welcome Page on completion -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="View the Welcome Page." />
+    <Property Id="WixShellExecTarget" Value="[#Welcome.html]" />
+    <CustomAction Id="LaunchFile"
+        BinaryKey="WixCA"
+        DllEntry="WixShellExec"
+        Impersonate="yes" />
+
     <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
     <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Display="expand" Description="Core Branch SDK (required)">
       <ComponentGroupRef Id="BranchHeaders"/>
+      <ComponentRef Id="WelcomePage"/>
       <Feature Id="BranchSDKX64Feature" Title="64-bit Libraries" Description="64-bit Branch SDK libraries">
         <ComponentGroupRef Id="BranchLibrariesX64"/>
       </Feature>
@@ -29,7 +48,6 @@
       </Feature>
     </Feature>
     <Feature Id="TestBedApp" Title="TestBed Demo Application" Description="Branch TestBed demo application">
-      <ComponentRef Id="WelcomePage"/>
       <ComponentRef Id="TestBedBinary"/>
       <ComponentRef Id="TestBedURIScheme"/>
     </Feature>
