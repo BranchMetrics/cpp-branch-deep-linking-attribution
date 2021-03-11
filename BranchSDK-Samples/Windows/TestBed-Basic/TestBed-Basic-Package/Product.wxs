@@ -52,7 +52,7 @@
         <!-- Add Registry entries for URI redirection -->
         <!-- testbedbasic is the URI scheme from the Branch Dashboard -->
         <RegistryKey Root="HKCU" Key="SOFTWARE\Classes\testbedbasic" >
-          <RegistryValue Value="URL:testbedbasic" Type="string" />
+          <RegistryValue Value="Branch TestBed (Basic)" Type="string" />
           <RegistryValue Name="URL Protocol" Value="" Type="string" />
           <RegistryKey Key="DefaultIcon">
             <RegistryValue Value="[INSTALLFOLDER]TestBed-Basic.exe,1" Type="string"/>
