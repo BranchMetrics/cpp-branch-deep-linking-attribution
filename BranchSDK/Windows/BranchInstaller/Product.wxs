@@ -77,6 +77,7 @@
             Advertise="yes"
             Icon="branch.exe" />
         </File>
+        <File Id="TestBedPdb" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\Debug\TestBed-Basic.pdb" />
       </Component>
       <Component Id="TestBedURIScheme" Guid="32616d7d-b63b-425d-b567-8fb8df9aabfa">
         <!-- Add Registry entries for URI redirection -->

@@ -81,11 +81,15 @@ makedirs("stage/licenses")
 
 # Skip Poco's MongoDB and SQLiteData modules, which we don't require.
 # Also CppUnit, which one of our deps uses.
-excludes = ["CppUnit", "*gtest*", "*gmock*", "*MongoDB*", "*SQLite*", "*Redis*", "*unit_test*", "openssl", "OpenSSL", "zlib"]
+excludes = ["CppUnit", "*gtest*", "*gmock*", "*MongoDB*", "*SQLite*", "*Redis*", "*unit_test*", "openssl", "OpenSSL", "zlib", "libpq"]
 
 for item in installed:
     recipe = item["recipe"]
-    print(recipe["id"])
+    recipe_id = recipe["id"]
+    if recipe_id.startswith("OpenSSL") or recipe_id.startswith("zlib") or recipe_id.startswith("gtest"):
+        continue
+
+    print(recipe_id)
 
     package_name = recipe["name"]
 
