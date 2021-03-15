@@ -109,21 +109,26 @@ if %BUILD_TYPE% == Debug (
 )
 
 REM Build/install dependencies needed for this SDK
+
 conan install ..\..\conanfile.py^
   --settings build_type=%BUILD_TYPE%^
   --settings arch=%TARGET_ARCH%^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
-  --options Poco:enable_mongodb=False^
+  --options Poco:enable_crypto=False^
+  --options Poco:enable_data=False^
   --options Poco:enable_data_mysql=False^
   --options Poco:enable_data_odbc=False^
   --options Poco:enable_data_postgresql=False^
   --options Poco:enable_data_sqlite=False^
+  --options Poco:enable_encodings=False^
   --options Poco:enable_jwt=False^
-  --options Poco:enable_netssl_win=True^
+  --options Poco:enable_mongodb=False^
   --options Poco:enable_netssl=False^
-  --options Poco:enable_crypto=False^
-  --build outdated
+  --options Poco:enable_redis=False^
+  --options Poco:enable_zip=False^
+  --build outdated^
+  --update
 
 if ERRORLEVEL 1 (
   echo conan install failed.
@@ -163,13 +168,20 @@ conan create ..\.. branch/testing^
   --settings arch=%TARGET_ARCH%^
   --settings compiler.runtime=%RUNTIME%^
   --options *:shared=%BUILD_SHARED_LIBS%^
-  --options Poco:enable_mongodb=False^
+  --options Poco:enable_crypto=False^
+  --options Poco:enable_data=False^
   --options Poco:enable_data_mysql=False^
   --options Poco:enable_data_odbc=False^
   --options Poco:enable_data_postgresql=False^
   --options Poco:enable_data_sqlite=False^
+  --options Poco:enable_encodings=False^
   --options Poco:enable_jwt=False^
-  --options Poco:enable_netssl=True^
+  --options Poco:enable_mongodb=False^
+  --options Poco:enable_netssl=False^
+  --options Poco:enable_pdf=False^
+  --options Poco:enable_redis=False^
+  --options Poco:enable_sevenzip=False^
+  --options Poco:enable_zip=False^
   --build outdated
 
 echo Building stage from conan cache
