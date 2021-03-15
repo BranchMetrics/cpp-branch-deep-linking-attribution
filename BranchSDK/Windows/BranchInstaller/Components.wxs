@@ -11,7 +11,6 @@
               <Directory Id="Releasex64.stage.include.BranchIO.Util" Name="Util"/>
             </Directory>
             <Directory Id="Releasex64.stage.include.libpq" Name="libpq"/>
-            <Directory Id="Releasex64.stage.include.openssl" Name="openssl"/>
             <Directory Id="Releasex64.stage.include.Poco" Name="Poco">
               <Directory Id="Releasex64.stage.include.Poco.Crypto" Name="Crypto"/>
               <Directory Id="Releasex64.stage.include.Poco.Data" Name="Data">
@@ -863,128 +862,13 @@
         <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.StatementExecutor.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\StatementExecutor.h"/>
         <File Id="Releasex64.stage.include.Poco.Data.PostgreSQL.Utility.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\Poco\Data\PostgreSQL\Utility.h"/>
       </Component>
-      <Component Directory="Releasex64.stage.include.openssl" Guid="1b72cb36-73d9-4ccd-9a65-6f6939a40b8c" Id="Releasex64.stage.include.openssl">
-        <File Id="Releasex64.stage.include.openssl.aes.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\aes.h"/>
-        <File Id="Releasex64.stage.include.openssl.asn1.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1.h"/>
-        <File Id="Releasex64.stage.include.openssl.asn1err.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1err.h"/>
-        <File Id="Releasex64.stage.include.openssl.asn1t.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1t.h"/>
-        <File Id="Releasex64.stage.include.openssl.asn1_mac.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asn1_mac.h"/>
-        <File Id="Releasex64.stage.include.openssl.async.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\async.h"/>
-        <File Id="Releasex64.stage.include.openssl.asyncerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\asyncerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.bio.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bio.h"/>
-        <File Id="Releasex64.stage.include.openssl.bioerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bioerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.blowfish.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\blowfish.h"/>
-        <File Id="Releasex64.stage.include.openssl.bn.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bn.h"/>
-        <File Id="Releasex64.stage.include.openssl.bnerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\bnerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.buffer.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\buffer.h"/>
-        <File Id="Releasex64.stage.include.openssl.buffererr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\buffererr.h"/>
-        <File Id="Releasex64.stage.include.openssl.camellia.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\camellia.h"/>
-        <File Id="Releasex64.stage.include.openssl.cast.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cast.h"/>
-        <File Id="Releasex64.stage.include.openssl.cmac.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cmac.h"/>
-        <File Id="Releasex64.stage.include.openssl.cms.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cms.h"/>
-        <File Id="Releasex64.stage.include.openssl.cmserr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cmserr.h"/>
-        <File Id="Releasex64.stage.include.openssl.comp.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\comp.h"/>
-        <File Id="Releasex64.stage.include.openssl.comperr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\comperr.h"/>
-        <File Id="Releasex64.stage.include.openssl.conf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\conf.h"/>
-        <File Id="Releasex64.stage.include.openssl.conferr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\conferr.h"/>
-        <File Id="Releasex64.stage.include.openssl.conf_api.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\conf_api.h"/>
-        <File Id="Releasex64.stage.include.openssl.crypto.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\crypto.h"/>
-        <File Id="Releasex64.stage.include.openssl.cryptoerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cryptoerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.ct.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ct.h"/>
-        <File Id="Releasex64.stage.include.openssl.cterr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\cterr.h"/>
-        <File Id="Releasex64.stage.include.openssl.des.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\des.h"/>
-        <File Id="Releasex64.stage.include.openssl.dh.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dh.h"/>
-        <File Id="Releasex64.stage.include.openssl.dherr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dherr.h"/>
-        <File Id="Releasex64.stage.include.openssl.dsa.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dsa.h"/>
-        <File Id="Releasex64.stage.include.openssl.dsaerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dsaerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.dtls1.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\dtls1.h"/>
-        <File Id="Releasex64.stage.include.openssl.ebcdic.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ebcdic.h"/>
-        <File Id="Releasex64.stage.include.openssl.ec.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ec.h"/>
-        <File Id="Releasex64.stage.include.openssl.ecdh.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ecdh.h"/>
-        <File Id="Releasex64.stage.include.openssl.ecdsa.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ecdsa.h"/>
-        <File Id="Releasex64.stage.include.openssl.ecerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ecerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.engine.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\engine.h"/>
-        <File Id="Releasex64.stage.include.openssl.engineerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\engineerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.err.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\err.h"/>
-        <File Id="Releasex64.stage.include.openssl.evp.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\evp.h"/>
-        <File Id="Releasex64.stage.include.openssl.evperr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\evperr.h"/>
-        <File Id="Releasex64.stage.include.openssl.e_os2.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\e_os2.h"/>
-        <File Id="Releasex64.stage.include.openssl.hmac.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\hmac.h"/>
-        <File Id="Releasex64.stage.include.openssl.idea.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\idea.h"/>
-        <File Id="Releasex64.stage.include.openssl.kdf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\kdf.h"/>
-        <File Id="Releasex64.stage.include.openssl.kdferr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\kdferr.h"/>
-        <File Id="Releasex64.stage.include.openssl.lhash.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\lhash.h"/>
-        <File Id="Releasex64.stage.include.openssl.md2.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\md2.h"/>
-        <File Id="Releasex64.stage.include.openssl.md4.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\md4.h"/>
-        <File Id="Releasex64.stage.include.openssl.md5.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\md5.h"/>
-        <File Id="Releasex64.stage.include.openssl.mdc2.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\mdc2.h"/>
-        <File Id="Releasex64.stage.include.openssl.modes.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\modes.h"/>
-        <File Id="Releasex64.stage.include.openssl.objects.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\objects.h"/>
-        <File Id="Releasex64.stage.include.openssl.objectserr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\objectserr.h"/>
-        <File Id="Releasex64.stage.include.openssl.obj_mac.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\obj_mac.h"/>
-        <File Id="Releasex64.stage.include.openssl.ocsp.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ocsp.h"/>
-        <File Id="Releasex64.stage.include.openssl.ocsperr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ocsperr.h"/>
-        <File Id="Releasex64.stage.include.openssl.opensslconf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\opensslconf.h"/>
-        <File Id="Releasex64.stage.include.openssl.opensslv.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\opensslv.h"/>
-        <File Id="Releasex64.stage.include.openssl.ossl_typ.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ossl_typ.h"/>
-        <File Id="Releasex64.stage.include.openssl.pem.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pem.h"/>
-        <File Id="Releasex64.stage.include.openssl.pem2.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pem2.h"/>
-        <File Id="Releasex64.stage.include.openssl.pemerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pemerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.pkcs12.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pkcs12.h"/>
-        <File Id="Releasex64.stage.include.openssl.pkcs12err.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pkcs12err.h"/>
-        <File Id="Releasex64.stage.include.openssl.pkcs7.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pkcs7.h"/>
-        <File Id="Releasex64.stage.include.openssl.pkcs7err.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\pkcs7err.h"/>
-        <File Id="Releasex64.stage.include.openssl.rand.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rand.h"/>
-        <File Id="Releasex64.stage.include.openssl.randerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\randerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.rand_drbg.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rand_drbg.h"/>
-        <File Id="Releasex64.stage.include.openssl.rc2.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rc2.h"/>
-        <File Id="Releasex64.stage.include.openssl.rc4.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rc4.h"/>
-        <File Id="Releasex64.stage.include.openssl.rc5.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rc5.h"/>
-        <File Id="Releasex64.stage.include.openssl.ripemd.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ripemd.h"/>
-        <File Id="Releasex64.stage.include.openssl.rsa.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rsa.h"/>
-        <File Id="Releasex64.stage.include.openssl.rsaerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\rsaerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.safestack.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\safestack.h"/>
-        <File Id="Releasex64.stage.include.openssl.seed.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\seed.h"/>
-        <File Id="Releasex64.stage.include.openssl.sha.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\sha.h"/>
-        <File Id="Releasex64.stage.include.openssl.srp.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\srp.h"/>
-        <File Id="Releasex64.stage.include.openssl.srtp.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\srtp.h"/>
-        <File Id="Releasex64.stage.include.openssl.ssl.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ssl.h"/>
-        <File Id="Releasex64.stage.include.openssl.ssl2.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ssl2.h"/>
-        <File Id="Releasex64.stage.include.openssl.ssl3.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ssl3.h"/>
-        <File Id="Releasex64.stage.include.openssl.sslerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\sslerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.stack.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\stack.h"/>
-        <File Id="Releasex64.stage.include.openssl.store.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\store.h"/>
-        <File Id="Releasex64.stage.include.openssl.storeerr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\storeerr.h"/>
-        <File Id="Releasex64.stage.include.openssl.symhacks.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\symhacks.h"/>
-        <File Id="Releasex64.stage.include.openssl.tls1.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\tls1.h"/>
-        <File Id="Releasex64.stage.include.openssl.ts.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ts.h"/>
-        <File Id="Releasex64.stage.include.openssl.tserr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\tserr.h"/>
-        <File Id="Releasex64.stage.include.openssl.txt_db.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\txt_db.h"/>
-        <File Id="Releasex64.stage.include.openssl.ui.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\ui.h"/>
-        <File Id="Releasex64.stage.include.openssl.uierr.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\uierr.h"/>
-        <File Id="Releasex64.stage.include.openssl.whrlpool.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\whrlpool.h"/>
-        <File Id="Releasex64.stage.include.openssl.x509.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509.h"/>
-        <File Id="Releasex64.stage.include.openssl.x509err.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509err.h"/>
-        <File Id="Releasex64.stage.include.openssl.x509v3.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509v3.h"/>
-        <File Id="Releasex64.stage.include.openssl.x509v3err.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509v3err.h"/>
-        <File Id="Releasex64.stage.include.openssl.x509_vfy.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\x509_vfy.h"/>
-        <File Id="Releasex64.stage.include.openssl.__DECC_INCLUDE_EPILOGUE.H" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\__DECC_INCLUDE_EPILOGUE.H"/>
-        <File Id="Releasex64.stage.include.openssl.__DECC_INCLUDE_PROLOGUE.H" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\openssl\__DECC_INCLUDE_PROLOGUE.H"/>
-      </Component>
-      <Component Directory="Releasex64.stage.include" Guid="ac1a8143-7c11-4dec-bf84-111b8b2b0093" Id="Releasex64.stage.include">
-        <File Id="Releasex64.stage.include.zconf.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zconf.h"/>
-        <File Id="Releasex64.stage.include.zlib.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\zlib.h"/>
-      </Component>
       <Component Directory="LICENSEFOLDER" Guid="37a92faa-7f32-4483-8a05-0ef404be8e5d" Id="ThirdPartyLicenses">
         <File Id="PocoLicense" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\licenses\LICENSE-Poco.txt"/>
-        <File Id="OpenSSLLicense" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\licenses\LICENSE-OpenSSL.txt"/>
-        <File Id="ZlibLicense" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\licenses\LICENSE-Zlib.txt"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchLibrariesX64">
       <Component Directory="X64DEBUGLIBFOLDER" Guid="6b538925-ded6-4bbf-8b59-64495e0e3b9c" Id="BranchLibrariesDebugX64">
         <File Id="BranchDebugX64Library" Name="BranchIOmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\lib\BranchIO.lib"/>
-        <File Id="BranchDebugX64PDB" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\BranchIO.pdb"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="14030dd2-fad4-4d5a-baf2-20abdda3be0c" Id="BranchLibrariesReleaseX64">
         <File Id="BranchReleaseX64Library" Name="BranchIOmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\lib\BranchIO.lib"/>
@@ -997,8 +881,7 @@
         <File Id="Debugx64.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Encodings.pdb"/>
         <File Id="Debugx64.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Foundation.pdb"/>
         <File Id="Debugx64.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\JSON.pdb"/>
-        <File Id="Debugx64.stage.lib.libcryptod.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\libcryptod.lib"/>
-        <File Id="Debugx64.stage.lib.libssld.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\libssld.lib"/>
+        <File Id="Debugx64.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\libeay32.lib"/>
         <File Id="Debugx64.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Net.pdb"/>
         <File Id="Debugx64.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSL.pdb"/>
         <File Id="Debugx64.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSLWin.pdb"/>
@@ -1013,14 +896,14 @@
         <File Id="Debugx64.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoZipmdd.lib"/>
+        <File Id="Debugx64.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\ssleay32.lib"/>
         <File Id="Debugx64.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Util.pdb"/>
         <File Id="Debugx64.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\XML.pdb"/>
         <File Id="Debugx64.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Zip.pdb"/>
         <File Id="Debugx64.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\zlib.lib"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="c9f2a7b9-560d-4ff7-bd7b-5535a60b1123" Id="X64RELEASELIBFOLDER">
-        <File Id="Releasex64.stage.lib.libcrypto.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\libcrypto.lib"/>
-        <File Id="Releasex64.stage.lib.libssl.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\libssl.lib"/>
+        <File Id="Releasex64.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\libeay32.lib"/>
         <File Id="Releasex64.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoCryptomd.lib"/>
         <File Id="Releasex64.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoDatamd.lib"/>
         <File Id="Releasex64.stage.lib.PocoEncodingsmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoEncodingsmd.lib"/>
@@ -1032,13 +915,13 @@
         <File Id="Releasex64.stage.lib.PocoUtilmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoUtilmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoXMLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoXMLmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoZipmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoZipmd.lib"/>
+        <File Id="Releasex64.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\ssleay32.lib"/>
         <File Id="Releasex64.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\zlib.lib"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchLibrariesX86">
       <Component Directory="X86DEBUGLIBFOLDER" Guid="054b215a-7743-4fe3-b212-a4798cfc305d" Id="BranchLibrariesDebugX86">
         <File Id="BranchDebugX86Library" Name="BranchIOmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\lib\BranchIO.lib"/>
-        <File Id="BranchDebugX86PDB" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\BranchIO.pdb"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="c8b9e075-e963-4283-993d-b1ed2e853ea7" Id="BranchLibrariesReleaseX86">
         <File Id="BranchReleaseX86Library" Name="BranchIOmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\lib\BranchIO.lib"/>
@@ -1051,8 +934,7 @@
         <File Id="Debug.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Encodings.pdb"/>
         <File Id="Debug.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Foundation.pdb"/>
         <File Id="Debug.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\JSON.pdb"/>
-        <File Id="Debug.stage.lib.libcryptod.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\libcryptod.lib"/>
-        <File Id="Debug.stage.lib.libssld.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\libssld.lib"/>
+        <File Id="Debug.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\libeay32.lib"/>
         <File Id="Debug.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Net.pdb"/>
         <File Id="Debug.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSL.pdb"/>
         <File Id="Debug.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSLWin.pdb"/>
@@ -1067,14 +949,14 @@
         <File Id="Debug.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debug.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.lib"/>
         <File Id="Debug.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoZipmdd.lib"/>
+        <File Id="Debug.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\ssleay32.lib"/>
         <File Id="Debug.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Util.pdb"/>
         <File Id="Debug.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\XML.pdb"/>
         <File Id="Debug.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Zip.pdb"/>
         <File Id="Debug.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\zlib.lib"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="db6ede4d-cc8f-4c26-918a-01de8c5ea904" Id="X86RELEASELIBFOLDER">
-        <File Id="Release.stage.lib.libcrypto.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\libcrypto.lib"/>
-        <File Id="Release.stage.lib.libssl.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\libssl.lib"/>
+        <File Id="Release.stage.lib.libeay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\libeay32.lib"/>
         <File Id="Release.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoCryptomd.lib"/>
         <File Id="Release.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoDatamd.lib"/>
         <File Id="Release.stage.lib.PocoEncodingsmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoEncodingsmd.lib"/>
@@ -1086,6 +968,7 @@
         <File Id="Release.stage.lib.PocoUtilmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoUtilmd.lib"/>
         <File Id="Release.stage.lib.PocoXMLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoXMLmd.lib"/>
         <File Id="Release.stage.lib.PocoZipmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoZipmd.lib"/>
+        <File Id="Release.stage.lib.ssleay32.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\ssleay32.lib"/>
         <File Id="Release.stage.lib.zlib.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\zlib.lib"/>
       </Component>
     </ComponentGroup>

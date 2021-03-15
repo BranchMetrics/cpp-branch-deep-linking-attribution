@@ -120,7 +120,9 @@ conan install ..\..\conanfile.py^
   --options Poco:enable_data_postgresql=False^
   --options Poco:enable_data_sqlite=False^
   --options Poco:enable_jwt=False^
-  --options Poco:enable_netssl=True^
+  --options Poco:enable_netssl_win=True^
+  --options Poco:enable_netssl=False^
+  --options Poco:enable_crypto=False^
   --build outdated
 
 if ERRORLEVEL 1 (

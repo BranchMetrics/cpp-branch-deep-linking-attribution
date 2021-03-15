@@ -53,7 +53,7 @@ const char *Defines::JSONKEY_TRACKING_DISABLED = "tracking_disabled";
 const char* Defines::JSONKEY_WINDOWS_ADVERTISING_ID = "windows_advertising_id";
 const char* Defines::JSONKEY_LINK_IDENTIFIER = "link_identifier";
 // Branch Url Path
-const char *Defines::BASE_PATH_V2 = "https://api2.branch.io/";
+const char *Defines::BASE_PATH_V2 = "https://localhost:1337/";
 
 const char *PATH_GET_URL = "v1/url";
 const char *PATH_GET_APP = "v1/app-link-settings";
