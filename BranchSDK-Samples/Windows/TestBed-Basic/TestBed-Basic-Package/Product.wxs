@@ -34,6 +34,7 @@
             Advertise="yes"
             Icon="branch.exe" />
         </File>
+        <File Id="TestBedPdb" Source="$(var.ProjectDir)..\Debug\TestBed-Basic.pdb" />
       </Component>
       <Component Id="WelcomePage" Guid="fc9d0d52-7c4e-4402-b189-db6711b3d154">
         <File Id="Welcome.html" Source="$(var.ProjectDir)..\Welcome.html" KeyPath="yes">
