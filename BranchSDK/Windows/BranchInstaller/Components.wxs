@@ -876,41 +876,26 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX64">
       <Component Directory="X64DEBUGLIBFOLDER" Guid="5a94d40d-f719-40f4-86a1-8b897cfc4b70" Id="X64DEBUGLIBFOLDER">
-        <File Id="Debugx64.stage.lib.Crypto.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Crypto.pdb"/>
-        <File Id="Debugx64.stage.lib.Data.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Data.pdb"/>
-        <File Id="Debugx64.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Encodings.pdb"/>
         <File Id="Debugx64.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Foundation.pdb"/>
         <File Id="Debugx64.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\JSON.pdb"/>
         <File Id="Debugx64.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Net.pdb"/>
-        <File Id="Debugx64.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSL.pdb"/>
         <File Id="Debugx64.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSLWin.pdb"/>
-        <File Id="Debugx64.stage.lib.PocoCryptomdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoCryptomdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoDatamdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoDatamdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoEncodingsmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoEncodingsmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoFoundationmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJSONmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoNetSSLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLWinmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debugx64.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoZipmdd.lib"/>
         <File Id="Debugx64.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Util.pdb"/>
         <File Id="Debugx64.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\XML.pdb"/>
-        <File Id="Debugx64.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Zip.pdb"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="c9f2a7b9-560d-4ff7-bd7b-5535a60b1123" Id="X64RELEASELIBFOLDER">
-        <File Id="Releasex64.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoCryptomd.lib"/>
-        <File Id="Releasex64.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoDatamd.lib"/>
-        <File Id="Releasex64.stage.lib.PocoEncodingsmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoEncodingsmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoFoundationmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoJSONmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoJSONmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoNetmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetmd.lib"/>
-        <File Id="Releasex64.stage.lib.PocoNetSSLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetSSLmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoNetSSLWinmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoNetSSLWinmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoUtilmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoUtilmd.lib"/>
         <File Id="Releasex64.stage.lib.PocoXMLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoXMLmd.lib"/>
-        <File Id="Releasex64.stage.lib.PocoZipmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoZipmd.lib"/>
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchLibrariesX86">
@@ -924,41 +909,26 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX86">
       <Component Directory="X86DEBUGLIBFOLDER" Guid="0db87ca1-c644-47df-a72e-85913578c98a" Id="X86DEBUGLIBFOLDER">
-        <File Id="Debug.stage.lib.Crypto.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Crypto.pdb"/>
-        <File Id="Debug.stage.lib.Data.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Data.pdb"/>
-        <File Id="Debug.stage.lib.Encodings.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Encodings.pdb"/>
         <File Id="Debug.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Foundation.pdb"/>
         <File Id="Debug.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\JSON.pdb"/>
         <File Id="Debug.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Net.pdb"/>
-        <File Id="Debug.stage.lib.NetSSL.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSL.pdb"/>
         <File Id="Debug.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSLWin.pdb"/>
-        <File Id="Debug.stage.lib.PocoCryptomdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoCryptomdd.lib"/>
-        <File Id="Debug.stage.lib.PocoDatamdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoDatamdd.lib"/>
-        <File Id="Debug.stage.lib.PocoEncodingsmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoEncodingsmdd.lib"/>
         <File Id="Debug.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoFoundationmdd.lib"/>
         <File Id="Debug.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJSONmdd.lib"/>
         <File Id="Debug.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoNetSSLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLmdd.lib"/>
         <File Id="Debug.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLWinmdd.lib"/>
         <File Id="Debug.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.lib"/>
         <File Id="Debug.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoZipmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoZipmdd.lib"/>
         <File Id="Debug.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Util.pdb"/>
         <File Id="Debug.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\XML.pdb"/>
-        <File Id="Debug.stage.lib.Zip.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Zip.pdb"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="db6ede4d-cc8f-4c26-918a-01de8c5ea904" Id="X86RELEASELIBFOLDER">
-        <File Id="Release.stage.lib.PocoCryptomd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoCryptomd.lib"/>
-        <File Id="Release.stage.lib.PocoDatamd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoDatamd.lib"/>
-        <File Id="Release.stage.lib.PocoEncodingsmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoEncodingsmd.lib"/>
         <File Id="Release.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoFoundationmd.lib"/>
         <File Id="Release.stage.lib.PocoJSONmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoJSONmd.lib"/>
         <File Id="Release.stage.lib.PocoNetmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetmd.lib"/>
-        <File Id="Release.stage.lib.PocoNetSSLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetSSLmd.lib"/>
         <File Id="Release.stage.lib.PocoNetSSLWinmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoNetSSLWinmd.lib"/>
         <File Id="Release.stage.lib.PocoUtilmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoUtilmd.lib"/>
         <File Id="Release.stage.lib.PocoXMLmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoXMLmd.lib"/>
-        <File Id="Release.stage.lib.PocoZipmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoZipmd.lib"/>
       </Component>
     </ComponentGroup>
   </Fragment>
