@@ -206,9 +206,6 @@
     <ClCompile Include="..\..\src\BranchIO\Util\Sleeper.cpp">
       <Filter>Source Files\BranchIO\Util</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\BranchIO\Util\UnixStorage.cpp">
-      <Filter>Source Files\BranchIO\Util</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\src\BranchIO\Util\WindowsStorage.cpp">
       <Filter>Source Files\BranchIO\Util</Filter>
     </ClCompile>
