@@ -38,12 +38,12 @@
         <ComponentGroupRef Id="BranchLibrariesX86"/>
       </Feature>
     </Feature>
-    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco 1.10.1 and dependencies (openssl 1.1.1c, zlib 1.2.11; optional). Installed in the same location as the Branch SDK.">
+    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco 1.10.1. Installed in the same location as the Branch SDK.">
       <ComponentGroupRef Id="ThirdPartyHeaders"/>
-      <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco, openssl and zlib libraries">
+      <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco libraries">
         <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
       </Feature>
-      <Feature Id="ThirdPartyX86Feature" Title="32-bit Libraries" Description="32-bit Poco, openssl and zlib libraries">
+      <Feature Id="ThirdPartyX86Feature" Title="32-bit Libraries" Description="32-bit Poco libraries">
         <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>
       </Feature>
     </Feature>
