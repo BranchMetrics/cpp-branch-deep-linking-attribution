@@ -7,11 +7,30 @@
     <Icon Id="branch.exe" SourceFile="branch-badge-dark.ico"/>
     <Property Id="ARPPRODUCTICON" Value="branch.exe"/>
     <Property Id="ARPHELPLINK" Value="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"/>
-    <UIRef Id="WixUI_FeatureTree_NoLic"/>
+
+    <!-- UI Definition -->
+    <UI>
+      <UIRef Id="WixUI_FeatureTree_NoLic"/>
+      <Publish Dialog="ExitDialog"
+              Control="Finish"
+              Event="DoAction"
+              Value="LaunchFile">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
+    </UI>
+
+    <!-- Optionally display Welcome Page on completion -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOX" Value="1"/>
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="View the Welcome Page." />
+    <Property Id="WixShellExecTarget" Value="[#Welcome.html]" />
+    <CustomAction Id="LaunchFile"
+        BinaryKey="WixCA"
+        DllEntry="WixShellExec"
+        Impersonate="yes" />
+
     <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
     <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Display="expand" Description="Core Branch SDK (required)">
       <ComponentGroupRef Id="BranchHeaders"/>
+      <ComponentRef Id="WelcomePage"/>
       <Feature Id="BranchSDKX64Feature" Title="64-bit Libraries" Description="64-bit Branch SDK libraries">
         <ComponentGroupRef Id="BranchLibrariesX64"/>
       </Feature>
@@ -19,14 +38,71 @@
         <ComponentGroupRef Id="BranchLibrariesX86"/>
       </Feature>
     </Feature>
-    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco and dependencies (openssl, zlib; optional). Installed in the same location as the Branch SDK.">
+    <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco 1.10.1. Installed in the same location as the Branch SDK.">
       <ComponentGroupRef Id="ThirdPartyHeaders"/>
-      <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco, openssl and zlib libraries">
+      <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco libraries">
         <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
       </Feature>
-      <Feature Id="ThirdPartyX86Feature" Title="32-bit Libraries" Description="32-bit Poco, openssl and zlib libraries">
+      <Feature Id="ThirdPartyX86Feature" Title="32-bit Libraries" Description="32-bit Poco libraries">
         <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>
       </Feature>
     </Feature>
+    <Feature Id="TestBedApp" Title="TestBed Demo Application" Description="Branch TestBed demo application">
+      <ComponentRef Id="TestBedBinary"/>
+      <ComponentRef Id="TestBedURIScheme"/>
+    </Feature>
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <!-- Start menu shortcuts under Branch SDK -->
+      <Component Id="WelcomePage" Guid="64a4f20e-bca3-4a49-a7e0-3dcf21b8dec6">
+        <File Id="Welcome.html" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\Welcome.html" KeyPath="yes">
+          <Shortcut Id="WelcomePageShortcut"
+            Name="Welcome Page"
+            Directory="ApplicationProgramsFolder"
+            Description="Branch SDK Welcome Page"
+            Advertise="yes"
+            Icon="branch.exe" />
+        </File>
+        <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\branch-badge-dark.png" />
+        <File Id="WelcomePageFavicon" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\small.ico" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
+      </Component>
+      <Component Id="TestBedBinary" Guid="53ac529a-bde3-4664-9003-bda705372ea7">
+        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\Debug\TestBed-Basic.exe" KeyPath="yes" Checksum="yes">
+          <Shortcut Id="ApplicationStartMenuShortcut"
+            Name="Branch TestBed"
+            Directory="ApplicationProgramsFolder"
+            Description="Branch TestBed demo application"
+            WorkingDirectory="INSTALLFOLDER"
+            Advertise="yes"
+            Icon="branch.exe" />
+        </File>
+        <File Id="TestBedPdb" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Basic\Debug\TestBed-Basic.pdb" />
+      </Component>
+      <Component Id="TestBedURIScheme" Guid="32616d7d-b63b-425d-b567-8fb8df9aabfa">
+        <!-- Add Registry entries for URI redirection -->
+        <!-- testbedbasic is the URI scheme from the Branch Dashboard -->
+        <RegistryKey Root="HKCU" Key="SOFTWARE\Classes\testbedbasic" >
+          <RegistryValue Value="Branch TestBed (Basic)" Type="string" />
+          <RegistryValue Name="URL Protocol" Value="" Type="string" />
+          <RegistryKey Key="DefaultIcon">
+            <RegistryValue Value="[INSTALLFOLDER]TestBed-Basic.exe,1" Type="string"/>
+          </RegistryKey>
+          <RegistryKey Key="shell\open\command">
+            <RegistryValue Value='"[INSTALLFOLDER]TestBed-Basic.exe" "%1"' Type="string"/>
+          </RegistryKey>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
   </Product>
+
+  <Fragment>
+    <DirectoryRef Id="TARGETDIR">
+      <Directory Id="ProgramMenuFolder">
+        <!-- Name of folder in Start Menu -->
+        <Directory Id="ApplicationProgramsFolder" Name="Branch SDK" />
+      </Directory>
+    </DirectoryRef>
+  </Fragment>
 </Wix>

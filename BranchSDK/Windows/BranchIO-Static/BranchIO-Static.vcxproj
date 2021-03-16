@@ -79,7 +79,6 @@
     <ClCompile Include="..\..\src\BranchIO\Util\MacAddress.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\RequestManager.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\Sleeper.cpp" />
-    <ClCompile Include="..\..\src\BranchIO\Util\UnixStorage.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\WindowsStorage.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -94,7 +94,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>advapi32.lib;PocoNetmdd.lib;PocoNetSSLWinmdd.lib;PocoCryptomdd.lib;PocoDatamdd.lib;PocoZipmdd.lib;PocoUtilmdd.lib;PocoXMLmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;Crypt32.lib;libcryptod.lib;libssld.lib;crypt32.lib;msi.lib;ws2_32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PocoNetSSLWinmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -113,7 +113,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>advapi32.lib;PocoNetmd.lib;PocoNetSSLWinmd.lib;PocoCryptomd.lib;PocoDatamd.lib;PocoZipmd.lib;PocoUtilmd.lib;PocoXMLmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;Crypt32.lib;libcrypto.lib;libssl.lib;crypt32.lib;msi.lib;ws2_32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PocoNetSSLWinmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,7 +128,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>advapi32.lib;PocoNetmdd.lib;PocoNetSSLWinmdd.lib;PocoCryptomdd.lib;PocoDatamdd.lib;PocoZipmdd.lib;PocoUtilmdd.lib;PocoXMLmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;Crypt32.lib;libcryptod.lib;libssld.lib;crypt32.lib;msi.lib;ws2_32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PocoNetSSLWinmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,7 +147,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>advapi32.lib;PocoNetmd.lib;PocoNetSSLWinmd.lib;PocoCryptomd.lib;PocoDatamd.lib;PocoZipmd.lib;PocoUtilmd.lib;PocoXMLmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;Crypt32.lib;libcrypto.lib;libssl.lib;crypt32.lib;msi.lib;ws2_32.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>PocoNetSSLWinmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

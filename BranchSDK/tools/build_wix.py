@@ -242,13 +242,9 @@ third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "Th
 # Use wix_components to generate the contents of each of the
 # CG elements above.
 wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
-wix_components(third_party_headers, [os.path.join(include_root, p) for p in ["Poco", "openssl"]])
-# zlib headers are directly in the include_root. Don't include subdirs.
-wix_components(third_party_headers, include_root, False)
+wix_components(third_party_headers, os.path.join(include_root, "Poco"))
 third_party_licenses = make_component_elem(third_party_headers, "ThirdPartyLicenses", "LICENSEFOLDER")
-make_file_elem(third_party_licenses, "PocoLicense", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\licenses\LICENSE-Poco.txt")
-make_file_elem(third_party_licenses, "OpenSSLLicense", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\licenses\LICENSE-OpenSSL.txt")
-make_file_elem(third_party_licenses, "ZlibLicense", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\stage\licenses\LICENSE-Zlib.txt")
+make_file_elem(third_party_licenses, "PocoLicense", "$(var.ProjectDir)\\..\\..\\..\\build\\Releasex64\\stage\\licenses\\LICENSE-Poco.txt")
 
 # The BranchIO.lib sits in the same lib folder with the third-party libs. This
 # is as it should be, to avoid making devs pass multiple library paths at
@@ -260,12 +256,12 @@ branch_release_lib64_folder = make_component_elem(branch_libraries_x64, "BranchL
 branch_debug_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesDebugX86", "X86DEBUGLIBFOLDER")
 branch_release_lib86_folder = make_component_elem(branch_libraries_x86, "BranchLibrariesReleaseX86", "X86RELEASELIBFOLDER")
 
-make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.lib", "BranchIOmdd.lib")
-make_file_elem(branch_debug_lib64_folder, "BranchDebugX64PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debugx64\lib\BranchIO.pdb")
-make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\Releasex64\lib\BranchIO.lib", "BranchIOmd.lib")
-make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.lib", "BranchIOmdd.lib")
-make_file_elem(branch_debug_lib86_folder, "BranchDebugX86PDB", "$(var.ProjectDir)\\..\\..\\..\\build\Debug\lib\BranchIO.pdb")
-make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\Release\lib\BranchIO.lib", "BranchIOmd.lib")
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\\Debugx64\\lib\\BranchIO.lib", "BranchIOmdd.lib")
+make_file_elem(branch_debug_lib64_folder, "BranchDebugX64PDB", "$(var.ProjectDir)\\..\\..\\..\\build\\Debugx64\\stage\\lib\\BranchIO.pdb")
+make_file_elem(branch_release_lib64_folder, "BranchReleaseX64Library", "$(var.ProjectDir)\\..\\..\\..\\build\\Releasex64\\lib\\BranchIO.lib", "BranchIOmd.lib")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\\Debug\\lib\\BranchIO.lib", "BranchIOmdd.lib")
+make_file_elem(branch_debug_lib86_folder, "BranchDebugX86PDB", "$(var.ProjectDir)\\..\\..\\..\\build\\Debug\\stage\\lib\\BranchIO.pdb")
+make_file_elem(branch_release_lib86_folder, "BranchReleaseX86Library", "$(var.ProjectDir)\\..\\..\\..\\build\\Release\\lib\\BranchIO.lib", "BranchIOmd.lib")
 
 x64_debug_lib_path = os.path.join(build_root, "Debugx64", "stage", "lib")
 x64_release_lib_path = os.path.join(build_root, "Releasex64", "stage", "lib")

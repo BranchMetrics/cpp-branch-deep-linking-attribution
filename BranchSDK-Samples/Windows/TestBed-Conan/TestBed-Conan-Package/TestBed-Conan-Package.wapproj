@@ -50,14 +50,14 @@
   </PropertyGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
-    <ProjectGuid>632b837a-0d8a-449a-b2c3-6a7297c965c4</ProjectGuid>
+    <ProjectGuid>b20ad100-c9b2-4804-a7b6-945022ec50f2</ProjectGuid>
     <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <EntryPointProjectUniqueName>..\TestBed-Local.vcxproj</EntryPointProjectUniqueName>
     <PackageCertificateThumbprint>8132C1C16AAB24EB2CA9CC95BBA6ADA1C2C0A930</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>Branch.pfx</PackageCertificateKeyFile>
+    <EntryPointProjectUniqueName>..\TestBed-Conan.vcxproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -74,8 +74,11 @@
     <Content Include="Images\StoreLogo.png" />
     <Content Include="Images\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestBed-Local.vcxproj" />
-  </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.19041.8" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestBed-Conan.vcxproj" />
+  </ItemGroup>
 </Project>

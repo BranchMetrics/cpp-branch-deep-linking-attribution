@@ -40,7 +40,7 @@ class BranchioConan(ConanFile):
 
     # ----- Package dependencies -----
     # Allow patch updates to Poco
-    requires = ("Poco/[~=1.10.1]@pocoproject/stable", ("OpenSSL/[>=1.1.1c <3.0]@conan/stable", "override"))
+    requires = "Poco/[~=1.10.1]@pocoproject/stable"
     build_requires = "gtest/1.8.1@bincrafters/stable"
 
     def build(self):

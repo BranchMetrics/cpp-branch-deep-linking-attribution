@@ -109,6 +109,8 @@ BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& 
     s_uriScheme = uriScheme;
     setupSDKLogging();
 
+    BRANCH_LOG_I("TestBed launched with argument \"" << BranchIO::String(initialUrl).str() << "\"");
+
     // Now initialize the SDK
     AppInfo appInfo;
     appInfo.setAppVersion("1.0");
@@ -121,12 +123,17 @@ BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& 
      */
     branch->getAdvertiserInfo().addId(AdvertiserInfo::WINDOWS_ADVERTISING_ID, "my-waid");
 
-    wstring::size_type prefixLength = min(uriScheme.length(), initialUrl.length());
-    wstring prefix = initialUrl.substr(0, prefixLength);
-    if (!initialUrl.empty() && prefix == uriScheme)
+    wstring url(initialUrl);
+    if (url[0] == '"') {
+        // Strip off any leading and trailing quotes
+        url = url.substr(1, url.length() - 2);
+    }
+    wstring::size_type prefixLength = min(uriScheme.length(), url.length());
+    wstring prefix = url.substr(0, prefixLength);
+    if (!url.empty() && prefix == uriScheme)
     {
         // Open any URI passed at the command line
-        openURL(initialUrl);
+        openURL(url);
     }
     else {
         openURL(L"");
