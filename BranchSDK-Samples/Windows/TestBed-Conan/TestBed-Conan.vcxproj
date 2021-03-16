@@ -86,8 +86,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEM=L"testbedconan";WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEME=L"testbedconan";MUTEX_NAME=L"6b10a31c-81c9-4642-aead-481f3705dd0b";WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,8 +101,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEM=L"testbedconan";WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEME=L"testbedconan";MUTEX_NAME=L"6b10a31c-81c9-4642-aead-481f3705dd0b";WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -114,8 +116,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEM=L"testbedconan";_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEME=L"testbedconan";MUTEX_NAME=L"6b10a31c-81c9-4642-aead-481f3705dd0b";_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -128,8 +131,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEM=L"testbedconan";NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_baZls7WShgt7WTbng8i58oibAtltTiuq";BRANCH_URI_SCHEME=L"testbedconan";MUTEX_NAME=L"6b10a31c-81c9-4642-aead-481f3705dd0b";NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>..\..\..\BranchSDK\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -164,6 +168,11 @@
     <ClCompile Include="..\TestBed\TextField.cpp" />
     <ClCompile Include="..\TestBed\Util.cpp" />
     <ClCompile Include="..\TestBed\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BranchSDK\Windows\BranchIO-Static\BranchIO-Static.vcxproj">
+      <Project>{4f51dc46-1a0e-467d-8ca4-af37e134c0a4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
