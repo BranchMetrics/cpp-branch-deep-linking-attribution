@@ -1,3 +1,10 @@
+## 2021-03-16  Version 1.2.1
+  * Updated to Poco 1.10.1.
+  * Removed OpenSSL & zlib from distribution (unused on Windows).
+  * Improved use of Poco::Net::HTTPSClient.
+  * Added TestBed-Basic and Welcome.html to MSI.
+  * Added TestBed-Conan example.
+
 ## 2021-02-15  Version 1.2.0
   * Corrected `link_identifier` in `/v1/open` requests.
   * Added `X-Branch-Request-Id` to debug logs.
