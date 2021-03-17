@@ -7,12 +7,12 @@
   IgnorableNamespaces="uap rescap">
 
   <Identity
-    Name="144cb4b1-60b9-40ab-ad84-b335d5d28d05"
+    Name="7dad590b-3b99-43f8-a027-fe84615ff35c"
     Publisher="CN=Branch Metrics, C=US"
-    Version="1.2.1.0" />
+    Version="1.0.0.0" />
 
   <Properties>
-    <DisplayName>Branch TestBed (Local)</DisplayName>
+    <DisplayName>Branch TestBed (Conan)</DisplayName>
     <PublisherDisplayName>Branch Metrics</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
@@ -31,8 +31,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="Branch TestBed (Local)"
-        Description="Branch QA application built against local source instead of the installed SDK from the MSI."
+        DisplayName="Branch TestBed (Conan)"
+        Description="TestBed QA application built using the Conan Visual Studio extension."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
@@ -41,7 +41,7 @@
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
-          <uap:Protocol Name="testbedlocal"/>
+          <uap:Protocol Name="testbedconan"/>
         </uap:Extension>
       </Extensions>
     </Application>
