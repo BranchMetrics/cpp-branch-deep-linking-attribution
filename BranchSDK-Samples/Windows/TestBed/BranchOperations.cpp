@@ -61,7 +61,7 @@ BranchOperations::openURL(const std::wstring& url)
         openResponse = JSONObject();
     }
 
-    outputTextField->appendText(wstring(L"Opening ") + url);
+    outputTextField->appendText(wstring(L"Opening '") + url + L"'");
 
     struct OpenCallback : IRequestCallback
     {
@@ -429,6 +429,10 @@ BranchOperations::toggleTracking()
     {
         branch->getAdvertiserInfo().enableTracking();
         outputTextField->appendText(L"Tracking enabled");
+        // It's necessary to send a new /v1/open after enabling tracking to obtain
+        // a fresh session_id, or subsequent calls fail. This can be rolled into the
+        // SDK. This is what the Web SDK does, e.g.
+        openURL(L"");
     }
     else
     {
