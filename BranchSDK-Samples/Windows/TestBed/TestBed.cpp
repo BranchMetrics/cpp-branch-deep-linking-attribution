@@ -191,14 +191,14 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    getIdentityButton.setButtonPressCallback([]() {
        wstring identity = BranchOperations::getIdentity();
        if (identity.empty()) {
-           outputTextField.appendText(L"No developer identity is set.");
+           outputTextField.setText(L"No developer identity is set.");
        }
        else {
-           outputTextField.appendText(wstring(L"Developer identity is \"") + identity + L"\"");
+           outputTextField.setText(wstring(L"Developer identity is \"") + identity + L"\"");
        }
    });
    showSessionButton.setButtonPressCallback([]() {
-       outputTextField.appendText(BranchOperations::getSessionInfo());
+       outputTextField.setText(BranchOperations::getSessionInfo());
    });
 
    BranchOperations::showInitializationMessage();

@@ -61,24 +61,24 @@ BranchOperations::openURL(const std::wstring& url)
         openResponse = JSONObject();
     }
 
-    outputTextField->appendText(wstring(L"Opening ") + url);
+    outputTextField->setText(wstring(L"Opening '") + url + L"'");
 
     struct OpenCallback : IRequestCallback
     {
         void onSuccess(int id, JSONObject payload)
         {
-            outputTextField->appendText(wstring(L"Successful open response: ") + String(payload.stringify()).wstr());
+            outputTextField->setText(wstring(L"Successful open response: ") + String(payload.stringify()).wstr());
             done(payload);
         }
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch open status: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch open status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch open error: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch open error: ") + String(message).wstr());
             done(JSONObject());
         }
 
@@ -173,14 +173,14 @@ BranchOperations::shutDownBranch()
 void
 BranchOperations::showInitializationMessage()
 {
-    outputTextField->appendText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + s_branchKey);
+    outputTextField->setText(wstring(L"Initialized Branch SDK v") + branch->getVersionW() + L" with key " + s_branchKey);
     if (branch->getAdvertiserInfo().isTrackingDisabled())
     {
-        outputTextField->appendText(L"Tracking disabled");
+        outputTextField->setText(L"Tracking disabled");
     }
     else
     {
-        outputTextField->appendText(L"Tracking enabled");
+        outputTextField->setText(L"Tracking enabled");
     }
 }
 
@@ -191,18 +191,18 @@ BranchOperations::login(const std::wstring& username)
     {
         void onSuccess(int id, JSONObject payload)
         {
-            outputTextField->appendText(wstring(L"Successful login response: ") + String(payload.stringify()).wstr());
+            outputTextField->setText(wstring(L"Successful login response: ") + String(payload.stringify()).wstr());
             done();
         }
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch login status: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch login status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch login error: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch login error: ") + String(message).wstr());
             done();
         }
 
@@ -223,18 +223,18 @@ BranchOperations::logout()
     {
         void onSuccess(int id, JSONObject payload)
         {
-            outputTextField->appendText(wstring(L"Successful logout response: ") + String(payload.stringify()).wstr());
+            outputTextField->setText(wstring(L"Successful logout response: ") + String(payload.stringify()).wstr());
             done();
         }
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch logout status: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch logout status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch logout error: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch logout error: ") + String(message).wstr());
             done();
         }
 
@@ -263,24 +263,24 @@ BranchOperations::logStandardEvent()
         .setTransactionId("Transaction123");
 
     string eventJson(event.toJSON().stringify());
-    outputTextField->appendText(wstring(L"Sending standard event: ") + String(eventJson).wstr());
+    outputTextField->setText(wstring(L"Sending standard event: ") + String(eventJson).wstr());
 
     struct StandardEventCallback : IRequestCallback
     {
         void onSuccess(int id, JSONObject payload)
         {
-            outputTextField->appendText(wstring(L"Successful standard event response: ") + String(payload.stringify()).wstr());
+            outputTextField->setText(wstring(L"Successful standard event response: ") + String(payload.stringify()).wstr());
             done();
         }
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch standard event status: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch standard event status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch standard event error: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch standard event error: ") + String(message).wstr());
             done();
         }
 
@@ -302,24 +302,24 @@ BranchOperations::logCustomEvent()
     event.addCustomDataProperty(L"foo", L"Bar");
 
     string eventJson(event.toJSON().stringify());
-    outputTextField->appendText(wstring(L"Sending custom event: ") + String(eventJson).wstr());
+    outputTextField->setText(wstring(L"Sending custom event: ") + String(eventJson).wstr());
 
     struct CustomEventCallback : IRequestCallback
     {
         void onSuccess(int id, JSONObject payload)
         {
-            outputTextField->appendText(wstring(L"Successful custom event response: ") + String(payload.stringify()).wstr());
+            outputTextField->setText(wstring(L"Successful custom event response: ") + String(payload.stringify()).wstr());
             done();
         }
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch custom event status: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch custom event status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch custom event error: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch custom event error: ") + String(message).wstr());
             done();
         }
 
@@ -353,18 +353,18 @@ BranchOperations::getShortURL()
 
         void onSuccess(int id, JSONObject payload)
         {
-            outputTextField->appendText(wstring(L"Successfully generated URL: ") + String(payload.stringify()).wstr());
+            outputTextField->setText(wstring(L"Successfully generated URL: ") + String(payload.stringify()).wstr());
             done();
         }
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Status getting URL: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Status getting URL: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Error getting URL: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Error getting URL: ") + String(message).wstr());
             done();
         }
 
@@ -377,31 +377,31 @@ BranchOperations::getShortURL()
 
     // TODO: Find a better place for this page.
     LinkRequest* request = new LinkRequest(L"https://jdee.github.io/example-win32.html");
-    outputTextField->appendText(wstring(L"Getting URL: ") + String(request->toString()).wstr());
+    outputTextField->setText(wstring(L"Getting URL: ") + String(request->toString()).wstr());
     request->send(branch);
 }
 
 void
 BranchOperations::closeSession()
 {
-    outputTextField->appendText(L"Closing session");
+    outputTextField->setText(L"Closing session");
 
     struct CloseCallback : IRequestCallback
     {
         void onSuccess(int id, JSONObject payload)
         {
-            outputTextField->appendText(wstring(L"Successful close response: ") + String(payload.stringify()).wstr());
+            outputTextField->setText(wstring(L"Successful close response: ") + String(payload.stringify()).wstr());
             done();
         }
 
         void onStatus(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch close status: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch close status: ") + String(message).wstr());
         }
 
         void onError(int id, int code, string message)
         {
-            outputTextField->appendText(wstring(L"Branch close error: ") + String(message).wstr());
+            outputTextField->setText(wstring(L"Branch close error: ") + String(message).wstr());
             done();
         }
     private:
@@ -428,12 +428,16 @@ BranchOperations::toggleTracking()
     if (isDisabled)
     {
         branch->getAdvertiserInfo().enableTracking();
-        outputTextField->appendText(L"Tracking enabled");
+        outputTextField->setText(L"Tracking enabled");
+        // It's necessary to send a new /v1/open after enabling tracking to obtain
+        // a fresh session_id, or subsequent calls fail. This can be rolled into the
+        // SDK. This is what the Web SDK does, e.g.
+        openURL(L"");
     }
     else
     {
         branch->getAdvertiserInfo().disableTracking();
-        outputTextField->appendText(L"Tracking disabled");
+        outputTextField->setText(L"Tracking disabled");
     }
 }
 
