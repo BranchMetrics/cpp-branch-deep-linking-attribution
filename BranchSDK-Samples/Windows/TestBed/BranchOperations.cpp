@@ -30,7 +30,7 @@ BranchOperations::setupSDKLogging(const std::string& filename)
     string branchLogFilePath;
     if (appDataPath) {
         /*
-         * By default, put log file in %LocalAppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Local\Branch\TestBed
+         * By default, put log file in %LocalAppData%\Branch, e.g. C:\Users\<username>\AppData\Local\Branch
          */
         branchLogFilePath = appDataPath;
         branchLogFilePath += "\\Branch";
@@ -38,14 +38,21 @@ BranchOperations::setupSDKLogging(const std::string& filename)
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
     }
     else {
-        // If the %LocalAppData% env. var. is not set for some reason, use the cwd.
+        // If the %LocalAppData% env. var. is not set for some reason, use the system-provided tmp dir.
         branchLogFilePath = Poco::Path::temp();
     }
 
     // Generated and rolled over in this directory.
     ostringstream oss;
     oss << branchLogFilePath << "\\" << filename;
-    Log::enableFileLogging(oss.str());
+    string logFile(oss.str());
+
+    // Report log location to VS console
+    OutputDebugStringA("-----\r\n");
+    OutputDebugStringA((string("----- Logging to ") + logFile + "\r\n").c_str());
+    OutputDebugStringA("-----\r\n");
+
+    Log::enableFileLogging(logFile);
 }
 
 void
