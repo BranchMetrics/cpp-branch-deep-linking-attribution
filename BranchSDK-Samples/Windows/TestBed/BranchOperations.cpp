@@ -1,5 +1,7 @@
 #include "BranchOperations.h"
 
+#include <Poco/Path.h>
+
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/CustomEvent.h>
 #include <BranchIO/Event/StandardEvent.h>
@@ -32,14 +34,10 @@ BranchOperations::setupSDKLogging(const std::string& filename)
         branchLogFilePath += "\\Branch";
         // May fail if the directory already exists. (Ignore return value.)
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
-
-        branchLogFilePath += "\\TestBed\\";
-        // May fail if the directory already exists. (Ignore return value.)
-        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
     }
     else {
         // If the %LocalAppData% env. var. is not set for some reason, use the cwd.
-        branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
+        branchLogFilePath = Poco::Path::temp();
     }
 
     // Generated and rolled over in this directory.
@@ -88,9 +86,10 @@ BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& 
     outputTextField = textField;
     s_branchKey = branchKey;
     s_uriScheme = uriScheme;
-    setupSDKLogging(String(windowClass).str() + ".log");
+    string sWindowClass(String(windowClass).str());
+    setupSDKLogging(sWindowClass + ".log");
 
-    BRANCH_LOG_I("TestBed launched with argument \"" << BranchIO::String(initialUrl).str() << "\"");
+    BRANCH_LOG_I(sWindowClass << " launched with argument \"" << BranchIO::String(initialUrl).str() << "\"");
 
     // Now initialize the SDK
     AppInfo appInfo;
