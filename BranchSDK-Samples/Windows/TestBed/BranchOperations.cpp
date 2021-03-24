@@ -14,10 +14,6 @@ using namespace std;
 
 BranchIO::Branch* BranchOperations::branch(nullptr);
 TextField* BranchOperations::outputTextField(nullptr);
-bool volatile BranchOperations::openComplete(false);
-CRITICAL_SECTION BranchOperations::lock;
-CONDITION_VARIABLE BranchOperations::openCompleteCondition;
-BranchIO::JSONObject BranchOperations::openResponse;
 std::wstring BranchOperations::s_branchKey;
 std::wstring BranchOperations::s_uriScheme;
 
@@ -55,12 +51,6 @@ BranchOperations::setupSDKLogging()
 void
 BranchOperations::openURL(const std::wstring& url)
 {
-    {
-        ScopeLock l(lock);
-        openComplete = false;
-        openResponse = JSONObject();
-    }
-
     outputTextField->setText(wstring(L"Opening '") + url + L"'");
 
     struct OpenCallback : IRequestCallback
@@ -85,12 +75,6 @@ BranchOperations::openURL(const std::wstring& url)
     private:
         void done(const JSONObject& response)
         {
-            {
-                ScopeLock l(lock);
-                openResponse = response;
-                openComplete = true;
-                WakeAllConditionVariable(&openCompleteCondition);
-            }
             delete this;
         }
     };
@@ -101,9 +85,6 @@ BranchOperations::openURL(const std::wstring& url)
 void
 BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& initialUrl, TextField* textField)
 {
-    InitializeCriticalSection(&lock);
-    InitializeConditionVariable(&openCompleteCondition);
-
     outputTextField = textField;
     s_branchKey = branchKey;
     s_uriScheme = uriScheme;
@@ -143,31 +124,11 @@ BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& 
     atexit(shutDownBranch);
 }
 
-JSONObject
-BranchOperations::getOpenResponse()
-{
-    ScopeLock l(lock);
-    return openResponse;
-}
-
-void
-BranchOperations::waitForOpen(DWORD dwMilliseconds)
-{
-    ScopeLock l(lock);
-    while (!openComplete)
-    {
-        // Break if the sleep fails (real error) or the timer expires.
-        if (!SleepConditionVariableCS(&openCompleteCondition, &lock, dwMilliseconds)) return;
-    }
-}
-
 void
 BranchOperations::shutDownBranch()
 {
     if (branch) delete branch;
     branch = nullptr;
-
-    DeleteCriticalSection(&lock);
 }
 
 void
