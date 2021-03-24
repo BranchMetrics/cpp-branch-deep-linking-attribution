@@ -15,10 +15,10 @@ class TextField;
 
 struct BranchOperations
 {
-	static void setupSDKLogging();
+	static void setupSDKLogging(const std::string& filename);
 	static void openURL(const std::wstring& url);
 	static void closeSession();
-	static void initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& initialUrl, TextField* textField);
+	static void initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& windowClass, const std::wstring& initialUrl, TextField* textField);
 	static void login(const std::wstring& username);
 	static void logout();
 	static void logStandardEvent();

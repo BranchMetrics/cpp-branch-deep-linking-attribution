@@ -18,7 +18,7 @@ std::wstring BranchOperations::s_branchKey;
 std::wstring BranchOperations::s_uriScheme;
 
 void
-BranchOperations::setupSDKLogging()
+BranchOperations::setupSDKLogging(const std::string& filename)
 {
     // Note: Debug and Verbose levels compiled out in Release builds
     Log::setLevel(Log::Verbose);
@@ -33,7 +33,7 @@ BranchOperations::setupSDKLogging()
         // May fail if the directory already exists. (Ignore return value.)
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
 
-        branchLogFilePath += "\\TestBed";
+        branchLogFilePath += "\\TestBed\\";
         // May fail if the directory already exists. (Ignore return value.)
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
     }
@@ -44,7 +44,7 @@ BranchOperations::setupSDKLogging()
 
     // Generated and rolled over in this directory.
     ostringstream oss;
-    oss << branchLogFilePath << "\\branch-sdk-" << GetCurrentProcessId() << ".log";
+    oss << branchLogFilePath << "\\" << filename;
     Log::enableFileLogging(oss.str());
 }
 
@@ -83,12 +83,12 @@ BranchOperations::openURL(const std::wstring& url)
 }
 
 void
-BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& initialUrl, TextField* textField)
+BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& windowClass, const std::wstring& initialUrl, TextField* textField)
 {
     outputTextField = textField;
     s_branchKey = branchKey;
     s_uriScheme = uriScheme;
-    setupSDKLogging();
+    setupSDKLogging(String(windowClass).str() + ".log");
 
     BRANCH_LOG_I("TestBed launched with argument \"" << BranchIO::String(initialUrl).str() << "\"");
 
