@@ -1,5 +1,7 @@
 #include "BranchOperations.h"
 
+#include <algorithm>
+
 #include <Poco/Path.h>
 
 #include <BranchIO/Branch.h>
@@ -86,7 +88,15 @@ BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& 
     outputTextField = textField;
     s_branchKey = branchKey;
     s_uriScheme = uriScheme;
-    string sWindowClass(String(windowClass).str());
+
+    string sWindowClass(String(windowClass).str().c_str());
+    transform(
+        sWindowClass.begin(),
+        sWindowClass.end(),
+        sWindowClass.begin(),
+        [](unsigned char c) {
+            return tolower(c);
+        });
     setupSDKLogging(sWindowClass + ".log");
 
     BRANCH_LOG_I(sWindowClass << " launched with argument \"" << BranchIO::String(initialUrl).str() << "\"");
