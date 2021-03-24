@@ -4,6 +4,7 @@
 
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/Message.h>
+#include <Poco/Process.h>
 #include <Poco/String.h>
 #include <Poco/Thread.h>
 #include <Poco/Timestamp.h>
@@ -185,8 +186,9 @@ Log::buildMessage(Level level, const std::string& message, const char* func, con
     Timestamp now;
     // https://pocoproject.org/docs/Poco.DateTimeFormatter.html
     oss << DateTimeFormatter::format(now, "%Y-%m-%d-%H:%M:%s") << "|";
-    oss << level << "|";
+    oss << Poco::Process::id() << "|";
     oss << Thread::currentTid() << "|";
+    oss << level << "|";
 
     if (!path.empty()) {
         oss << path << ":" << line;
