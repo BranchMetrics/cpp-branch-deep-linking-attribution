@@ -205,7 +205,10 @@ Log::buildMessage(Level level, const std::string& message, const char* func, con
 
 Poco::Channel*
 Log::makeFileLoggingChannel(const std::string& path) {
-    return new FileChannel(path);
+    auto* channel = new FileChannel(path);
+    // Roll log files based on size
+    channel->setProperty(FileChannel::PROP_ROTATION, "100K");
+    return channel;
 }
 
 Poco::Channel*
