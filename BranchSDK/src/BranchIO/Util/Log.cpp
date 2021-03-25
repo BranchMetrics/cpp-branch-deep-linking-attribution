@@ -206,8 +206,11 @@ Log::buildMessage(Level level, const std::string& message, const char* func, con
 Poco::Channel*
 Log::makeFileLoggingChannel(const std::string& path) {
     auto* channel = new FileChannel(path);
-    // Roll log files based on size
+    // Roll log files based on size.
+    // Keep up to 10 archived log files (e.g. %LocalAppData%\Branch\testbed.log.[0-9]) up to 100 kB each.
+    // https://pocoproject.org/docs/Poco.FileChannel.html
     channel->setProperty(FileChannel::PROP_ROTATION, "100K");
+    channel->setProperty(FileChannel::PROP_PURGECOUNT, "10");
     return channel;
 }
 
