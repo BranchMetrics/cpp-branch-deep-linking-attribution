@@ -200,7 +200,20 @@ Log::buildMessage(Level level, const std::string& message, const char* func, con
 
     oss << "|" << message;
 
-    return oss.str();
+    return unescapeFormat(oss.str());
+}
+
+std::string
+Log::unescapeFormat(const std::string& text) {
+    string copy(text);
+
+    string::size_type offset = 0;
+    while (offset < copy.length() && (offset = copy.find_first_of("%", offset)) != string::npos) {
+        copy.insert(offset, "%");
+        offset += 2;
+    }
+
+    return copy;
 }
 
 Poco::Channel*
