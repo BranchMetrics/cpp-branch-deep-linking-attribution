@@ -15,11 +15,10 @@ class TextField;
 
 struct BranchOperations
 {
-	static void setupSDKLogging();
+	static void setupSDKLogging(const std::string& filename);
 	static void openURL(const std::wstring& url);
 	static void closeSession();
-	static void initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& initialUrl, TextField* textField);
-	static void waitForOpen(DWORD dwMilliseconds);
+	static void initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& windowClass, const std::wstring& initialUrl, TextField* textField);
 	static void login(const std::wstring& username);
 	static void logout();
 	static void logStandardEvent();
@@ -27,7 +26,6 @@ struct BranchOperations
 	static void getShortURL();
 	static void shutDownBranch();
 	static void showInitializationMessage();
-	static BranchIO::JSONObject getOpenResponse();
 	static std::wstring getTrackingButtonLabel();
 	static void toggleTracking();
 	static std::wstring getIdentity();
@@ -37,10 +35,6 @@ struct BranchOperations
 	static TextField* outputTextField;
 
 private:
-	static bool volatile openComplete;
-	static BranchIO::JSONObject openResponse;
-	static CRITICAL_SECTION lock;
-	static CONDITION_VARIABLE openCompleteCondition;
 	static std::wstring s_branchKey;
 	static std::wstring s_uriScheme;
 };

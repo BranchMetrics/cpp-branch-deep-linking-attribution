@@ -158,6 +158,7 @@ class BRANCHIO_DLL_EXPORT Log {
     static Level getDefaultLogLevel();
     static std::string getDefaultLogFile();
     static Poco::Message::Priority getLoggerPriority(Level level);
+    static std::string unescapeFormat(const std::string& text);
 
     static Poco::Channel* makeFileLoggingChannel(const std::string& path);
     static Poco::Channel* makeSystemLoggingChannel();

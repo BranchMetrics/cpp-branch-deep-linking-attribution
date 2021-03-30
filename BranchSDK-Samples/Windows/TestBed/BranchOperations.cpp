@@ -1,5 +1,9 @@
 #include "BranchOperations.h"
 
+#include <algorithm>
+
+#include <Poco/Path.h>
+
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/CustomEvent.h>
 #include <BranchIO/Event/StandardEvent.h>
@@ -14,15 +18,11 @@ using namespace std;
 
 BranchIO::Branch* BranchOperations::branch(nullptr);
 TextField* BranchOperations::outputTextField(nullptr);
-bool volatile BranchOperations::openComplete(false);
-CRITICAL_SECTION BranchOperations::lock;
-CONDITION_VARIABLE BranchOperations::openCompleteCondition;
-BranchIO::JSONObject BranchOperations::openResponse;
 std::wstring BranchOperations::s_branchKey;
 std::wstring BranchOperations::s_uriScheme;
 
 void
-BranchOperations::setupSDKLogging()
+BranchOperations::setupSDKLogging(const std::string& filename)
 {
     // Note: Debug and Verbose levels compiled out in Release builds
     Log::setLevel(Log::Verbose);
@@ -30,37 +30,34 @@ BranchOperations::setupSDKLogging()
     string branchLogFilePath;
     if (appDataPath) {
         /*
-         * By default, put log file in %LocalAppData%\Branch\TestBed, e.g. C:\Users\<username>\AppData\Local\Branch\TestBed
+         * By default, put log file in %LocalAppData%\Branch, e.g. C:\Users\<username>\AppData\Local\Branch
          */
         branchLogFilePath = appDataPath;
         branchLogFilePath += "\\Branch";
         // May fail if the directory already exists. (Ignore return value.)
         (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
-
-        branchLogFilePath += "\\TestBed";
-        // May fail if the directory already exists. (Ignore return value.)
-        (void)_wmkdir(String(branchLogFilePath).wstr().c_str());
     }
     else {
-        // If the %LocalAppData% env. var. is not set for some reason, use the cwd.
-        branchLogFilePath = String(_wgetcwd(nullptr, 0)).str();
+        // If the %LocalAppData% env. var. is not set for some reason, use the system-provided tmp dir.
+        branchLogFilePath = Poco::Path::temp();
     }
 
     // Generated and rolled over in this directory.
     ostringstream oss;
-    oss << branchLogFilePath << "\\branch-sdk-" << GetCurrentProcessId() << ".log";
-    Log::enableFileLogging(oss.str());
+    oss << branchLogFilePath << "\\" << filename;
+    string logFile(oss.str());
+
+    // Report log location to VS console
+    OutputDebugStringA("-----\r\n");
+    OutputDebugStringA((string("----- Logging to ") + logFile + "\r\n").c_str());
+    OutputDebugStringA("-----\r\n");
+
+    Log::enableFileLogging(logFile);
 }
 
 void
 BranchOperations::openURL(const std::wstring& url)
 {
-    {
-        ScopeLock l(lock);
-        openComplete = false;
-        openResponse = JSONObject();
-    }
-
     outputTextField->setText(wstring(L"Opening '") + url + L"'");
 
     struct OpenCallback : IRequestCallback
@@ -85,12 +82,6 @@ BranchOperations::openURL(const std::wstring& url)
     private:
         void done(const JSONObject& response)
         {
-            {
-                ScopeLock l(lock);
-                openResponse = response;
-                openComplete = true;
-                WakeAllConditionVariable(&openCompleteCondition);
-            }
             delete this;
         }
     };
@@ -99,21 +90,27 @@ BranchOperations::openURL(const std::wstring& url)
 }
 
 void
-BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& initialUrl, TextField* textField)
+BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& uriScheme, const std::wstring& windowClass, const std::wstring& initialUrl, TextField* textField)
 {
-    InitializeCriticalSection(&lock);
-    InitializeConditionVariable(&openCompleteCondition);
-
     outputTextField = textField;
     s_branchKey = branchKey;
     s_uriScheme = uriScheme;
-    setupSDKLogging();
 
-    BRANCH_LOG_I("TestBed launched with argument \"" << BranchIO::String(initialUrl).str() << "\"");
+    string sWindowClass(String(windowClass).str().c_str());
+    transform(
+        sWindowClass.begin(),
+        sWindowClass.end(),
+        sWindowClass.begin(),
+        [](unsigned char c) {
+            return tolower(c);
+        });
+    setupSDKLogging(sWindowClass + ".log");
+
+    BRANCH_LOG_I(sWindowClass << " launched with argument \"" << BranchIO::String(initialUrl).str() << "\"");
 
     // Now initialize the SDK
     AppInfo appInfo;
-    appInfo.setAppVersion("1.0");
+    appInfo.setAppVersion("1.2.1");
 
     branch = Branch::create(branchKey, &appInfo);
 
@@ -143,31 +140,11 @@ BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& 
     atexit(shutDownBranch);
 }
 
-JSONObject
-BranchOperations::getOpenResponse()
-{
-    ScopeLock l(lock);
-    return openResponse;
-}
-
-void
-BranchOperations::waitForOpen(DWORD dwMilliseconds)
-{
-    ScopeLock l(lock);
-    while (!openComplete)
-    {
-        // Break if the sleep fails (real error) or the timer expires.
-        if (!SleepConditionVariableCS(&openCompleteCondition, &lock, dwMilliseconds)) return;
-    }
-}
-
 void
 BranchOperations::shutDownBranch()
 {
     if (branch) delete branch;
     branch = nullptr;
-
-    DeleteCriticalSection(&lock);
 }
 
 void
