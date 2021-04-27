@@ -12,8 +12,7 @@ jobs:
         run: Get-Location
 
       - name: Show workspace contents
-        working-directory: $${env.GITHUB_WORKSPACE}}
-        run: dir
+        run: Get-ChildItem -Path ${{env.GITHUB_WORKSPACE}}
 
       - name: Install cmake and conan
         run: pip install --user cmake conan
