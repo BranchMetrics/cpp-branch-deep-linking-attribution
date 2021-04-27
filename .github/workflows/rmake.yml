@@ -2,12 +2,12 @@ name: rmake.bat
 
 on: [push]
 
-env:
-  PATH: ${{env.PATH}};C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts
-
 jobs:
   build:
     runs-on: windows-latest
+
+    env:
+      PATH: ${{env.PATH}};C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts
 
     steps:
       - name: Inspect workspace
