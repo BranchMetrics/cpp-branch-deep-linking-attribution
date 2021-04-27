@@ -16,8 +16,8 @@ jobs:
 
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: D:rmake Debug
+        run: rmake.bat Debug
 
       - name: Build Release
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: D:rmake Release
+        run: rmake.bat Release
