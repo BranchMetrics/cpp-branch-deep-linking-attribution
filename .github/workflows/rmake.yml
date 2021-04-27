@@ -10,6 +10,11 @@ jobs:
       VSINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community
 
     steps:
+      - name: Inspect VS
+        run: |
+          Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community" |
+          Get-ChildItem
+
       - uses: actions/checkout@v2
 
       - name: Install cmake and conan
@@ -23,12 +28,12 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
           $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;${{ env.VSINSTALLDIR }}\VC\Auxiliary\Build" |
-          C:vcvars64.bat
+          vcvars64.bat
           .\rmake.bat Debug
 
       - name: Build Release
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
           $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;${{ env.VSINSTALLDIR }}\VC\Auxiliary\Build" |
-          C:vcvars64.bat
+          vcvars64.bat
           .\rmake.bat Release
