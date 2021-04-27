@@ -16,7 +16,12 @@ jobs:
       - name: Set up default conan profile
         run: C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts\conan profile new default --detect
 
-      - name: Build
+      - name: 64-bit Build
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
-          .\ci.bat
+          .\ci.bat 64
+
+      - name: 32-bit Build
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: |
+          .\ci.bat 64
