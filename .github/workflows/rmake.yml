@@ -6,14 +6,7 @@ jobs:
   build:
     runs-on: windows-latest
 
-    env:
-      VSINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise
-
     steps:
-      - uses: actions/checkout@v2
-      - name: Inspect VS
-        run: Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build"
-
       - name: Install cmake and conan
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: pip install --user -r requirements.txt
@@ -24,13 +17,13 @@ jobs:
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
-          $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;${{ env.VSINSTALLDIR }}\VC\Auxiliary\Build" |
+          $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build" |
           vcvars64.bat
           .\rmake.bat Debug
 
       - name: Build Release
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
-          $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;${{ env.VSINSTALLDIR }}\VC\Auxiliary\Build" |
+          $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build" |
           vcvars64.bat
           .\rmake.bat Release
