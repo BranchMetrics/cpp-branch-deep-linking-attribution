@@ -20,8 +20,8 @@ jobs:
 
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat; $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts"; .\rmake.bat Debug
+        run: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"; $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts"; .\rmake.bat Debug
 
       - name: Build Release
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat; $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts"; .\rmake.bat Release
+        run: "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"; $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts"; .\rmake.bat Release
