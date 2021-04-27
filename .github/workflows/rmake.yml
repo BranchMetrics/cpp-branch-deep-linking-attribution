@@ -13,6 +13,13 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: pip install --user -r requirements.txt
 
+      - name: Retain Conan cache, profiles, settings
+        id: conan-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.conan
+          key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}
+
       - name: Set up default conan profile
         run: C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts\conan profile new default --detect
 
@@ -25,10 +32,3 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
           .\ci.bat 64
-
-      - name: Retain Conan cache, profiles, settings
-        id: conan-cache
-        uses: actions/cache@v2
-        with:
-          path: ~/.conan
-          key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}
