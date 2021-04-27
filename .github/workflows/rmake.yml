@@ -7,21 +7,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Inspect workspace
-        working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: Get-Location
-
       - uses: actions/checkout@v2
-
-      - name: Show workspace contents
-        working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: Get-ChildItem
 
       - name: Install cmake and conan
         run: pip install --user cmake conan
 
       - name: Set up default conan profile
-        run: conan profile new default --detect
+        run: C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts\conan profile new default --detect
 
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
