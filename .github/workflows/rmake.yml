@@ -9,15 +9,19 @@ jobs:
     steps:
       - name: Inspect workspace
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: Get-Location; dir
+        run: Get-Location
+
+      - name: Show workspace contents
+        working-directory: $${env.GITHUB_WORKSPACE}}
+        run: dir
 
       - name: Install cmake and conan
         run: pip install --user cmake conan
 
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: rmake.bat Debug
+        run: ${{env.GITHUB_WORKSPACE}}\rmake.bat Debug
 
       - name: Build Release
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: rmake.bat Release
+        run: ${{env.GITHUB_WORKSPACE}}\rmake.bat Release
