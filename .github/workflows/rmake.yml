@@ -11,11 +11,7 @@ jobs:
 
     steps:
       - name: Inspect VS
-        run: |
-          Set-Location "C:\Program Files (x86)\Microsoft Visual Studio" |
-          Get-ChildItem
-          Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\2019" |
-          Get-ChildItem
+        run: Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019"
 
       - uses: actions/checkout@v2
 
