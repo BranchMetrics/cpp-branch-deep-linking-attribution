@@ -11,6 +11,8 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: Get-Location
 
+      - uses: actions/checkout@v2
+
       - name: Show workspace contents
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: Get-ChildItem
