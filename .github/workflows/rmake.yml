@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Inspect VS
         run: |
-          Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community" |
+          Set-Location "C:\Program Files (x86)\Microsoft Visual Studio\2019" |
           Get-ChildItem
 
       - uses: actions/checkout@v2
