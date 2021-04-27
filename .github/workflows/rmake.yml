@@ -10,6 +10,10 @@ jobs:
       - name: Install cmake and conan
         run: pip install --user cmake conan
 
+      - name: Inspect workspace
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: cd; dir/w
+
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: start rmake Debug
