@@ -7,12 +7,12 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Install cmake and conan
-        run: pip install --user cmake conan
-
       - name: Inspect workspace
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: cd; dir/w
+        run: dir
+
+      - name: Install cmake and conan
+        run: pip install --user cmake conan
 
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
