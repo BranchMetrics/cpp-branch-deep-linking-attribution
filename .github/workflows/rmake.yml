@@ -7,12 +7,9 @@ jobs:
     runs-on: windows-latest
 
     env:
-      VSINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Community
+      VSINSTALLDIR: C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise
 
     steps:
-      - name: Inspect VS
-        run: Get-ChildItem -Path "C:\Program Files (x86)\Microsoft Visual Studio\2019"
-
       - uses: actions/checkout@v2
 
       - name: Install cmake and conan
