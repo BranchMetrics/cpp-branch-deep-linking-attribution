@@ -1,6 +1,6 @@
-on: [push]
+name: rmake.bat
 
-env:
+on: [push]
 
 jobs:
   build:
