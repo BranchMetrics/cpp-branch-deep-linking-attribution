@@ -1,5 +1,3 @@
-name: rmake.bat
-
 on: [push]
 
 env:
@@ -9,13 +7,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - name: Install cmake and conan
-      run: pip install --user cmake conan
+      - name: Install cmake and conan
+        run: pip install --user cmake conan
 
-    - name: Build Debug
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: rmake Debug
+      - name: Build Debug
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: rmake Debug
 
-    - name: Build Release
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: rmake Release
+      - name: Build Release
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: rmake Release
