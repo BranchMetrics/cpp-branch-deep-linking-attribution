@@ -23,12 +23,12 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
           $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;${{ env.VSINSTALLDIR }}\VC\Auxiliary\Build" |
-          vcvars64.bat
+          C:vcvars64.bat
           .\rmake.bat Debug
 
       - name: Build Release
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
           $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts;${{ env.VSINSTALLDIR }}\VC\Auxiliary\Build" |
-          vcvars64.bat
+          C:vcvars64.bat
           .\rmake.bat Release
