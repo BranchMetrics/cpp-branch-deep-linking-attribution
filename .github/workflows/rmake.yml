@@ -6,9 +6,6 @@ jobs:
   build:
     runs-on: windows-latest
 
-    env:
-      PATH: ${{env.PATH}};C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts
-
     steps:
       - name: Inspect workspace
         working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -25,8 +22,8 @@ jobs:
 
       - name: Build Debug
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: .\rmake.bat Debug
+        run: $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts"; .\rmake.bat Debug
 
       - name: Build Release
         working-directory: ${{env.GITHUB_WORKSPACE}}
-        run: .\rmake.bat Release
+        run: $env:Path += ";C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts"; .\rmake.bat Release
