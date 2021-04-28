@@ -1,4 +1,4 @@
-echo off
+@echo off
 
 REM 64-bit build
 REM .\ci.bat 64
