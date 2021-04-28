@@ -111,6 +111,7 @@ if %BUILD_TYPE% == Debug (
 REM Build/install dependencies needed for this SDK
 conan install ..\..\conanfile.py^
   --build outdated^
+  --update^
   --lockfile=..\..\locks\%BUILD_TYPE%-%TARGET_ARCH%.lock
 
 if ERRORLEVEL 1 (
