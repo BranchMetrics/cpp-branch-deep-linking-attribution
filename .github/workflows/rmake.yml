@@ -23,7 +23,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.conan
-          key: ${{ runner.os }}-${{ hashFiles('conanfile.py') }}
+          key: ${{ runner.os }}-vs16-${{ hashFiles('conanfile.py') }}
 
       # Note this is stored in ~/.conan and will be imported with the cache. This profile new command can fail.
       - name: Set up default conan profile
