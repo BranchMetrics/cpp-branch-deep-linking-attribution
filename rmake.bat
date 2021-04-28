@@ -108,42 +108,10 @@ if %BUILD_TYPE% == Debug (
   set RUNTIME=MD
 )
 
-REM The Branch SDK only requires:
-REM   PocoFoundation
-REM   PocoJSON
-REM   PocoNetSSLWin
-REM These in turn require:
-REM   PocoNet
-REM   PocoUtil
-REM   PocoXML
-REM All are included by default. Disable all other optional
-REM libraries that are enabled by default (all of the following).
-REM
-REM See https://github.com/conan-io/conan-center-index/blob/master/recipes/poco/all/conanfile.py#L31
-
-set Poco_Options=^
-  --options Poco:enable_crypto=False^
-  --options Poco:enable_data=False^
-  --options Poco:enable_data_mysql=False^
-  --options Poco:enable_data_odbc=False^
-  --options Poco:enable_data_postgresql=False^
-  --options Poco:enable_data_sqlite=False^
-  --options Poco:enable_encodings=False^
-  --options Poco:enable_jwt=False^
-  --options Poco:enable_mongodb=False^
-  --options Poco:enable_netssl=False^
-  --options Poco:enable_redis=False^
-  --options Poco:enable_zip=False
-
 REM Build/install dependencies needed for this SDK
 conan install ..\..\conanfile.py^
-  --settings build_type=%BUILD_TYPE%^
-  --settings arch=%TARGET_ARCH%^
-  --settings compiler.runtime=%RUNTIME%^
-  --options *:shared=%BUILD_SHARED_LIBS%^
-  %Poco_Options%^
   --build outdated^
-  --update
+  --lockfile=..\..\locks\%BUILD_TYPE%-%TARGET_ARCH%.lock
 
 if ERRORLEVEL 1 (
   echo conan install failed.
@@ -175,6 +143,32 @@ if ERRORLEVEL 1 (
   cd ..\..
   exit /b -1
 )
+
+REM The Branch SDK only requires:
+REM   PocoFoundation
+REM   PocoJSON
+REM   PocoNetSSLWin
+REM These in turn require:
+REM   PocoNet
+REM   PocoUtil
+REM   PocoXML
+REM All are included by default. Disable all other optional
+REM libraries that are enabled by default (all of the following).
+REM
+REM See https://github.com/conan-io/conan-center-index/blob/master/recipes/poco/all/conanfile.py#L31
+set Poco_Options=^
+  --options Poco:enable_crypto=False^
+  --options Poco:enable_data=False^
+  --options Poco:enable_data_mysql=False^
+  --options Poco:enable_data_odbc=False^
+  --options Poco:enable_data_postgresql=False^
+  --options Poco:enable_data_sqlite=False^
+  --options Poco:enable_encodings=False^
+  --options Poco:enable_jwt=False^
+  --options Poco:enable_mongodb=False^
+  --options Poco:enable_netssl=False^
+  --options Poco:enable_redis=False^
+  --options Poco:enable_zip=False
 
 REM Install into the Conan cache
 conan create ..\.. branch/testing^

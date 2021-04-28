@@ -1,0 +1,55 @@
+{
+ "graph_lock": {
+  "nodes": {
+   "0": {
+    "ref": "BranchIO/1.2.1@branch/stable",
+    "options": "shared=False\nOpenSSL:386=False\nOpenSSL:capieng_dialog=False\nOpenSSL:no_asm=False\nOpenSSL:no_async=False\nOpenSSL:no_bf=False\nOpenSSL:no_cast=False\nOpenSSL:no_des=False\nOpenSSL:no_dh=False\nOpenSSL:no_dsa=False\nOpenSSL:no_dso=False\nOpenSSL:no_hmac=False\nOpenSSL:no_md2=False\nOpenSSL:no_md5=False\nOpenSSL:no_mdc2=False\nOpenSSL:no_rc2=False\nOpenSSL:no_rc4=False\nOpenSSL:no_rc5=False\nOpenSSL:no_rsa=False\nOpenSSL:no_sha=False\nOpenSSL:no_sse2=False\nOpenSSL:no_threads=False\nOpenSSL:no_zlib=False\nOpenSSL:openssldir=None\nOpenSSL:shared=False\nPoco:cxx_14=False\nPoco:enable_apacheconnector=False\nPoco:enable_cppparser=False\nPoco:enable_crypto=False\nPoco:enable_data=False\nPoco:enable_data_mysql=False\nPoco:enable_data_odbc=False\nPoco:enable_data_postgresql=False\nPoco:enable_data_sqlite=False\nPoco:enable_encodings=False\nPoco:enable_json=True\nPoco:enable_jwt=False\nPoco:enable_mongodb=False\nPoco:enable_net=True\nPoco:enable_netssl=False\nPoco:enable_netssl_win=True\nPoco:enable_pagecompiler=False\nPoco:enable_pagecompiler_file2page=False\nPoco:enable_pdf=False\nPoco:enable_pocodoc=False\nPoco:enable_redis=False\nPoco:enable_sevenzip=False\nPoco:enable_tests=False\nPoco:enable_util=True\nPoco:enable_xml=True\nPoco:enable_zip=False\nPoco:force_openssl=True\nPoco:poco_unbundled=False\nPoco:shared=False\nzlib:minizip=False\nzlib:shared=False",
+    "requires": [
+     "1"
+    ],
+    "build_requires": [
+     "4"
+    ],
+    "path": "..\\conanfile.py",
+    "context": "host"
+   },
+   "1": {
+    "ref": "Poco/1.10.1@pocoproject/stable",
+    "options": "cxx_14=False\nenable_apacheconnector=False\nenable_cppparser=False\nenable_crypto=False\nenable_data=False\nenable_data_mysql=False\nenable_data_odbc=False\nenable_data_postgresql=False\nenable_data_sqlite=False\nenable_encodings=False\nenable_json=True\nenable_jwt=False\nenable_mongodb=False\nenable_net=True\nenable_netssl=False\nenable_netssl_win=True\nenable_pagecompiler=False\nenable_pagecompiler_file2page=False\nenable_pdf=False\nenable_pocodoc=False\nenable_redis=False\nenable_sevenzip=False\nenable_tests=False\nenable_util=True\nenable_xml=True\nenable_zip=False\nforce_openssl=True\npoco_unbundled=False\nshared=False\nOpenSSL:386=False\nOpenSSL:capieng_dialog=False\nOpenSSL:no_asm=False\nOpenSSL:no_async=False\nOpenSSL:no_bf=False\nOpenSSL:no_cast=False\nOpenSSL:no_des=False\nOpenSSL:no_dh=False\nOpenSSL:no_dsa=False\nOpenSSL:no_dso=False\nOpenSSL:no_hmac=False\nOpenSSL:no_md2=False\nOpenSSL:no_md5=False\nOpenSSL:no_mdc2=False\nOpenSSL:no_rc2=False\nOpenSSL:no_rc4=False\nOpenSSL:no_rc5=False\nOpenSSL:no_rsa=False\nOpenSSL:no_sha=False\nOpenSSL:no_sse2=False\nOpenSSL:no_threads=False\nOpenSSL:no_zlib=False\nOpenSSL:openssldir=None\nOpenSSL:shared=False\nzlib:minizip=False\nzlib:shared=False",
+    "package_id": "e37b309437c7da926a02ba70557d17dfba87dfb7",
+    "prev": "0",
+    "requires": [
+     "2"
+    ],
+    "context": "host"
+   },
+   "2": {
+    "ref": "OpenSSL/1.0.2o@conan/stable",
+    "options": "386=False\ncapieng_dialog=False\nno_asm=False\nno_async=False\nno_bf=False\nno_cast=False\nno_des=False\nno_dh=False\nno_dsa=False\nno_dso=False\nno_hmac=False\nno_md2=False\nno_md5=False\nno_mdc2=False\nno_rc2=False\nno_rc4=False\nno_rc5=False\nno_rsa=False\nno_sha=False\nno_sse2=False\nno_threads=False\nno_zlib=False\nopenssldir=None\nshared=False\nzlib:minizip=False\nzlib:shared=False",
+    "package_id": "6acf24cd4adf2df742e006cc0e5f0329e3b6e60b",
+    "prev": "0",
+    "requires": [
+     "3"
+    ],
+    "context": "host"
+   },
+   "3": {
+    "ref": "zlib/1.2.11@conan/stable",
+    "options": "minizip=False\nshared=False",
+    "package_id": "d057732059ea44a47760900cb5e4855d2bea8714",
+    "prev": "0",
+    "context": "host"
+   },
+   "4": {
+    "ref": "gtest/1.8.1@bincrafters/stable",
+    "options": "build_gmock=True\ndebug_postfix=d\nno_main=False\nshared=False",
+    "package_id": "875c67f4d8a79bdd002908b75efce119eb82836d",
+    "prev": "0",
+    "context": "host"
+   }
+  },
+  "revisions_enabled": false
+ },
+ "version": "0.4",
+ "profile_host": "[settings]\narch=x86_64\narch_build=x86_64\nbuild_type=Debug\ncompiler=Visual Studio\ncompiler.runtime=MDd\ncompiler.version=16\nos=Windows\nos_build=Windows\n[options]\n*:shared=False\nPoco:enable_crypto=False\nPoco:enable_data=False\nPoco:enable_data_mysql=False\nPoco:enable_data_odbc=False\nPoco:enable_data_postgresql=False\nPoco:enable_data_sqlite=False\nPoco:enable_encodings=False\nPoco:enable_jwt=False\nPoco:enable_mongodb=False\nPoco:enable_netssl=False\nPoco:enable_redis=False\nPoco:enable_zip=False\n[build_requires]\n[env]\n"
+}
