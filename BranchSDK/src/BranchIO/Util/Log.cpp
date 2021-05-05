@@ -4,6 +4,7 @@
 
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/Message.h>
+#include <Poco/Process.h>
 #include <Poco/String.h>
 #include <Poco/Thread.h>
 #include <Poco/Timestamp.h>
@@ -185,8 +186,9 @@ Log::buildMessage(Level level, const std::string& message, const char* func, con
     Timestamp now;
     // https://pocoproject.org/docs/Poco.DateTimeFormatter.html
     oss << DateTimeFormatter::format(now, "%Y-%m-%d-%H:%M:%s") << "|";
-    oss << level << "|";
+    oss << Poco::Process::id() << "|";
     oss << Thread::currentTid() << "|";
+    oss << level << "|";
 
     if (!path.empty()) {
         oss << path << ":" << line;
@@ -198,12 +200,36 @@ Log::buildMessage(Level level, const std::string& message, const char* func, con
 
     oss << "|" << message;
 
-    return oss.str();
+    return unescapeFormat(oss.str());
+}
+
+std::string
+Log::unescapeFormat(const std::string& text) {
+    string copy(text);
+
+    /*
+     * The Poco logger always interprets any % sign as a printf-style format (e.g. %d), and fails
+     * when logging things like URL encodings. This unescapes all % signs by doubling them to %%,
+     * producing the correct output.
+     */
+    string::size_type offset = 0;
+    while (offset < copy.length() && (offset = copy.find_first_of("%", offset)) != string::npos) {
+        copy.insert(offset, "%");
+        offset += 2;
+    }
+
+    return copy;
 }
 
 Poco::Channel*
 Log::makeFileLoggingChannel(const std::string& path) {
-    return new FileChannel(path);
+    auto* channel = new FileChannel(path);
+    // Roll log files based on size.
+    // Keep up to 10 archived log files (e.g. %LocalAppData%\Branch\testbed.log.[0-9]) up to 100 kB each.
+    // https://pocoproject.org/docs/Poco.FileChannel.html
+    channel->setProperty(FileChannel::PROP_ROTATION, "100K");
+    channel->setProperty(FileChannel::PROP_PURGECOUNT, "10");
+    return channel;
 }
 
 Poco::Channel*
