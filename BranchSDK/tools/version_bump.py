@@ -31,9 +31,14 @@ if not match:
 # Now reduced_version is all digits. full_version may have a suffix.
 reduced_version = match.group(0)
 
+version_components = reduced_version.split(".")
+
 print("Bumping to " + full_version)
 
 update_file("../../conanfile.py", r'^(\s*version\s*=\s*")(.*)(")', full_version)
 update_file("../../CMakeLists.txt", r'^(\s*project\(root\s+VERSION\s+)(\d+\.\d+\.\d+)(.*)', reduced_version)
-# BranchSDK/src/BranchIO/Version.h => reduced_version, split
-# BranchSDK/Windows/BranchInstaller/Product.wxs => reduced_version
+update_file("../Windows/BranchInstaller/Product.wxs", r'(<Product.*Version=")(\d+\.\d+\.\d+)(")', reduced_version)
+
+update_file("../src/BranchIO/Version.h", r'(BRANCHIO_VERSION_MAJOR\s+)(\d+)(.*)', version_components[0])
+update_file("../src/BranchIO/Version.h", r'(BRANCHIO_VERSION_MINOR\s+)(\d+)(.*)', version_components[1])
+update_file("../src/BranchIO/Version.h", r'(BRANCHIO_VERSION_REVISION\s+)(\d+)(.*)', version_components[2])
