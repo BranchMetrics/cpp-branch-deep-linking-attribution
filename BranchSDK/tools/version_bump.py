@@ -6,19 +6,18 @@
 import os, re, sys
 
 # Substitutes replacement for \2 in any match
-def update_file(path, regex, replacement):
+def update_file(path, regex, replacement, encoding="utf-8"):
     updated_lines = []
-    with open(path) as f:
-        for line in f.readlines():
+    with open(path, "rb") as f:
+        text = f.read().decode(encoding)
+        for line in text.split("\r\n"):
             match = re.search(regex, line)
             if match:
-                # TODO: Improve on this. Always requires 3 groups and replaces the second.
-                line = match.group(1) + replacement + match.group(3) + "\n"
+                line = match.group(1) + replacement + match.group(3) + "\r\n"
             updated_lines.append(line)
 
-    with open(path, "w") as f:
-        f.write("".join(updated_lines))
-
+    with open(path, "wb") as f:
+        f.write("".join(updated_lines).encode(encoding))
 
 if len(sys.argv) < 2:
     print("Please provide a new version number as a command-line argument, e.g. version_bump.py 1.2.1-alpha.3")
@@ -63,8 +62,9 @@ update_file("../../BranchSDK-Samples/Windows/TestBed/TestBedPackage/Package.appx
 update_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBedLocalPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
 update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
 
-# TODO: Update binary .rc file in each app with version number that appears in the About dialog.
+# Update .rc file in each app with version number that appears in the About dialog.
+update_file("../../BranchSDK-Samples/Windows/TestBed/TestBed.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 
 # Now commit
 
-os.system('git commit -a -m"Version bump to ' + full_version + '"')
+# os.system('git commit -a -m"Version bump to ' + full_version + '"')
