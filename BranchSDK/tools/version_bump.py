@@ -67,4 +67,4 @@ update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package
 
 # Now commit
 
-# os.system('git commit -a -m"Version bump to ' + full_version + '"')
+os.system('git commit -a -m"Version bump to ' + full_version + '"')
