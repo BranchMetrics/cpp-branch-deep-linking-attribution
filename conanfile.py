@@ -10,7 +10,6 @@ class BranchioConan(ConanFile):
 
     # ----- Package metadata -----
     name = "BranchIO"
-    # TODO(jdee): Set the version in one place and propagate it
     version = "1.2.1"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"

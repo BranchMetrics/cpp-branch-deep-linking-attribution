@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.12)
 
-# TODO(jdee): Set the version in one place and pass it around.
 project(root VERSION 1.2.1 LANGUAGES CXX)
 
 # Determines handling of RPATH and related variables when building dylibs on Mac.
