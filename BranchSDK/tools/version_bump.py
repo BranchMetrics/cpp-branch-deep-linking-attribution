@@ -54,9 +54,9 @@ update_file("../src/BranchIO/Version.h", r'(BRANCHIO_VERSION_REVISION\s+)(\d+)(.
 update_file("../../BranchSDK-Samples/Windows/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'(<Product.*Version=")(\d+\.\d+\.\d+)(")', reduced_version)
 
 # The rest use MSIX (4-part version with .0 at the end)
-update_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBedLocalPackage/Package.appxmanifest", r'(<Identity.*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
-update_file("../../BranchSDK-Samples/Windows/TestBed/TestBedPackage/Package.appxmanifest", r'(<Identity.*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
-update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'(<Identity.*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
+update_file("../../BranchSDK-Samples/Windows/TestBed/TestBedPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
+update_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBedLocalPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
+update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
 
 # TODO: Update binary .rc file in each app with version number that appears in the About dialog.
 
