@@ -1,4 +1,4 @@
-import re, sys
+import os, re, sys
 
 # Substitutes replacement for \2 in any match
 def update_file(path, regex, replacement):
@@ -59,3 +59,7 @@ update_file("../../BranchSDK-Samples/Windows/TestBed/TestBedPackage/Package.appx
 update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'(<Identity.*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
 
 # TODO: Update binary .rc file in each app with version number that appears in the About dialog.
+
+# Now commit
+
+os.system('git commit -a -m"Version bump to ' + full_version + '"')
