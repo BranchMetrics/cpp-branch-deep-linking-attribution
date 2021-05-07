@@ -359,6 +359,25 @@ BranchOperations::getShortURL()
 }
 
 void
+BranchOperations::getLongURL()
+{
+    struct LongLinkRequest : LinkInfo
+    {
+        LongLinkRequest(const std::wstring& canonicalUrl)
+        {
+            setFeature(L"testing");
+            addControlParameter(L"$canonical_url", canonicalUrl);
+            addControlParameter(L"$desktop_url", canonicalUrl);
+            addControlParameter(L"$desktop_web_open_delay_ms", "3000");
+        }
+    };
+
+    LongLinkRequest request(L"https://jdee.github.io/example-win32.html");
+    String longURL = request.createLongUrl(branch);
+    outputTextField->setText(wstring(L"Created long URL: ") + longURL.wstr());
+}
+
+void
 BranchOperations::closeSession()
 {
     outputTextField->setText(L"Closing session");
