@@ -35,10 +35,27 @@ version_components = reduced_version.split(".")
 
 print("Bumping to " + full_version)
 
+# conan package version
 update_file("../../conanfile.py", r'^(\s*version\s*=\s*")(.*)(")', full_version)
+
+# version in CMakeLists.txt
 update_file("../../CMakeLists.txt", r'^(\s*project\(root\s+VERSION\s+)(\d+\.\d+\.\d+)(.*)', reduced_version)
+
+# version in MSI package
 update_file("../Windows/BranchInstaller/Product.wxs", r'(<Product.*Version=")(\d+\.\d+\.\d+)(")', reduced_version)
 
+# version components in Version.h
 update_file("../src/BranchIO/Version.h", r'(BRANCHIO_VERSION_MAJOR\s+)(\d+)(.*)', version_components[0])
 update_file("../src/BranchIO/Version.h", r'(BRANCHIO_VERSION_MINOR\s+)(\d+)(.*)', version_components[1])
 update_file("../src/BranchIO/Version.h", r'(BRANCHIO_VERSION_REVISION\s+)(\d+)(.*)', version_components[2])
+
+# versions in example app packaging
+# TestBed-Basic uses Wix
+update_file("../../BranchSDK-Samples/Windows/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'(<Product.*Version=")(\d+\.\d+\.\d+)(")', reduced_version)
+
+# The rest use MSIX (4-part version with .0 at the end)
+update_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBedLocalPackage/Package.appxmanifest", r'(<Identity.*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
+update_file("../../BranchSDK-Samples/Windows/TestBed/TestBedPackage/Package.appxmanifest", r'(<Identity.*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
+update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'(<Identity.*Version=")(\d+\.\d+\.\d+)(\.0)', reduced_version)
+
+# TODO: Update binary .rc file in each app with version number that appears in the About dialog.
