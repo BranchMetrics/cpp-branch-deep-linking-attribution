@@ -24,6 +24,7 @@ struct BranchOperations
 	static void logStandardEvent();
 	static void logCustomEvent();
 	static void getShortURL();
+	static void getLongURL();
 	static void shutDownBranch();
 	static void showInitializationMessage();
 	static std::wstring getTrackingButtonLabel();

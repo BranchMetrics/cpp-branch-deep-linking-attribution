@@ -41,16 +41,19 @@ static int const ID_GET_SHORT_URL_BUTTON = 1006;
 static int const ID_TRACKING_BUTTON = 1008;
 static int const ID_GET_IDENTITY_BUTTON = 1009;
 static int const ID_SHOW_SESSION_BUTTON = 1010;
+static int const ID_GET_LONG_URL_BUTTON = 1011;
 
 TextField outputTextField(L"Initializing...", 440, 20, 400, 400, ID_TEXT_FIELD);
 Button loginButton(L"Login", 20, 20, 190, 50, ID_LOGIN_BUTTON);
 Button logoutButton(L"Logout", 20, 90, 190, 50, ID_LOGOUT_BUTTON);
+Button trackingButton(L"Disable Tracking", 20, 230, 190, 50, ID_TRACKING_BUTTON);
+Button getIdentityButton(L"Get Identity", 20, 160, 190, 50, ID_GET_IDENTITY_BUTTON);
+
 Button standardEventButton(L"Standard Event", 230, 20, 190, 50, ID_STANDARD_EVENT_BUTTON);
 Button customEventButton(L"Custom Event", 230, 90, 190, 50, ID_CUSTOM_EVENT_BUTTON);
 Button getShortURLButton(L"Get Short URL", 230, 160, 190, 50, ID_GET_SHORT_URL_BUTTON);
-Button trackingButton(L"Disable Tracking", 20, 230, 190, 50, ID_TRACKING_BUTTON);
-Button getIdentityButton(L"Get Identity", 20, 160, 190, 50, ID_GET_IDENTITY_BUTTON);
-Button showSessionButton(L"Show Session", 230, 230, 190, 50, ID_SHOW_SESSION_BUTTON);
+Button getLongURLButton(L"Get Long URL", 230, 230, 190, 50, ID_GET_LONG_URL_BUTTON);
+Button showSessionButton(L"Show Session", 230, 300, 190, 50, ID_SHOW_SESSION_BUTTON);
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -171,6 +174,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    standardEventButton.create(hWnd);
    customEventButton.create(hWnd);
    getShortURLButton.create(hWnd);
+   getLongURLButton.create(hWnd);
    trackingButton.create(hWnd);
    getIdentityButton.create(hWnd);
    showSessionButton.create(hWnd);
@@ -184,6 +188,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    standardEventButton.setButtonPressCallback(BranchOperations::logStandardEvent);
    customEventButton.setButtonPressCallback(BranchOperations::logCustomEvent);
    getShortURLButton.setButtonPressCallback(BranchOperations::getShortURL);
+   getLongURLButton.setButtonPressCallback(BranchOperations::getLongURL);
    trackingButton.setButtonPressCallback([]() {
        BranchOperations::toggleTracking();
        trackingButton.setText(BranchOperations::getTrackingButtonLabel());
@@ -250,6 +255,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
                 break;
             case ID_GET_SHORT_URL_BUTTON:
                 getShortURLButton.onPress();
+                break;
+            case ID_GET_LONG_URL_BUTTON:
+                getLongURLButton.onPress();
                 break;
             case ID_TRACKING_BUTTON:
                 trackingButton.onPress();
