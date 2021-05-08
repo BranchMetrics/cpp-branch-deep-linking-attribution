@@ -6,7 +6,19 @@
 import os, re, sys
 
 # Substitutes replacement for \2 in any match
-def update_file(path, regex, replacement, encoding="utf-8"):
+def update_file(path, regex, replacement):
+    updated_lines = []
+    with open(path) as f:
+        for line in f.readlines():
+            match = re.search(regex, line)
+            if match:
+                line = match.group(1) + replacement + match.group(3) + "\n"
+            updated_lines.append(line)
+
+    with open(path, "w") as f:
+        f.write("".join(updated_lines))
+
+def update_binary_file(path, regex, replacement, encoding):
     updated_lines = []
     with open(path, "rb") as f:
         text = f.read().decode(encoding)
@@ -63,7 +75,10 @@ update_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBedLocalPackage/P
 update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
 
 # Update .rc file in each app with version number that appears in the About dialog.
-update_file("../../BranchSDK-Samples/Windows/TestBed/TestBed.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/Windows/TestBed/TestBed.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBed-Local.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/Windows/TestBed-Basic/TestBed-Basic.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 
 # Now commit
 
