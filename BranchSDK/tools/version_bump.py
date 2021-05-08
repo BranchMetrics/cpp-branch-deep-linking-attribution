@@ -66,6 +66,9 @@ update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_MAJOR\s+)(\d+)(.
 update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_MINOR\s+)(\d+)(.*)$', version_components[1])
 update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_REVISION\s+)(\d+)(.*)$', version_components[2])
 
+# version in shared app source code
+update_file("../../BranchSDK-Samples/Windows/TestBed/BranchOperations.cpp", r'^(.*setAppVersion\(")([0-9A-Za-z-\.]+)(".*)$', full_version)
+
 # versions in example app packaging
 # TestBed-Basic uses Wix
 update_file("../../BranchSDK-Samples/Windows/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
