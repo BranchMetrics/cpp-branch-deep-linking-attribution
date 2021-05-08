@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Id="*" Name="Branch TestBed (Basic)" Language="1033" Version="1.2.2" Manufacturer="Branch Metrics, Inc." UpgradeCode="f66f62db-fbea-4c26-b0e3-ab91241a71da">
+  <Product Id="*" Name="Branch TestBed (Basic)" Language="1033" Version="1.2.1" Manufacturer="Branch Metrics, Inc." UpgradeCode="f66f62db-fbea-4c26-b0e3-ab91241a71da">
     <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
     <MajorUpgrade DowngradeErrorMessage="A newer version of TestBed (Basic) is already installed." />

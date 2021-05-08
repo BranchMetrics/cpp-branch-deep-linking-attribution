@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.12)
 
-project(root VERSION 1.2.2 LANGUAGES CXX)
+project(root VERSION 1.2.1 LANGUAGES CXX)
 
 # Determines handling of RPATH and related variables when building dylibs on Mac.
 # TODO(jdee): Review this. RPATH is an issue on Unix right now.
