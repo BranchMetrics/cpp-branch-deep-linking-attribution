@@ -25,11 +25,12 @@ def update_binary_file(path, regex, replacement, encoding):
         for line in text.split("\r\n"):
             match = re.search(regex, line)
             if match:
-                line = match.group(1) + replacement + match.group(3) + "\r\n"
+                line = match.group(1) + replacement + match.group(3)
             updated_lines.append(line)
 
     with open(path, "wb") as f:
-        f.write("".join(updated_lines).encode(encoding))
+        for l in updated_lines:
+            f.write((l + "\r\n").encode(encoding))
 
 if len(sys.argv) < 2:
     print("Please provide a new version number as a command-line argument, e.g. version_bump.py 1.2.1-alpha.3")
