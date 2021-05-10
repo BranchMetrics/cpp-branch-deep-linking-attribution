@@ -17,36 +17,18 @@ using namespace std;
 #include "BranchIO/Version.h"
 #include "BranchIO/Util/RequestManager.h"
 
-// Create a string that looks like this:  "Branch Windows SDK v1.2.3"
-#define STRINGIZE2(s) #s
-#define STRINGIZE(s) STRINGIZE2(s)
-#define VER_FILE_VERSION_STR        STRINGIZE(BRANCHIO_VERSION_MAJOR)        \
-                                    "." STRINGIZE(BRANCHIO_VERSION_MINOR)    \
-                                    "." STRINGIZE(BRANCHIO_VERSION_REVISION)
-
-#define VER_FILE_VERSION_DISPLAY    "Branch "                       \
-                                    VERSION_PLATFORM  " SDK v"      \
-                                    VER_FILE_VERSION_STR
+#define _string_of(x) #x
+#define _version(maj, min, rev) _string_of(maj) "." _string_of(min) "." _string_of(rev)
+#define VER_FILE_VERSION_STR _version(BRANCHIO_VERSION_MAJOR, BRANCHIO_VERSION_MINOR, BRANCHIO_VERSION_REVISION)
+#define VER_FILE_VERSION_DISPLAY "Branch Win32 SDK v" VER_FILE_VERSION_STR
 
 namespace BranchIO {
 
-#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-#define VERSION_PLATFORM  "Unix"
-class BranchUnix : public Branch {
- public:
-    BranchUnix() : Branch() {}
-    virtual ~BranchUnix() {}
-};
-
-#elif defined(_WIN64) || defined(_WIN32)
-#define VERSION_PLATFORM  "Windows"
 class BranchWindows : public Branch {
  public:
     BranchWindows() : Branch() {}
     virtual ~BranchWindows() {}
 };
-
-#endif
 
 using namespace std;
 
@@ -164,11 +146,7 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
 
     // Must initialize Branch object after prefix set.
     Branch* instance = nullptr;
-#if defined(__linux__) || defined(__unix__) || defined(__APPLE__)
-    instance = new BranchUnix();
-#elif defined(_WIN64) || defined(_WIN32)
     instance = new BranchWindows();
-#endif
 
     // Set these on the current app
     if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisabled")) {
@@ -293,12 +271,10 @@ Branch::getIdentity() {
     return Storage::instance().getString("session.identity");
 }
 
-#ifdef WIN32
 wstring
 Branch::getIdentityW() {
     return String(getIdentity()).wstr();
 }
-#endif  // WIN32
 
 void
 Branch::stop() {
@@ -356,8 +332,6 @@ string Branch::getVersion() {
     return VER_FILE_VERSION_STR;
 }
 
-#ifdef WIN32
-
 wstring Branch::getVersionW() {
     return String(getVersion()).wstr();
 }
@@ -365,7 +339,5 @@ wstring Branch::getVersionW() {
 wstring Branch::getBranchKeyW() const {
     return String(getBranchKey()).wstr();
 }
-
-#endif  // WIN32
 
 }  // namespace BranchIO

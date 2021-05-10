@@ -9,13 +9,8 @@
 #include <Poco/Thread.h>
 #include <Poco/Timestamp.h>
 
-#ifdef WIN32
 #include <Poco/EventLogChannel.h>
 #include <Poco/WindowsConsoleChannel.h>
-#else
-#include <Poco/ConsoleChannel.h>
-#include <Poco/SyslogChannel.h>
-#endif  // WIN32
 
 #include <Poco/FileChannel.h>
 
@@ -85,13 +80,8 @@ operator>>(std::istream& s, BranchIO::Log::Level& level) {
 
 namespace BranchIO {
 
-#ifdef WIN32
 typedef WindowsColorConsoleChannel ConsoleLoggingChannel;
 typedef EventLogChannel SystemLoggingChannel;
-#else
-typedef ColorConsoleChannel ConsoleLoggingChannel;
-typedef SyslogChannel SystemLoggingChannel;
-#endif  // WIN32
 
 Log&
 Log::instance() {
@@ -170,13 +160,7 @@ std::string
 Log::buildMessage(Level level, const std::string& message, const char* func, const char* file, int line) {
     string path(file ? file : "");
 
-    static const char* const separator(
-#ifdef WIN32
-        "\\"
-#else
-        "/"
-#endif  // WIN32
-    );  // NOLINT(whitespace/parens)
+    static const char* const separator("\\");
 
     // Just show the last path component
     string::size_type offset = path.find_last_of(separator);
