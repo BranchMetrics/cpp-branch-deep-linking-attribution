@@ -329,8 +329,7 @@ Branch::getBranchKey() const {
 }
 
 string Branch::getVersion() {
-    static const char* const version = VER_FILE_VERSION_STR;
-    return version;
+    return VER_FILE_VERSION_STR;
 }
 
 wstring Branch::getVersionW() {
