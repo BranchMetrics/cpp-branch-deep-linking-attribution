@@ -173,5 +173,9 @@ TEST_F(LinkInfoTest, LongUrlData) {
     ASSERT_FALSE(decodedData.empty());
 
     // The decoded data parameter should be a valid JSON object
-    ASSERT_NO_THROW(JSONObject::parse(decodedData));
+    auto parsedObject = JSONObject::parse(decodedData);
+
+    // The control parameter added above should be there
+    string delayParam = parsedObject.get("$desktop_web_open_delay_ms").extract<string>();
+    ASSERT_EQ("3000", delayParam);
 }
