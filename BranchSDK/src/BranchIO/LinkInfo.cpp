@@ -265,14 +265,15 @@ LinkInfo::createLongUrl(Branch* branchInstance, const String& baseUrl) const {
         uri.addQueryParameter(JSONKEY_CAMPAIGN, campaign);
     }
 
-    // Take the controlParams, convert those to a string, and base64 them
-    // Note that Poco Base64 introduces by default line endings after 74?? characters.  Call setLineLength(0) to fix.
-    // Note further that Poco Base64 implementation appears to require an eol, or it doesn't complete the encoding.
     if (!_controlParams.isEmpty()) {
+        // https://gist.github.com/kidapu/0b9c2cbe98191a394c80
+        // Base64-encode control params as data query param
         stringstream ss;
+        ss.str("");
         Poco::Base64Encoder b64enc(ss);
         b64enc.rdbuf()->setLineLength(0);
-        b64enc << _controlParams.toString() << std::endl;
+        b64enc << _controlParams.toString();
+        b64enc.close();
 
         uri.addQueryParameter(JSONKEY_DATA, ss.str());
     }
