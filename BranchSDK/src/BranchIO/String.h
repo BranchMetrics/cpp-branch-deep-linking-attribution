@@ -3,13 +3,9 @@
 #ifndef BRANCHIO_STRING_H__
 #define BRANCHIO_STRING_H__
 
-#ifdef WIN32
 #include <Windows.h>
-#endif  // WIN32
 #include <string>
-#ifdef WIN32
 #include <vector>
-#endif  // WIN32
 
 namespace BranchIO {
 
@@ -43,7 +39,6 @@ class String {
      */
     std::string str() const { return m_string; }
 
-#ifdef WIN32
     /**
      * Conversion operator from std::wstring
      * @param ws a UTF-16 string
@@ -105,7 +100,6 @@ class String {
         // look for null termination
         return std::wstring(&buffer[0], &buffer[length]);
     }
-#endif  // WIN32
 
  private:
     std::string m_string;

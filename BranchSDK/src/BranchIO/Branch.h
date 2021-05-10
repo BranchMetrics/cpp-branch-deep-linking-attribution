@@ -85,7 +85,6 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     std::string getBranchKey() const;
 
-#ifdef WIN32
     /**
      * @return the SDK Version as a UTF-16 string
      */
@@ -95,7 +94,6 @@ class BRANCHIO_DLL_EXPORT Branch {
      * @return the Branch key as a UTF-16 string
      */
     std::wstring getBranchKeyW() const;
-#endif  // WIN32
 
     /**
      * From IPackagingInfo
@@ -146,13 +144,11 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     static std::string getIdentity();
 
-#ifdef WIN32
     /**
      * Get the current developer identity as a UTF-16 string
      * @return the current developer identity (blank if none)
      */
     static std::wstring getIdentityW();
-#endif  // WIN32
 
  private:
     /**
