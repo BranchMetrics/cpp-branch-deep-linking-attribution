@@ -24,4 +24,10 @@ runtime.
 
 # version_bump.py
 
-Work in progress.
+Performs a version bump throughout the repo, updating source code, packaging &amp; example apps.
+The new version must be supplied at the command line. Suffixes such as `-beta.1` are supported.
+
+```
+> cd BranchSDK\tools
+> python version_bump.py 1.2.2-beta.1
+```
