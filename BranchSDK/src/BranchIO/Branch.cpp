@@ -17,16 +17,10 @@ using namespace std;
 #include "BranchIO/Version.h"
 #include "BranchIO/Util/RequestManager.h"
 
-// Create a string that looks like this:  "Branch Windows SDK v1.2.3"
-#define STRINGIZE2(s) #s
-#define STRINGIZE(s) STRINGIZE2(s)
-#define VER_FILE_VERSION_STR        STRINGIZE(BRANCHIO_VERSION_MAJOR)        \
-                                    "." STRINGIZE(BRANCHIO_VERSION_MINOR)    \
-                                    "." STRINGIZE(BRANCHIO_VERSION_REVISION)
-
-#define VER_FILE_VERSION_DISPLAY    "Branch "                       \
-                                    VERSION_PLATFORM  " SDK v"      \
-                                    VER_FILE_VERSION_STR
+#define _string_of(x) #x
+#define _version(maj, min, rev) _string_of(maj) "." _string_of(min) "." _string_of(rev)
+#define VER_FILE_VERSION_STR _version(BRANCHIO_VERSION_MAJOR, BRANCHIO_VERSION_MINOR, BRANCHIO_VERSION_REVISION)
+#define VER_FILE_VERSION_DISPLAY "Branch Win32 SDK v" VER_FILE_VERSION_STR
 
 namespace BranchIO {
 
@@ -335,7 +329,8 @@ Branch::getBranchKey() const {
 }
 
 string Branch::getVersion() {
-    return VER_FILE_VERSION_STR;
+    static const char* const version = VER_FILE_VERSION_STR;
+    return version;
 }
 
 wstring Branch::getVersionW() {
