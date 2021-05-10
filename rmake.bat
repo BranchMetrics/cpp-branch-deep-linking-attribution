@@ -196,13 +196,3 @@ if ERRORLEVEL 1 (
 )
 
 cd ..\..
-
-cd BranchSDK
-doxygen
-if ERRORLEVEL 1 (
-  echo Doxygen failed.
-  cd ..
-  exit /b -1
-)
-
-cd ..

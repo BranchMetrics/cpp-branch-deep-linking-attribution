@@ -46,6 +46,12 @@ jobs:
         run: |
           .\ci.bat 32
 
+      - name: Generate docs
+        working-directory: ${{env.GITHUB_WORKSPACE}}
+        run: |
+          Set-Location BranchSDK
+          .\doxygen.exe
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
