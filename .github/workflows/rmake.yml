@@ -24,16 +24,13 @@ jobs:
       # will update the cache any time it needs to rebuild Poco. This should only happen when the
       # conanfile.py changes.
       # TODO: Review this assumption. Also ~/.conan also includes profiles and settings along with the cache.
-      # The VS version might be used in the cache key as well.
       - name: Restore Conan cache, profiles, settings
         uses: actions/cache@v2
         with:
-          path: ~/.conan
-          key: ${{ runner.os }}-vs16-${{ hashFiles('conanfile.py') }}
+          path: ~/.conan/data
+          key: ${{ runner.os }}-vs16-conan-data-${{ hashFiles('conanfile.py') }}
 
-      # Note this is stored in ~/.conan and will be imported with the cache. This profile new command can fail.
       - name: Set up default conan profile
-        continue-on-error: true
         run: C:\Users\runneradmin\AppData\Roaming\Python\Python37\Scripts\conan profile new default --detect
 
       - name: 64-bit Build
