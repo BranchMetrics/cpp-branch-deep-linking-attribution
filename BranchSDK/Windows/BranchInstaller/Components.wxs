@@ -87,7 +87,6 @@
         <File Id="Releasex64.stage.include.BranchIO.Util.Sleeper.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\Sleeper.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Util.Storage.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\Storage.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Util.StringUtils.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\StringUtils.h"/>
-        <File Id="Releasex64.stage.include.BranchIO.Util.UnixStorage.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\UnixStorage.h"/>
         <File Id="Releasex64.stage.include.BranchIO.Util.WindowsStorage.h" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\include\BranchIO\Util\WindowsStorage.h"/>
       </Component>
     </ComponentGroup>
@@ -876,18 +875,18 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX64">
       <Component Directory="X64DEBUGLIBFOLDER" Guid="5a94d40d-f719-40f4-86a1-8b897cfc4b70" Id="X64DEBUGLIBFOLDER">
-        <File Id="Debugx64.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Foundation.pdb"/>
-        <File Id="Debugx64.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\JSON.pdb"/>
-        <File Id="Debugx64.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Net.pdb"/>
-        <File Id="Debugx64.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSLWin.pdb"/>
         <File Id="Debugx64.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoFoundationmdd.lib"/>
+        <File Id="Debugx64.stage.lib.PocoFoundationmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoFoundationmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJSONmdd.lib"/>
+        <File Id="Debugx64.stage.lib.PocoJSONmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJSONmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetmdd.lib"/>
+        <File Id="Debugx64.stage.lib.PocoNetmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLWinmdd.lib"/>
+        <File Id="Debugx64.stage.lib.PocoNetSSLWinmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLWinmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.lib"/>
+        <File Id="Debugx64.stage.lib.PocoUtilmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.lib"/>
-        <File Id="Debugx64.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Util.pdb"/>
-        <File Id="Debugx64.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\XML.pdb"/>
+        <File Id="Debugx64.stage.lib.PocoXMLmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.pdb"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="c9f2a7b9-560d-4ff7-bd7b-5535a60b1123" Id="X64RELEASELIBFOLDER">
         <File Id="Releasex64.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoFoundationmd.lib"/>
@@ -909,18 +908,18 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX86">
       <Component Directory="X86DEBUGLIBFOLDER" Guid="0db87ca1-c644-47df-a72e-85913578c98a" Id="X86DEBUGLIBFOLDER">
-        <File Id="Debug.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Foundation.pdb"/>
-        <File Id="Debug.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\JSON.pdb"/>
-        <File Id="Debug.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Net.pdb"/>
-        <File Id="Debug.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSLWin.pdb"/>
         <File Id="Debug.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoFoundationmdd.lib"/>
+        <File Id="Debug.stage.lib.PocoFoundationmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoFoundationmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJSONmdd.lib"/>
+        <File Id="Debug.stage.lib.PocoJSONmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJSONmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetmdd.lib"/>
+        <File Id="Debug.stage.lib.PocoNetmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLWinmdd.lib"/>
+        <File Id="Debug.stage.lib.PocoNetSSLWinmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLWinmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.lib"/>
+        <File Id="Debug.stage.lib.PocoUtilmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.lib"/>
-        <File Id="Debug.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Util.pdb"/>
-        <File Id="Debug.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\XML.pdb"/>
+        <File Id="Debug.stage.lib.PocoXMLmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.pdb"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="db6ede4d-cc8f-4c26-918a-01de8c5ea904" Id="X86RELEASELIBFOLDER">
         <File Id="Release.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoFoundationmd.lib"/>
