@@ -50,7 +50,7 @@ jobs:
         working-directory: ${{env.GITHUB_WORKSPACE}}
         run: |
           Set-Location BranchSDK
-          .\doxygen.exe
+          ..\doxygen\doxygen.exe
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
