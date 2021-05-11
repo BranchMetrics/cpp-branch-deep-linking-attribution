@@ -52,7 +52,6 @@
     <ClInclude Include="..\..\src\BranchIO\Util\Sleeper.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\Storage.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\StringUtils.h" />
-    <ClInclude Include="..\..\src\BranchIO\Util\UnixStorage.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\WindowsStorage.h" />
     <ClInclude Include="..\..\src\BranchIO\Version.h" />
   </ItemGroup>

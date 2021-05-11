@@ -135,9 +135,6 @@
     <ClInclude Include="..\..\src\BranchIO\Util\StringUtils.h">
       <Filter>Header Files\BranchIO\Util</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BranchIO\Util\UnixStorage.h">
-      <Filter>Header Files\BranchIO\Util</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\BranchIO\Util\WindowsStorage.h">
       <Filter>Header Files\BranchIO\Util</Filter>
     </ClInclude>
