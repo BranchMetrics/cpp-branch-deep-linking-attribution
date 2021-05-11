@@ -176,6 +176,13 @@ if ERRORLEVEL 1 (
   exit /b -1
 )
 
+REM For now, don't run this second build in CI. The last steps are preparation for release to conan.
+REM TODO: Refactor the batch files in this repo.
+if "%GITHUB_ACTIONS%" == "true" (
+  cd ..\..
+  exit /b 0
+)
+
 REM Install into the Conan cache
 conan create ..\.. branch/testing^
   --json conan-install.json^
