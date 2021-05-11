@@ -24,12 +24,6 @@ using namespace std;
 
 namespace BranchIO {
 
-class BranchWindows : public Branch {
- public:
-    BranchWindows() : Branch() {}
-    virtual ~BranchWindows() {}
-};
-
 using namespace std;
 
 /**
@@ -146,7 +140,7 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
 
     // Must initialize Branch object after prefix set.
     Branch* instance = nullptr;
-    instance = new BranchWindows();
+    instance = new Branch();
 
     // Set these on the current app
     if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisabled")) {

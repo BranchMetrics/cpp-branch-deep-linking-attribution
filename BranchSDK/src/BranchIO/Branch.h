@@ -47,28 +47,28 @@ class BRANCHIO_DLL_EXPORT Branch {
     /**
      * Destructor.
      */
-    virtual ~Branch();
+    ~Branch();
 
     /**
      * Initialize/Open a Branch Session.
      * @param linkUrl Referring link, or an empty string if none.
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void openSession(const String& linkUrl = "", IRequestCallback* callback = nullptr);
+    void openSession(const String& linkUrl = "", IRequestCallback* callback = nullptr);
 
     /**
      * Close a Branch Session.
      * **Note:** This function is a no-op. There is no need to call it.
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void closeSession(IRequestCallback *callback = nullptr);
+    void closeSession(IRequestCallback *callback = nullptr);
 
     /**
      * Send an event to Branch.
      * @param event BaseEvent to send
      * @param callback Callback to fire with success or failure notification.
      */
-    virtual void sendEvent(const BaseEvent &event, IRequestCallback *callback);
+    void sendEvent(const BaseEvent &event, IRequestCallback *callback);
 
     /*
      * @todo(jdee): Get rid of runtime getters for compile-time constants
