@@ -178,7 +178,7 @@ if ERRORLEVEL 1 (
 
 REM For now, don't run this second build in CI. The last steps are preparation for release to conan.
 REM TODO: Refactor the batch files in this repo.
-if "%GITHUB_ACTION%" = true (
+if "%GITHUB_ACTION%" == "true" (
   exit /b 0
 )
 
