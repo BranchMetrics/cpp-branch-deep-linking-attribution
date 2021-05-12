@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{a0f2d1c6-88ad-4fbd-af84-044b27f61ac9}</ProjectGuid>
-    <RootNamespace>TestBedLocal</RootNamespace>
+    <ProjectGuid>{f3a5bf87-3e17-4fb9-9002-86a5aba3ab9c}</ProjectGuid>
+    <RootNamespace>TestBedDistro</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -86,15 +86,17 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_og1djX2V7XDJ7bWkeGnD5enbxAiq4hcG";BRANCH_URI_SCHEME=L"testbedlocal";MUTEX_NAME=L"0c1f7da5-579a-4e4d-99cc-b34b62712ab7";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>PocoNetSSLWinmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TestBed$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)TestBed.pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -103,9 +105,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_og1djX2V7XDJ7bWkeGnD5enbxAiq4hcG";BRANCH_URI_SCHEME=L"testbedlocal";MUTEX_NAME=L"0c1f7da5-579a-4e4d-99cc-b34b62712ab7";POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -114,13 +116,14 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>PocoNetSSLWinmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TestBed$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_og1djX2V7XDJ7bWkeGnD5enbxAiq4hcG";BRANCH_URI_SCHEME=L"testbedlocal";MUTEX_NAME=L"0c1f7da5-579a-4e4d-99cc-b34b62712ab7";WIN32;DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -129,6 +132,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x64\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>PocoNetSSLWinmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TestBed$(TargetExt)</OutputFile>
+      <ProgramDatabaseFile>$(OutDir)TestBed.pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,9 +142,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_og1djX2V7XDJ7bWkeGnD5enbxAiq4hcG";BRANCH_URI_SCHEME=L"testbedlocal";MUTEX_NAME=L"0c1f7da5-579a-4e4d-99cc-b34b62712ab7";WIN32;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_hp5dyh7NazIhzwW2x8HJJakosFaQcB7j";BRANCH_URI_SCHEME=L"testbedbasic";MUTEX_NAME=L"03f1e6bf-6b92-4990-aa8a-c7eda8ce31ed";WIN32;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -148,6 +153,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>PocoNetSSLWinmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OutputFile>$(OutDir)TestBed$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -160,10 +166,14 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TestBed-Local.h" />
+    <ClInclude Include="TestBed-Distro.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="TestBed-Local.rc" />
+    <ResourceCompile Include="TestBed-Distro.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico" />
+    <Image Include="TestBed-Distro.ico" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\TestBed\BranchOperations.cpp" />
@@ -172,10 +182,6 @@
     <ClCompile Include="..\TestBed\TextField.cpp" />
     <ClCompile Include="..\TestBed\Util.cpp" />
     <ClCompile Include="..\TestBed\Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="small.ico" />
-    <Image Include="TestBed-Local.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

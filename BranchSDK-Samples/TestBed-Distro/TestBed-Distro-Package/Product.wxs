@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <Product Id="*" Name="Branch TestBed" Language="1033" Version="1.2.2" Manufacturer="Branch Metrics, Inc." UpgradeCode="b85f316f-c342-4445-b8b5-c5186eba60c3">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+    <MajorUpgrade DowngradeErrorMessage="A newer version of TestBed is already installed." />
+    <Media Cabinet="cab1.cab" EmbedCab="yes" Id="1"/>
+
+    <UIRef Id="WixUI_InstallDir_NoLic"/>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Icon Id="branch.exe" SourceFile="branch-badge-dark.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="branch.exe"/>
+    <Property Id="ARPHELPLINK" Value="https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"/>
+    <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
+    <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
+ 
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="ProgramFilesFolder">
+        <Directory Id="INSTALLFOLDER" Name="Branch TestBed (Basic)" />
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="Branch TestBed" />
+      </Directory>
+    </Directory>
+
+    <DirectoryRef Id="INSTALLFOLDER">
+      <Component Id="TestBedBinary" Guid="b5efe49a-f3f1-4623-b82e-9b2500d8f340">
+        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\Debug\TestBed.exe" KeyPath="yes" Checksum="yes">
+          <Shortcut Id="ApplicationStartMenuShortcut"
+            Name="Branch TestBed"
+            Directory="ApplicationProgramsFolder"
+            Description="TestBed QA application"
+            WorkingDirectory="INSTALLFOLDER"
+            Advertise="yes"
+            Icon="branch.exe" />
+        </File>
+        <File Id="TestBedPdb" Source="$(var.ProjectDir)..\Debug\TestBed.pdb" />
+      </Component>
+      <Component Id="WelcomePage" Guid="fc9d0d52-7c4e-4402-b189-db6711b3d154">
+        <File Id="Welcome.html" Source="$(var.ProjectDir)..\Welcome.html" KeyPath="yes">
+          <Shortcut Id="WelcomePageShortcut"
+            Name="Welcome Page"
+            Directory="ApplicationProgramsFolder"
+            Description="Welcome Page for Branch TestBed (Basic)"
+            Advertise="yes"
+            Icon="branch.exe" />
+        </File>
+        <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\branch-badge-dark.png" />
+        <File Id="WelcomePageFavicon" Source="$(var.ProjectDir)..\small.ico" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
+      </Component>
+      <Component Id="TestBedURIScheme" Guid="502eb451-4bb1-4f67-8016-ba0009fb8d6a">
+        <!-- Add Registry entries for URI redirection -->
+        <!-- testbedbasic is the URI scheme from the Branch Dashboard -->
+        <RegistryKey Root="HKCU" Key="SOFTWARE\Classes\testbed" >
+          <RegistryValue Value="Branch TestBed" Type="string" />
+          <RegistryValue Name="URL Protocol" Value="" Type="string" />
+          <RegistryKey Key="DefaultIcon">
+            <RegistryValue Value="[INSTALLFOLDER]TestBed.exe,1" Type="string"/>
+          </RegistryKey>
+          <RegistryKey Key="shell\open\command">
+            <RegistryValue Value='"[INSTALLFOLDER]TestBed.exe" "%1"' Type="string"/>
+          </RegistryKey>
+        </RegistryKey>
+      </Component>
+    </DirectoryRef>
+
+    <Feature Id="ProductFeature" Title="TestBed (Basic) Application" Level="1" AllowAdvertise="yes" TypicalDefault="advertise">
+      <ComponentRef Id="TestBedBinary" />
+      <ComponentRef Id="TestBedURIScheme"/>
+      <ComponentRef Id="WelcomePage"/>
+    </Feature>
+  </Product>
+</Wix>
