@@ -1,4 +1,5 @@
 from conans import ConanFile, CMake, tools
+from conans.errors import ConanInvalidConfiguration
 import os, shutil
 
 class BranchioConan(ConanFile):
@@ -43,6 +44,10 @@ class BranchioConan(ConanFile):
     # packages, to avoid version drift.
     requires = "Poco/1.10.1@pocoproject/stable"
     build_requires = "gtest/1.8.1@bincrafters/stable"
+
+    def validate(self):
+        if self.settings.os != "Windows":
+            raise ConanInvalidConfiguration("Windows required")
 
     def build(self):
         library_type = "shared" if self.options.shared else "static"
