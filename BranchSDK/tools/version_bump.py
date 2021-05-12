@@ -67,22 +67,24 @@ update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_MINOR\s+)(\d+)(.
 update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_REVISION\s+)(\d+)(.*)$', version_components[2])
 
 # version in shared app source code
-update_file("../../BranchSDK-Samples/Windows/TestBed/BranchOperations.cpp", r'^(.*setAppVersion\(")([0-9A-Za-z-\.]+)(".*)$', full_version)
+update_file("../../BranchSDK-Samples/TestBed/BranchOperations.cpp", r'^(.*setAppVersion\(")([0-9A-Za-z-\.]+)(".*)$', full_version)
 
 # versions in example app packaging
-# TestBed-Basic uses Wix
-update_file("../../BranchSDK-Samples/Windows/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
+# TestBed-Basic, TestBed-Distro use Wix
+update_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
+update_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Distro-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
 
 # The rest use MSIX (4-part version with .0 at the end)
-update_file("../../BranchSDK-Samples/Windows/TestBed/TestBedPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
-update_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBedLocalPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
-update_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
+update_file("../../BranchSDK-Samples/TestBed/TestBedPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
+update_file("../../BranchSDK-Samples/TestBed-Local/TestBedLocalPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
+update_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
 
 # Update .rc file in each app with version number that appears in the About dialog.
-update_binary_file("../../BranchSDK-Samples/Windows/TestBed/TestBed.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/Windows/TestBed-Local/TestBed-Local.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/Windows/TestBed-Basic/TestBed-Basic.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/Windows/TestBed-Conan/TestBed-Conan.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/TestBed/TestBed.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/TestBed-Local/TestBed-Local.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Conan.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Distro.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 
 # Now commit
 
