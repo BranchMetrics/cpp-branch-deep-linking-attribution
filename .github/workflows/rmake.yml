@@ -22,8 +22,7 @@ jobs:
       # Conan maintains its own cache in ~/.conan/data. Poco takes a long time to build from source. If
       # the version and options have not changed, Conan will not build Poco if it finds it in cache. It
       # will update the cache any time it needs to rebuild Poco. This should only happen when the
-      # conanfile.py changes.
-      # TODO: Review this assumption. Also ~/.conan also includes profiles and settings along with the cache.
+      # conanfile.py changes as long as the recipe pins to a specific version of Poco.
       - name: Restore Conan cache, profiles, settings
         uses: actions/cache@v2
         with:

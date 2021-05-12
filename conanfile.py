@@ -27,7 +27,6 @@ class BranchioConan(ConanFile):
     )
     author = "Branch Metrics, Inc <sdk-team@branch.io>"
     url = "https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution"
-    # TODO(jdee): Might not want to call this windows-
     homepage = "https://help.branch.io/developers-hub/docs/windows-cpp-sdk-overview"
 
     # ----- Package settings and options -----
@@ -38,8 +37,11 @@ class BranchioConan(ConanFile):
     exports_sources = "BranchIO"
 
     # ----- Package dependencies -----
-    # Allow patch updates to Poco
-    requires = "Poco/[~=1.10.1]@pocoproject/stable"
+    # Pin to a specific version of Poco for stability of CI and other environments using
+    # Conan. Conan recently introduced lockfiles, which may be useful for this purpose
+    # as well. For now, this is consistent with transitive dependencies in Branch Maven
+    # packages, to avoid version drift.
+    requires = "Poco/1.10.1@pocoproject/stable"
     build_requires = "gtest/1.8.1@bincrafters/stable"
 
     def build(self):
@@ -70,7 +72,7 @@ class BranchioConan(ConanFile):
 
     def test(self):
         # TODO(jdee): This isn't necessarily the right idea. The idea is to use a project
-        # that imports this one to test that we've been installed correctly.
+        # that imports this one to test that we've been installed correctly, e.g. TestBed.
         CMake(self).test()
 
     def package(self):
