@@ -55,7 +55,7 @@
     <DirectoryRef Id="INSTALLFOLDER">
       <!-- Start menu shortcuts under Branch SDK -->
       <Component Id="WelcomePage" Guid="64a4f20e-bca3-4a49-a7e0-3dcf21b8dec6">
-        <File Id="Welcome.html" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Distro\Welcome.html" KeyPath="yes">
+        <File Id="Welcome.html" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\TestBed-Distro\Welcome.html" KeyPath="yes">
           <Shortcut Id="WelcomePageShortcut"
             Name="Welcome Page"
             Directory="ApplicationProgramsFolder"
@@ -63,12 +63,12 @@
             Advertise="yes"
             Icon="branch.exe" />
         </File>
-        <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Distro\branch-badge-dark.png" />
-        <File Id="WelcomePageFavicon" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Distro\small.ico" />
+        <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\TestBed-Distro\branch-badge-dark.png" />
+        <File Id="WelcomePageFavicon" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\TestBed-Distro\small.ico" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
       </Component>
       <Component Id="TestBedBinary" Guid="53ac529a-bde3-4664-9003-bda705372ea7">
-        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Distro\Debug\TestBed.exe" KeyPath="yes" Checksum="yes">
+        <File Id="TestBedBinaryFile" Source="$(var.ProjectDir)Debug\TestBed.exe" KeyPath="yes" Checksum="yes">
           <Shortcut Id="ApplicationStartMenuShortcut"
             Name="Branch TestBed"
             Directory="ApplicationProgramsFolder"
@@ -77,7 +77,7 @@
             Advertise="yes"
             Icon="branch.exe" />
         </File>
-        <File Id="TestBedPdb" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\Windows\TestBed-Distro\Debug\TestBed.pdb" />
+        <File Id="TestBedPdb" Source="$(var.ProjectDir)Debug\TestBed.pdb" />
       </Component>
       <Component Id="TestBedURIScheme" Guid="32616d7d-b63b-425d-b567-8fb8df9aabfa">
         <!-- Add Registry entries for URI redirection -->
