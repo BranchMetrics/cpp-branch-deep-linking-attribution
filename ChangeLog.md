@@ -1,3 +1,10 @@
+## 2021-05-13  Version 1.2.2
+  * [INTENG-12752] Fix long URL generation.
+  * Added Get Long URL button to TestBed.
+  * Added generated documentation (via Doxygen) to MSI distribution.
+  * Removed all Unix support. Moved all examples to BranchSDK-Samples from BranchSDK-Samples/Windows.
+  * Work on automation and distribution.
+
 ## 2021-03-16  Version 1.2.1
   * Updated to Poco 1.10.1.
   * Removed OpenSSL & zlib from distribution (unused on Windows).
