@@ -87,8 +87,8 @@ update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Conan.rc", r'^
 update_binary_file("../../BranchSDK-Samples/TestBed-Distro/TestBed-Distro.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 
 # Version in Welcome.html
-update_file("../../BranchSDK-Samples/TestBed-Basic/Welcome.html", r'^(<h2>Release )(.*)(</h2>\s*)$', full_version)
-update_file("../../BranchSDK-Samples/TestBed-Distro/Welcome.html", r'^(<h2>Release )(.*)(</h2>\s*)$', full_version)
+update_file("../../BranchSDK-Samples/TestBed-Basic/Welcome.html", r'^(.*Release )(.*)(\<.*)$', full_version)
+update_file("../../BranchSDK-Samples/TestBed-Distro/Welcome.html", r'^(.*Release )(.*)(\<.*)$', full_version)
 
 # Now commit
 
