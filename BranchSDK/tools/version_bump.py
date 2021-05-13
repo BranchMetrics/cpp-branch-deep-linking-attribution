@@ -72,7 +72,7 @@ update_file("../../BranchSDK-Samples/TestBed/BranchOperations.cpp", r'^(.*setApp
 # versions in example app packaging
 # TestBed-Basic, TestBed-Distro use Wix
 update_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
-update_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Distro-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
+update_file("../../BranchSDK-Samples/TestBed-Distro/TestBed-Distro-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
 
 # The rest use MSIX (4-part version with .0 at the end)
 update_file("../../BranchSDK-Samples/TestBed/TestBedPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
