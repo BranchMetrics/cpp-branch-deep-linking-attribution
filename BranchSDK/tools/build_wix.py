@@ -256,9 +256,11 @@ third_party_licenses = make_component_elem(third_party_headers, "ThirdPartyLicen
 make_file_elem(third_party_licenses, "PocoLicense", "$(var.ProjectDir)\\..\\..\\..\\build\\Releasex64\\stage\\licenses\\LICENSE-Poco.txt")
 
 wix_components(docs, os.path.abspath("..\\docs\\html"))
+# The File element for C:\Program Files (x86)\Branch SDK\docs\html\index.html, to be opened by the start menu shortcut
 file_component = docs.find("./Component/File[@Id='docs.html.index.html']")
-SubElement(file_component, "Shortcut", {"Id": "SDKReferenceShortcut", "Name": "Branch SDK Reference", "Description": "Generated Branch SDK reference documentation.", "Advertise": "yes", "Icon": "branch.exe", "Directory": "ApplicationProgramsFolder"})
 file_component.set("KeyPath", "yes")
+# Add a Shortcut subelement to make the start menu shortcut entry
+SubElement(file_component, "Shortcut", {"Id": "SDKReferenceShortcut", "Name": "Branch SDK Reference Documentation", "Description": "Generated Branch SDK reference documentation.", "Advertise": "yes", "Icon": "branch.exe", "Directory": "ApplicationProgramsFolder"})
 
 # The BranchIO.lib sits in the same lib folder with the third-party libs. This
 # is as it should be, to avoid making devs pass multiple library paths at

@@ -86,6 +86,10 @@ update_binary_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic.rc", r'^
 update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Conan.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Distro.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 
+# Version in Welcome.html
+update_file("../../BranchSDK-Samples/TestBed/Welcome.html", r'^(<h2>Release )(.*)(</h2>\s*)$', full_version)
+update_file("../../BranchSDK-Samples/TestBed-Distro/Welcome.html", r'^(<h2>Release )(.*)(</h2>\s*)$', full_version)
+
 # Now commit
 
 os.system('git commit -a -m"Version bump to ' + full_version + '"')

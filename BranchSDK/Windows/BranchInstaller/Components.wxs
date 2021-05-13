@@ -1089,7 +1089,7 @@
         <File Id="docs.html.fwd_8h_source.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\fwd_8h_source.html"/>
         <File Id="docs.html.hierarchy.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\hierarchy.html"/>
         <File Id="docs.html.index.html" KeyPath="yes" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\index.html">
-          <Shortcut Advertise="yes" Description="Generated Branch SDK reference documentation." Directory="ApplicationProgramsFolder" Icon="branch.exe" Id="SDKReferenceShortcut" Name="Branch SDK Reference"/>
+          <Shortcut Advertise="yes" Description="Generated Branch SDK reference documentation." Directory="ApplicationProgramsFolder" Icon="branch.exe" Id="SDKReferenceShortcut" Name="Branch SDK Reference Documentation"/>
         </File>
         <File Id="docs.html.jquery.js" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\jquery.js"/>
         <File Id="docs.html.menu.js" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\menu.js"/>
