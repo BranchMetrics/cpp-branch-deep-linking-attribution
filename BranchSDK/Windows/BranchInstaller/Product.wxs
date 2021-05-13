@@ -53,7 +53,6 @@
     </Feature>
     <Feature Id="BranchDocumentation" Title="Branch SDK Documentation" Description="Generated SDK documentation, installed locally.">
       <ComponentGroupRef Id="BranchDocs"/>
-      <ComponentRef Id="SDKDocsShortcut"/>
     </Feature>
 
     <DirectoryRef Id="INSTALLFOLDER">
@@ -69,14 +68,6 @@
         </File>
         <File Id="WelcomePageBackground" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\TestBed-Distro\branch-badge-dark.png" />
         <File Id="WelcomePageFavicon" Source="$(var.ProjectDir)..\..\..\BranchSDK-Samples\TestBed-Distro\small.ico" />
-        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
-      </Component>
-      <Component Id="SDKDocsShortcut" Guid="a098dc4e-9c14-46ac-acdf-ffcaf27b960e">
-        <Shortcut Id="index.html.shortcut"
-          Name="SDK Reference"
-          Description="Branch SDK reference documentation."
-          Target="[#docs.html.index.html]"
-          Icon="branch.exe" />
         <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" Directory="ApplicationProgramsFolder"/>
       </Component>
       <Component Id="TestBedBinary" Guid="53ac529a-bde3-4664-9003-bda705372ea7">
