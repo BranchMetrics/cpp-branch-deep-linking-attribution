@@ -28,7 +28,7 @@
 
     <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
-    <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Display="expand" Description="Core Branch SDK (required).">
+    <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Description="Core Branch SDK (required).">
       <ComponentGroupRef Id="BranchHeaders"/>
       <ComponentRef Id="WelcomePage"/>
       <Feature Id="BranchSDKX64Feature" Title="64-bit Libraries" Description="64-bit Branch SDK libraries.">

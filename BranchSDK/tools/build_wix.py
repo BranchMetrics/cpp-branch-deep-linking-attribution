@@ -62,7 +62,11 @@ def file_identifier(path):
     #  Identifiers may contain ASCII characters A-Z, a-z, digits,
     #  underscores (_), or periods (.).  Every identifier must
     #  begin with either a letter or an underscore.
-    return path.replace(build_root + os.sep, "").replace(repo_root + os.sep, "").replace("BranchSDK" + os.sep, "").replace("~", "_").replace("-", "").replace(os.sep, ".")
+    # Also limited to 72 chars.
+    file_id = path.replace(build_root + os.sep, "").replace(repo_root + os.sep, "").replace("BranchSDK" + os.sep, "").replace("~", "_").replace("-", "").replace(os.sep, ".")
+
+    # Just truncate for now.
+    return file_id[:72] if len(file_id) > 72 else file_id
 
 # Find all subdirectories to all depths. Returns a flat list, for
 # a ComponentGroup.
@@ -220,7 +224,6 @@ license_folder = make_directory_elem(branch_sdk_install_folder, "LICENSEFOLDER",
 docs_folder = make_directory_elem(branch_sdk_install_folder, "docs", "docs")
 html_folder = make_directory_elem(docs_folder, "docs.html", "html")
 make_directory_elem(html_folder, "docs.html.search", "search")
-make_directory_elem(docs_folder, "docs.latex", "latex")
 x64_lib_folder = make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
 x86_lib_folder = make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
 make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
@@ -252,7 +255,7 @@ wix_components(third_party_headers, os.path.join(include_root, "Poco"))
 third_party_licenses = make_component_elem(third_party_headers, "ThirdPartyLicenses", "LICENSEFOLDER")
 make_file_elem(third_party_licenses, "PocoLicense", "$(var.ProjectDir)\\..\\..\\..\\build\\Releasex64\\stage\\licenses\\LICENSE-Poco.txt")
 
-wix_components(docs, os.path.abspath("..\\docs"))
+wix_components(docs, os.path.abspath("..\\docs\\html"))
 
 # The BranchIO.lib sits in the same lib folder with the third-party libs. This
 # is as it should be, to avoid making devs pass multiple library paths at

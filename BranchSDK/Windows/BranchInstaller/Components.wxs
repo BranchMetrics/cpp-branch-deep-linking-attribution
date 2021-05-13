@@ -43,7 +43,6 @@
             <Directory Id="docs.html" Name="html">
               <Directory Id="docs.html.search" Name="search"/>
             </Directory>
-            <Directory Id="docs.latex" Name="latex"/>
           </Directory>
         </Directory>
       </Directory>
@@ -881,18 +880,18 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX64">
       <Component Directory="X64DEBUGLIBFOLDER" Guid="5a94d40d-f719-40f4-86a1-8b897cfc4b70" Id="X64DEBUGLIBFOLDER">
+        <File Id="Debugx64.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Foundation.pdb"/>
+        <File Id="Debugx64.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\JSON.pdb"/>
+        <File Id="Debugx64.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Net.pdb"/>
+        <File Id="Debugx64.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\NetSSLWin.pdb"/>
         <File Id="Debugx64.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoFoundationmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoFoundationmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoFoundationmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJSONmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoJSONmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoJSONmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoNetmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLWinmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoNetSSLWinmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoNetSSLWinmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoUtilmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoUtilmdd.pdb"/>
         <File Id="Debugx64.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.lib"/>
-        <File Id="Debugx64.stage.lib.PocoXMLmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\PocoXMLmdd.pdb"/>
+        <File Id="Debugx64.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\Util.pdb"/>
+        <File Id="Debugx64.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debugx64\stage\lib\XML.pdb"/>
       </Component>
       <Component Directory="X64RELEASELIBFOLDER" Guid="c9f2a7b9-560d-4ff7-bd7b-5535a60b1123" Id="X64RELEASELIBFOLDER">
         <File Id="Releasex64.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Releasex64\stage\lib\PocoFoundationmd.lib"/>
@@ -914,18 +913,18 @@
     </ComponentGroup>
     <ComponentGroup Id="ThirdPartyLibrariesX86">
       <Component Directory="X86DEBUGLIBFOLDER" Guid="0db87ca1-c644-47df-a72e-85913578c98a" Id="X86DEBUGLIBFOLDER">
+        <File Id="Debug.stage.lib.Foundation.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Foundation.pdb"/>
+        <File Id="Debug.stage.lib.JSON.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\JSON.pdb"/>
+        <File Id="Debug.stage.lib.Net.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Net.pdb"/>
+        <File Id="Debug.stage.lib.NetSSLWin.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\NetSSLWin.pdb"/>
         <File Id="Debug.stage.lib.PocoFoundationmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoFoundationmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoFoundationmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoFoundationmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoJSONmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJSONmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoJSONmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoJSONmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoNetmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoNetmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoNetSSLWinmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLWinmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoNetSSLWinmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoNetSSLWinmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoUtilmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoUtilmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoUtilmdd.pdb"/>
         <File Id="Debug.stage.lib.PocoXMLmdd.lib" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.lib"/>
-        <File Id="Debug.stage.lib.PocoXMLmdd.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\PocoXMLmdd.pdb"/>
+        <File Id="Debug.stage.lib.Util.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\Util.pdb"/>
+        <File Id="Debug.stage.lib.XML.pdb" Source="$(var.ProjectDir)\..\..\..\build\Debug\stage\lib\XML.pdb"/>
       </Component>
       <Component Directory="X86RELEASELIBFOLDER" Guid="db6ede4d-cc8f-4c26-918a-01de8c5ea904" Id="X86RELEASELIBFOLDER">
         <File Id="Release.stage.lib.PocoFoundationmd.lib" Source="$(var.ProjectDir)\..\..\..\build\Release\stage\lib\PocoFoundationmd.lib"/>
@@ -937,7 +936,6 @@
       </Component>
     </ComponentGroup>
     <ComponentGroup Id="BranchDocs">
-      <Component Directory="docs" Guid="c710daf8-3768-498c-9278-b2f458e3abdc" Id="docs"/>
       <Component Directory="docs.html" Guid="4e86c7c7-a354-48bf-8bde-fbe36fa26692" Id="docs.html">
         <File Id="docs.html.annotated.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\annotated.html"/>
         <File Id="docs.html.bc_s.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\bc_s.png"/>
@@ -957,10 +955,6 @@
         <File Id="docs.html.class_branch_i_o_1_1_base_event.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_base_event.png"/>
         <File Id="docs.html.class_branch_i_o_1_1_branchmembers.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_branch-members.html"/>
         <File Id="docs.html.class_branch_i_o_1_1_branch.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_branch.html"/>
-        <File Id="docs.html.class_branch_i_o_1_1_branch.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_branch.png"/>
-        <File Id="docs.html.class_branch_i_o_1_1_branch_windowsmembers.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_branch_windows-members.html"/>
-        <File Id="docs.html.class_branch_i_o_1_1_branch_windows.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_branch_windows.html"/>
-        <File Id="docs.html.class_branch_i_o_1_1_branch_windows.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_branch_windows.png"/>
         <File Id="docs.html.class_branch_i_o_1_1_custom_eventmembers.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_custom_event-members.html"/>
         <File Id="docs.html.class_branch_i_o_1_1_custom_event.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_custom_event.html"/>
         <File Id="docs.html.class_branch_i_o_1_1_custom_event.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\class_branch_i_o_1_1_custom_event.png"/>
@@ -1116,7 +1110,7 @@
         <File Id="docs.html.struct_branch_i_o_1_1_i_string_convertiblemembers.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\struct_branch_i_o_1_1_i_string_convertible-members.html"/>
         <File Id="docs.html.struct_branch_i_o_1_1_i_string_convertible.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\struct_branch_i_o_1_1_i_string_convertible.html"/>
         <File Id="docs.html.struct_branch_i_o_1_1_i_string_convertible.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\struct_branch_i_o_1_1_i_string_convertible.png"/>
-        <File Id="docs.html.struct_branch_i_o_1_1_request_manager_1_1_request_taskmembers.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\struct_branch_i_o_1_1_request_manager_1_1_request_task-members.html"/>
+        <File Id="docs.html.struct_branch_i_o_1_1_request_manager_1_1_request_taskmembers." Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\struct_branch_i_o_1_1_request_manager_1_1_request_task-members.html"/>
         <File Id="docs.html.struct_branch_i_o_1_1_request_manager_1_1_request_task.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\struct_branch_i_o_1_1_request_manager_1_1_request_task.html"/>
         <File Id="docs.html.struct_branch_i_o_1_1_request_manager_1_1_request_task.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\struct_branch_i_o_1_1_request_manager_1_1_request_task.png"/>
         <File Id="docs.html.sync_off.png" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\sync_off.png"/>
@@ -1160,86 +1154,6 @@
         <File Id="docs.html._string_utils_8h_source.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\_string_utils_8h_source.html"/>
         <File Id="docs.html._version_8h_source.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\_version_8h_source.html"/>
         <File Id="docs.html._windows_storage_8h_source.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\_windows_storage_8h_source.html"/>
-      </Component>
-      <Component Directory="docs.latex" Guid="91152cb9-80fc-45cc-94fa-adbae976f166" Id="docs.latex">
-        <File Id="docs.latex.annotated.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\annotated.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_advertiser_info.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_advertiser_info.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_advertiser_info.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_advertiser_info.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_app_info.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_app_info.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_app_info.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_app_info.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_a_p_i_client_session.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_a_p_i_client_session.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_a_p_i_client_session.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_a_p_i_client_session.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_base_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_base_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_base_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_base_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_branch.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_branch.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_branch.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_branch.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_branch_windows.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_branch_windows.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_branch_windows.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_branch_windows.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_custom_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_custom_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_custom_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_custom_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_defines.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_defines.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_device_info.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_device_info.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_device_info.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_device_info.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_identity_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_identity_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_identity_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_identity_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_identity_login_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_identity_login_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_identity_login_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_identity_login_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_identity_logout_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_identity_logout_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_identity_logout_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_identity_logout_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_i_request_callback.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_i_request_callback.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_i_request_callback.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_i_request_callback.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_j_s_o_n_object.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_j_s_o_n_object.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_j_s_o_n_object.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_j_s_o_n_object.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_link_info.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_link_info.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_link_info.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_link_info.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_log.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_log.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_mac_address.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_mac_address.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_mac_address.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_mac_address.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_packaging_info.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_packaging_info.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_packaging_info.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_packaging_info.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_property_manager.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_property_manager.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_property_manager.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_property_manager.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_request.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_request.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_request_manager.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_request_manager.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_request_manager.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_request_manager.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_callback.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_callback.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_callback.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_callback.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_info.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_info.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_info.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_info.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_open_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_open_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_open_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_open_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_view_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_view_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_session_view_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_session_view_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_sleeper.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_sleeper.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_standard_event.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_standard_event.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_standard_event.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_standard_event.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_string.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_string.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_string_utils.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_string_utils.tex"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_windows_storage.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_windows_storage.eps"/>
-        <File Id="docs.latex.class_branch_i_o_1_1_windows_storage.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\class_branch_i_o_1_1_windows_storage.tex"/>
-        <File Id="docs.latex.doxygen.sty" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\doxygen.sty"/>
-        <File Id="docs.latex.hierarchy.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\hierarchy.tex"/>
-        <File Id="docs.latex.index.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\index.tex"/>
-        <File Id="docs.latex.longtable_doxygen.sty" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\longtable_doxygen.sty"/>
-        <File Id="docs.latex.make.bat" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\make.bat"/>
-        <File Id="docs.latex.Makefile" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\Makefile"/>
-        <File Id="docs.latex.refman.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\refman.tex"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_client_session.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_client_session.eps"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_client_session.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_client_session.tex"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_packaging_info.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_packaging_info.eps"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_packaging_info.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_packaging_info.tex"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_storage.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_storage.eps"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_storage.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_storage.tex"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_string_convertible.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_string_convertible.eps"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_i_string_convertible.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_i_string_convertible.tex"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_request_manager_1_1_request_task.eps" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_request_manager_1_1_request_task.eps"/>
-        <File Id="docs.latex.struct_branch_i_o_1_1_request_manager_1_1_request_task.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\struct_branch_i_o_1_1_request_manager_1_1_request_task.tex"/>
-        <File Id="docs.latex.tabu_doxygen.sty" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\tabu_doxygen.sty"/>
-        <File Id="docs.latex.todo.tex" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\latex\todo.tex"/>
       </Component>
       <Component Directory="docs.html.search" Guid="8b0fea3e-2c81-4b66-a86b-119b5583a65c" Id="docs.html.search">
         <File Id="docs.html.search.all_0.html" Source="$(var.ProjectDir)\..\..\..\BranchSDK\docs\html\search\all_0.html"/>
