@@ -256,6 +256,9 @@ third_party_licenses = make_component_elem(third_party_headers, "ThirdPartyLicen
 make_file_elem(third_party_licenses, "PocoLicense", "$(var.ProjectDir)\\..\\..\\..\\build\\Releasex64\\stage\\licenses\\LICENSE-Poco.txt")
 
 wix_components(docs, os.path.abspath("..\\docs\\html"))
+file_component = docs.find("./Component/File[@Id='docs.html.index.html']")
+SubElement(file_component, "Shortcut", {"Id": "SDKReferenceShortcut", "Name": "Branch SDK Reference", "Description": "Generated Branch SDK reference documentation.", "Advertise": "yes", "Icon": "branch.exe", "Directory": "ApplicationProgramsFolder"})
+file_component.set("KeyPath", "yes")
 
 # The BranchIO.lib sits in the same lib folder with the third-party libs. This
 # is as it should be, to avoid making devs pass multiple library paths at
