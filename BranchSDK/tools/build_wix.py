@@ -56,12 +56,17 @@ def prettify(elem):
 
 # Method used to generate a unique identifier for a file or directory.
 def file_identifier(path):
-    build_root = os.path.abspath(os.path.dirname(__file__) + "../../build")
+    repo_root = os.path.abspath(os.path.dirname(__file__) + "../..")
+    build_root = os.path.join(repo_root, "build")
     # Wix error message:
     #  Identifiers may contain ASCII characters A-Z, a-z, digits,
     #  underscores (_), or periods (.).  Every identifier must
     #  begin with either a letter or an underscore.
-    return path.replace(build_root + os.sep, "").replace(os.sep, ".")
+    # Also limited to 72 chars.
+    file_id = path.replace(build_root + os.sep, "").replace(repo_root + os.sep, "").replace("BranchSDK" + os.sep, "").replace("~", "_").replace("-", "").replace(os.sep, ".")
+
+    # Just truncate for now.
+    return file_id[:72] if len(file_id) > 72 else file_id
 
 # Find all subdirectories to all depths. Returns a flat list, for
 # a ComponentGroup.
@@ -216,6 +221,9 @@ wix_directory(branch_sdk_install_folder, include_root)
 
 lib_folder = make_directory_elem(branch_sdk_install_folder, "LIBFOLDER", "lib")
 license_folder = make_directory_elem(branch_sdk_install_folder, "LICENSEFOLDER", "licenses")
+docs_folder = make_directory_elem(branch_sdk_install_folder, "docs", "docs")
+html_folder = make_directory_elem(docs_folder, "docs.html", "html")
+make_directory_elem(html_folder, "docs.html.search", "search")
 x64_lib_folder = make_directory_elem(lib_folder, "X64LIBFOLDER", "x64")
 x86_lib_folder = make_directory_elem(lib_folder, "X86LIBFOLDER", "x86")
 make_directory_elem(x64_lib_folder, "X64DEBUGLIBFOLDER", "Debug")
@@ -238,6 +246,7 @@ branch_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchL
 third_party_libraries_x64 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX64"})
 branch_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchLibrariesX86"})
 third_party_libraries_x86 = SubElement(cg_fragment, "ComponentGroup", {"Id": "ThirdPartyLibrariesX86"})
+docs = SubElement(cg_fragment, "ComponentGroup", {"Id": "BranchDocs"})
 
 # Use wix_components to generate the contents of each of the
 # CG elements above.
@@ -245,6 +254,13 @@ wix_components(branch_headers, os.path.join(include_root, "BranchIO"))
 wix_components(third_party_headers, os.path.join(include_root, "Poco"))
 third_party_licenses = make_component_elem(third_party_headers, "ThirdPartyLicenses", "LICENSEFOLDER")
 make_file_elem(third_party_licenses, "PocoLicense", "$(var.ProjectDir)\\..\\..\\..\\build\\Releasex64\\stage\\licenses\\LICENSE-Poco.txt")
+
+wix_components(docs, os.path.abspath("..\\docs\\html"))
+# The File element for C:\Program Files (x86)\Branch SDK\docs\html\index.html, to be opened by the start menu shortcut
+file_component = docs.find("./Component/File[@Id='docs.html.index.html']")
+file_component.set("KeyPath", "yes")
+# Add a Shortcut subelement to make the start menu shortcut entry
+SubElement(file_component, "Shortcut", {"Id": "SDKReferenceShortcut", "Name": "Branch SDK Reference Documentation", "Description": "Generated Branch SDK reference documentation.", "Advertise": "yes", "Icon": "branch.exe", "Directory": "ApplicationProgramsFolder"})
 
 # The BranchIO.lib sits in the same lib folder with the third-party libs. This
 # is as it should be, to avoid making devs pass multiple library paths at

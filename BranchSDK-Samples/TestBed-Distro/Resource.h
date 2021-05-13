@@ -1,16 +1,16 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by TestBed-Basic.rc
+// Used by TestBed-Distro.rc
 //
 #define IDC_MYICON                      2
-#define IDD_TESTBEDBASIC_DIALOG         102
+#define IDD_TESTBEDDISTRO_DIALOG         102
 #define IDS_APP_TITLE                   103
 #define IDD_ABOUTBOX                    103
 #define IDM_ABOUT                       104
 #define IDM_EXIT                        105
-#define IDI_TESTBEDBASIC                107
+#define IDI_TESTBEDDISTRO                107
 #define IDI_SMALL                       108
-#define IDC_TESTBEDBASIC                109
+#define IDC_TESTBEDDISTRO                109
 #define IDC_TESTBED                     109
 #define IDR_MAINFRAME                   128
 #define IDC_STATIC                      -1

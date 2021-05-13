@@ -72,7 +72,7 @@ update_file("../../BranchSDK-Samples/TestBed/BranchOperations.cpp", r'^(.*setApp
 # versions in example app packaging
 # TestBed-Basic, TestBed-Distro use Wix
 update_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
-update_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Distro-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
+update_file("../../BranchSDK-Samples/TestBed-Distro/TestBed-Distro-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
 
 # The rest use MSIX (4-part version with .0 at the end)
 update_file("../../BranchSDK-Samples/TestBed/TestBedPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
@@ -84,7 +84,11 @@ update_binary_file("../../BranchSDK-Samples/TestBed/TestBed.rc", r'^(.*LTEXT.*Ve
 update_binary_file("../../BranchSDK-Samples/TestBed-Local/TestBed-Local.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 update_binary_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
 update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Conan.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Distro.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+update_binary_file("../../BranchSDK-Samples/TestBed-Distro/TestBed-Distro.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
+
+# Version in Welcome.html
+update_file("../../BranchSDK-Samples/TestBed-Basic/Welcome.html", r'^(.*Release )(.*)(\<.*)$', full_version)
+update_file("../../BranchSDK-Samples/TestBed-Distro/Welcome.html", r'^(.*Release )(.*)(\<.*)$', full_version)
 
 # Now commit
 

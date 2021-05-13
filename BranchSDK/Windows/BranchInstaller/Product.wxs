@@ -28,28 +28,31 @@
 
     <WixVariable Id="WixUIDialogBmp" Value="branch-background.bmp"/>
     <WixVariable Id="WixUIBannerBmp" Value="branch-banner.bmp"/>
-    <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Display="expand" Description="Core Branch SDK (required)">
+    <Feature Id="BranchSDKFeature" Title="Branch SDK" Absent="disallow" Description="Core Branch SDK (required).">
       <ComponentGroupRef Id="BranchHeaders"/>
       <ComponentRef Id="WelcomePage"/>
-      <Feature Id="BranchSDKX64Feature" Title="64-bit Libraries" Description="64-bit Branch SDK libraries">
+      <Feature Id="BranchSDKX64Feature" Title="64-bit Libraries" Description="64-bit Branch SDK libraries.">
         <ComponentGroupRef Id="BranchLibrariesX64"/>
       </Feature>
-      <Feature Id="BranchSDKX86Feature" Title="32-bit Libraries" Description="32-bit Branch SDK libraries">
+      <Feature Id="BranchSDKX86Feature" Title="32-bit Libraries" Description="32-bit Branch SDK libraries.">
         <ComponentGroupRef Id="BranchLibrariesX86"/>
       </Feature>
     </Feature>
     <Feature Id="ThirdPartyLibsFeature" Title="Third-Party Libraries" Description="Poco 1.10.1. Installed in the same location as the Branch SDK.">
       <ComponentGroupRef Id="ThirdPartyHeaders"/>
-      <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco libraries">
+      <Feature Id="ThirdPartyX64Feature" Title="64-bit Libraries" Description="64-bit Poco libraries.">
         <ComponentGroupRef Id="ThirdPartyLibrariesX64"/>
       </Feature>
-      <Feature Id="ThirdPartyX86Feature" Title="32-bit Libraries" Description="32-bit Poco libraries">
+      <Feature Id="ThirdPartyX86Feature" Title="32-bit Libraries" Description="32-bit Poco libraries.">
         <ComponentGroupRef Id="ThirdPartyLibrariesX86"/>
       </Feature>
     </Feature>
-    <Feature Id="TestBedApp" Title="TestBed Demo Application" Description="Branch TestBed demo application">
+    <Feature Id="TestBedApp" Title="TestBed Demo Application" Description="Branch TestBed demo application.">
       <ComponentRef Id="TestBedBinary"/>
       <ComponentRef Id="TestBedURIScheme"/>
+    </Feature>
+    <Feature Id="BranchDocumentation" Title="Branch SDK Documentation" Description="Generated SDK documentation, installed locally.">
+      <ComponentGroupRef Id="BranchDocs"/>
     </Feature>
 
     <DirectoryRef Id="INSTALLFOLDER">
