@@ -8,6 +8,7 @@ Release
 /bin
 /cmake-build-debug
 /cmake-build-release
+*.assets.cache
 
 *.swp
 *.log
