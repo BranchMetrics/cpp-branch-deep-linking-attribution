@@ -9,7 +9,7 @@
   <Identity
     Name="7dad590b-3b99-43f8-a027-fe84615ff35c"
     Publisher="CN=Branch Metrics, C=US"
-    Version="1.2.2.0" />
+    Version="1.2.3.0" />
 
   <Properties>
     <DisplayName>Branch TestBed (Conan)</DisplayName>

@@ -9,7 +9,7 @@
   <Identity
     Name="144cb4b1-60b9-40ab-ad84-b335d5d28d05"
     Publisher="CN=Branch Metrics, C=US"
-    Version="1.2.2.0" />
+    Version="1.2.3.0" />
 
   <Properties>
     <DisplayName>Branch TestBed (Local)</DisplayName>

@@ -110,7 +110,7 @@ BranchOperations::initBranch(const std::wstring& branchKey, const std::wstring& 
 
     // Now initialize the SDK
     AppInfo appInfo;
-    appInfo.setAppVersion("1.2.2");
+    appInfo.setAppVersion("1.2.3");
 
     branch = Branch::create(branchKey, &appInfo);
 
