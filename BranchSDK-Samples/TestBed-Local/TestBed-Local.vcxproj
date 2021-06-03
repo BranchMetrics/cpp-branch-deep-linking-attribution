@@ -177,6 +177,11 @@
     <Image Include="small.ico" />
     <Image Include="TestBed-Local.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\BranchSDK\Windows\BranchIO-Static\BranchIO-Static.vcxproj">
+      <Project>{4f51dc46-1a0e-467d-8ca4-af37e134c0a4}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
