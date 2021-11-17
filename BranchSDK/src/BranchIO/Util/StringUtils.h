@@ -5,6 +5,7 @@
 
 #include <string>
 
+
 namespace BranchIO {
 
 /**
@@ -41,6 +42,47 @@ class StringUtils {
      */
     static bool contains(const std::string& str, const std::string& substring) {
         return str.find(substring) != std::string::npos;
+    }
+
+    /**
+    * Converts UTF-8 string to wstring.
+    * @param string string - input
+    * @return wstring - converted string if not empty. If empty or error occurs it returns ""
+    */
+    static std::wstring utf8_to_wstring(const std::string& string) {
+        if (string.empty()){
+            return L"";
+        }
+
+        const auto size_needed = MultiByteToWideChar(CP_UTF8, 0, &string.at(0), (int)string.size(), nullptr, 0);
+        if (size_needed <= 0){
+            return L"";
+        }
+
+        std::wstring result(size_needed, 0);
+        MultiByteToWideChar(CP_UTF8, 0, &string.at(0), (int)string.size(), &result.at(0), size_needed);
+        return result;
+    }
+
+    /**
+    * Converts wstring to UTF-8 string.
+    * @param wstring wide_string - input
+    * @return string - converted string if not empty. If empty or error occurs it returns ""
+    */
+    // convert wstring to UTF-8 string
+    static std::string wstring_to_utf8(const std::wstring& wide_string) {
+        if (wide_string.empty()){
+            return "";
+        }
+
+        const auto size_needed = WideCharToMultiByte(CP_UTF8, 0, &wide_string.at(0), (int)wide_string.size(), nullptr, 0, nullptr, nullptr);
+        if (size_needed <= 0){
+            return "";
+        }
+
+        std::string result(size_needed, 0);
+        WideCharToMultiByte(CP_UTF8, 0, &wide_string.at(0), (int)wide_string.size(), &result.at(0), size_needed, nullptr, nullptr);
+        return result;
     }
 };
 

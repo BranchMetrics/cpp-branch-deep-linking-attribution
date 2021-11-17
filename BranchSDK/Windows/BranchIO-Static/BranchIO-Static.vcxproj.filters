@@ -210,4 +210,7 @@
       <Filter>Source Files\BranchIO\Event</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

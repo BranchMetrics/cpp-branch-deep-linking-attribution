@@ -2,8 +2,6 @@
 
 #include "RequestManager.h"
 
-#include <Poco/Net/PrivateKeyPassphraseHandler.h>
-#include <Poco/Net/SSLManager.h>
 #include <Poco/TaskNotification.h>
 #include <cassert>
 
@@ -14,7 +12,6 @@
 #include "BranchIO/Util/Storage.h"
 
 using namespace Poco;
-using Poco::Net::Context;
 
 namespace BranchIO {
 
@@ -25,14 +22,6 @@ RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *cl
     _clientSession(clientSession),
     _shuttingDown(false),
     _currentRequest(nullptr) {
-    /*
-     * Note that the following call will always generate an exception warning message in Visual Studio like:
-     * Exception thrown at 0x00007FF87DB8D759 in TestBed-Local.exe: Microsoft C++ exception: Poco::Net::NoCertificateException at memory location 0x000000FD251FC1F0.
-     * This is deliberately thrown by Poco internally when initializing a secure socket:
-     * https://github.com/pocoproject/poco/blob/poco-1.10.1/NetSSL_Win/src/SecureSocketImpl.cpp#L692.
-     * This is not a fatal error. API clients do not supply a cert for authentication.
-     */
-    Poco::Net::SSLManager::instance().initializeClient(nullptr, nullptr, new Context(Context::TLS_CLIENT_USE, "" /* no client cert required */));
 }
 
 RequestManager::~RequestManager() {

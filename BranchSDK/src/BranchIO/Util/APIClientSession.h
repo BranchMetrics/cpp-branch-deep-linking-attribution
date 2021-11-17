@@ -4,8 +4,8 @@
 #define BRANCHIO_UTIL_APICLIENTSESSION_H__
 
 #include <Poco/Mutex.h>
-#include <Poco/Net/HTTPSClientSession.h>
 #include <string>
+#include <winrt/Windows.Web.Http.Headers.h>
 
 #include "BranchIO/fwd.h"
 #include "IClientSession.h"
@@ -17,8 +17,7 @@ namespace BranchIO {
  * @todo(jdee): Document
  */
 class APIClientSession
-    : public Poco::Net::HTTPSClientSession,
-      public virtual IClientSession {
+    : public virtual IClientSession {
  public:
     /**
      * @return this instance
@@ -61,24 +60,17 @@ class APIClientSession
     }
 
     /**
-     * Convenience method to send a request with its body.
-     * @param request A request to send
-     * @param body The body for the request
-     */
-    void sendRequest(Poco::Net::HTTPRequest& request, const std::string& body);
-    using Poco::Net::HTTPSClientSession::sendRequest;
-
-    /**
      * Wait for and handle the response after sending a request.
      * @param callback callback for the response/error
      * @return true on success, false otherwise
      */
-    bool processResponse(IRequestCallback& callback, JSONObject& result);
+    bool processResponse(IRequestCallback& callback, JSONObject& result, winrt::Windows::Web::Http::HttpResponseMessage& httpResponseMessage);
 
  private:
     mutable Poco::Mutex _mutex;
     std::string _urlBase;
     bool volatile _shuttingDown;
+    winrt::Windows::Web::Http::HttpClient _httpClient;
 };
 
 }  // namespace BranchIO
