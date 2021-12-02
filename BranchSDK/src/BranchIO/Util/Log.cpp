@@ -241,7 +241,6 @@ Log::makeConsoleLoggingChannel(bool enableColors) {
  */
 Log::Level
 Log::getDefaultLogLevel() {
-    const char* const envValue(getenv("BRANCHIO_LOG_LEVEL"));
     static const Level DefaultLevel(
 #ifdef DEBUG
             Debug
@@ -250,7 +249,13 @@ Log::getDefaultLogLevel() {
 #endif
             );  // NOLINT(whitespace/parens)
 
-    if (!envValue) return DefaultLevel;
+    char* envValue = nullptr;
+    size_t size = 0;
+    _dupenv_s(&envValue, &size, "BRANCHIO_LOG_LEVEL");
+
+    if (envValue == nullptr) {
+        return DefaultLevel;
+    }
 
     try {
         Level level;
@@ -268,8 +273,13 @@ Log::getDefaultLogLevel() {
  */
 std::string
 Log::getDefaultLogFile() {
-    const char* const envValue(getenv("BRANCHIO_LOG_FILE"));
-    if (!envValue) return string();
+    char* envValue = nullptr;
+    size_t size = 0;
+    _dupenv_s(&envValue, &size, "BRANCHIO_LOG_LEVEL");
+
+    if (envValue == nullptr) {
+        return string();
+    }
     return envValue;
 }
 

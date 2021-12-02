@@ -5,6 +5,7 @@
 Debug
 Release
 /build
+/stage
 /bin
 /cmake-build-debug
 /cmake-build-release

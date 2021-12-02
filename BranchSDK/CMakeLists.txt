@@ -66,15 +66,15 @@ endif()
 # ----------
 
 # Include test code
-file(GLOB TEST ${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp)
+#file(GLOB TEST ${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp)
 
 # When building a DLL on Windows, there are visibility issues. We'll always
 # have the need to unit-test internal stuff that we don't want to make
 # public with BRANCHIO_DLL_EXPORT. So we can't link unit tests against the
 # DLL. We could always build static, at least on Windows, even when building
 # shared libraries, but for now it seems best to build against source.
-add_executable(unit_tests ${TEST} ${BRANCH_SOURCE})
-target_link_libraries(unit_tests CONAN_PKG::Poco CONAN_PKG::OpenSSL CONAN_PKG::gtest)
+#add_executable(unit_tests ${TEST} ${BRANCH_SOURCE})
+#target_link_libraries(unit_tests CONAN_PKG::Poco CONAN_PKG::gtest)
 
 # Generates JUnit-style output in test_detail.xml, e.g. build/Debug/test_detail.xml.
-add_test(NAME UnitTests COMMAND unit_tests --gtest_output=xml)
+#add_test(NAME UnitTests COMMAND unit_tests --gtest_output=xml)

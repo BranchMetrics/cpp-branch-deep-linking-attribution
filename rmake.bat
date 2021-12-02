@@ -123,6 +123,9 @@ REM See https://github.com/conan-io/conan-center-index/blob/master/recipes/poco/
 
 set Poco_Options=^
   --options Poco:enable_crypto=False^
+  --options Poco:enable_netssl=False^
+  --options Poco:enable_netssl_win=True^
+  --options Poco:enable_active_record=False^
   --options Poco:enable_data=False^
   --options Poco:enable_data_mysql=False^
   --options Poco:enable_data_odbc=False^

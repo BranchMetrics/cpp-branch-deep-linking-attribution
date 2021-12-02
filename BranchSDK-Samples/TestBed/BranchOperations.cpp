@@ -26,9 +26,12 @@ BranchOperations::setupSDKLogging(const std::string& filename)
 {
     // Note: Debug and Verbose levels compiled out in Release builds
     Log::setLevel(Log::Verbose);
-    const char* appDataPath = getenv("LocalAppData");
+    char* appDataPath = nullptr;
+    size_t size = 0;
+    _dupenv_s(&appDataPath, &size, "LocalAppData");
+
     string branchLogFilePath;
-    if (appDataPath) {
+    if (appDataPath != nullptr) {
         /*
          * By default, put log file in %LocalAppData%\Branch, e.g. C:\Users\<username>\AppData\Local\Branch
          */
