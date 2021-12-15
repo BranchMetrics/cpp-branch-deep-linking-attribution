@@ -1,24 +1,9 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.15)
 
 project(root VERSION 1.2.3 LANGUAGES CXX)
 
-# Determines handling of RPATH and related variables when building dylibs on Mac.
-# TODO(jdee): Review this. RPATH is an issue on Unix right now.
-cmake_policy(SET CMP0068 NEW)
-
-SET(CMAKE_CXX_STANDARD 11)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-# ------------
-#   Settings
-# ------------
-
-# Specialize compiler flags by build type
-# cmake/Debug.cmake, cmake/Release.cmake
-include(cmake/${CMAKE_BUILD_TYPE}.cmake OPTIONAL)
-
-# Specialize compiler flags by platform
-include(cmake/${CMAKE_SYSTEM_NAME}.cmake OPTIONAL)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # -----------
 # Conan setup
@@ -37,10 +22,10 @@ endif()
 
 # Enable Unit Testing.
 # TODO(andyp): Investigate why this appears to be needed at the top level CMakeLists
-enable_testing()
+#enable_testing()
 
 # ------------
 # BranchIO SDK
 # ------------
-ADD_SUBDIRECTORY(BranchSDK)
+add_subdirectory(BranchSDK)
 include_directories("BranchSDK/src")

@@ -1,50 +1,57 @@
+cmake_minimum_required(VERSION 3.15)
+
+# Enables setting the MSVC runtime library
+# https://cmake.org/cmake/help/latest/prop_tgt/MSVC_RUNTIME_LIBRARY.html
+cmake_policy(SET CMP0091 NEW)
+
 project(BranchIO)
+
+# ------------
+# Visual C++ settings
+# ------------
+
+# This should be automatically set by cmake 
+# https://cmake.org/cmake/help/latest/variable/WIN32.html
+#add_definitions(-DWIN32)
+
+# Enable C++ exceptions
+add_compile_options(/EHsc)
+
+# TODO: confirm this is not necessary
+# Disables protection against Structured Exception Handler (SEH) buffer overflows in 32 bit apps
+#add_link_options(/SAFESEH:NO)
+
+# old way of setting runtime
+#add_compile_options(/MDd)
+#add_link_options(/NODEFAULTLIB:MSVCRT)
 
 # ------------
 # BranchIO SDK
 # ------------
 
-# Scan for source code
+# Set dependencies via Conan
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
+# BranchIO library
 include_directories(src)
-file(GLOB ALL_BRANCH_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/**/*.cpp)
-set(BRANCH_SOURCE "")
-
-# Scan all file names looking specifically for "Windows" or "Unix", and exclude from the other type of build.
-# i.e. exclude Unix files from Windows builds, and vice versa.
-# TODO(jdee): Clean this up
-if(${CMAKE_SYSTEM_NAME} MATCHES "Win")
-    add_definitions(-DWIN32)
-    foreach(FILE ${ALL_BRANCH_SOURCE})
-        if (NOT ${FILE} MATCHES "Unix")
-            set(BRANCH_SOURCE ${BRANCH_SOURCE} ${FILE})
-        endif()
-    endforeach()
-else()
-    foreach(FILE ${ALL_BRANCH_SOURCE})
-        if (NOT ${FILE} MATCHES "Windows")
-            set(BRANCH_SOURCE ${BRANCH_SOURCE} ${FILE})
-        endif()
-    endforeach()
-endif()
-
-# Static/Shared controlled by BUILD_SHARED_LIBS
-# BUILD_SHARED_LIBS is passed in through the initial configure step (cmake ../.. -G ...) in rmake[.bat].
-# It is enabled by Conan using the shared option (conan install -o BranchIO:shared=true).
-# true: BranchIO.lib/BranchIO.dll on Windows, libBranchIO.dylib on Mac, libBranchIO.so on Linux
-# false: BranchIO.lib on Windows, libBranchIO.a on Unix
+file(GLOB BRANCH_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/**/*.cpp)
 add_library(BranchIO ${BRANCH_SOURCE})
 
-target_include_directories(BranchIO PRIVATE ${CONAN_INCLUDE_DIRS})
+#find_package(poco)
+target_link_libraries(BranchIO ${CONAN_LIBS})
+
+# Set C++ version
+target_compile_features(BranchIO PUBLIC cxx_std_11)
+
+# Set MSVC runtime
+set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+
+#target_include_directories(BranchIO PRIVATE ${CONAN_INCLUDE_DIRS})
 
 # Link the shared lib against Conan deps (ignored when BUILD_SHARED_LIBS=false)
-target_link_libraries(BranchIO CONAN_PKG::Poco)
-
-# --------
-# Settings
-# --------
-
-# Specialize build settings for libraries by platform
-include(cmake/${CMAKE_SYSTEM_NAME}.cmake OPTIONAL)
+#find_package(Poco REQUIRED)
+#target_link_libraries(BranchIO CONAN_PKG::Poco)
 
 # ------------
 # Installation
