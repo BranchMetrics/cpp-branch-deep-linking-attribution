@@ -6,71 +6,60 @@ cmake_policy(SET CMP0091 NEW)
 
 project(BranchIO)
 
-# ------------
-# Visual C++ settings
-# ------------
-
-# This should be automatically set by cmake 
-# https://cmake.org/cmake/help/latest/variable/WIN32.html
-#add_definitions(-DWIN32)
-
 # Enable C++ exceptions
 add_compile_options(/EHsc)
 
-# TODO: confirm this is not necessary
-# Disables protection against Structured Exception Handler (SEH) buffer overflows in 32 bit apps
-#add_link_options(/SAFESEH:NO)
-
-# old way of setting runtime
-#add_compile_options(/MDd)
-#add_link_options(/NODEFAULTLIB:MSVCRT)
+# Make dependencies available via conan
+# TODO: TARGETS based version does not work, why?
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
 
 # ------------
 # BranchIO SDK
 # ------------
-
-# Set dependencies via Conan
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
 
 # BranchIO library
 include_directories(src)
 file(GLOB BRANCH_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/**/*.cpp)
 add_library(BranchIO ${BRANCH_SOURCE})
 
-#find_package(poco)
+# Links against Poco via conan
 target_link_libraries(BranchIO ${CONAN_LIBS})
 
 # Set C++ version
 target_compile_features(BranchIO PUBLIC cxx_std_11)
 
 # Set MSVC runtime
-set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+# TODO: Can this be done via configuration?
+if (RUNTIME STREQUAL "MD")
+    set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
 
-#target_include_directories(BranchIO PRIVATE ${CONAN_INCLUDE_DIRS})
+    # TODO: release postfix does not work, rename the binary later
+    set_target_properties(BranchIO PROPERTIES RELEASE_POSTFIX "md")
+endif()
 
-# Link the shared lib against Conan deps (ignored when BUILD_SHARED_LIBS=false)
-#find_package(Poco REQUIRED)
-#target_link_libraries(BranchIO CONAN_PKG::Poco)
+if (RUNTIME STREQUAL "MDd")
+    set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+    set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mdd")
+endif()
 
-# ------------
-# Installation
-# ------------
+if (RUNTIME STREQUAL "MT")
+    set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
 
-if(NOT SKIP_INSTALL_ALL)
-    message(STATUS "Installing to ${CMAKE_INSTALL_PREFIX}")
+    # TODO: release postfix does not work, rename the binary later
+    set_target_properties(BranchIO PROPERTIES RELEASE_POSTFIX "mt")
+endif()
 
-    # https://cmake.org/cmake/help/v3.14/command/install.html
-    include(GNUInstallDirs)
-    install(TARGETS BranchIO)
-
-    # TODO(jdee): Refine public/internal header distinction. For now, recursively install everything as public.
-    install(DIRECTORY BranchIO DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/BranchIO FILES_MATCHING PATTERN "*.h")
+if (RUNTIME STREQUAL "MTd")
+    set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
+    set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mtd")
 endif()
 
 # ----------
 # Unit tests
 # ----------
+
+# TODO: fix the unit test setup
 
 # Include test code
 #file(GLOB TEST ${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp)
