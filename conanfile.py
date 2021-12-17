@@ -43,7 +43,7 @@ class BranchioConan(ConanFile):
     # as well. For now, this is consistent with transitive dependencies in Branch Maven
     # packages, to avoid version drift.
     requires = "poco/1.11.1"
-    build_requires = "gtest/1.8.1"
+    build_requires = "gtest/1.11.0"
 
     def validate(self):
         if self.settings.os != "Windows":
