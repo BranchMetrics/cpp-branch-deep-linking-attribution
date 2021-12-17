@@ -68,9 +68,9 @@ class BranchioConan(ConanFile):
             # build everything for now
             # we're probably about to run unit tests anyway
             cmake.build()
-        if self.should_install:
+        #if self.should_install:
             # conan build --install
-            cmake.install()
+            #cmake.install()
         #if self.should_test:
             # conan build --test
             #cmake.test() # run unit tests
