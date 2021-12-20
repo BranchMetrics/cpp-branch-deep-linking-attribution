@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-# build Branch SDK MD, MDd, MT, MTd binaries
+# builds Branch SDK MD, MDd, MT, MTd binaries
 
 import json, os, shutil, subprocess
 from os import makedirs
