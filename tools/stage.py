@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-# Collects build products
+# Collects build products into the stage directory
 
 import json, os, shutil, subprocess
 from os import makedirs
@@ -140,16 +140,18 @@ stage_path = "stage"
 shutil.rmtree(stage_path, ignore_errors=True)
 makedirs(stage_path)
 
-build_docs(sdk_path, stage_path)
-
 # copy source files needed by installer from build to stage
-# requires SDK be built for all targets, use rmake.bat. x86, x86 debug, x64, x64 debug
-shutil.rmtree(stage_path, ignore_errors=True)
-makedirs(stage_path)
-targets = ["MD", "MDd", "MD_64", "MDd_64", "MT", "MT_64", "MTd", "MTd_64"]
+# requires SDK be built for all targets, use build.py
+
+# by default only stage 64 bit binaries
+targets = ["MD_64", "MDd_64", "MT_64", "MTd_64"]
+#targets = ["MD", "MDd", "MD_64", "MDd_64", "MT", "MTd", "MT_64", "MTd_64"]
+
 for target in targets:
     copy_poco(build_path, stage_path, target)
     copy_branch_libs(build_path, stage_path, target)
 
 copy_branch_headers(os.path.join(sdk_path, "src", "BranchIO"), os.path.join(stage_path, "include", "BranchIO"))
 copy_branch_license(stage_path)
+
+build_docs(sdk_path, stage_path)
