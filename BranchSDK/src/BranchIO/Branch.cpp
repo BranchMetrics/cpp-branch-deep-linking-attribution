@@ -49,21 +49,20 @@ class SessionCallback : public IRequestCallback {
                 if (!_context->getAdvertiserInfo().isTrackingDisabled()) {
                     if (jsonResponse.has(Defines::JSONKEY_SESSION_FINGERPRINT)) {
                         static const char* const key = Defines::JSONKEY_SESSION_FINGERPRINT;
-                        string deviceFingerprintId(jsonResponse.get(key).toString());
+                        string deviceFingerprintId(jsonResponse.getNamedString(key));
                         _context->getSessionInfo().setFingerprintId(deviceFingerprintId);
                     }
                     if (jsonResponse.has(Defines::JSONKEY_SESSION_IDENTITY))
-                        _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+                        _context->getSessionInfo().setIdentityId(jsonResponse.getNamedString(Defines::JSONKEY_SESSION_IDENTITY));
                 }
-                _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
+                _context->getSessionInfo().setSessionId(jsonResponse.getNamedString(Defines::JSONKEY_SESSION_ID));
             }
 
             // Data comes back as String-encoded JSON...  let's fix that up
             if (jsonResponse.has("data")) {
                 try {
-                    string stringData = jsonResponse.get("data");
-                    JSONObject jsonData = JSONObject::parse(stringData);
-                    jsonResponse.set("data", jsonData);
+                    string stringData = jsonResponse.getNamedString("data");
+                    jsonResponse.set("data", stringData);
                 }
                 catch(Poco::Exception &) {
                     // Error has already been logged.
@@ -218,11 +217,11 @@ Branch::setIdentity(const String& userId, IRequestCallback* callback) {
             IStorage& storage(Storage::instance());
             storage.setString("session.identity", userId.str());
             if (result.has(Defines::JSONKEY_SESSION_ID)) {
-                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                auto sessionId = result.getNamedString(Defines::JSONKEY_SESSION_ID);
                 getSessionInfo().setSessionId(sessionId);
             }
             if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
-                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
+                auto identityId = result.getNamedString(Defines::JSONKEY_SESSION_IDENTITY);
                 getSessionInfo().setIdentityId(identityId);
                 storage.setString("session.identity_id", identityId);
             }
@@ -243,11 +242,11 @@ Branch::logout(IRequestCallback *callback) {
             IStorage& storage(Storage::instance());
             storage.remove("session.identity");
             if (result.has(Defines::JSONKEY_SESSION_ID)) {
-                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                auto sessionId = result.getNamedString(Defines::JSONKEY_SESSION_ID);
                 getSessionInfo().setSessionId(sessionId);
             }
             if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
-                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
+                auto identityId = result.getNamedString(Defines::JSONKEY_SESSION_IDENTITY);
                 getSessionInfo().setIdentityId(identityId);
                 storage.setString("session.identity_id", identityId);
             }

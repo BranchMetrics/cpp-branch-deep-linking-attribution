@@ -64,7 +64,7 @@ AppInfo::setPackageName(const String& packageName) {
 
 std::string
 AppInfo::getDeveloperIdentity() const {
-    return get(Defines::JSONKEY_APP_DEVELOPER_IDENTITY);
+    return getNamedString(Defines::JSONKEY_APP_DEVELOPER_IDENTITY);
 }
 
 AppInfo&

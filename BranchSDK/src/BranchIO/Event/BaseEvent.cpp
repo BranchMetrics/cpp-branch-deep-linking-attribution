@@ -8,9 +8,14 @@
 #include "BranchIO/JSONObject.h"
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/AdvertiserInfo.h"
+#include <winrt/Windows.Data.Json.h>
+#include <winrt/Windows.Foundation.Collections.h>
 
 using Poco::Mutex;
 using namespace std;
+
+using namespace winrt::Windows::Data::Json;
+using namespace winrt::Windows::Foundation::Collections;
 
 namespace BranchIO {
 
@@ -29,8 +34,11 @@ BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, 
 
     if (jsonPtr.get()) {
         // Copy the key/values
-        for (JSONObject::ConstIterator it = jsonPtr->begin(); it != jsonPtr->end(); ++it) {
-            set(it->first, it->second);
+        IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
+        JsonObject sourceJObject = jsonPtr->getWinRTJsonObj();
+        for (it = sourceJObject.begin(); it != sourceJObject.end(); ++it) {
+            IKeyValuePair< winrt::hstring, IJsonValue>  kvp = it.Current();
+            jObject.SetNamedValue(kvp.Key(), kvp.Value());
         }
     }
 }

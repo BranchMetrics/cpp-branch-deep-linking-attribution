@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -93,6 +94,7 @@
       <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -127,7 +129,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;_SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\BranchSDK\src;C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -193,7 +195,18 @@
       <Project>{4f51dc46-1a0e-467d-8ca4-af37e134c0a4}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\BranchSDK\Windows\BranchInstaller\packages\Microsoft.Windows.CppWinRT.2.0.211028.7\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+  </Target>
 </Project>

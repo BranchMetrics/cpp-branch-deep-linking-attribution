@@ -60,9 +60,6 @@
     <ClInclude Include="..\..\src\BranchIO\IRequestCallback.h">
       <Filter>Header Files\BranchIO</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BranchIO\JSONArray.h">
-      <Filter>Header Files\BranchIO</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\BranchIO\JSONObject.h">
       <Filter>Header Files\BranchIO</Filter>
     </ClInclude>

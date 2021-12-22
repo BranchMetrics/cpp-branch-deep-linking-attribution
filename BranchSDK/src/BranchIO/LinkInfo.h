@@ -267,7 +267,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     bool volatile _complete;
     bool volatile _canceled;
     PropertyManager _controlParams;
-    JSONArray _tagParams;
+    std::vector<std::string> _tagParams;
 
     // Store values passed to createUrl() for fallback handling.
     IRequestCallback* volatile _callback;

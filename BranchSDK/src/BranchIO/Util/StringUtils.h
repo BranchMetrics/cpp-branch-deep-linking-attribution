@@ -3,6 +3,7 @@
 #ifndef BRANCHIO_UTIL_STRINGUTILS_H__
 #define BRANCHIO_UTIL_STRINGUTILS_H__
 
+#include <codecvt>
 #include <string>
 
 
@@ -51,17 +52,8 @@ class StringUtils {
     */
     static std::wstring utf8_to_wstring(const std::string& string) {
         if (string.empty()){
-            return L"";
-        }
 
-        const auto size_needed = MultiByteToWideChar(CP_UTF8, 0, &string.at(0), (int)string.size(), nullptr, 0);
-        if (size_needed <= 0){
-            return L"";
-        }
-
-        std::wstring result(size_needed, 0);
-        MultiByteToWideChar(CP_UTF8, 0, &string.at(0), (int)string.size(), &result.at(0), size_needed);
-        return result;
+        return myconv.from_bytes(string);
     }
 
     /**
@@ -71,18 +63,10 @@ class StringUtils {
     */
     // convert wstring to UTF-8 string
     static std::string wstring_to_utf8(const std::wstring& wide_string) {
-        if (wide_string.empty()){
-            return "";
         }
-
-        const auto size_needed = WideCharToMultiByte(CP_UTF8, 0, &wide_string.at(0), (int)wide_string.size(), nullptr, 0, nullptr, nullptr);
-        if (size_needed <= 0){
-            return "";
-        }
-
-        std::string result(size_needed, 0);
-        WideCharToMultiByte(CP_UTF8, 0, &wide_string.at(0), (int)wide_string.size(), &result.at(0), size_needed, nullptr, nullptr);
         return result;
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
+        return myconv.to_bytes(wide_string);
     }
 };
 

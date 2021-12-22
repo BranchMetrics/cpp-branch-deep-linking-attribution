@@ -65,7 +65,7 @@ PropertyManager::addProperty(const String& name, const PropertyManager &value) {
 }
 
 PropertyManager&
-PropertyManager::addProperty(const String& name, const Poco::JSON::Array &value) {
+PropertyManager::addProperty(const String& name, const std::vector<std::string> &value) {
     Mutex::ScopedLock _l(_mutex);
 
     set(name.str(), value);
@@ -75,11 +75,7 @@ PropertyManager::addProperty(const String& name, const Poco::JSON::Array &value)
 PropertyManager&
 PropertyManager::addProperties(const JSONObject &jsonObject) {
     Mutex::ScopedLock _l(_mutex);
-
-    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
-        set(it->first, it->second);
-    }
-
+    set(jsonObject);
     return *this;
 }
 
@@ -110,7 +106,7 @@ PropertyManager::getStringProperty(const char *name, const std::string &defValue
     Mutex::ScopedLock _l(_mutex);
 
     if (has(name)) {
-        return getValue<std::string>(name);
+        return getNamedString(name);
     }
 
     return defValue;
@@ -119,11 +115,7 @@ PropertyManager::getStringProperty(const char *name, const std::string &defValue
 std::string
 PropertyManager::toString() const {
     Mutex::ScopedLock _l(_mutex);
-
-    std::stringstream ss;
-    stringify(ss);
-
-    return ss.str();
+    return stringify();
 }
 
 JSONObject

@@ -132,7 +132,7 @@ LinkInfo::addControlParameter(const String& key, const PropertyManager& value) {
 LinkInfo&
 LinkInfo::addTag(const String& tag) {
     Mutex::ScopedLock _l(_mutex);
-    _tagParams.add(tag.str());
+    _tagParams.push_back(tag.str());
     addProperty(JSONKEY_TAGS, _tagParams);
     return *this;
 }
@@ -236,8 +236,8 @@ LinkInfo::createLongUrl(Branch* branchInstance, const String& baseUrl) const {
 
     Poco::URI uri(longUrl);
 
-    for (JSONArray::ConstIterator it = _tagParams.begin(); it != _tagParams.end(); ++it) {
-        uri.addQueryParameter(JSONKEY_TAGS, it->convert<std::string>());
+    for (std::vector<std::string>::const_iterator it = _tagParams.begin(); it != _tagParams.end(); ++it) {
+        uri.addQueryParameter(JSONKEY_TAGS, it->c_str());
     }
 
     std::string alias = getAlias();
