@@ -51,8 +51,7 @@ class StringUtils {
     * @return wstring - converted string if not empty. If empty or error occurs it returns ""
     */
     static std::wstring utf8_to_wstring(const std::string& string) {
-        if (string.empty()){
-
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
         return myconv.from_bytes(string);
     }
 
@@ -63,8 +62,6 @@ class StringUtils {
     */
     // convert wstring to UTF-8 string
     static std::string wstring_to_utf8(const std::wstring& wide_string) {
-        }
-        return result;
         std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
         return myconv.to_bytes(wide_string);
     }
