@@ -4,6 +4,10 @@ cmake_minimum_required(VERSION 3.15)
 # https://cmake.org/cmake/help/latest/prop_tgt/MSVC_RUNTIME_LIBRARY.html
 cmake_policy(SET CMP0091 NEW)
 
+# Debug or Release settings
+# cmake/Debug.cmake, cmake/Release.cmake
+include(cmake/${CMAKE_BUILD_TYPE}.cmake OPTIONAL)
+
 project(BranchIO)
 
 # Enable C++ exceptions
@@ -13,6 +17,7 @@ add_compile_options(/EHsc)
 # TODO: TARGETS based version does not work, why?
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
+#conan_basic_setup(TARGETS)
 
 # ------------
 # BranchIO SDK
@@ -24,7 +29,9 @@ file(GLOB BRANCH_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/*.cpp ${CMAKE_C
 add_library(BranchIO ${BRANCH_SOURCE})
 
 # Links against Poco via conan
+# TODO: TARGETS based version does not work, why?
 target_link_libraries(BranchIO ${CONAN_LIBS})
+#target_link_libraries(BranchIO CONAN_PKG::Poco)
 
 # Set C++ version
 target_compile_features(BranchIO PUBLIC cxx_std_11)
@@ -54,6 +61,11 @@ if (RUNTIME STREQUAL "MTd")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
     set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mtd")
 endif()
+
+# TODO: support DLLs. Check if LD and LDd are needed
+#if (BUILD_SHARED_LIBS)
+#    set_target_properties(BranchIO PROPERTIES DEFINE_SYMBOL BRANCHIO_BUILD_DLL)
+#endif()
 
 # ----------
 # Unit tests

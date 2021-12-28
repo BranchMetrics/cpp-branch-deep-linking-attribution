@@ -27,22 +27,6 @@ def copyall(src, dst, excludes=[]):
         else:
             shutil.copy(path, dst)
 
-# copies all *.pdb files from src to dst
-def copy_pdbs(src, dst, excludes=[]):
-    if not os.path.exists(src):
-        return
-
-    ignores = shutil.ignore_patterns(*excludes)
-    all_files = os.listdir(src)
-
-    # rejects is a set of all files matching the excludes
-    rejected = ignores(src, all_files)
-    files = [f for f in all_files if f not in rejected]
-
-    for f in [f for f in files if f.endswith(".pdb") or f.endswith(".PDB")]:
-        path = os.path.join(src, f)
-        shutil.copy(path, dst)
-
 def poco_license(dst, rootpath):
     shutil.copy(os.path.join(rootpath, "licenses", "LICENSE"), os.path.join(dst, "POCO_LICENSE.txt"))
 
@@ -60,17 +44,13 @@ def poco_headers(dst, excludes, rootpath):
         poco_license(dst, rootpath)
 
 def poco_libs(dst, excludes, rootpath, build_id):
-    src_lib_path = os.path.join(rootpath, "lib")
+    src_lib_path = os.path.join((os.path.dirname(os.path.dirname(rootpath))), "build", build_id, "build_subfolder", "lib")
     dst_lib_path = os.path.join(dst, "lib", target)
     if not os.path.exists(dst_lib_path):
         makedirs(dst_lib_path)
         
         # copy binaries
         copyall(src_lib_path, dst_lib_path, excludes=excludes)
-
-        # copy pdbs from the conan build folder
-        pdb_path = os.path.join((os.path.dirname(os.path.dirname(rootpath))), "build", build_id, "build_subfolder", "lib")
-        copy_pdbs(pdb_path, dst_lib_path, excludes=excludes)
 
 # copy poco from conan
 def copy_poco(src, dst, target):
@@ -81,8 +61,14 @@ def copy_poco(src, dst, target):
     install_data = json.loads(f.read())
     installed = install_data["installed"]
 
-    # Skip Poco's ActiveRecord and Data, cannot seem to exclude it during build
-    excludes = ["PocoActiveRecord*", "PocoData*", "ActiveRecord", "Data"]
+    # Skip Poco libraries we don't use. 
+    # Most are excluded at build, but activerecord has a bug.
+    # https://github.com/conan-io/conan-center-index/issues/8266
+    excludes = [
+        "PocoActiveRecord*",  "ActiveRecord", 
+        "PocoData*", "Data"
+        ]
+
     for item in installed:
         recipe = item["recipe"]
         recipe_id = recipe["id"]

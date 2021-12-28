@@ -62,7 +62,8 @@ IF NOT "%RUNTIME%" == "MDd" IF NOT "%RUNTIME%" == "MTd" (
   SET BUILD_TYPE=Release
 )
 
-REM Hard coded options
+REM build static libraries by default
+REM TODO: support building dlls when this is set to True
 set BUILD_SHARED_LIBS=False
 
 ECHO rmake.bat configuration:
@@ -111,7 +112,6 @@ SET Poco_Options=^
   --options Poco:enable_encodings=False^
   --options Poco:enable_jwt=False^
   --options Poco:enable_mongodb=False^
-  --options Poco:enable_netssl=False^
   --options Poco:enable_redis=False^
   --options Poco:enable_zip=False
 
@@ -177,14 +177,5 @@ conan create ..\.. branch/testing^
   --options *:shared=%BUILD_SHARED_LIBS%^
   %Poco_Options%^
   --build outdated
-
-REM ECHO Building stage from conan cache
-REM python ..\..\BranchSDK\tools\stage.py
-
-REM if ERRORLEVEL 1 (
-REM   echo stage.py failed.
-REM   cd ..\..
-REM   exit /b -1
-REM )
 
 cd ..\..
