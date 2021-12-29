@@ -4,4 +4,8 @@
     <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
     <RemoteDebugEnabled>False</RemoteDebugEnabled>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugMT|x64'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+    <RemoteDebugEnabled>False</RemoteDebugEnabled>
+  </PropertyGroup>
 </Project>
