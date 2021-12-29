@@ -47,49 +47,20 @@ if not match:
 
 # Now reduced_version is all digits. full_version may have a suffix.
 reduced_version = match.group(0)
-
 version_components = reduced_version.split(".")
 
 print("Bumping to " + full_version)
 
 # conan package version
-update_file("../../conanfile.py", r'^(\s*version\s*=\s*")(.*)(")$', full_version)
+update_file("conanfile.py", r'^(\s*version\s*=\s*")(.*)(")$', full_version)
 
 # version in CMakeLists.txt
-update_file("../../CMakeLists.txt", r'^(\s*project\(root\s+VERSION\s+)(\d+\.\d+\.\d+)(.*)$', reduced_version)
+update_file("CMakeLists.txt", r'^(\s*project\(root\s+VERSION\s+)(\d+\.\d+\.\d+)(.*)$', reduced_version)
 
 # version in MSI package
-update_file("../Windows/BranchInstaller/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
+update_file("BranchInstaller/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
 
 # version components in Version.h
-update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_MAJOR\s+)(\d+)(.*)$', version_components[0])
-update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_MINOR\s+)(\d+)(.*)$', version_components[1])
-update_file("../src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_REVISION\s+)(\d+)(.*)$', version_components[2])
-
-# version in shared app source code
-update_file("../../BranchSDK-Samples/TestBed/BranchOperations.cpp", r'^(.*setAppVersion\(")([0-9A-Za-z-\.]+)(".*)$', full_version)
-
-# versions in example app packaging
-# TestBed-Basic, TestBed-Distro use Wix
-update_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
-update_file("../../BranchSDK-Samples/TestBed-Distro/TestBed-Distro-Package/Product.wxs", r'^(\s*<Product.*Version=")(\d+\.\d+\.\d+)(".*)$', reduced_version)
-
-# The rest use MSIX (4-part version with .0 at the end)
-update_file("../../BranchSDK-Samples/TestBed/TestBedPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
-update_file("../../BranchSDK-Samples/TestBed-Local/TestBedLocalPackage/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
-update_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Conan-Package/Package.appxmanifest", r'^(\s*Version=")(\d+\.\d+\.\d+)(\.0".*)$', reduced_version)
-
-# Update .rc file in each app with version number that appears in the About dialog.
-update_binary_file("../../BranchSDK-Samples/TestBed/TestBed.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/TestBed-Local/TestBed-Local.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/TestBed-Basic/TestBed-Basic.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/TestBed-Conan/TestBed-Conan.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-update_binary_file("../../BranchSDK-Samples/TestBed-Distro/TestBed-Distro.rc", r'^(.*LTEXT.*Version )([0-9A-Za-z-\.]+)(".*)$', full_version, "utf-16")
-
-# Version in Welcome.html
-update_file("../../BranchSDK-Samples/TestBed-Basic/Welcome.html", r'^(.*Release )(.*)(\<.*)$', full_version)
-update_file("../../BranchSDK-Samples/TestBed-Distro/Welcome.html", r'^(.*Release )(.*)(\<.*)$', full_version)
-
-# Now commit
-
-os.system('git commit -a -m"Version bump to ' + full_version + '"')
+update_file("BranchSDK/src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_MAJOR\s+)(\d+)(.*)$', version_components[0])
+update_file("BranchSDK/src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_MINOR\s+)(\d+)(.*)$', version_components[1])
+update_file("BranchSDK/src/BranchIO/Version.h", r'^(.*BRANCHIO_VERSION_REVISION\s+)(\d+)(.*)$', version_components[2])
