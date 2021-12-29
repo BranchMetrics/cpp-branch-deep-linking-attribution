@@ -29,10 +29,6 @@ def build_binary(runtime, arch):
     # TODO: replace rmake.bat with python?
     subprocess.run(["rmake.bat", runtime, arch])
 
-# TODO: is this necessary? It's very slow.
-def clear_conan():
-    subprocess.run(["conan", "remove", "-f", "*"])
-
 build_path = "build"
 
 # remove cached build products
@@ -46,9 +42,8 @@ architectures = ["x64"]
 
 for runtime in runtimes:
     for architecture in architectures:
-        #clear_conan()
         build_binary(runtime, architecture)
 
 # workaround an issue with MD and MT filenames
-fix_x64_lib_names()
+#fix_x64_lib_names()
 #fix_x86_lib_names()

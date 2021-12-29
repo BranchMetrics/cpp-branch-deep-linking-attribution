@@ -1,6 +1,6 @@
 #! /usr/bin/env python
-# build poco directly with cmake, the conan built binaries don't work for me.
-# assumes the poco repo is checked out next to the Branch repo.
+# build poco with cmake
+# assumes the poco and branch repos are checked out side by side
 
 import json, os, shutil, subprocess
 from os import makedirs
@@ -38,8 +38,8 @@ def configure(debug: bool, mt: bool):
         "-DENABLE_JWT=OFF",
         "-DENABLE_MONGODB=OFF",
         "-DENABLE_REDIS=OFF",
-        "-DENABLE_ZIP=OFF"])
-
+        "-DENABLE_ZIP=OFF"
+    ])
 
 def build(debug: bool):
     build_config = "Release"
@@ -72,13 +72,13 @@ def build_mtd():
 
 # path to poco cmake-build folder
 build_folder = "cmake-build"
-build_path = os.path.join("..", "poco", build_folder)
+build_path = os.path.join(os.path.dirname(os.getcwd()), "poco", build_folder)
 
 # remove old build products
 shutil.rmtree(build_path, ignore_errors=True)
 makedirs(build_path)
 
-# build from within the cmake-build folder
+# build from within poco\cmake-build
 os.chdir(build_path)
 
 # build MD binaries

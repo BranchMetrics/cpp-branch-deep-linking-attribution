@@ -1,5 +1,6 @@
 #! /usr/bin/env python
 # check that binaries are built with correct options
+# TODO: check for DEFAULTLIB, it's causing linker issues
 
 import os, shutil, subprocess
 
