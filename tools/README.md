@@ -12,6 +12,7 @@
 * Visual Studio - 16.11.7
 
 ### Build Branch SDK
+* Use "x64 Native Tools Command Prompt for VS 2019"
 * Change into the cpp-branch-deep-linking-attribution directory.
 * `python tools\build.py` 
 
