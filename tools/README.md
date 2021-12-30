@@ -1,4 +1,6 @@
-## Check out the Branch Win32 SDK and the Poco library side by side.
+## Building Branch SDK
+
+### Check out the Branch Win32 SDK and the Poco library side by side.
 
 [https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution](https://github.com/BranchMetrics/cpp-branch-deep-linking-attribution)
 
