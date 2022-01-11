@@ -5,6 +5,6 @@
 
 #define BRANCHIO_VERSION_MAJOR               1
 #define BRANCHIO_VERSION_MINOR               2
-#define BRANCHIO_VERSION_REVISION            3
+#define BRANCHIO_VERSION_REVISION            4
 
 #endif  // BRANCHIO_VERSION_H__

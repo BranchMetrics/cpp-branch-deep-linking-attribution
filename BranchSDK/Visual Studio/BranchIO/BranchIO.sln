@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31911.196
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BranchIO", "BranchIO.vcxproj", "{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		MD|x64 = MD|x64
+		MDd|x64 = MDd|x64
+		MT|x64 = MT|x64
+		MTd|x64 = MTd|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MD|x64.ActiveCfg = MD|x64
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MD|x64.Build.0 = MD|x64
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MDd|x64.ActiveCfg = MDd|x64
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MDd|x64.Build.0 = MDd|x64
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MT|x64.ActiveCfg = MT|x64
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MT|x64.Build.0 = MT|x64
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MTd|x64.ActiveCfg = MTd|x64
+		{4F51DC46-1A0E-467D-8CA4-AF37E134C0A4}.MTd|x64.Build.0 = MTd|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D374F95F-13B6-43D2-A65E-27625D8BA186}
+	EndGlobalSection
+EndGlobal

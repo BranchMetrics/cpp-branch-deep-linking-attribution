@@ -1,3 +1,8 @@
+## 2021-12-29 Version 1.2.4
+  * Add support for MT and MTd builds
+  * Fix MSI generation. Note the MSI install layout has changed.
+  * Updated to Poco 1.11.0 when building with conan
+
 ## 2021-05-13  Version 1.2.2
   * [INTENG-12752] Fix long URL generation.
   * Added Get Long URL button to TestBed.
