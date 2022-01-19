@@ -3,12 +3,12 @@
 #ifndef BRANCHIO_UTIL_APICLIENTSESSION_H__
 #define BRANCHIO_UTIL_APICLIENTSESSION_H__
 
-#include <Poco/Mutex.h>
 #include <string>
 #include <winrt/Windows.Web.Http.Headers.h>
 
 #include "BranchIO/fwd.h"
 #include "IClientSession.h"
+#include <mutex>
 
 namespace BranchIO {
 
@@ -35,7 +35,7 @@ class APIClientSession
      * @return the urlBase.
      */
     std::string getUrlBase() const {
-        Poco::Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         return _urlBase;
     }
 
@@ -55,7 +55,7 @@ class APIClientSession
      * @return true if shutting down, false otherwise
      */
     bool isShuttingDown() const {
-        Poco::Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         return _shuttingDown;
     }
 
@@ -67,7 +67,7 @@ class APIClientSession
     bool processResponse(IRequestCallback& callback, JSONObject& result, winrt::Windows::Web::Http::HttpResponseMessage& httpResponseMessage);
 
  private:
-    mutable Poco::Mutex _mutex;
+    mutable std::mutex _mutex;
     std::string _urlBase;
     bool volatile _shuttingDown;
     winrt::Windows::Web::Http::HttpClient _httpClient;

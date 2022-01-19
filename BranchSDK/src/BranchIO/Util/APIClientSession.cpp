@@ -6,16 +6,12 @@
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Log.h"
 
-#include <Poco/JSON/JSONException.h>
-
 #include <string>
-
 #include <winrt/Windows.Web.Http.Headers.h>
 #include <winrt/Windows.Foundation.Collections.h>
 #include <winrt/Windows.Security.Cryptography.h>
 
 using namespace std;
-using namespace Poco;
 
 using namespace winrt;
 using namespace winrt::Windows::Foundation;
@@ -43,7 +39,7 @@ APIClientSession::APIClientSession(const std::string& urlBase) :_urlBase(urlBase
 void
 APIClientSession::stop() {
     {
-        Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         // Ignore subsequent calls
         if (_shuttingDown) return;
 
@@ -59,11 +55,9 @@ APIClientSession::post(
     JSONObject& result) {
     if (isShuttingDown()) return false;
 
-    try {
         /* ----- Set up the HTTP request ----- */
+    Uri uri{to_hstring(BRANCH_IO_URL_BASE), to_hstring(path) };
 
-        Uri uri{ StringUtils::utf8_to_wstring(BRANCH_IO_URL_BASE), StringUtils::utf8_to_wstring(path) };
-       
         // Construct the JSON to post.
         wstring requestBody = StringUtils::utf8_to_wstring(jsonPayload.stringify());
         HttpStringContent jsonContent( requestBody, UnicodeEncoding::Utf8, L"application/json");
@@ -72,22 +66,28 @@ APIClientSession::post(
 
         // bail out immediately before and after any I/O, which can take
         // time - Post the JSON, and wait for a response.
+    try
+    {
+        HttpResponseMessage  httpResponseMessage = _httpClient.PostAsync(uri, jsonContent).get();
+        if (isShuttingDown()) return false;
 
-        HttpResponseMessage  httpResponseMessage = _httpClient.PostAsync( uri, jsonContent).get();
+        BRANCH_LOG_D("Request sent. Waiting for response.");
 
         // Make sure the post succeeded, and write out the response.
-        httpResponseMessage.EnsureSuccessStatusCode();
+        bool responseCode = processResponse(callback, result, httpResponseMessage);
 
-        /* ----- Wait for the response ----- */
-        return processResponse(callback, result, httpResponseMessage);
+        httpResponseMessage.Close();
+
+        return responseCode;
     }
-    catch (winrt::hresult_error const& ex) {
+    catch (winrt::hresult_error const& ex)
+    {
         if (isShuttingDown()) return false;
-        string description( to_string(ex.code()));
-        description += ": " + StringUtils::wstring_to_utf8(ex.message().c_str());
-        BRANCH_LOG_W("Request failed. " << description);
-        callback.onStatus(0, 0, description);
+
+        BRANCH_LOG_W("Request failed. " << to_string(ex.message()));
+        callback.onStatus(0, 0, to_string(ex.message()));
     }
+    
     return false;
 }
 
@@ -100,16 +100,14 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
     
     std::string requestId;
     
-    try {
-        requestId = StringUtils::wstring_to_utf8(httpResponseMessage.Headers().Lookup(L"X-Branch-Request-Id").c_str());
-    }
-    catch (NotFoundException&) {
-    }
+    if(httpResponseMessage.Headers().HasKey(L"X-Branch-Request-Id"))
+        requestId = to_string(httpResponseMessage.Headers().Lookup(L"X-Branch-Request-Id"));
+    
     if (!requestId.empty()) {
-        BRANCH_LOG_D("[" << requestId << "] " << (int)status << " " << StringUtils::wstring_to_utf8(httpResponseMessage.ReasonPhrase().c_str()));
+        BRANCH_LOG_D("[" << requestId << "] " << (int)status << " " << to_string(httpResponseMessage.ReasonPhrase()));
     }
     else {
-        BRANCH_LOG_D((int)status << " " << StringUtils::wstring_to_utf8(httpResponseMessage.ReasonPhrase().c_str()));
+        BRANCH_LOG_D((int)status << " " << to_string(httpResponseMessage.ReasonPhrase()));
     }
 
     // @todo(jdee): Fine-tune this success-failure determination
@@ -117,15 +115,15 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
         try {
 
             std::wstring  httpResponseBody = httpResponseMessage.Content().ReadAsStringAsync().get().c_str();
-            result = JSONObject::parse(StringUtils::wstring_to_utf8(httpResponseBody));
+            result = JSONObject::parse(to_string(httpResponseBody));
 
             BRANCH_LOG_V("Response body: " << result.stringify());
-
+            
             callback.onSuccess(0, result);
 
             return true;
         }
-        catch (Poco::JSON::JSONException&) {
+        catch (std::exception &) {
             // Parsing Error.
             // @todo(jdee): Return the error from the parseResults
             callback.onStatus(0, 0, "Error parsing result");
@@ -136,12 +134,12 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
          * Report HTTP status != 200 as an error. Pass the status
          * code as the error argument.
          */
-        callback.onStatus(0, (int)status, StringUtils::wstring_to_utf8(httpResponseMessage.ReasonPhrase().c_str()));
+        callback.onStatus(0, (int)status, to_string(httpResponseMessage.ReasonPhrase()));
         if (isShuttingDown()) return false;
 
         if (status < HttpStatusCode::InternalServerError) {
             // We don't want to retry this.  Call the error handler and return "true" to indicate that this was handled.
-            callback.onError(0, (int)status, StringUtils::wstring_to_utf8(httpResponseMessage.ReasonPhrase().c_str()));
+            callback.onError(0, (int)status, to_string(httpResponseMessage.ReasonPhrase()));
             return true;
         }
     }

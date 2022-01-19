@@ -3,11 +3,10 @@
 #ifndef BRANCHIO_UTIL_WINDOWSSTORAGE_H_
 #define BRANCHIO_UTIL_WINDOWSSTORAGE_H_
 
-#include <Poco/Mutex.h>
-
 #include <string>
 
 #include "BranchIO/Util/IStorage.h"
+#include <mutex>
 
 namespace BranchIO {
 
@@ -99,7 +98,7 @@ class WindowsStorage : public virtual IStorage {
         std::string& registryKey,
         std::string& registryPath) const;
 
-    mutable Poco::Mutex _mutex;
+    mutable std::mutex _mutex;
     Scope _defaultScope;
     std::string _prefix;
 };

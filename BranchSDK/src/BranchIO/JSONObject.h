@@ -3,6 +3,8 @@
 #ifndef BRANCHIO_JSONOBJECT_H__
 #define BRANCHIO_JSONOBJECT_H__
 
+#define _WINSOCKAPI_  
+
 #include <iosfwd>
 #include <string>
 #include "BranchIO/dll.h"
@@ -22,8 +24,7 @@ class BRANCHIO_DLL_EXPORT JSONObject  {
      JSONObject();
 
      /**
-     * Conversion operator from base class and default constructor.
-     * Initializes a JSONObject wrapping the same WinRT JsonObject.
+     * Initializes a JSONObject with the WinRT JsonObject.
      * @param object a JSON object to copy
      */
      JSONObject(const winrt::Windows::Data::Json::JsonObject& object);
@@ -79,7 +80,7 @@ class BRANCHIO_DLL_EXPORT JSONObject  {
     JSONObject & operator += (const JSONObject &rhs);
 
     /**
-     *  set - sets values for the specified key in the JSON Object.
+     *  set(Overloaded versions) - sets values for the specified key in the JSON Object.
      * @param key Key
      * @param value Value 
      */

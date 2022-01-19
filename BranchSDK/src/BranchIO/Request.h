@@ -3,7 +3,7 @@
 #ifndef BRANCHIO_REQUEST_H__
 #define BRANCHIO_REQUEST_H__
 
-#include <Poco/Mutex.h>
+#include <mutex>
 #include <cstdint>
 
 #include "BranchIO/fwd.h"
@@ -89,7 +89,7 @@ class Request {
     Request& resetAttemptCount();
 
  private:
-    mutable Poco::Mutex _mutex;
+    mutable std::mutex _mutex;
     int volatile _attemptCount;
     bool volatile _canceled;
     Sleeper _sleeper;

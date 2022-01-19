@@ -3,8 +3,7 @@
 #ifndef BRANCHIO_BRANCH_H__
 #define BRANCHIO_BRANCH_H__
 
-#include <Poco/Mutex.h>
-
+#include <mutex>
 #include <string>
 
 #include "BranchIO/dll.h"
@@ -179,7 +178,7 @@ class BRANCHIO_DLL_EXPORT Branch {
     SessionInfo &getSessionInfo();
 
  private:
-    mutable Poco::Mutex _mutex;
+    mutable std::mutex _mutex;
     RequestManager * volatile _requestManager;
     PackagingInfo _packagingInfo;
 };

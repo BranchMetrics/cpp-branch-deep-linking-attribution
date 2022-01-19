@@ -11,9 +11,7 @@
 #include <winrt/Windows.Data.Json.h>
 #include <winrt/Windows.Foundation.Collections.h>
 
-using Poco::Mutex;
 using namespace std;
-
 using namespace winrt::Windows::Data::Json;
 using namespace winrt::Windows::Foundation::Collections;
 
@@ -67,26 +65,26 @@ BaseEvent::addEventProperty(const char *propertyName, double propertyValue) {
 
 BaseEvent&
 BaseEvent::addCustomDataProperty(const String &propertyName, const String &propertyValue) {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock  _l(mMutex);
     mCustomData.set(propertyName.str(), propertyValue.str());
     return *this;
 }
 
 JSONObject
 BaseEvent::getCustomData() const {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock _l(mMutex);
     return mCustomData;
 }
 
 std::string
 BaseEvent::name() const {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock _l(mMutex);
     return mEventName;
 }
 
 Defines::APIEndpoint
 BaseEvent::getAPIEndpoint() const {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock _l(mMutex);
     return mAPIEndpoint;
 }
 

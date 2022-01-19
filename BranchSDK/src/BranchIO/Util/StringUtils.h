@@ -5,7 +5,10 @@
 
 #include <codecvt>
 #include <string>
-
+#include <Windows.Foundation.h>
+#include <winrt/Windows.Foundation.h>
+#include <winrt/Windows.Security.Cryptography.h>
+#include <winrt/Windows.Storage.Streams.h>
 
 namespace BranchIO {
 
@@ -60,11 +63,63 @@ class StringUtils {
     * @param wstring wide_string - input
     * @return string - converted string if not empty. If empty or error occurs it returns ""
     */
-    // convert wstring to UTF-8 string
     static std::string wstring_to_utf8(const std::wstring& wide_string) {
         std::wstring_convert<std::codecvt_utf8<wchar_t>> myconv;
         return myconv.to_bytes(wide_string);
     }
+
+    /**
+    * Converts string to URL Encoded format.
+    * @param std::string sSrc - input string
+    * @return std::string - URL Encoded string
+    */
+    static std::string UriEncode(const std::string& sSrc)
+    {
+        const std::string illegal = "%<>{}|\\\"^`!*'()$,[]";
+        std::string& encodedstr = std::string();
+        const std::string reserved = "?#/:;+@&=";
+
+        for (auto c : sSrc)
+        {
+            if ((c >= 'a' && c <= 'z') ||
+                (c >= 'a' && c <= 'z') ||
+                (c >= '0' && c <= '9') ||
+                c == '-' || c == '_' ||
+                c == '.' || c == '~')
+            {
+                encodedstr += c;
+            }
+            else if (c <= 0x20 || c >= 0x7f || illegal.find(c) != std::string::npos || reserved.find(c) != std::string::npos)
+            {
+                encodedstr += '%';
+                std::string result;
+                const char DEC2HEX[16 + 1] = "0123456789ABCDEF";
+                std::string sss = std::string(1, DEC2HEX[c >> 4]);
+                sss.append(std::string(1, (DEC2HEX[c & 0x0F])));
+                encodedstr += sss;
+            }
+            else encodedstr += c;
+        }
+        return encodedstr;
+    }
+
+    /**
+    * Converts string to Base64 Encoded format.
+    * @param Data - input Data
+    * @param DataSize - input Data Size
+    * @return std::string - Base64 Encoded string
+    */
+    static std::string EncodeBase64(const BYTE* Data, SIZE_T DataSize)
+    {
+        winrt::Windows::Storage::Streams::Buffer Buffer(static_cast<UINT32>(DataSize));
+        std::memcpy(Buffer.data(), Data, DataSize);
+        Buffer.Length(static_cast<UINT32>(DataSize));
+        const winrt::hstring Text = winrt::Windows::Security::Cryptography::CryptographicBuffer::EncodeToBase64String(Buffer);
+        return to_string(Text);
+    }
+
+
+
 };
 
 }  // namespace BranchIO

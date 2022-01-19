@@ -2,13 +2,15 @@
 
 #include "BranchIO/Event/SessionEvent.h"
 #include "BranchIO/Util/Log.h"
+#include "BranchIO/Util/StringUtils.h"
+#include <winrt/Windows.Foundation.h>
 
-#include <Poco/URI.h>
 
 #include <sstream>
 
 using namespace std;
-using namespace Poco;
+using namespace winrt;
+using namespace winrt::Windows::Foundation;
 
 namespace BranchIO {
 
@@ -19,31 +21,22 @@ BaseEvent& SessionOpenEvent::setLinkUrl(const String &url) {
     // to the link_click_id query parameter from the inbound
     // URI (url argument here).
     try {
-        URI uri(surl); // throws SyntaxException when invalid
+        Uri uri(to_hstring(surl)); // throws SyntaxException when invalid
 
-        // vector<pair<string, string>>
-        // ordered, not associative container
-        auto queryParams = uri.getQueryParameters();
-        for (URI::QueryParameters::const_iterator it=queryParams.begin(); it != queryParams.end(); ++it) {
-            if (it->first == "link_click_id") {
-                /* For now, send as a string
-                unsigned long long linkClickId(0);
-                istringstream iss(it->second);
-                iss >> linkClickId;
-                // */
-
-                addEventProperty(Defines::JSONKEY_LINK_IDENTIFIER, it->second);
-                break;
-            }
+        WwwFormUrlDecoder queryParams = uri.QueryParsed();
+        string linkClickId = to_string( queryParams.GetFirstValueByName(L"link_click_id"));
+        addEventProperty(Defines::JSONKEY_LINK_IDENTIFIER, linkClickId);
+            
+    } 
+    catch (winrt::hresult_error const& ex){
+            hresult hr = ex.code(); // HRESULT_FROM_WIN32.
+            string message = to_string(ex.message()); 
+            BRANCH_LOG_E("Invalid URI: \"" << surl << "\" (" << hr << " - " << message << ")");
         }
-    } catch (Exception& e) {
-        // Poco exceptions thrown by URI constructor
-        BRANCH_LOG_E("Invalid URI: \"" << surl << "\" (" << e.message() << ")");
-    } catch (runtime_error& e) {
+    catch (runtime_error& e) {
         // STL exceptions thrown by operator >> in case of non-numeric link_click_id
         BRANCH_LOG_E("Invalid link_click_id: \"" << surl << "\" (" << e.what() << ")");
     }
-
     return *this;
 }
 

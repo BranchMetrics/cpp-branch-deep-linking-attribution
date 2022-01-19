@@ -281,43 +281,43 @@ Branch::waitTillFinished() {
 
 const AppInfo &
 Branch::getAppInfo() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getAppInfo();
 }
 
 const DeviceInfo &
 Branch::getDeviceInfo() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getDeviceInfo();
 }
 
 SessionInfo &
 Branch::getSessionInfo() {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getSessionInfo();
 }
 
 SessionInfo const &
 Branch::getSessionInfo() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getSessionInfo();
 }
 
 AdvertiserInfo &
 Branch::getAdvertiserInfo() {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getAdvertiserInfo();
 }
 
 RequestManager *
 Branch::getRequestManager() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _requestManager;
 }
 
 string
 Branch::getBranchKey() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getBranchKey();
 }
 

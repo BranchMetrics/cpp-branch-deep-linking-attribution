@@ -3,14 +3,12 @@
 #ifndef BRANCHIO_PROPERTYMANAGER_H__
 #define BRANCHIO_PROPERTYMANAGER_H__
 
-#include <Poco/Mutex.h>
-
-#include <string>
-
 #include "BranchIO/Util/IStringConvertible.h"
 #include "BranchIO/JSONObject.h"
 #include "BranchIO/JSONArray.h"
 #include "BranchIO/String.h"
+#include <string>
+#include <mutex>
 
 namespace BranchIO {
 
@@ -143,8 +141,7 @@ class BRANCHIO_DLL_EXPORT PropertyManager : protected JSONObject, public virtual
     static std::string getPath(const std::string& base, const std::string &key);
 
  private:
-    std::string getStoragePath(const char *path, const char* key) const;
-    mutable Poco::Mutex _mutex;
+    mutable std::mutex _mutex;
 };
 
 }  // namespace BranchIO

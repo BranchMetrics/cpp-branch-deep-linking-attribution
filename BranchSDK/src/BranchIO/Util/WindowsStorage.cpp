@@ -98,26 +98,26 @@ WindowsStorage::convertKey(const std::string& key) {
 
 IStorage::Scope
 WindowsStorage::getDefaultScope() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _defaultScope;
 }
 
 IStorage&
 WindowsStorage::setDefaultScope(Scope scope) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _defaultScope = scope;
     return *this;
 }
 
 std::string
 WindowsStorage::getPrefix() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _prefix;
 }
 
 IStorage&
 WindowsStorage::setPrefix(const std::string& prefix) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _prefix = prefix;
     return *this;
 }

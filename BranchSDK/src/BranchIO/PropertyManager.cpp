@@ -5,7 +5,6 @@
 #include "BranchIO/Util/Storage.h"
 #include "BranchIO/String.h"
 
-using namespace Poco;
 using namespace std;
 
 namespace BranchIO {
@@ -28,7 +27,7 @@ PropertyManager::operator=(const PropertyManager& other) {
 
 PropertyManager&
 PropertyManager::addProperty(const String& name, const String& value) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     string utf8Name(name.str());
     string utf8Val(value.str());
@@ -42,7 +41,7 @@ PropertyManager::addProperty(const String& name, const String& value) {
 
 PropertyManager&
 PropertyManager::addProperty(const String& name, int value) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     set(name.str(), value);
     return *this;
@@ -50,7 +49,7 @@ PropertyManager::addProperty(const String& name, int value) {
 
 PropertyManager&
 PropertyManager::addProperty(const String& name, double value) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     set(name.str(), value);
     return *this;
@@ -58,15 +57,15 @@ PropertyManager::addProperty(const String& name, double value) {
 
 PropertyManager&
 PropertyManager::addProperty(const String& name, const PropertyManager &value) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     set(name.str(), value);
     return *this;
 }
 
 PropertyManager&
-PropertyManager::addProperty(const String& name, const std::vector<std::string> &value) {
-    Mutex::ScopedLock _l(_mutex);
+PropertyManager::addProperty(const String& name, const vector<string> &value) {
+    scoped_lock _l(_mutex);
 
     set(name.str(), value);
     return *this;
@@ -74,14 +73,14 @@ PropertyManager::addProperty(const String& name, const std::vector<std::string> 
 
 PropertyManager&
 PropertyManager::addProperties(const JSONObject &jsonObject) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     set(jsonObject);
     return *this;
 }
 
 PropertyManager&
 PropertyManager::clear() {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     JSONObject::clear();
     return *this;
@@ -89,44 +88,44 @@ PropertyManager::clear() {
 
 bool
 PropertyManager::has(const char *name) const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     return JSONObject::has(name);
 }
 
 bool
 PropertyManager::isEmpty() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     return (JSONObject::size() == 0);
 }
 
-std::string
-PropertyManager::getStringProperty(const char *name, const std::string &defValue) const {
-    Mutex::ScopedLock _l(_mutex);
+string
+PropertyManager::getStringProperty(const char *name, const string &defValue) const {
+    scoped_lock _l(_mutex);
 
-    if (has(name)) {
+    if (JSONObject::has(name)) {
         return getNamedString(name);
     }
 
     return defValue;
 }
 
-std::string
+string
 PropertyManager::toString() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return stringify();
 }
 
 JSONObject
 PropertyManager::toJSON() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return *this;
 }
 
-std::string
-PropertyManager::getPath(const std::string& base, const std::string &key)  {
-    std::string storagePath(base);
+string
+PropertyManager::getPath(const string& base, const string &key)  {
+    string storagePath(base);
     if (!base.empty()) {
         storagePath += ".";
     }

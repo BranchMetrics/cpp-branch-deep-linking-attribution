@@ -7,9 +7,9 @@
 #include <iostream>
 
 using namespace std;
+using namespace winrt;
 using namespace winrt::Windows::Data::Json;
 using namespace winrt::Windows::Foundation::Collections;
-
 
 namespace BranchIO {
 
@@ -29,7 +29,7 @@ JSONObject::isEmpty() const {
 JSONObject
 JSONObject::parse(const std::string& jsonString) {
     // Can throw Exception
-     JsonObject obj = JsonObject::Parse(StringUtils::utf8_to_wstring(jsonString));
+     JsonObject obj = JsonObject::Parse(to_hstring(jsonString));
      return JSONObject(obj);
 }
 
@@ -64,31 +64,31 @@ JSONObject::operator += (const JSONObject &rhs) {
 }
 
 void JSONObject::set(const std::string& key, const std::string& value){
-    JsonValue objValue = JsonValue::CreateStringValue(StringUtils::utf8_to_wstring(value));
-    jObject.SetNamedValue(StringUtils::utf8_to_wstring(key), objValue);
+    JsonValue objValue = JsonValue::CreateStringValue(to_hstring(value));
+    jObject.SetNamedValue(to_hstring(key), objValue);
 }
 
 void JSONObject::set(const std::string& key, const int& value){
     JsonValue objValue = JsonValue::CreateNumberValue(value);
-    jObject.SetNamedValue(StringUtils::utf8_to_wstring(key), objValue);
+    jObject.SetNamedValue(to_hstring(key), objValue);
 }
 
 void JSONObject::set(const std::string& key, const double& value) {
     JsonValue objValue = JsonValue::CreateNumberValue(value);
-    jObject.SetNamedValue(StringUtils::utf8_to_wstring(key), objValue);
+    jObject.SetNamedValue(to_hstring(key), objValue);
 }
 
 void JSONObject::set(const std::string& key, const JSONObject value) const{
     const JsonObject obj = value.getWinRTJsonObj();
-    jObject.SetNamedValue(StringUtils::utf8_to_wstring(key), obj);
+    jObject.SetNamedValue(to_hstring(key), obj);
 }
 
 void JSONObject::set(const std::string& key, const std::vector<std::string> value) const {
     winrt::Windows::Data::Json::JsonArray arr;
     for each (std::string str in value) {
-        arr.Append(JsonValue::CreateStringValue(StringUtils::utf8_to_wstring(str)));
+        arr.Append(JsonValue::CreateStringValue(to_hstring(str)));
     }
-    jObject.SetNamedValue(StringUtils::utf8_to_wstring(key), arr);
+    jObject.SetNamedValue(to_hstring(key), arr);
 }
 
 void JSONObject::set(const JSONObject& jsonObject) const {
@@ -100,7 +100,7 @@ void JSONObject::set(const JSONObject& jsonObject) const {
 }
 
 std::string JSONObject::getNamedString(std::string const& name) const{
-    winrt::hstring hStrValue = jObject.GetNamedString(StringUtils::utf8_to_wstring(name));
+    winrt::hstring hStrValue = jObject.GetNamedString(to_hstring(name));
     return StringUtils::wstring_to_utf8(hStrValue.c_str());
 }
 
@@ -109,11 +109,11 @@ void JSONObject::clear() const{
 }
 
 bool JSONObject::has(const std::string& key) const {
-    return jObject.HasKey(StringUtils::utf8_to_wstring(key));
+    return jObject.HasKey(to_hstring(key));
 }
 
 void JSONObject::remove(const std::string& key){
-    jObject.Remove(StringUtils::utf8_to_wstring(key));
+    jObject.Remove(to_hstring(key));
 }
 
 const JsonObject JSONObject::getWinRTJsonObj() const{
