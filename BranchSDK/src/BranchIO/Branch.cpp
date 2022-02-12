@@ -64,8 +64,9 @@ class SessionCallback : public IRequestCallback {
                     string stringData = jsonResponse.getNamedString("data");
                     jsonResponse.set("data", stringData);
                 }
-                catch(Poco::Exception &) {
+                catch (...) {
                     // Error has already been logged.
+                    BRANCH_LOG_D("Error has already been logged");
                 }
             }
 

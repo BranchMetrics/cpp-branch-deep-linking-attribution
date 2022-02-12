@@ -43,10 +43,13 @@
     <ClInclude Include="..\..\src\BranchIO\SessionInfo.h" />
     <ClInclude Include="..\..\src\BranchIO\String.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\APIClientSession.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\ConsoleLogChannel.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\FileLogChannel.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\IClientSession.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\IStorage.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\IStringConvertible.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\Log.h" />
+    <ClInclude Include="..\..\src\BranchIO\Util\LogChannel.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\MacAddress.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\RequestManager.h" />
     <ClInclude Include="..\..\src\BranchIO\Util\Sleeper.h" />
@@ -73,8 +76,11 @@
     <ClCompile Include="..\..\src\BranchIO\Request.cpp" />
     <ClCompile Include="..\..\src\BranchIO\SessionInfo.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\APIClientSession.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\ConsoleLogChannel.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\FileLogChannel.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\IStringConvertible.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\Log.cpp" />
+    <ClCompile Include="..\..\src\BranchIO\Util\LogChannel.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\MacAddress.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\RequestManager.cpp" />
     <ClCompile Include="..\..\src\BranchIO\Util\Sleeper.cpp" />

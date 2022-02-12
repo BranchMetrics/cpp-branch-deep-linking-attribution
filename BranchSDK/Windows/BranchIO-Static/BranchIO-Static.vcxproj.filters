@@ -135,6 +135,15 @@
     <ClInclude Include="..\..\src\BranchIO\Util\WindowsStorage.h">
       <Filter>Header Files\BranchIO\Util</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\FileLogChannel.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\LogChannel.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\BranchIO\Util\ConsoleLogChannel.h">
+      <Filter>Header Files\BranchIO\Util</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\BranchIO\AdvertiserInfo.cpp">
@@ -205,6 +214,15 @@
     </ClCompile>
     <ClCompile Include="..\..\src\BranchIO\Event\SessionEvent.cpp">
       <Filter>Source Files\BranchIO\Event</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\FileLogChannel.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\LogChannel.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\src\BranchIO\Util\ConsoleLogChannel.cpp">
+      <Filter>Source Files\BranchIO\Util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

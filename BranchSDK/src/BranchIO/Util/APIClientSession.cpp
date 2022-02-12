@@ -87,6 +87,11 @@ APIClientSession::post(
         BRANCH_LOG_W("Request failed. " << to_string(ex.message()));
         callback.onStatus(0, 0, to_string(ex.message()));
     }
+    catch (...)
+    {
+        BRANCH_LOG_W("Request failed. ");
+        callback.onStatus(0, 0, "Unknown Error");
+    }
     
     return false;
 }
