@@ -21,7 +21,7 @@ def configure(debug: bool, mt: bool):
         "-G",
         "Visual Studio 16 2019",
         "-A",
-        "Win32",
+        "x64",
         enable_debug,
         "-DBUILD_SHARED_LIBS=OFF",
         enable_mt,
