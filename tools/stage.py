@@ -130,8 +130,8 @@ makedirs(stage_path)
 # requires SDK be built for all targets, use build.py
 
 # by default only stage 64 bit binaries
-targets = ["MD_64", "MDd_64", "MT_64", "MTd_64"]
-#targets = ["MD", "MDd", "MD_64", "MDd_64", "MT", "MTd", "MT_64", "MTd_64"]
+#targets = ["MD_64", "MDd_64", "MT_64", "MTd_64"]
+targets = ["MD", "MDd", "MD_64", "MDd_64", "MT", "MTd", "MT_64", "MTd_64"]
 
 for target in targets:
     copy_poco(build_path, stage_path, target)

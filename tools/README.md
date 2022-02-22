@@ -21,16 +21,26 @@
 ##### Workaround release binary naming issue
 * Rename the `build\MD_64\BranchSDK\lib\BranchIO.lib` to `build\MD_64\BranchSDK\lib\BranchIOmd.lib`
 * Rename the `build\MT_64\BranchSDK\lib\BranchIO.lib` to `build\MT_64\BranchSDK\lib\BranchIOmt.lib`
+* Rename the `build\MD\BranchSDK\lib\BranchIO.lib` to `build\MD\BranchSDK\lib\BranchIOmd.lib`
+* Rename the `build\MT\BranchSDK\lib\BranchIO.lib` to `build\MT\BranchSDK\lib\BranchIOmt.lib`
 
 ### Stage build products
 * `python tools\stage.py`
 
-##### Workaround invalid Poco binaries built by conan
-* `python tools\build_poco.py`
+##### Workaround invalid Poco binaries built by conan. Build 64 bit Poco binaries.
+* `python tools\build_poco_64.py`
 * Copy the Poco MD libraries from `poco\cmake-build\lib\Release` to `stage\lib\MD_64`
 * Copy the Poco MT libraries from `poco\cmake-build\lib\Release` to `stage\lib\MT_64`
 * Copy the Poco MDd libraries from `poco\cmake-build\lib\Debug` to `stage\lib\MDd_64`
 * Copy the Poco MTd libraries from `poco\cmake-build\lib\Debug` to `stage\lib\MTd_64`
+
+
+##### Workaround invalid Poco binaries built by conan. Build 32 bit Poco binaries
+* `python tools\build_poco.py`
+* Copy the Poco MD libraries from `poco\cmake-build\lib\Release` to `stage\lib\MD`
+* Copy the Poco MT libraries from `poco\cmake-build\lib\Release` to `stage\lib\MT`
+* Copy the Poco MDd libraries from `poco\cmake-build\lib\Debug` to `stage\lib\MDd`
+* Copy the Poco MTd libraries from `poco\cmake-build\lib\Debug` to `stage\lib\MTd`
 
 Now the library binaries should be in `stage`
 

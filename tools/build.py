@@ -37,8 +37,8 @@ makedirs(build_path)
 
 # available runtimes, architectures
 runtimes = ["MD", "MDd", "MT", "MTd"]
-#architectures = ["x86", "x64"]
-architectures = ["x64"]
+architectures = ["x86", "x64"]
+#architectures = ["x64"]
 
 for runtime in runtimes:
     for architecture in architectures:
