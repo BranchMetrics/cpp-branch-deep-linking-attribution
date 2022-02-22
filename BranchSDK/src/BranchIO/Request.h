@@ -66,11 +66,6 @@ class Request {
      * based on the attempt count. Returns 8000, 16000, 32000, 64000, then
      * 120000 for all successive attempts.
      *
-     * Note that Poco::Thread::sleep() takes a long, like Poco::Condition::wait
-     * and friends. But long is different sizes depending on the architecture.
-     * The linter wants a specific-size type here. Using int32_t avoids
-     * compiler warnings/errors on 64-bit architectures.
-     *
      * @return a delay in ms
      * @todo(jdee): Determine a proper backoff scheme and maximum number of attempts.
      */

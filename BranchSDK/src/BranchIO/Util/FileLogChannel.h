@@ -47,6 +47,7 @@ namespace BranchIO {
 
         /**
          * Sets max size of the log file. When its exceeded, they are rotated.
+         * Suffix the value with 'K' (100K) or 'M' (90M) to enter values in KB or MB.
          */
         void setLogFileMaxSize(const std::string rotation);
 

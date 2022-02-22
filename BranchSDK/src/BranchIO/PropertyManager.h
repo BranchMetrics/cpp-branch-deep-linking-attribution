@@ -5,7 +5,6 @@
 
 #include "BranchIO/Util/IStringConvertible.h"
 #include "BranchIO/JSONObject.h"
-#include "BranchIO/JSONArray.h"
 #include "BranchIO/String.h"
 #include <string>
 #include <mutex>

@@ -1,9 +1,7 @@
 #include "BranchOperations.h"
 
 #include <algorithm>
-
-#include <Poco/Path.h>
-
+#include <filesystem>
 #include <BranchIO/Branch.h>
 #include <BranchIO/Event/CustomEvent.h>
 #include <BranchIO/Event/StandardEvent.h>
@@ -39,7 +37,7 @@ BranchOperations::setupSDKLogging(const std::string& filename)
     }
     else {
         // If the %LocalAppData% env. var. is not set for some reason, use the system-provided tmp dir.
-        branchLogFilePath = Poco::Path::temp();
+        branchLogFilePath = std::filesystem::temp_directory_path().string();
     }
 
     // Generated and rolled over in this directory.

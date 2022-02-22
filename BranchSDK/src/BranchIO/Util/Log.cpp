@@ -183,7 +183,7 @@ Log::unescapeFormat(const std::string& text) {
     string copy(text);
 
     /*
-     * The Poco logger always interprets any % sign as a printf-style format (e.g. %d), and fails
+     * The logger may interpret any % sign as a printf-style format (e.g. %d), and fails
      * when logging things like URL encodings. This unescapes all % signs by doubling them to %%,
      * producing the correct output.
      */
