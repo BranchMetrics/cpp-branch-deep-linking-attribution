@@ -3,17 +3,11 @@
 #ifndef BRANCHIO_UTIL_REQUESTMANAGER_H__
 #define BRANCHIO_UTIL_REQUESTMANAGER_H__
 
-#include <Poco/Exception.h>
-#include <Poco/Mutex.h>
-#include <Poco/NotificationQueue.h>
-#include <Poco/Runnable.h>
-#include <Poco/Task.h>
-#include <Poco/Thread.h>
-
 #include "APIClientSession.h"
 #include "BranchIO/Event/Event.h"
 #include "BranchIO/fwd.h"
 #include "BranchIO/Request.h"
+#include <deque>
 
 namespace BranchIO {
 
@@ -21,7 +15,7 @@ namespace BranchIO {
  * (Internal) Thread-safe request manager class with an optional background thread
  * that manages a priority request queue with callbacks.
  */
-class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
+class BRANCHIO_DLL_EXPORT RequestManager {
  public:
     /**
      * Constructor.
@@ -55,7 +49,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      * @param callback (optional) Interface for success and failure response.
      * @param urgent (optional) if true, the request is inserted at the front of the queue instead of the back.
      * @return a reference to the RequestManager
-     * @throw Poco::InvalidArgumentException if callback and the default callback are both NULL
+     * @throw std::exception - InvalidArgumentException if callback and the default callback are both NULL
      */
     RequestManager& enqueue(
         const BaseEvent& event,
@@ -63,9 +57,15 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
         bool urgent = false);
 
     /**
-     * Start the request manager's background thread.
+     * Start(create) the request manager's background thread.
      */
     void start();
+
+    /**
+     *  Request manager's background thread executes this method when its started.
+     *  It dequeues RequestTask from queue and executes them one by one.
+     */
+    void run();
 
     /**
      * Stop the request manager's background thread and join the worker thread.
@@ -79,14 +79,6 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      * blocks.
      */
     void waitTillFinished();
-
-    // ----- Poco::Runnable -----
-
-    /**
-     * This may be called in a custom thread without calling start to
-     * start our own.
-     */
-    void run();
 
     /**
      * @return true if this request manager is shutting down.
@@ -110,11 +102,11 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
     RequestManager& operator=(const RequestManager& other) { return *this; }
 
     /**
-     * Shim object for Poco::NotificationQueue. Specialization of Poco::Task.
+     * Shim object for TaskQueue. 
      * Just contains the request and callback and sends the request
-     * synchronously via Poco::Task::runTask().
+     * synchronously via runTask().
      */
-    struct RequestTask : public Poco::Task {
+    struct RequestTask {
         /**
          * Constructor.
          * @param manager A reference to the RequestManager that enqueued this
@@ -123,7 +115,6 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
          */
         RequestTask(RequestManager& manager, const BaseEvent& event, IRequestCallback* callback);
 
-        // ----- Poco::Task -----
         /**
          * Task Runner
          */
@@ -151,12 +142,36 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
     };
 
     /**
+    * Inserts a RequestTask at the back of the queue and notifies about it.
+    * @param task RequestTask to be added.
+    */
+    void enqueueTask(RequestTask* task);
+    
+    /**
+    * Inserts a RequestTask in the front of the queue and notifies about it.
+    * @param task RequestTask to be added.
+    */
+    void enqueueUrgentTask(RequestTask* task);
+    
+    /**
+     * Pops and returns a RequestTask in the front of the queue. 
+     * If queue is empty, it waits until any RequestTask in enqueued.
+     * @return task RequestTask in the front of the queue.
+     */
+    RequestTask* waitDequeueNotification();
+
+    /**
+     * Wakes up all threads that wait for a task.
+     */
+    void wakeUpAll();
+
+    /**
      * Synchronized getter for _clientSession. Will usually only
      * be non-NULL in unit tests.
      * @return pointer to an IClientSession or NULL
      */
     IClientSession *getClientSession() const {
-        Poco::Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         return _clientSession;
     }
 
@@ -166,7 +181,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      * @param clientSession pointer to an IClientSession to use
      */
     void setClientSession(IClientSession *clientSession) {
-        Poco::Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         _clientSession = clientSession;
     }
 
@@ -178,7 +193,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      * @return the current Request or NULL if none
      */
     Request* getCurrentRequest() const {
-        Poco::Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         return _currentRequest;
     }
 
@@ -188,7 +203,7 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
      * @return *this
      */
     RequestManager& setCurrentRequest(Request* request) {
-        Poco::Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         _currentRequest = request;
         return *this;
     }
@@ -200,13 +215,13 @@ class BRANCHIO_DLL_EXPORT RequestManager : public Poco::Runnable {
     IPackagingInfo& getPackagingInfo() { return *_packagingInfo; }
 
  private:
-    Poco::NotificationQueue _queue;
-    Poco::Thread _thread;
+    std::deque<RequestTask *>  _queue;
+    mutable std::mutex _mutex;
+    std::condition_variable mutable _available;
+    std::thread _thread;
     IRequestCallback* volatile _defaultCallback;
     IPackagingInfo* volatile _packagingInfo;
     IClientSession* volatile _clientSession;
-
-    mutable Poco::Mutex _mutex;
     bool volatile _shuttingDown;
     Request* volatile _currentRequest;
 };

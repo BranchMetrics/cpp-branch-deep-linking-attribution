@@ -1,28 +1,25 @@
 // Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #include "APIClientSession.h"
-
-#include <Poco/Exception.h>
-#include <Poco/JSON/JSONException.h>
-#include <Poco/Net/Context.h>
-#include <Poco/Net/HTTPCredentials.h>
-#include <Poco/Net/HTTPRequest.h>
-#include <Poco/Net/HTTPResponse.h>
-#include <Poco/Net/NetException.h>
-#include <Poco/Net/SSLManager.h>
-#include <Poco/NullStream.h>
-#include <Poco/StreamCopier.h>
-#include <Poco/URI.h>
-
-#include <string>
-
+#include "StringUtils.h"
 #include "BranchIO/Defines.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Log.h"
 
+#include <string>
+#include <winrt/Windows.Web.Http.Headers.h>
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Windows.Security.Cryptography.h>
+
 using namespace std;
-using namespace Poco;
-using namespace Poco::Net;
+
+using namespace winrt;
+using namespace winrt::Windows::Foundation;
+using namespace winrt::Windows::Foundation::Collections;
+using namespace winrt::Windows::Web::Http;
+using namespace winrt::Windows::Web::Http::Headers;
+using namespace winrt::Windows::Security::Credentials;
+using namespace winrt::Windows::Storage::Streams;
 
 namespace BranchIO {
 
@@ -33,34 +30,20 @@ APIClientSession::instance() {
     return _session;
 }
 
-APIClientSession::APIClientSession(const std::string& urlBase) :
-    HTTPSClientSession(URI(urlBase).getHost(),
-    URI(urlBase).getPort(),
-    Poco::Net::SSLManager::instance().defaultClientContext()),
-    _urlBase(urlBase),
+APIClientSession::APIClientSession(const std::string& urlBase) :_urlBase(urlBase),
     _shuttingDown(false) {
+    init_apartment();
+    _httpClient = HttpClient();
 }
 
 void
 APIClientSession::stop() {
     {
-        Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         // Ignore subsequent calls
         if (_shuttingDown) return;
 
         _shuttingDown = true;
-    }
-
-    try {
-        if (connected()) abort();
-    }
-    catch (NetException& /* e */) {
-        // Don't report this. This can happen despite the condition above.
-        // This is just a way of shutting down the socket and any outstanding
-        // requests to the server to terminate the RequestManager's thread.
-        // @todo(jdee): Improve on this.
-
-        // cerr << "abort failure: " << e.message() << endl;
     }
 }
 
@@ -72,102 +55,96 @@ APIClientSession::post(
     JSONObject& result) {
     if (isShuttingDown()) return false;
 
-    try {
         /* ----- Set up the HTTP request ----- */
+    Uri uri{to_hstring(BRANCH_IO_URL_BASE), to_hstring(path) };
 
-        HTTPRequest request(HTTPRequest::HTTP_POST, path, HTTPMessage::HTTP_1_1);
-        string requestBody = jsonPayload.stringify();
-
-        request.setContentLength(requestBody.length());
-        request.setContentType("application/json; charset=utf-8");
+        // Construct the JSON to post.
+        wstring requestBody = StringUtils::utf8_to_wstring(jsonPayload.stringify());
+        HttpStringContent jsonContent( requestBody, UnicodeEncoding::Utf8, L"application/json");
 
         /* ----- Send the request and body ----- */
 
         // bail out immediately before and after any I/O, which can take
-        // time
-        sendRequest(request, requestBody);
+        // time - Post the JSON, and wait for a response.
+    try
+    {
+        HttpResponseMessage  httpResponseMessage = _httpClient.PostAsync(uri, jsonContent).get();
         if (isShuttingDown()) return false;
 
         BRANCH_LOG_D("Request sent. Waiting for response.");
 
-        /* ----- Wait for the response ----- */
-        return processResponse(callback, result);
+        // Make sure the post succeeded, and write out the response.
+        bool responseCode = processResponse(callback, result, httpResponseMessage);
+
+        httpResponseMessage.Close();
+
+        return responseCode;
     }
-    catch (const Poco::Exception& e) {
+    catch (winrt::hresult_error const& ex)
+    {
         if (isShuttingDown()) return false;
-        string description(e.what());
-        description += ": " + e.message();
-        BRANCH_LOG_W("Request failed. " << description);
-        callback.onStatus(0, 0, description);
+
+        BRANCH_LOG_W("Request failed. " << to_string(ex.message()));
+        callback.onStatus(0, 0, to_string(ex.message()));
     }
+    catch (...)
+    {
+        BRANCH_LOG_W("Request failed. ");
+        callback.onStatus(0, 0, "Unknown Error");
+    }
+    
     return false;
 }
 
-void
-APIClientSession::sendRequest(Poco::Net::HTTPRequest& request, const std::string& body) {
-    BRANCH_LOG_D("Sending request to " << request.getURI());
-    BRANCH_LOG_V("Event Payload: " << body);
-
-    // blocking socket write
-    ostream& os = sendRequest(request);
-    if (isShuttingDown()) return;
-
-    // blocking socket write
-    os << body;
-}
-
 bool
-APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result) {
-    HTTPResponse response;
-    // blocking socket read
-    istream& rs = receiveResponse(response);
+APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result, HttpResponseMessage& httpResponseMessage) {
+
     if (isShuttingDown()) return false;
 
-    HTTPResponse::HTTPStatus status = response.getStatus();
-
-    string requestId;
-    try {
-        requestId = response["X-Branch-Request-Id"];
-    }
-    catch (NotFoundException&) {
-    }
+    HttpStatusCode  status = httpResponseMessage.StatusCode();
+    
+    std::string requestId;
+    
+    if(httpResponseMessage.Headers().HasKey(L"X-Branch-Request-Id"))
+        requestId = to_string(httpResponseMessage.Headers().Lookup(L"X-Branch-Request-Id"));
+    
     if (!requestId.empty()) {
-        BRANCH_LOG_D("[" << requestId << "] " << status << " " << response.getReason());
+        BRANCH_LOG_D("[" << requestId << "] " << (int)status << " " << to_string(httpResponseMessage.ReasonPhrase()));
     }
     else {
-        BRANCH_LOG_D(status << " " << response.getReason());
+        BRANCH_LOG_D((int)status << " " << to_string(httpResponseMessage.ReasonPhrase()));
     }
 
     // @todo(jdee): Fine-tune this success-failure determination
-    if (status == HTTPResponse::HTTP_OK) {
+    if (status == HttpStatusCode::Ok) {
         try {
-            result = JSONObject::parse(rs);
+
+            std::wstring  httpResponseBody = httpResponseMessage.Content().ReadAsStringAsync().get().c_str();
+            result = JSONObject::parse(to_string(httpResponseBody));
 
             BRANCH_LOG_V("Response body: " << result.stringify());
-
+            
             callback.onSuccess(0, result);
 
             return true;
-        } catch (Poco::JSON::JSONException&) {
+        }
+        catch (std::exception &) {
             // Parsing Error.
             // @todo(jdee): Return the error from the parseResults
             callback.onStatus(0, 0, "Error parsing result");
         }
-    } else {
+    }
+    else {
         /*
          * Report HTTP status != 200 as an error. Pass the status
          * code as the error argument.
          */
-        callback.onStatus(0, status, response.getReason());
+        callback.onStatus(0, (int)status, to_string(httpResponseMessage.ReasonPhrase()));
         if (isShuttingDown()) return false;
 
-        // Read the output stream anyway. Don't bother parsing.
-        NullOutputStream null;
-        StreamCopier::copyStream(rs, null);
-
-        if (status < HTTPResponse::HTTP_INTERNAL_SERVER_ERROR) {
+        if (status < HttpStatusCode::InternalServerError) {
             // We don't want to retry this.  Call the error handler and return "true" to indicate that this was handled.
-            callback.onError(0, status, response.getReason());
+            callback.onError(0, (int)status, to_string(httpResponseMessage.ReasonPhrase()));
             return true;
         }
     }

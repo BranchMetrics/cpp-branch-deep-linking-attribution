@@ -2,25 +2,17 @@
 
 #include "Log.h"
 
-#include <Poco/DateTimeFormatter.h>
-#include <Poco/Message.h>
-#include <Poco/Process.h>
-#include <Poco/String.h>
-#include <Poco/Thread.h>
-#include <Poco/Timestamp.h>
-
-#include <Poco/EventLogChannel.h>
-#include <Poco/WindowsConsoleChannel.h>
-
-#include <Poco/FileChannel.h>
-
 #include <cstdlib>
 #include <exception>
 #include <iostream>
 #include <sstream>
+#include <iomanip>
+#include <chrono>
+#include "FileLogChannel.h"
+#include "ConsoleLogChannel.h"
+#include "StringUtils.h"
 
 using namespace std;
-using namespace Poco;
 
 #define ERROR_LEVEL_NAME "Error"
 #define WARNING_LEVEL_NAME "Warning"
@@ -58,18 +50,17 @@ operator<<(std::ostream& s, BranchIO::Log::Level level) {
 std::istream&
 operator>>(std::istream& s, BranchIO::Log::Level& level) {
     using BranchIO::Log;
-    using Poco::icompare;
     string svalue;
     s >> svalue;
-    if (icompare(svalue, ERROR_LEVEL_NAME) == 0) {
+    if (svalue.compare(ERROR_LEVEL_NAME) == 0) {
         level = Log::Error;
-    } else if (icompare(svalue, WARNING_LEVEL_NAME) == 0) {
+    } else if (svalue.compare(WARNING_LEVEL_NAME) == 0) {
         level = Log::Warning;
-    } else if (icompare(svalue, INFO_LEVEL_NAME) == 0) {
+    } else if (svalue.compare(INFO_LEVEL_NAME) == 0) {
         level = Log::Info;
-    } else if (icompare(svalue, DEBUG_LEVEL_NAME) == 0) {
+    } else if (svalue.compare(DEBUG_LEVEL_NAME) == 0) {
         level = Log::Debug;
-    } else if (icompare(svalue, VERBOSE_LEVEL_NAME) == 0) {
+    } else if (svalue.compare(VERBOSE_LEVEL_NAME) == 0) {
         level = Log::Verbose;
     } else {
         throw std::runtime_error("Invalid log level");
@@ -80,8 +71,8 @@ operator>>(std::istream& s, BranchIO::Log::Level& level) {
 
 namespace BranchIO {
 
-typedef WindowsColorConsoleChannel ConsoleLoggingChannel;
-typedef EventLogChannel SystemLoggingChannel;
+int Log::_level = Log::getDefaultLogLevel();
+LogChannel* Log:: _channel = NULL;
 
 Log&
 Log::instance() {
@@ -89,16 +80,14 @@ Log::instance() {
     return _instance;
 }
 
-Log::Log() :
-    _logger(Poco::Logger::get("BranchIO")) {
+Log::Log() {
     // Set up the channel
-    _logger.setLevel(getLoggerPriority(getDefaultLogLevel()));
 
     string logFile(getDefaultLogFile());
     if (logFile.empty()) {
-        _logger.setChannel(makeConsoleLoggingChannel());
+        _channel = makeConsoleLoggingChannel();
     } else {
-        _logger.setChannel(makeFileLoggingChannel(logFile));
+        _channel = makeFileLoggingChannel(logFile);
     }
 }
 
@@ -106,53 +95,57 @@ Log::~Log() {
 }
 
 Log&
-Log::setLevel(Level level) {
-    Message::Priority priority(getLoggerPriority(level));
-    instance().getLogger().setLevel(priority);
+Log::setLevel(Level plevel) {
+    _level = plevel;
     return instance();
 }
 
 Log&
 Log::enableFileLogging(const std::string& path) {
-    instance().getLogger().setChannel(makeFileLoggingChannel(path));
+    _channel = makeFileLoggingChannel(path); 
     return instance();
 }
 
 Log&
 Log::enableSystemLogging() {
-    instance().getLogger().setChannel(makeSystemLoggingChannel());
+    _channel = makeSystemLoggingChannel();
     return instance();
 }
 
 Log&
 Log::enableConsoleLogging(bool enableColors) {
-    instance().getLogger().setChannel(makeConsoleLoggingChannel(enableColors));
+    _channel = makeConsoleLoggingChannel();
     return instance();
 }
 
 void
 Log::error(const std::string& message, const char* func, const char* file, int line) {
-    poco_error(_logger, buildMessage(Error, message, func, file, line));
+    if (_level >= Log::Error && _channel)
+        _channel->log(buildMessage(Error, message, func, file, line));
 }
 
 void
 Log::warning(const std::string& message, const char* func, const char* file, int line) {
-    poco_warning(_logger, buildMessage(Warning, message, func, file, line));
+    if (_level >= Log::Warning && _channel)
+        _channel->log(buildMessage(Warning, message, func, file, line));
 }
 
 void
 Log::info(const std::string& message, const char* func, const char* file, int line) {
-    poco_information(_logger, buildMessage(Info, message, func, file, line));
+    if (_level >= Log::Info && _channel)
+        _channel->log(buildMessage(Info, message, func, file, line));
 }
 
 void
 Log::debug(const std::string& message, const char* func, const char* file, int line) {
-    poco_debug(_logger, buildMessage(Debug, message, func, file, line));
+    if (_level >= Log::Debug && _channel)
+        _channel->log(buildMessage(Debug, message, func, file, line));
 }
 
 void
 Log::verbose(const std::string& message, const char* func, const char* file, int line) {
-    poco_trace(_logger, buildMessage(Verbose, message, func, file, line));
+    if (_level >= Log::Verbose && _channel)
+        _channel->log(buildMessage(Verbose, message, func, file, line));
 }
 
 // @todo(jdee): Configure the Poco logger to do this formatting for us.
@@ -167,11 +160,9 @@ Log::buildMessage(Level level, const std::string& message, const char* func, con
     if (offset != string::npos) path = path.substr(offset + 1);
 
     ostringstream oss;
-    Timestamp now;
-    // https://pocoproject.org/docs/Poco.DateTimeFormatter.html
-    oss << DateTimeFormatter::format(now, "%Y-%m-%d-%H:%M:%s") << "|";
-    oss << Poco::Process::id() << "|";
-    oss << Thread::currentTid() << "|";
+    oss << getTimeStamp();
+    oss << GetCurrentProcessId() << "|";
+    oss << GetCurrentThreadId() << "|";
     oss << level << "|";
 
     if (!path.empty()) {
@@ -192,7 +183,7 @@ Log::unescapeFormat(const std::string& text) {
     string copy(text);
 
     /*
-     * The Poco logger always interprets any % sign as a printf-style format (e.g. %d), and fails
+     * The logger may interpret any % sign as a printf-style format (e.g. %d), and fails
      * when logging things like URL encodings. This unescapes all % signs by doubling them to %%,
      * producing the correct output.
      */
@@ -204,34 +195,26 @@ Log::unescapeFormat(const std::string& text) {
 
     return copy;
 }
-
-Poco::Channel*
+LogChannel*
 Log::makeFileLoggingChannel(const std::string& path) {
-    auto* channel = new FileChannel(path);
+    FileLogChannel* channel = new FileLogChannel(StringUtils::utf8_to_wstring(path).c_str());
     // Roll log files based on size.
     // Keep up to 10 archived log files (e.g. %LocalAppData%\Branch\testbed.log.[0-9]) up to 100 kB each.
-    // https://pocoproject.org/docs/Poco.FileChannel.html
-    channel->setProperty(FileChannel::PROP_ROTATION, "100K");
-    channel->setProperty(FileChannel::PROP_PURGECOUNT, "10");
+    channel->setLogFileMaxSize("100K");
+    channel->setLogFileRotationCount(5);
+    channel->open();
     return channel;
 }
 
-Poco::Channel*
+LogChannel*
 Log::makeSystemLoggingChannel() {
-    SystemLoggingChannel* channel = new SystemLoggingChannel;
-    channel->setProperty("name", "BranchIO");
-    return channel;
+    // Its not supported.
+    return NULL;
 }
 
-Poco::Channel*
+LogChannel*
 Log::makeConsoleLoggingChannel(bool enableColors) {
-    ConsoleLoggingChannel* channel = new ConsoleLoggingChannel;
-    channel->setProperty("enableColors", enableColors ? "true" : "false");
-    channel->setProperty("errorColor", "magenta");
-    channel->setProperty("warningColor", "yellow");
-    channel->setProperty("informationColor", "cyan");
-    channel->setProperty("debugColor", "default");
-    channel->setProperty("traceColor", "lightBlue");
+    LogChannel* channel = new ConsoleLogChannel();
     return channel;
 }
 
@@ -283,25 +266,21 @@ Log::getDefaultLogFile() {
     return envValue;
 }
 
-/*
- * Convert a Log::Level to a Poco::Message::Priority
- */
-Poco::Message::Priority
-Log::getLoggerPriority(Level level) {
-    switch (level) {
-    case Error:
-        return Message::PRIO_ERROR;
-    case Warning:
-        return Message::PRIO_WARNING;
-    case Info:
-        return Message::PRIO_INFORMATION;
-    case Debug:
-        return Message::PRIO_DEBUG;
-    case Verbose:
-        return Message::PRIO_TRACE;
-    default:
-        return Message::PRIO_ERROR;
-    }
+std::string Log::getTimeStamp()
+{
+    stringstream ss;
+   
+    auto tp1 = chrono::system_clock::now();
+    auto time = chrono::system_clock::to_time_t(tp1);
+    auto tp2 = chrono::system_clock::from_time_t(time);
+    
+    if (tp2 > tp1)
+        time = chrono::system_clock::to_time_t(tp1 - chrono::seconds(1));
+    
+    ss << put_time(localtime(&time), "%Y-%m-%d %T") << "." << setfill('0') << setw(3)
+        << (chrono::duration_cast<chrono::milliseconds>(tp1.time_since_epoch()).count() % 1000);
+
+    return ss.str();
 }
 
 }  // namespace BranchIO

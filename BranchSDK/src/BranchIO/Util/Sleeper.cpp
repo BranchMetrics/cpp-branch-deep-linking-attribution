@@ -1,11 +1,11 @@
 // Copyright (c) 2019-21 Branch Metrics, Inc.
 
-#include <Poco/Clock.h>
 
 #include "Sleeper.h"
+#include <mutex>
+#include <chrono>
 
 using namespace std;
-using namespace Poco;
 
 namespace BranchIO {
 
@@ -16,22 +16,28 @@ Sleeper::~Sleeper() {
          * Lock and unlock the mutex one last time to give sleep() a chance
          * to read _woken and exit.
          */
-        Mutex::ScopedLock _l(_mutex);
+        scoped_lock _l(_mutex);
     }
 }
 
 bool
 Sleeper::sleep(int32_t milliseconds) {
-    Clock start;
-    int32_t remaining(milliseconds);
 
-    Mutex::ScopedLock _l(_mutex);
+    int32_t remaining(milliseconds);
+    auto t_start = std::chrono::steady_clock::now();
+
+    unique_lock _l(_mutex);
     // reset state after any previous sleep()
     _woken = false;
-
+    
     while (remaining > 0 && !_woken) {
-        _condition.tryWait(_mutex, remaining);
-        remaining = milliseconds - static_cast<int32_t>(start.elapsed() * 1.e-3);
+       
+        std::chrono::duration<int, std::milli> remainingDuration(remaining);
+        _condition.wait_for(_l, remainingDuration);
+       
+        auto t_now = std::chrono::steady_clock::now();
+        double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_now - t_start).count();
+        remaining = milliseconds - static_cast<int32_t>(elapsed_time_ms);
     }
 
     return _woken;
@@ -39,14 +45,14 @@ Sleeper::sleep(int32_t milliseconds) {
 
 void
 Sleeper::wake() {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _woken = true;
-    _condition.broadcast();
+    _condition.notify_all();
 }
 
 bool
 Sleeper::isWoken() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _woken;
 }
 

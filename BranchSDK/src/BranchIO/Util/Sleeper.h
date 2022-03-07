@@ -3,10 +3,9 @@
 #ifndef BRANCHIO_UTIL_SLEEPER_H__
 #define BRANCHIO_UTIL_SLEEPER_H__
 
-#include <Poco/Condition.h>
-#include <Poco/Mutex.h>
-
 #include <cstdint>
+#include <mutex>
+#include <condition_variable>
 
 namespace BranchIO {
 
@@ -51,8 +50,8 @@ class Sleeper {
      bool isWoken() const;
 
  private:
-    Poco::Condition mutable _condition;
-    Poco::Mutex mutable _mutex;
+    std::condition_variable mutable _condition;
+    std::mutex mutable _mutex;
     bool volatile _woken;
 };
 

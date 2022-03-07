@@ -3,41 +3,42 @@
 #ifndef BRANCHIO_JSONOBJECT_H__
 #define BRANCHIO_JSONOBJECT_H__
 
-#include <Poco/JSON/Object.h>
-#include <Poco/JSON/Array.h>
+#define _WINSOCKAPI_  
 
 #include <iosfwd>
 #include <string>
-
 #include "BranchIO/dll.h"
+#include <winrt/Windows.Data.Json.h>
+#include <winrt/Windows.Foundation.Collections.h>
+
+class PropertyManager;
 
 namespace BranchIO {
 
 /**
  * A representation of a JSON Object.
  */
-class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
+class BRANCHIO_DLL_EXPORT JSONObject  {
  public:
-    /**
-     * Conversion operator from base class and default constructor.
-     * Initializes a JSONObject wrapping the same Poco object, which
-     * may or may not be a BranchIO::JSONObject.
+
+     JSONObject();
+
+     /**
+     * Initializes a JSONObject with the WinRT JsonObject.
      * @param object a JSON object to copy
      */
-    JSONObject(
-        const Poco::JSON::Object& object = Poco::JSON::Object());
+     JSONObject(const winrt::Windows::Data::Json::JsonObject& object);
 
     /**
-     * Override the definition from the base class so that we get
-     * a JSONObject* instead of a Poco::JSON::Object*.
+     * Pointer to JSONObject*
      */
-    typedef Poco::SharedPtr<JSONObject> Ptr;
+    typedef std::shared_ptr<JSONObject> Ptr;
 
     /**
      * Parse a JSON formatted string.
      * @param jsonString JSON formatted string
-     * @return a new JSONObject Ptr.
-     * @throw Poco::JSON::JSONException in case of parse failure.
+     * @return a new JSONObject.
+     * @throw winrt::hresult_error in case of parse failure.
      */
     static JSONObject parse(const std::string& jsonString);
 
@@ -45,7 +46,7 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * Parse a JSON formatted stream.
      * @param s JSON formatted stream
      * @return a new JSONObject Ptr.
-     * @throw Poco::JSON::JSONException in case of parse failure.
+     * @throw winrt::hresult_error in case of parse failure.
      */
     static JSONObject parse(std::istream& s);
 
@@ -54,7 +55,7 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      * @param path file path to load
      * @return a JSONObject containing the contents of the file
      * @throw std::runtime_error in case of failure to read the file
-     * @throw Poco::JSON::JSONException in case of parse failure.
+     * @throw winrt::hresult_error in case of parse failure.
      */
     static JSONObject load(const std::string& path);
 
@@ -66,14 +67,9 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
 
     /**
      * Represent this class as a string.
-     * When indent is 0, the string will be created as small as possible.
-     * Indentation is increased/decreased using number of spaces defined in step.
-     * The default value -1 for step indicates that step will be equal to the indent size.
-     * @param indent indent level
-     * @param step step size
      * @return a string representation of this class.
      */
-    std::string stringify(unsigned int indent = 0, int step = -1) const;
+    std::string stringify() const;
 
     /**
      * Operator +=
@@ -83,46 +79,57 @@ class BRANCHIO_DLL_EXPORT JSONObject : public Poco::JSON::Object {
      */
     JSONObject & operator += (const JSONObject &rhs);
 
-    // explicitly bring in the base class methods with the same
-    // names (overloads)
-    using Poco::JSON::Object::stringify;
-    using Poco::JSON::Object::set;
-
     /**
-     * Overload of set to take a JSONObject::Ptr.
+     *  set(Overloaded versions) - sets values for the specified key in the JSON Object.
      * @param key Key
-     * @param ptr Value
+     * @param value Value 
      */
-    void set(const std::string& key, JSONObject::Ptr ptr);
+    void set(const std::string& key, const std::string& value);
+    void set(const std::string& key, const int& value);
+    void set(const std::string& key, const double& value);
+    void set(const std::string& key, const JSONObject value) const;
+    void set(const std::string& key, const std::vector<std::string> value) const;
+    void set(const JSONObject& jsonObject) const;
 
     /**
-     * Overload of set to take a JSONArray::Ptr.
-     * @param key Key
-     * @param ptr Value
-     */
-    void set(const std::string& key, Poco::JSON::Array::Ptr ptr);
+    * getNamedString - Gets the String value with the specified name(key) in the JSON Object.
+    * @param name - The name/key
+    * @return string value for the key
+    */
+    std::string getNamedString(std::string const& name) const;
 
     /**
-     * Overload of set to take a reference to a JSONObject.
-     * @param key Key
-     * @param object Value
-     */
-    void set(const std::string& key, const JSONObject& object) {
-        // This requires a static_cast to the base class in order to pass it to the
-        // appropriate overload in the base class.
-        Poco::JSON::Object::set(key, static_cast<Poco::JSON::Object const&>(object));
-    }
+    * has - Indicates whether the JsonObject has an entry with the requested key.
+    * @param key - The key
+    * @return true if the JsonObject has an entry with the requested key; otherwise, false.
+    */
+    bool has(const std::string& key) const;
 
     /**
-     * Extract a subobject
-     * @todo(jdee): Might want to make this a template function to extract
-     * other types, or otherwise rethink this.
-     * @param key the key to extract
-     * @return the value of the subobject
-     */
-    JSONObject extract(const std::string& key) const {
-        return get(key).extract<Poco::JSON::Object>();
-    }
+    * remove - Removes a specific item from the JsonObject.
+    * @param key - The key of the item to remove.
+    */
+    void remove(const std::string& key);
+    
+    /**
+    * getWinRTJsonObj - Returns the encapsulated WinRT JsonObject.
+    * @return encapsulated WinRT JsonObject
+    */
+    const winrt::Windows::Data::Json::JsonObject getWinRTJsonObj() const;
+    
+    /**
+    * size - Gets the number of items in the JSON Object.
+    * @return number of items
+    */
+    const uint32_t size() const;
+    
+    /**
+    * clear - Removes all items.
+    */
+    void clear() const;
+
+protected:
+    winrt::Windows::Data::Json::JsonObject jObject;
 };
 
 }  // namespace BranchIO

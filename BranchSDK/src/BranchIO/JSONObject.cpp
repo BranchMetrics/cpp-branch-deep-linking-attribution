@@ -1,57 +1,42 @@
 // Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #include "BranchIO/JSONObject.h"
-
-#include <Poco/JSON/Parser.h>
-#include <Poco/StreamCopier.h>
+#include "Util/StringUtils.h"
 
 #include <fstream>
 #include <iostream>
 
 using namespace std;
-using namespace Poco;
-using namespace Poco::Dynamic;
-using namespace Poco::JSON;
+using namespace winrt;
+using namespace winrt::Windows::Data::Json;
+using namespace winrt::Windows::Foundation::Collections;
 
 namespace BranchIO {
 
-JSONObject::JSONObject(const Poco::JSON::Object& object)
-    : Poco::JSON::Object(object) {
+JSONObject::JSONObject() {
+    jObject = JsonObject();
+}
+
+JSONObject::JSONObject(const JsonObject& object){
+        jObject = object;
 }
 
 bool
 JSONObject::isEmpty() const {
-    return size() == 0;
+    return jObject.Size() == 0;
 }
 
 JSONObject
 JSONObject::parse(const std::string& jsonString) {
-    Parser parser;
-    // Can throw Poco::JSON::JSONException
-    Var result = parser.parse(jsonString);
-    try {
-        /*
-         * Since this is not a generic JSON parser, but a JSONObject parser,
-         * a valid JSON string like "null" or "[]" may generate a
-         * BadCastException. Empty strings generate an InvalidAccessException.
-         * Convert those to JSONExceptions for convenience of handling.
-         */
-        Object::Ptr object = result.extract<Object::Ptr>();
-        return JSONObject(*object);
-    }
-    catch (BadCastException&) {
-        throw Poco::JSON::JSONException("Not an object");
-    }
-    catch (InvalidAccessException&) {
-        throw Poco::JSON::JSONException("empty JSON string");
-    }
+    // Can throw Exception
+     JsonObject obj = JsonObject::Parse(to_hstring(jsonString));
+     return JSONObject(obj);
 }
 
 JSONObject
 JSONObject::parse(std::istream& s) {
-    ostringstream oss;
-    StreamCopier::copyStream(s, oss);
-    return parse(oss.str());
+    std::string str(std::istreambuf_iterator<char>(s), {});
+    return parse(str);
 }
 
 JSONObject
@@ -62,38 +47,81 @@ JSONObject::load(const std::string& path) {
 }
 
 std::string
-JSONObject::stringify(unsigned int indent, int step) const {
-    ostringstream ss;
-    stringify(ss, indent, step);
-    return ss.str();
+JSONObject::stringify() const {
+    winrt::hstring s = jObject.Stringify();
+    return StringUtils::wstring_to_utf8(s.c_str());
 }
 
 JSONObject &
 JSONObject::operator += (const JSONObject &rhs) {
-    for (JSONObject::ConstIterator it = rhs.begin(); it != rhs.end(); ++it) {
-        set(it->first, it->second);
+
+    IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
+    for (it = rhs.jObject.begin(); it != rhs.jObject.end(); ++it) {
+        IKeyValuePair< winrt::hstring, IJsonValue>  kvp = it.Current();
+        jObject.SetNamedValue(kvp.Key(), kvp.Value());
     }
     return *this;
 }
 
-void
-JSONObject::set(const std::string& key, JSONObject::Ptr ptr) {
-    if (ptr.isNull()) {
-        Object::remove(key);
-    } else {
-        Object &object(*ptr.get());
-        Object::set(key, object);
+void JSONObject::set(const std::string& key, const std::string& value){
+    JsonValue objValue = JsonValue::CreateStringValue(to_hstring(value));
+    jObject.SetNamedValue(to_hstring(key), objValue);
+}
+
+void JSONObject::set(const std::string& key, const int& value){
+    JsonValue objValue = JsonValue::CreateNumberValue(value);
+    jObject.SetNamedValue(to_hstring(key), objValue);
+}
+
+void JSONObject::set(const std::string& key, const double& value) {
+    JsonValue objValue = JsonValue::CreateNumberValue(value);
+    jObject.SetNamedValue(to_hstring(key), objValue);
+}
+
+void JSONObject::set(const std::string& key, const JSONObject value) const{
+    const JsonObject obj = value.getWinRTJsonObj();
+    jObject.SetNamedValue(to_hstring(key), obj);
+}
+
+void JSONObject::set(const std::string& key, const std::vector<std::string> value) const {
+    winrt::Windows::Data::Json::JsonArray arr;
+    for each (std::string str in value) {
+        arr.Append(JsonValue::CreateStringValue(to_hstring(str)));
+    }
+    jObject.SetNamedValue(to_hstring(key), arr);
+}
+
+void JSONObject::set(const JSONObject& jsonObject) const {
+    IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
+    for (it = jsonObject.jObject.begin(); it != jsonObject.jObject.end(); ++it) {
+        IKeyValuePair< winrt::hstring, IJsonValue>  kvp = it.Current();
+        jObject.SetNamedValue(kvp.Key(), kvp.Value());
     }
 }
 
-void
-JSONObject::set(const std::string& key, Poco::JSON::Array::Ptr ptr) {
-    if (ptr.isNull()) {
-        Object::remove(key);
-    } else {
-        JSON::Array &array(*ptr.get());
-        Object::set(key, array);
-    }
+std::string JSONObject::getNamedString(std::string const& name) const{
+    winrt::hstring hStrValue = jObject.GetNamedString(to_hstring(name));
+    return StringUtils::wstring_to_utf8(hStrValue.c_str());
+}
+
+void JSONObject::clear() const{
+    jObject.Clear();
+}
+
+bool JSONObject::has(const std::string& key) const {
+    return jObject.HasKey(to_hstring(key));
+}
+
+void JSONObject::remove(const std::string& key){
+    jObject.Remove(to_hstring(key));
+}
+
+const JsonObject JSONObject::getWinRTJsonObj() const{
+    return jObject;
+}
+
+const uint32_t JSONObject::size() const {
+    return jObject.Size() ;
 }
 
 }  // namespace BranchIO

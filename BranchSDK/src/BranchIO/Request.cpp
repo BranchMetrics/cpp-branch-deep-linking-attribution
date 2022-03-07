@@ -2,15 +2,15 @@
 
 #include "BranchIO/Request.h"
 
-#include <Poco/URI.h>
 #include <algorithm>
 #include <string>
+#include <mutex>
 
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Log.h"
+#include "BranchIO/Util/StringUtils.h"
 
 using namespace std;
-using namespace Poco;
 
 namespace BranchIO {
 
@@ -25,8 +25,8 @@ JSONObject Request::send(
     IRequestCallback &callback,
     IClientSession *clientSession) {
 
-    URI uri(Defines::stringify(api));
-    std::string path(uri.getPathAndQuery());
+    string uri(Defines::stringify(api));
+    std::string path(Defines::stringify(api));
     if (path.empty()) {
         path = "/";
     }
@@ -71,14 +71,14 @@ JSONObject Request::send(
 
 void
 Request::cancel() {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _canceled = true;
     _sleeper.wake();
 }
 
 bool
 Request::isCanceled() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _canceled;
 }
 
@@ -94,19 +94,19 @@ Request::getBackoffMillis() const {
 
 int
 Request::getAttemptCount() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _attemptCount;
 }
 
 int
 Request::incrementAttemptCount() {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return ++_attemptCount;
 }
 
 Request&
 Request::resetAttemptCount() {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _attemptCount = 0;
     return *this;
 }
