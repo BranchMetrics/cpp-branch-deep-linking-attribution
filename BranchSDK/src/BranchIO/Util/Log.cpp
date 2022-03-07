@@ -200,7 +200,7 @@ Log::makeFileLoggingChannel(const std::string& path) {
     FileLogChannel* channel = new FileLogChannel(StringUtils::utf8_to_wstring(path).c_str());
     // Roll log files based on size.
     // Keep up to 10 archived log files (e.g. %LocalAppData%\Branch\testbed.log.[0-9]) up to 100 kB each.
-    channel->setLogFileMaxSize("1K");
+    channel->setLogFileMaxSize("100K");
     channel->setLogFileRotationCount(5);
     channel->open();
     return channel;
