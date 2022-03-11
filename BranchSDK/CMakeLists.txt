@@ -12,6 +12,7 @@ project(BranchIO)
 
 # Enable C++ exceptions
 add_compile_options(/EHsc)
+add_definitions(-DUNICODE -D_UNICODE)
 
 # Make dependencies available via conan
 # TODO: TARGETS based version does not work, why?
@@ -28,13 +29,11 @@ include_directories(src)
 file(GLOB BRANCH_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/**/*.cpp)
 add_library(BranchIO ${BRANCH_SOURCE})
 
-# Links against Poco via conan
 # TODO: TARGETS based version does not work, why?
 target_link_libraries(BranchIO ${CONAN_LIBS})
-#target_link_libraries(BranchIO CONAN_PKG::Poco)
 
 # Set C++ version
-target_compile_features(BranchIO PUBLIC cxx_std_11)
+target_compile_features(BranchIO PUBLIC cxx_std_17)
 
 # Set MSVC runtime
 # TODO: Can this be done via configuration?
@@ -82,7 +81,7 @@ endif()
 # DLL. We could always build static, at least on Windows, even when building
 # shared libraries, but for now it seems best to build against source.
 #add_executable(unit_tests ${TEST} ${BRANCH_SOURCE})
-#target_link_libraries(unit_tests CONAN_PKG::Poco CONAN_PKG::gtest)
+#target_link_libraries(unit_tests CONAN_PKG::gtest)
 
 # Generates JUnit-style output in test_detail.xml, e.g. build/Debug/test_detail.xml.
 #add_test(NAME UnitTests COMMAND unit_tests --gtest_output=xml)

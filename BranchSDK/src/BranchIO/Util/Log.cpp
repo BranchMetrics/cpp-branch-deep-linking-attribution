@@ -148,7 +148,6 @@ Log::verbose(const std::string& message, const char* func, const char* file, int
         _channel->log(buildMessage(Verbose, message, func, file, line));
 }
 
-// @todo(jdee): Configure the Poco logger to do this formatting for us.
 std::string
 Log::buildMessage(Level level, const std::string& message, const char* func, const char* file, int line) {
     string path(file ? file : "");

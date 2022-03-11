@@ -34,7 +34,8 @@ BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, 
         // Copy the key/values
         IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
         JsonObject sourceJObject = jsonPtr->getWinRTJsonObj();
-        for (it = sourceJObject.begin(); it != sourceJObject.end(); ++it) {
+       
+        for (it = sourceJObject.First(); it.HasCurrent(); it.MoveNext()) {
             IKeyValuePair< winrt::hstring, IJsonValue>  kvp = it.Current();
             jObject.SetNamedValue(kvp.Key(), kvp.Value());
         }

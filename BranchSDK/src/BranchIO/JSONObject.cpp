@@ -56,7 +56,7 @@ JSONObject &
 JSONObject::operator += (const JSONObject &rhs) {
 
     IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
-    for (it = rhs.jObject.begin(); it != rhs.jObject.end(); ++it) {
+     for (it = rhs.jObject.First(); it.HasCurrent(); it.MoveNext()) {
         IKeyValuePair< winrt::hstring, IJsonValue>  kvp = it.Current();
         jObject.SetNamedValue(kvp.Key(), kvp.Value());
     }
@@ -93,7 +93,7 @@ void JSONObject::set(const std::string& key, const std::vector<std::string> valu
 
 void JSONObject::set(const JSONObject& jsonObject) const {
     IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
-    for (it = jsonObject.jObject.begin(); it != jsonObject.jObject.end(); ++it) {
+    for (it = jsonObject.jObject.First(); it.HasCurrent(); it.MoveNext()) {
         IKeyValuePair< winrt::hstring, IJsonValue>  kvp = it.Current();
         jObject.SetNamedValue(kvp.Key(), kvp.Value());
     }

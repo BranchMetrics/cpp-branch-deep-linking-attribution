@@ -38,12 +38,7 @@ class BranchioConan(ConanFile):
     exports_sources = "BranchIO"
 
     # ----- Package dependencies -----
-    # Pin to a specific version of Poco for stability of CI and other environments using
-    # Conan. Conan recently introduced lockfiles, which may be useful for this purpose
-    # as well. For now, this is consistent with transitive dependencies in Branch Maven
-    # packages, to avoid version drift.
-    requires = "poco/1.11.1"
-    build_requires = "gtest/1.8.1"
+    build_requires = "gtest/1.11.0"
 
     def validate(self):
         if self.settings.os != "Windows":
@@ -68,12 +63,12 @@ class BranchioConan(ConanFile):
             # build everything for now
             # we're probably about to run unit tests anyway
             cmake.build()
-        if self.should_install:
+        #if self.should_install:
             # conan build --install
-            cmake.install()
-        if self.should_test:
+            #cmake.install()
+        #if self.should_test:
             # conan build --test
-            cmake.test() # run unit tests
+            #cmake.test() # run unit tests
 
     def test(self):
         # TODO(jdee): This isn't necessarily the right idea. The idea is to use a project
@@ -85,9 +80,6 @@ class BranchioConan(ConanFile):
         self.copy("*.h", dst="include/BranchIO/Event", src="BranchSDK/src/BranchIO/Event")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.dylib*", dst="lib", keep_path=False, symlinks=True)
-        self.copy("*.so*", dst="lib", keep_path=False, symlinks=True)
-        self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs.append("BranchIO")
