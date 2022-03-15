@@ -39,9 +39,7 @@ target_compile_features(BranchIO PUBLIC cxx_std_17)
 # TODO: Can this be done via configuration?
 if (RUNTIME STREQUAL "MD")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
-
-    # TODO: release postfix does not work, rename the binary later
-    set_target_properties(BranchIO PROPERTIES RELEASE_POSTFIX "md")
+    set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "md")
 endif()
 
 if (RUNTIME STREQUAL "MDd")
@@ -51,9 +49,7 @@ endif()
 
 if (RUNTIME STREQUAL "MT")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
-
-    # TODO: release postfix does not work, rename the binary later
-    set_target_properties(BranchIO PROPERTIES RELEASE_POSTFIX "mt")
+    set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mt")
 endif()
 
 if (RUNTIME STREQUAL "MTd")

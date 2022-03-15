@@ -4,25 +4,8 @@
 import json, os, shutil, subprocess
 from os import makedirs
 
-# fix the names of the MD and MT binaries
-# TODO: figure out why the cmake postfix isn't working for Release builds
-def fix_x64_lib_names():
-    md_64_src = os.path.join("build", "MD_64", "BranchSDK", "lib", "BranchIO.lib")
-    md_64_dst = os.path.join("build", "MD_64", "BranchSDK", "lib",  "BranchIOmd.lib")
-    shutil.move(md_64_src, md_64_dst)
-
-    mt_64_src = os.path.join("build", "MT_64", "BranchSDK", "lib",  "BranchIO.lib")
-    mt_64_dst = os.path.join("build", "MT_64", "BranchSDK", "lib",  "BranchIOmt.lib")
-    shutil.move(mt_64_src, mt_64_dst)
-
-def fix_x86_lib_names():
-    md_src = os.path.join("build", "MD", "BranchSDK", "lib", "BranchIO.lib")
-    md_dst = os.path.join("build", "MD", "BranchSDK", "lib",  "BranchIOmd.lib")
-    shutil.move(md_src, md_dst)
-
-    mt_src = os.path.join("build", "MT", "BranchSDK", "lib",  "BranchIO.lib")
-    mt_dst = os.path.join("build", "MT", "BranchSDK", "lib",  "BranchIOmt.lib")
-    shutil.move(mt_src, mt_dst)
+# Change directory to parent for rmake.bat and other files 
+os.chdir( ".\\..\\" );
 
 # builds binary using rmake.bat
 def build_binary(runtime, arch):
@@ -44,6 +27,11 @@ for runtime in runtimes:
     for architecture in architectures:
         build_binary(runtime, architecture)
 
-# workaround an issue with MD and MT filenames
-#fix_x64_lib_names()
-#fix_x86_lib_names()
+# Call stage.py script to create and copy everything into stage folder
+subprocess.call(['python', '.\\tools\\stage.py'])
+
+# Call wix.py script to setup for wix installer
+subprocess.call(['python', '.\\tools\\wix.py'])
+
+# Build installer
+os.system("msbuild .\\stage\\BranchInstaller.sln /t:Build /p:Configuration=Debug")
