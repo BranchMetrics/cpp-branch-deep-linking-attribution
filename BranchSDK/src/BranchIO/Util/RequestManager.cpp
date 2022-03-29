@@ -139,8 +139,8 @@ RequestManager::RequestTask::runTask() {
         payload.remove(Defines::JSONKEY_APP_IDENTITY);             // identity
         payload.remove(Defines::JSONKEY_DEVICE_LOCAL_IP_ADDRESS);  // local_ip
         payload.remove(Defines::JSONKEY_DEVICE_MAC_ADDRESS);       // mac_address
-        payload.remove(Defines::JSONKEY_SESSION_FINGERPRINT);      // device_fingerprint_id
-        payload.remove(Defines::JSONKEY_SESSION_IDENTITY);         // identity_id
+        payload.remove(Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN);      // randomized_device_token
+        payload.remove(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN);         // randomized_bundle_token
         payload.remove("advertising_ids");
     }
 

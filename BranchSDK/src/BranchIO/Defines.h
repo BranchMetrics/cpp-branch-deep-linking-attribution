@@ -53,8 +53,10 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_APP_VERSION;              ///< App Version
 
     static const char *JSONKEY_SESSION_FINGERPRINT;      ///< Session Fingerprint
+    static const char *JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN; /// Session Randomized Device Token
     static const char *JSONKEY_SESSION_ID;               ///< Session Id
     static const char *JSONKEY_SESSION_IDENTITY;         ///< Session Identity
+    static const char* JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN; /// Session Randomized Bundle Token
     static const char *JSONKEY_TRACKING_DISABLED;        ///< Tracking Disabled
     static const char* JSONKEY_WINDOWS_ADVERTISING_ID;   ///< Windows Advertising ID
     static const char* JSONKEY_LINK_IDENTIFIER;          ///< link_click_id from inbound URI

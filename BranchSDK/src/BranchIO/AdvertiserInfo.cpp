@@ -29,9 +29,9 @@ AdvertiserInfo::disableTracking() {
     storage.setBoolean(getPath(ADVERTISERSTORAGE, TRACKING_PREFERENCE_KEY), true);
 
     // Clear out identifiable state as well
-    storage.remove("session.device_fingerprint_id");
+    storage.remove("session.randomized_device_token");
     storage.remove("session.identity");
-    storage.remove("session.identity_id");
+    storage.remove("session.randomized_bundle_token");
     return *this;
 }
 

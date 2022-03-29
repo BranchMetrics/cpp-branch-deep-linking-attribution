@@ -71,6 +71,7 @@ APIClientSession::post(
         HttpResponseMessage  httpResponseMessage = _httpClient.PostAsync(uri, jsonContent).get();
         if (isShuttingDown()) return false;
 
+        BRANCH_LOG_D("Request Body" << jsonPayload.stringify().c_str());
         BRANCH_LOG_D("Request sent. Waiting for response.");
 
         // Make sure the post succeeded, and write out the response.
