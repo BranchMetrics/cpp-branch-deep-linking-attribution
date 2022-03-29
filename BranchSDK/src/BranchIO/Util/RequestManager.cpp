@@ -83,7 +83,6 @@ RequestManager::waitTillFinished() {
 }
 
 bool RequestManager::isShuttingDown() const {
-    std::scoped_lock _l(_mutex);
     return _shuttingDown;
 }
 
