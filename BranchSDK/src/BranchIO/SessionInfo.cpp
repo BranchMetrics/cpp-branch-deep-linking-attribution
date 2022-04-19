@@ -46,6 +46,7 @@ SessionInfo::setDeviceToken(const std::string & randomizedDeviceToken) {
 
 SessionInfo&
 SessionInfo::setBundleToken(const std::string &bundleToken) {
+    Storage::instance().setString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN), bundleToken);
     return doAddProperty(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN, bundleToken);
 }
 

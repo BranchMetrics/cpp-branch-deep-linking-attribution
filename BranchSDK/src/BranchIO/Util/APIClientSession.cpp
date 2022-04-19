@@ -123,7 +123,7 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
             std::wstring  httpResponseBody = httpResponseMessage.Content().ReadAsStringAsync().get().c_str();
             result = JSONObject::parse(to_string(httpResponseBody));
 
-            BRANCH_LOG_V("Response body: " << result.stringify());
+            BRANCH_LOG_D("Response body: " << result.stringify());
             
             callback.onSuccess(0, result);
 
@@ -144,6 +144,7 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
         if (isShuttingDown()) return false;
 
         if (status < HttpStatusCode::InternalServerError) {
+            BRANCH_LOG_D("Response body: " << result.stringify());
             // We don't want to retry this.  Call the error handler and return "true" to indicate that this was handled.
             callback.onError(0, (int)status, to_string(httpResponseMessage.ReasonPhrase()));
             return true;
