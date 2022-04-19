@@ -206,7 +206,8 @@ WindowsStorage::getString(const std::string& key, const std::string& defaultValu
             return defaultValue;
 
         }
-        return valueBuf;
+        string keyValue = string(valueBuf.data(), dwBufSize - 1); // Removing terminating Null bytes "/0/0" as type is RRF_RT_REG_SZ.
+        return keyValue;
     }
 
     return defaultValue;
