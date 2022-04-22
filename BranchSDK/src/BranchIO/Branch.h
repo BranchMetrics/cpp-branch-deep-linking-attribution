@@ -149,6 +149,19 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     static std::wstring getIdentityW();
 
+    /**
+     * Sets  key-value pairs of metadata which is added in requests. These key-pair values 
+     * are sent with every requests including installs and opens
+     * @param key - name of the metadata key
+     * @param value - value of the metadata
+     */
+    void setRequestMetaData(std::string key, std::string value);
+
+    /**
+     * Clears request metadata set by setRequestMetaData()
+     */
+    void clearRequestMetaData();
+
  private:
     /**
      * Explicitly shut down this Branch instance. Happens automatically
@@ -181,6 +194,7 @@ class BRANCHIO_DLL_EXPORT Branch {
     mutable std::mutex _mutex;
     RequestManager * volatile _requestManager;
     PackagingInfo _packagingInfo;
+    static JSONObject requestMetaDataJsonObj;
 };
 
 }  // namespace BranchIO

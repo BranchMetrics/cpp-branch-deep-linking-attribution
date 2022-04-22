@@ -28,6 +28,8 @@ JSONObject::isEmpty() const {
 
 JSONObject
 JSONObject::parse(const std::string& jsonString) {
+    if (jsonString.empty())
+        return NULL;
     // Can throw Exception
      JsonObject obj = JsonObject::Parse(to_hstring(jsonString));
      return JSONObject(obj);

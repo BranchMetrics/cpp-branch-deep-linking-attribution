@@ -83,4 +83,15 @@ PackagingInfo::setAdvertiserInfo(const AdvertiserInfo& advertiserInfo) {
     return *this;
 }
 
+void PackagingInfo::setRequestMetaData(JSONObject requestMetaData){
+    scoped_lock _l(_mutex);
+    _requestMetaData = requestMetaData;
+}
+
+JSONObject& PackagingInfo::getRequestMetaData()
+{
+    scoped_lock _l(_mutex);
+    return _requestMetaData;
+}
+
 }  // namespace BranchIO

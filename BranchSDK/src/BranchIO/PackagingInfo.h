@@ -112,6 +112,19 @@ class PackagingInfo : public virtual IPackagingInfo {
      */
     PackagingInfo& setAdvertiserInfo(const AdvertiserInfo& advertiserInfo);
 
+    /**
+    * Sets the setRequestMetaData.
+    * @param requestMetaDataJsonString json string contaning key-pairs of metadata
+    * @return *this
+    */
+    void setRequestMetaData(JSONObject requestMetaData);
+
+    /**
+   * Gets a reference to requestMetaData.
+   * @return *JSONObject containing metadata Key pair values
+   */
+    JSONObject& getRequestMetaData();
+
  private:
     mutable std::mutex _mutex;
 #pragma warning(push)
@@ -122,6 +135,7 @@ class PackagingInfo : public virtual IPackagingInfo {
     AppInfo _appInfo;
     DeviceInfo _deviceInfo;
     SessionInfo _sessionInfo;
+    JSONObject _requestMetaData;
 };
 
 }  // namespace BranchIO

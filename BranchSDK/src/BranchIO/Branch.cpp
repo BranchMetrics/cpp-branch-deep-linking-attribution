@@ -106,6 +106,8 @@ class SessionCallback : public IRequestCallback {
     IRequestCallback *_parentCallback;
 };
 
+JSONObject Branch::requestMetaDataJsonObj = JSONObject();
+
 Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     /*
      * For now, we should use user-level storage (~/.branchio on Unix,
@@ -156,6 +158,14 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
 
     instance->_packagingInfo.setBranchKey(utf8key);
 
+    // Set RequestMetaData
+    bool hasRequestMetaData = storage.has("session.requestMetaData");
+    if (hasRequestMetaData){
+        string requestMetaDataJsonString = storage.getString("session.requestMetaData");
+        requestMetaDataJsonObj = JSONObject::parse(requestMetaDataJsonString);
+        instance->_packagingInfo.setRequestMetaData(requestMetaDataJsonObj);
+    }
+    
     instance->_requestManager = new RequestManager(instance->_packagingInfo);
     instance->_requestManager->start();
 
@@ -278,6 +288,33 @@ Branch::stop() {
 void
 Branch::waitTillFinished() {
     getRequestManager()->waitTillFinished();
+}
+
+void
+Branch::setRequestMetaData(std::string key, std::string value) {
+    
+    // Remove key if it already exists. No update function available.
+    if (requestMetaDataJsonObj.has(key))
+        requestMetaDataJsonObj.remove(key);
+    
+    // Return if either key or vlaue is empty.
+    if (key.empty() || value.empty())
+        return;
+    // Add 
+    requestMetaDataJsonObj.set(key, value);
+    
+    string requestMetaDataJsonString = requestMetaDataJsonObj.stringify();
+    Storage::instance().setString("session.requestMetaData", requestMetaDataJsonString);
+
+    _packagingInfo.setRequestMetaData(requestMetaDataJsonObj);
+}
+
+void
+Branch::clearRequestMetaData() {
+
+    requestMetaDataJsonObj.clear();
+    _packagingInfo.setRequestMetaData(requestMetaDataJsonObj);
+    Storage::instance().remove("session.requestMetaData");
 }
 
 const AppInfo &

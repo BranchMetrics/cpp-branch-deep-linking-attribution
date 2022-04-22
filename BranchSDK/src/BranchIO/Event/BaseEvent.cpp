@@ -24,6 +24,7 @@ static const char *JSONKEY_EVENT_DATA = "event_data";
 static const char *JSONKEY_USER_DATA = "user_data";
 static const char *JSONKEY_BRANCH_KEY = "branch_key";
 static const char *JSONKEY_ADVERTISING_IDS = "advertising_ids";
+static const char* JSONKEY_REQUEST_METADATA = "metadata";
 
 BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, JSONObject::Ptr jsonPtr) :
     mAPIEndpoint(apiEndpoint),
@@ -168,6 +169,11 @@ BaseEvent::package(IPackagingInfo &packagingInfo, JSONObject &jsonPackage) const
             packageRawEvent(jsonPackage);
             break;
     }
+
+    // Set Request MetaData
+    JSONObject reqMetaData = packagingInfo.getRequestMetaData();
+    if (!reqMetaData.isEmpty())
+        jsonPackage.set(JSONKEY_REQUEST_METADATA, reqMetaData);
 }
 
 
