@@ -2,7 +2,6 @@
 
 #include <cassert>
 #include <vector>
-#include <windows.h>
 #include "BranchIO/Util/WindowsStorage.h"
 #include "BranchIO/Util/Log.h"
 
@@ -240,7 +239,7 @@ WindowsStorage::getBoolean(const std::string& key, bool defaultValue, Scope scop
     LONG lRetVal = RegGetValueA(getRegistryHandle(scope),
         registryKey.c_str(),
         registryPath.c_str(),
-        REG_SZ,
+        RRF_RT_REG_DWORD,
         NULL,
         (void*)&value,
         &size);
@@ -308,20 +307,12 @@ WindowsStorage::deleteRegKeyAndPath(const std::string& key, const std::string& p
 }
 
 void WindowsStorage::deleteRegKey(const std::string& key, Scope scope) {
-    HKEY hKey;
 
-    LONG lRetVal = RegOpenKeyExA(getRegistryHandle(scope), key.c_str(), 0, KEY_SET_VALUE, &hKey);
-
-    if (lRetVal == ERROR_SUCCESS) {
-
-        lRetVal = RegDeleteKeyA(hKey, (LPCSTR)key.c_str());
-        if (ERROR_SUCCESS != lRetVal)
-        {
-            BRANCH_LOG_D("RegDeleteKey failed." << key << "Windows system error code: " << lRetVal);
-        }
-        RegCloseKey(hKey);
+    LONG lRetVal = RegDeleteKeyA(getRegistryHandle(scope), key.c_str());
+    if (ERROR_SUCCESS != lRetVal){
+        BRANCH_LOG_D("RegDeleteKey failed." << key << "Windows system error code: " << lRetVal);
     }
-
+    return;
 }
 
 IStorage&

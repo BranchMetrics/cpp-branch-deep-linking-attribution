@@ -11,10 +11,11 @@
 #include <winrt/Windows.Data.Json.h>
 #include <winrt/Windows.Foundation.Collections.h>
 
-class PropertyManager;
+
 
 namespace BranchIO {
 
+class PropertyManager;
 /**
  * A representation of a JSON Object.
  */

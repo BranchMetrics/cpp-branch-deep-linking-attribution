@@ -215,6 +215,7 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
      * Start a thread to make the request. Executes LinkInfo::run().
      */
     _thread = thread([this] { this->run(); });
+    _thread.join();
 }
 
 std::string

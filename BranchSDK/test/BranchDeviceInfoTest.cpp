@@ -1,4 +1,9 @@
 #include <string>
+#include <winrt/Windows.Data.Json.h>
+#include <winrt/Windows.Foundation.Collections.h>
+
+using namespace winrt::Windows::Data::Json;
+using namespace winrt::Windows::Foundation::Collections;
 
 // Use <gtest/gtest.h> when not using mocks.
 // Otherwise <gmock/gmock.h> also brings in gtest.
@@ -35,11 +40,16 @@ TEST(BranchDeviceInfoTest, TestSetters)
 
     JSONObject jsonObject = JSONObject::parse(str);
 
-    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
-        std::string value = it->second;
+    // Copy the key/values
+    IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
+    JsonObject sourceJObject = jsonObject.getWinRTJsonObj();
 
+    for (it = sourceJObject.First(); it.HasCurrent(); it.MoveNext()) {
+
+        std::string value = to_string(it.Current().Value().GetString());
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
     }
+
 }
 
 TEST(BranchDeviceInfoTest, TestOsVersion)

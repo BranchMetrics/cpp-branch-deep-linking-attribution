@@ -4,7 +4,7 @@
 #define BRANCHIO_UTIL_WINDOWSSTORAGE_H_
 
 #include <string>
-
+#include <windows.h>
 #include "BranchIO/Util/IStorage.h"
 #include <mutex>
 

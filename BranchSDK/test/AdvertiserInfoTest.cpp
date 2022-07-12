@@ -7,7 +7,9 @@
 #include <BranchIO/PackagingInfo.h>
 #include <BranchIO/Event/StandardEvent.h>
 #include "Util.h"
+#include <winrt/Windows.Data.Json.h>
 
+using namespace winrt::Windows::Data::Json;
 using namespace BranchIO;
 using namespace std;
 
@@ -30,15 +32,15 @@ TEST_F(AdvertiserInfoTest, TestAddId)
     info.addId(AdvertiserInfo::AdIdType::XBOX_MSAI, "id_xbox");
 
     JSONObject jsonObject = info.toJSON();
-    ASSERT_EQ("id_idfa", jsonObject.get("idfa"));
-    ASSERT_EQ("id_google", jsonObject.get("google_advertising_id"));
-    ASSERT_EQ("id_windows", jsonObject.get("windows_advertising_id"));
-    ASSERT_EQ("id_roku", jsonObject.get("roku_rida"));
-    ASSERT_EQ("id_samsung", jsonObject.get("samsung_ifa"));
-    ASSERT_EQ("id_lg", jsonObject.get("lg_ifa"));
-    ASSERT_EQ("id_panasonic", jsonObject.get("panasonic_ifa"));
-    ASSERT_EQ("id_playstation", jsonObject.get("playstation_ifa"));
-    ASSERT_EQ("id_xbox", jsonObject.get("xbox_msai"));
+    ASSERT_EQ("id_idfa", jsonObject.getNamedString("idfa"));
+    ASSERT_EQ("id_google", jsonObject.getNamedString("google_advertising_id"));
+    ASSERT_EQ("id_windows", jsonObject.getNamedString("windows_advertising_id"));
+    ASSERT_EQ("id_roku", jsonObject.getNamedString("roku_rida"));
+    ASSERT_EQ("id_samsung", jsonObject.getNamedString("samsung_ifa"));
+    ASSERT_EQ("id_lg", jsonObject.getNamedString("lg_ifa"));
+    ASSERT_EQ("id_panasonic", jsonObject.getNamedString("panasonic_ifa"));
+    ASSERT_EQ("id_playstation", jsonObject.getNamedString("playstation_ifa"));
+    ASSERT_EQ("id_xbox", jsonObject.getNamedString("xbox_msai"));
 
     info.clear();
     jsonObject = info.toJSON();
@@ -62,9 +64,11 @@ TEST_F(AdvertiserInfoTest, TestPackaging)
 
     cout << "TestPackaging: " << jsonObject.stringify() << endl;
 
-    JSONObject userData = jsonObject.extract("user_data");
-    JSONObject advertising_ids = userData.extract("advertising_ids");
-    ASSERT_EQ("id_windows", advertising_ids.get("windows_advertising_id"));
+    JsonObject sourceJObject = jsonObject.getWinRTJsonObj();
+    JsonObject userData = sourceJObject.GetNamedObject(L"user_data");
+    JsonObject advertising_ids = userData.GetNamedObject(L"advertising_ids");
+    auto strValue = to_string(advertising_ids.GetNamedString(L"windows_advertising_id"));
+    ASSERT_EQ("id_windows", strValue);
 }
 
 TEST_F(AdvertiserInfoTest, TestLAT_true)
@@ -84,6 +88,7 @@ TEST_F(AdvertiserInfoTest, TestLAT_true)
 
     cout << "TestLAT_true: " << jsonObject.stringify() << endl;
 
-    JSONObject userData = jsonObject.extract("user_data");
-    ASSERT_FALSE(userData.has("advertising_ids"));
+    JsonObject sourceJObject = jsonObject.getWinRTJsonObj();
+    JsonObject userData = sourceJObject.GetNamedObject(L"user_data");
+    ASSERT_FALSE(userData.HasKey(L"advertising_ids"));
 }

@@ -5,7 +5,7 @@ import json, os, shutil, subprocess
 from os import makedirs
 
 # Change directory to parent for rmake.bat and other files 
-os.chdir( ".\\" );
+os.chdir( ".\\..\\" );
 
 # builds binary using rmake.bat
 def build_binary(runtime, arch):
@@ -21,7 +21,6 @@ makedirs(build_path)
 # available runtimes, architectures
 runtimes = ["MD", "MDd", "MT", "MTd"]
 architectures = ["x86", "x64"]
-#architectures = ["x64"]
 
 for runtime in runtimes:
     for architecture in architectures:

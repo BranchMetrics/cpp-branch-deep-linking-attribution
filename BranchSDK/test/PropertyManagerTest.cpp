@@ -6,6 +6,12 @@
 
 #include <BranchIO/PropertyManager.h>
 
+#include <winrt/Windows.Data.Json.h>
+#include <winrt/Windows.Foundation.Collections.h>
+
+using namespace winrt::Windows::Data::Json;
+using namespace winrt::Windows::Foundation::Collections;
+
 using namespace BranchIO;
 using namespace std;
 
@@ -28,11 +34,12 @@ TEST_F(PropertyManagerTest, TestSetters)
     mgr.addProperty("keyBool", boolValue);
 
     JSONObject jsonObject = mgr.toJSON();
-
-    ASSERT_EQ(strValue, jsonObject.get("keyStr"));
-    ASSERT_EQ(intValue, jsonObject.get("keyInt"));
-    ASSERT_EQ(doubleValue, jsonObject.get("keyDouble"));
-    ASSERT_EQ(boolValue, jsonObject.get("keyBool"));
+    
+    ASSERT_EQ(strValue, jsonObject.getNamedString("keyStr"));
+    winrt::Windows::Data::Json::JsonObject jObject = jsonObject.getWinRTJsonObj();
+    ASSERT_EQ(intValue, jObject.GetNamedNumber(L"keyInt"));
+    ASSERT_EQ(doubleValue, jObject.GetNamedNumber(L"keyDouble"));
+    ASSERT_EQ(boolValue, jObject.GetNamedNumber(L"keyBool"));
 }
 
 TEST_F(PropertyManagerTest, TestGetStringProperty)

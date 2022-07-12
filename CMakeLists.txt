@@ -4,7 +4,7 @@ project(root VERSION 1.2.4 LANGUAGES CXX)
 
 # Enable Unit Testing.
 # TODO: Investigate why this appears to be needed at the top level CMakeLists
-#enable_testing()
+enable_testing()
 
 # ------------
 # BranchIO SDK

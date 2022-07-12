@@ -182,12 +182,16 @@ void RequestManager::enqueueUrgentTask(RequestTask* task)
 RequestManager::RequestTask* RequestManager::waitDequeueNotification()
 {
     std::unique_lock<std::mutex>  lock(_mutex);
-    _available.wait(lock, [=] { return !_queue.empty(); });
-   
-    RequestManager::RequestTask* task =  _queue.front();
-    _queue.pop_front();
 
-    return task;
+    _available.wait(lock, [=] { return (!_queue.empty() ||(_shuttingDown == true));});
+
+    if (!_queue.empty()){
+        RequestManager::RequestTask* task = _queue.front();
+        _queue.pop_front();
+        return task;
+    } else {
+        return NULL;
+    }
 }
 
 void RequestManager::wakeUpAll()

@@ -3,23 +3,25 @@
 // Use <gtest/gtest.h> when not using mocks.
 // Otherwise <gmock/gmock.h> also brings in gtest.
 #include <gtest/gtest.h>
+#include <winrt/Windows.Data.Json.h>
+#include <winrt/Windows.Foundation.Collections.h>
 
 #include <BranchIO/LinkInfo.h>
 #include <BranchIO/Event/Event.h>
-#include <Poco/Base64Decoder.h>
-#include <Poco/Base64Encoder.h>
-#include <Poco/URI.h>
 
 #include "ResponseCounter.h"
 #include "MockClientSession.h"
 #include "TestRequestCallback.h"
 #include "Util.h"
 
+
+using namespace winrt::Windows::Data::Json;
+using namespace winrt::Windows::Foundation::Collections;
+
 using namespace BranchIO;
 using namespace BranchIO::Test;
 using namespace std;
 using namespace testing;
-using namespace Poco;
 
 class LinkInfoTest : public ::testing::Test {
 protected:
@@ -52,9 +54,12 @@ TEST_F(LinkInfoTest, TestStringSetters) {
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
-        std::string value = it->second;
+    // Copy the key/values
+    IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
+    JsonObject sourceJObject = jsonObject.getWinRTJsonObj();
 
+    for (it = sourceJObject.First(); it.HasCurrent(); it.MoveNext()) {
+        std::string value = to_string(it.Current().Value().GetString());
         ASSERT_STREQ("My", value.substr(0, 2).c_str());
     }
 }
@@ -72,8 +77,11 @@ TEST_F(LinkInfoTest, TestIntegerSetters) {
     JSONObject jsonObject = JSONObject::parse(str);
     ASSERT_GT(jsonObject.size(), 0);
 
-    for (JSONObject::ConstIterator it = jsonObject.begin(); it != jsonObject.end(); ++it) {
-        int value = it->second;
+    IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
+    JsonObject sourceJObject = jsonObject.getWinRTJsonObj();
+
+    for (it = sourceJObject.First(); it.HasCurrent(); it.MoveNext()) {
+        int value = (it.Current().Value().GetNumber());
         ASSERT_NE(value, 0);
     }
 }
@@ -142,40 +150,4 @@ TEST_F(LinkInfoTest, FallbackToLongUrl) {
     EXPECT_CALL(callback, onSuccess(_, _)).Times(1);
 
     info.createUrl(mBranch, &callback);
-}
-
-TEST_F(LinkInfoTest, LongUrlData) {
-    LinkInfo info;
-    info.addControlParameter("$desktop_web_open_delay_ms", "3000");
-    string sUrl = info.createLongUrl(mBranch);
-
-    // Now parse the generated URL string
-    URI url(sUrl);
-    URI::QueryParameters params(url.getQueryParameters());
-
-    string data;
-    for (auto it=params.begin(); it!=params.end(); ++it) {
-        if (it->first != "data") continue;
-        data = it->second;
-        break;
-    }
-
-    // There should be a data query parameter
-    ASSERT_FALSE(data.empty());
-
-    stringstream ss(data);
-    Base64Decoder decoder(ss);
-
-    string decodedData;
-    decoder >> decodedData;
-
-    // The data parameter should be successfully decoded as base64
-    ASSERT_FALSE(decodedData.empty());
-
-    // The decoded data parameter should be a valid JSON object
-    auto parsedObject = JSONObject::parse(decodedData);
-
-    // The control parameter added above should be there
-    string delayParam = parsedObject.get("$desktop_web_open_delay_ms").extract<string>();
-    ASSERT_EQ("3000", delayParam);
 }
