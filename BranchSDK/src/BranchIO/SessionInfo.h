@@ -21,18 +21,18 @@ class BRANCHIO_DLL_EXPORT SessionInfo : public PropertyManager {
     virtual ~SessionInfo();
 
     /**
-     * Set the Session Fingerprint ID.
-     * @param deviceFingerprint as issued by the Branch server
+     * Set the Session Randomized Device Token.
+     * @param device token as issued by the Branch server
      * @return This object for chaining builder methods
      */
-    virtual SessionInfo& setFingerprintId(const std::string &deviceFingerprint);
+    virtual SessionInfo& setDeviceToken(const std::string &randomizedDeviceToken);
 
     /**
-     * Set the Session Identity Id.
-     * @param identity as issued by the Branch server
+     * Set the Randomized Bundle Token.
+     * @param bundleToken as issued by the Branch server
      * @return This object for chaining builder methods
      */
-    virtual SessionInfo& setIdentityId(const std::string &identity);
+    virtual SessionInfo& setBundleToken(const std::string &bundleToken);
 
     /**
      * Set the Session Id.

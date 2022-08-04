@@ -51,6 +51,19 @@ struct IPackagingInfo {
      * @return the AdvertiserInfo
      */
     virtual AdvertiserInfo& getAdvertiserInfo() = 0;
+
+    /**
+   * Sets the setRequestMetaData.
+   * @param requestMetaDataJsonString json string contaning key-pairs of metadata
+   * @return *this
+   */
+    virtual void setRequestMetaData(JSONObject requestMetaData) = 0;
+
+    /**
+   * Gets a reference to requestMetaData.
+   * @return *JSONObject containing metadata Key pair values
+   */
+    virtual JSONObject& getRequestMetaData() = 0;
 };
 
 }  // namespace BranchIO

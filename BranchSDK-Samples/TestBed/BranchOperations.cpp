@@ -455,24 +455,24 @@ BranchOperations::getSessionInfo()
     auto const& sessionInfo = cBranch->getSessionInfo();
 
     wstring result(L"Session Info:\r\n");
-    String deviceFingerprintId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_FINGERPRINT));
-    String identityId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_IDENTITY));
+    String deviceToken(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN));
+    String bundleToken(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN));
     String sessionId(sessionInfo.getStringProperty(Defines::JSONKEY_SESSION_ID));
 
     /*
-     * If tracking is disabled, identity_id and device_fingerprint_id are not sent to the API. They
+     * If tracking is disabled, randomized_bundle_token and randomized_device_token are not sent to the API. They
      * are also removed from Registry storage. They remain in the SessionInfo object. Clearing them
      * in the SDK is troublesome without a potential API change, e.g. branch->disableTracking()
      * instead of branch->getAdvertiserInfo().disableTracking(). For now, just omit them from the
      * output here since they are not used in the SDK.
      */
     if (branch->getAdvertiserInfo().isTrackingDisabled()) {
-        result += L" Device Fingerprint ID:\r\n";
-        result += L" Identity ID:\r\n";
+        result += L" Device Token:\r\n";
+        result += L" Bundle Token:\r\n";
     }
     else {
-        result += L" Device Fingerprint ID: " + deviceFingerprintId.wstr() + L"\r\n";
-        result += L" Identity ID: " + identityId.wstr() + L"\r\n";
+        result += L" Device Token: " + deviceToken.wstr() + L"\r\n";
+        result += L" Bundle Token: " + bundleToken.wstr() + L"\r\n";
     }
     result += L" Session ID: " + sessionId.wstr() + L"\r\n";
 
