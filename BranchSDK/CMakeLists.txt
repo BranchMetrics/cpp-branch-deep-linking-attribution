@@ -45,6 +45,7 @@ endif()
 if (RUNTIME STREQUAL "MDd")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
     set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mdd")
+    add_compile_definitions(DEBUG)
 endif()
 
 if (RUNTIME STREQUAL "MT")
@@ -55,6 +56,7 @@ endif()
 if (RUNTIME STREQUAL "MTd")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
     set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mtd")
+    add_compile_definitions(DEBUG)
 endif()
 
 # TODO: support DLLs. Check if LD and LDd are needed
