@@ -3,14 +3,12 @@
 #ifndef BRANCHIO_LINKINFO_H__
 #define BRANCHIO_LINKINFO_H__
 
-#include <Poco/Condition.h>
-#include <Poco/Runnable.h>
-#include <Poco/Thread.h>
 #include <string>
 #include "BranchIO/Event/BaseEvent.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/fwd.h"
 #include "BranchIO/String.h"
+#include <mutex>
 
 namespace BranchIO {
 
@@ -19,8 +17,7 @@ namespace BranchIO {
  */
 class BRANCHIO_DLL_EXPORT LinkInfo :
     protected BaseEvent,
-    protected virtual IRequestCallback,
-    protected virtual Poco::Runnable {
+    protected virtual IRequestCallback {
  public:
     /**
      * An Integer value indicating the calculation type of the referral code. In this case,
@@ -212,7 +209,7 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     void onStatus(int id, int error, std::string description);
 
     /**
-     * Execute the URL request. From Poco::Runnable.
+     * Execute the URL request. 
      */
     void run();
 
@@ -252,6 +249,14 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
      */
     LinkInfo& doAddProperty(const char *name, int value);
 
+     /**
+     * Appends query parameters to the URI string.
+     * @param query Input URI string.
+     * @param tag tag of the query parameter
+     * @param value valueof the query parameter
+     */
+     void appendQueryParameters(std::string& query, const char* tag, std::string value) const;
+
  private:
     std::string getAlias() const;
     std::string getCampaign() const;
@@ -261,13 +266,13 @@ class BRANCHIO_DLL_EXPORT LinkInfo :
     void complete();
 
  private:
-    Poco::Mutex mutable _mutex;
-    Poco::Condition mutable _completeCondition;
-    Poco::Thread _thread;
+    std::mutex mutable _mutex;
+    std::condition_variable mutable _completeCondition;
+    std::thread _thread;
     bool volatile _complete;
     bool volatile _canceled;
     PropertyManager _controlParams;
-    JSONArray _tagParams;
+    std::vector<std::string> _tagParams;
 
     // Store values passed to createUrl() for fallback handling.
     IRequestCallback* volatile _callback;

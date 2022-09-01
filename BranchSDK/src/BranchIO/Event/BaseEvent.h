@@ -5,6 +5,7 @@
 
 #include <functional>
 #include <string>
+#include <mutex>
 #include "BranchIO/Defines.h"
 #include "BranchIO/fwd.h"
 #include "BranchIO/PropertyManager.h"
@@ -69,7 +70,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      * @return *this
      */
     BaseEvent& setResultHandler(const std::function<void(const JSONObject&)>& resultHandler) {
-        Poco::Mutex::ScopedLock _l(mMutex);
+        std::scoped_lock _l(mMutex);
         mResultHandler = resultHandler;
         return *this;
     }
@@ -79,7 +80,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
      * @param result the result to pass to the handler
      */
     void handleResult(const JSONObject& result) const {
-        Poco::Mutex::ScopedLock _l(mMutex);
+        std::scoped_lock _l(mMutex);
         mResultHandler(result);
     }
 
@@ -116,7 +117,7 @@ class BRANCHIO_DLL_EXPORT BaseEvent : public PropertyManager {
     void packageV2Event(IPackagingInfo &branch, JSONObject &jsonObject) const;
 
  private:
-    Poco::Mutex mutable mMutex;
+    std::mutex mutable mMutex;
 
     // API Endpoint
     Defines::APIEndpoint mAPIEndpoint;

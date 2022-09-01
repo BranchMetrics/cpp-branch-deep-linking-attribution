@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.props" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.props')" />
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="DebugMT|Win32">
       <Configuration>DebugMT</Configuration>
@@ -152,30 +153,31 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;DEBUG;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmdd.lib;PocoNetSSLWinmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\MDd;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BranchIOmdd.lib;;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugMT|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;DEBUG;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\x86\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmdd.lib;PocoNetSSLWinmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\MTd;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BranchIOmtd.lib;;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -184,7 +186,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;NDEBUG;POCO_STATIC=ON;POCO_NO_DYNAMIC_LIBS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -193,8 +195,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmd.lib;PocoNetSSLWinmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\MD;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BranchIOmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMT|Win32'">
@@ -203,39 +205,41 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;NDEBUG;POCO_STATIC=ON;POCO_NO_DYNAMIC_LIBS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\x86\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmd.lib;PocoNetSSLWinmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\MT;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BranchIOmt.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;WIN32;_DEBUG;_WINDOWS;/Zc:twoPhase;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>Default</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\MDd_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmdd.lib;PocoNetSSLWinmdd.lib;PocoJSONmdd.lib;PocoFoundationmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files (x86)\Branch SDK\lib\MDd_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>BranchIOmdd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugMT|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;POCO_STATIC=ON;POCO_NO_AUTOMATIC_LIBS;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";DEBUG;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -244,7 +248,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\MTd_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmtd.lib;PocoNetSSLWinmtd.lib;PocoJSONmtd.lib;PocoFoundationmtd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BranchIOmtd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -253,7 +257,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";NDEBUG;POCO_STATIC=ON;POCO_NO_DYNAMIC_LIBS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -263,7 +267,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\MD_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmd.lib;PocoNetSSLWinmd.lib;PocoJSONmd.lib;PocoFoundationmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BranchIOmd.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseMT|x64'">
@@ -272,7 +276,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";NDEBUG;POCO_STATIC=ON;POCO_NO_DYNAMIC_LIBS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BRANCH_KEY=L"key_live_oiT8IkxqCmpGcDT35ttO1fkdExktZD1x";BRANCH_URI_SCHEME=L"testbed";MUTEX_NAME=L"48b0a2b3-2b0e-4fe1-af2e-da21cd050946";NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Program Files (x86)\Branch SDK\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
@@ -283,7 +287,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>C:\Program Files %28x86%29\Branch SDK\lib\MT_64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>BranchIOmt.lib;PocoNetSSLWinmt.lib;PocoJSONmt.lib;PocoFoundationmt.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>BranchIOmt.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -313,7 +317,18 @@
     <Image Include="small.ico" />
     <Image Include="TestBed.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.targets" Condition="Exists('packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.props'))" />
+    <Error Condition="!Exists('packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Microsoft.Windows.CppWinRT.2.0.220331.4\build\native\Microsoft.Windows.CppWinRT.targets'))" />
+  </Target>
 </Project>

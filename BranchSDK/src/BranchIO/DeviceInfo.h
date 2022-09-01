@@ -129,6 +129,16 @@ class BRANCHIO_DLL_EXPORT DeviceInfo : public PropertyManager {
      *  Determine and the IP address that goes with the default MAC address
      */
     void initIPAddress();
+
+    /**
+     *  Determine OS Display Name
+     */
+    std::string osDisplayName();
+
+    /**
+     *  Determine OS Version
+     */
+    std::string osVersion();
 };
 
 }  // namespace BranchIO

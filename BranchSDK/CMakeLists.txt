@@ -12,12 +12,13 @@ project(BranchIO)
 
 # Enable C++ exceptions
 add_compile_options(/EHsc)
+add_definitions(-DUNICODE -D_UNICODE)
 
 # Make dependencies available via conan
 # TODO: TARGETS based version does not work, why?
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-#conan_basic_setup(TARGETS)
+#conan_basic_setup()
+conan_basic_setup(TARGETS)
 
 # ------------
 # BranchIO SDK
@@ -28,38 +29,34 @@ include_directories(src)
 file(GLOB BRANCH_SOURCE ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/BranchIO/**/*.cpp)
 add_library(BranchIO ${BRANCH_SOURCE})
 
-# Links against Poco via conan
 # TODO: TARGETS based version does not work, why?
 target_link_libraries(BranchIO ${CONAN_LIBS})
-#target_link_libraries(BranchIO CONAN_PKG::Poco)
 
 # Set C++ version
-target_compile_features(BranchIO PUBLIC cxx_std_11)
+target_compile_features(BranchIO PUBLIC cxx_std_17)
 
 # Set MSVC runtime
 # TODO: Can this be done via configuration?
 if (RUNTIME STREQUAL "MD")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
-
-    # TODO: release postfix does not work, rename the binary later
-    set_target_properties(BranchIO PROPERTIES RELEASE_POSTFIX "md")
+    set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "md")
 endif()
 
 if (RUNTIME STREQUAL "MDd")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
     set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mdd")
+    add_compile_definitions(DEBUG)
 endif()
 
 if (RUNTIME STREQUAL "MT")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
-
-    # TODO: release postfix does not work, rename the binary later
-    set_target_properties(BranchIO PROPERTIES RELEASE_POSTFIX "mt")
+    set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mt")
 endif()
 
 if (RUNTIME STREQUAL "MTd")
     set_property(TARGET BranchIO PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
     set_target_properties(BranchIO PROPERTIES DEBUG_POSTFIX "mtd")
+    add_compile_definitions(DEBUG)
 endif()
 
 # TODO: support DLLs. Check if LD and LDd are needed
@@ -72,17 +69,36 @@ endif()
 # ----------
 
 # TODO: fix the unit test setup
-
+set(CMAKE_CTEST_ARGUMENTS "--verbose")
 # Include test code
-#file(GLOB TEST ${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp)
+file(GLOB TEST ${CMAKE_CURRENT_SOURCE_DIR}/test/*.cpp)
 
 # When building a DLL on Windows, there are visibility issues. We'll always
 # have the need to unit-test internal stuff that we don't want to make
 # public with BRANCHIO_DLL_EXPORT. So we can't link unit tests against the
 # DLL. We could always build static, at least on Windows, even when building
 # shared libraries, but for now it seems best to build against source.
-#add_executable(unit_tests ${TEST} ${BRANCH_SOURCE})
-#target_link_libraries(unit_tests CONAN_PKG::Poco CONAN_PKG::gtest)
+add_executable(unit_tests ${TEST} ${BRANCH_SOURCE})
+target_compile_features(unit_tests PUBLIC cxx_std_17)
+
+target_link_libraries(unit_tests CONAN_PKG::gtest WindowsApp.lib)
+
+
+if (RUNTIME STREQUAL "MD")
+    set_property(TARGET unit_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
+endif()
+
+if (RUNTIME STREQUAL "MDd")
+    set_property(TARGET unit_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+endif()
+
+if (RUNTIME STREQUAL "MT")
+    set_property(TARGET unit_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded")
+endif()
+
+if (RUNTIME STREQUAL "MTd")
+    set_property(TARGET unit_tests PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreadedDebug")
+endif()
 
 # Generates JUnit-style output in test_detail.xml, e.g. build/Debug/test_detail.xml.
-#add_test(NAME UnitTests COMMAND unit_tests --gtest_output=xml)
+add_test(NAME UnitTests COMMAND unit_tests --gtest_output=xml)

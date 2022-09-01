@@ -4,6 +4,10 @@
 .vs
 Debug
 Release
+DebugMD
+ReleaseMD
+DebugMT
+ReleaseMT
 /build
 /stage
 /bin

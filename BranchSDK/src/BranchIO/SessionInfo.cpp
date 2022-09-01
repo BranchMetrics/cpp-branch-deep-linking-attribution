@@ -10,32 +10,44 @@ using std::string;
 namespace BranchIO {
 
 SessionInfo::SessionInfo() {
+    
     // Load these fields from storage if present.
-    std::string deviceFingerprint =
-            Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT));
-    std::string identityId =
-            Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_IDENTITY));
-
-    if (!deviceFingerprint.empty()) {
-        doAddProperty(Defines::JSONKEY_SESSION_FINGERPRINT, deviceFingerprint);
+    
+    std::string deviceToken = Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN));
+    // device_fingerprint_id has been renamed to randomized_device_token.
+    // So, for backward comatibility, check for stored device_fingerprint_id also if randomized_device_token not found.
+    if (deviceToken.empty()) {
+        deviceToken = Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT));
+    }
+    
+    std::string bundleToken = Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN));
+    // identity_id has been renamed to randomized_bundle_token.
+    // So, for backward comatibility, check for stored identity_id also if randomized_bundle_token not found.
+    if (bundleToken.empty()) {
+        bundleToken = Storage::instance().getString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_IDENTITY));
     }
 
-    if (!identityId.empty()) {
-        doAddProperty(Defines::JSONKEY_SESSION_IDENTITY, identityId);
+    if (!deviceToken.empty()) {
+        doAddProperty(Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN, deviceToken);
+    }
+
+    if (!bundleToken.empty()) {
+        doAddProperty(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN, bundleToken);
     }
 }
 
 SessionInfo::~SessionInfo() = default;
 
 SessionInfo&
-SessionInfo::setFingerprintId(const std::string &deviceFingerprint) {
-    Storage::instance().setString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_FINGERPRINT), deviceFingerprint);
-    return doAddProperty(Defines::JSONKEY_SESSION_FINGERPRINT, deviceFingerprint);
+SessionInfo::setDeviceToken(const std::string & randomizedDeviceToken) {
+    Storage::instance().setString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN), randomizedDeviceToken);
+    return doAddProperty(Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN, randomizedDeviceToken);
 }
 
 SessionInfo&
-SessionInfo::setIdentityId(const std::string &identityId) {
-    return doAddProperty(Defines::JSONKEY_SESSION_IDENTITY, identityId);
+SessionInfo::setBundleToken(const std::string &bundleToken) {
+    Storage::instance().setString(getPath(SESSIONSTORAGE, Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN), bundleToken);
+    return doAddProperty(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN, bundleToken);
 }
 
 SessionInfo&

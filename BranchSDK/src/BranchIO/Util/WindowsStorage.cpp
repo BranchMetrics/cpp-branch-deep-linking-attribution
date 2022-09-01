@@ -1,15 +1,11 @@
 // Copyright (c) 2019-21 Branch Metrics, Inc.
 
-#include <Poco/Util/WinRegistryKey.h>
-
 #include <cassert>
 #include <vector>
-
 #include "BranchIO/Util/WindowsStorage.h"
+#include "BranchIO/Util/Log.h"
 
 using namespace std;
-using namespace Poco;
-using namespace Poco::Util;
 
 namespace BranchIO {
 
@@ -41,17 +37,7 @@ WindowsStorage::getRegistryKeyAndPath(
     // default scope must be set, or non-Default value passed in
     assert(scope != Default);
 
-    string rootPath;
-    switch (scope) {
-    case Host:
-        rootPath = HostRootPath;
-        break;
-    case User:
-        rootPath = UserRootPath;
-        break;
-    default:
-        return false;  // in case int case to Scope enum
-    }
+    string rootPath = rootSubPath;
 
     string prefix = getPrefix();
     if (!prefix.empty()) {
@@ -98,26 +84,46 @@ WindowsStorage::convertKey(const std::string& key) {
 
 IStorage::Scope
 WindowsStorage::getDefaultScope() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _defaultScope;
 }
 
 IStorage&
 WindowsStorage::setDefaultScope(Scope scope) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _defaultScope = scope;
     return *this;
 }
 
+HKEY WindowsStorage::getRegistryHandle(Scope scope) const
+{
+    HKEY hKey = 0;
+    
+    if (scope == Default) scope = getDefaultScope();
+    
+    // default scope must be set, or non-Default value passed in
+    assert(scope != Default);
+
+    switch (scope) {
+    case Host:
+        hKey = HKEY_LOCAL_MACHINE;
+        break;
+    case User:
+        hKey = HKEY_CURRENT_USER;
+        break;
+    }
+    return hKey;
+}
+
 std::string
 WindowsStorage::getPrefix() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _prefix;
 }
 
 IStorage&
 WindowsStorage::setPrefix(const std::string& prefix) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _prefix = prefix;
     return *this;
 }
@@ -129,9 +135,37 @@ WindowsStorage::has(const std::string& key, Scope scope) const {
     assert(validKey);
 
     // Return true if a key or leaf exists at this path
-    return
-        WinRegistryKey(registryKey).exists(registryPath) ||
-        WinRegistryKey(registryKey + "\\" + registryPath).exists();
+    return registryKeyExists(registryKey, registryPath, scope) ||
+            registryKeyExists(registryKey + "\\" + registryPath, "", scope);
+}
+
+bool
+WindowsStorage::registryKeyExists(const std::string registryKey, const std::string registryValue, Scope scope) const {
+
+    BOOL bExist = FALSE;
+    HKEY hKey;
+    HKEY hRootKey = getRegistryHandle(scope);
+
+    if (RegOpenKeyExA(hRootKey, registryKey.c_str(), 0, KEY_READ, &hKey) == ERROR_SUCCESS)
+    {   
+        if (!registryValue.empty())
+        {
+            if (RegQueryValueExA(hKey, registryValue.c_str(), NULL, NULL, NULL, NULL) == ERROR_SUCCESS)
+            {
+                bExist = TRUE;
+            }
+        }
+        else
+        {
+            bExist = TRUE;
+        }
+        RegCloseKey(hKey);
+    }
+    else
+    {
+        BRANCH_LOG_D("Not a valid registry key - " << hRootKey << "\\" << registryKey);
+    }
+    return bExist;
 }
 
 std::string
@@ -140,9 +174,42 @@ WindowsStorage::getString(const std::string& key, const std::string& defaultValu
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    if (!has(key, scope)) return defaultValue;
+    DWORD dwBufSize = 0;
+    LONG lRetVal = RegGetValueA(getRegistryHandle(scope),
+        registryKey.c_str(),
+        registryPath.c_str(),
+        RRF_RT_REG_SZ,
+        NULL,
+        NULL,
+        &dwBufSize);
+    
+    if (ERROR_SUCCESS != lRetVal)
+        return defaultValue;
 
-    return WinRegistryKey(registryKey).getString(registryPath);
+    // If value is not empty - allocate buffer and read value
+    if (dwBufSize > 0)
+    {
+        std::string valueBuf;
+        valueBuf.resize(dwBufSize);
+
+        lRetVal = RegGetValueA(getRegistryHandle(scope),
+            registryKey.c_str(),
+            registryPath.c_str(),
+            RRF_RT_REG_SZ,
+            NULL,
+            static_cast<void*>(valueBuf.data()),
+            &dwBufSize);
+        if (ERROR_SUCCESS != lRetVal)
+        {
+            BRANCH_LOG_D("Reading from registry failed. Windows system error code: " << lRetVal);
+            return defaultValue;
+
+        }
+        string keyValue = string(valueBuf.data(), dwBufSize - 1); // Removing terminating Null bytes "/0/0" as type is RRF_RT_REG_SZ.
+        return keyValue;
+    }
+
+    return defaultValue;
 }
 
 IStorage&
@@ -151,8 +218,12 @@ WindowsStorage::setString(const std::string& key, const std::string& value, Scop
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    WinRegistryKey(registryKey).setString(registryPath, value);
-
+    LONG lRetVal = RegSetKeyValueA(getRegistryHandle(scope), registryKey.c_str(), registryPath.c_str(), REG_SZ, value.c_str(), (DWORD)value.length()+1);
+    
+    if (ERROR_SUCCESS != lRetVal)
+    {
+        BRANCH_LOG_D("Writing to registry failed. Windows system error code: " << lRetVal);
+    }
     return *this;
 }
 
@@ -162,10 +233,24 @@ WindowsStorage::getBoolean(const std::string& key, bool defaultValue, Scope scop
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    if (!has(key, scope)) return defaultValue;
+    DWORD value;
+    DWORD size = sizeof(value);
 
-    int v = WinRegistryKey(registryKey).getInt(registryPath);
-    return (v == 0 ? false : true);
+    LONG lRetVal = RegGetValueA(getRegistryHandle(scope),
+        registryKey.c_str(),
+        registryPath.c_str(),
+        RRF_RT_REG_DWORD,
+        NULL,
+        (void*)&value,
+        &size);
+
+    if (ERROR_SUCCESS != lRetVal)
+    {
+        BRANCH_LOG_D("Reading from registry failed. Windows system error code: " << lRetVal);
+        return defaultValue;
+    }
+
+    return (value == 0 ? false : true);
 }
 
 IStorage&
@@ -174,8 +259,14 @@ WindowsStorage::setBoolean(const std::string& key, bool value, Scope scope) {
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
 
-    WinRegistryKey(registryKey).setInt(registryPath, (value ? 1 : 0));
+    DWORD regValue = (value ? 1 : 0);
 
+    LONG lRetVal = RegSetKeyValueA(getRegistryHandle(scope), registryKey.c_str(), registryPath.c_str(), REG_DWORD, (const BYTE*)&regValue, sizeof(regValue));
+   
+    if (ERROR_SUCCESS != lRetVal)
+    {
+        BRANCH_LOG_D("Writing to registry failed. Windows system error code: " << lRetVal);
+    }
     return *this;
 }
 
@@ -184,15 +275,44 @@ WindowsStorage::remove(const std::string& key, Scope scope) {
     string registryKey, registryPath;
     bool validKey(getRegistryKeyAndPath(scope, key, registryKey, registryPath));
     assert(validKey);
-
-    if (!has(key, scope)) return false;
-
-    if (WinRegistryKey(registryKey).exists(registryPath))
-        WinRegistryKey(registryKey).deleteValue(registryPath);
-    else if (WinRegistryKey(registryKey + "\\" + registryPath).exists())
-        WinRegistryKey(registryKey + "\\" + registryPath).deleteKey();
+  
+    if (registryKeyExists(registryKey, registryPath, scope))
+        deleteRegKeyAndPath(registryKey, registryPath, scope);
+    else if (registryKeyExists(registryKey + "\\" + registryPath, "", scope))
+        deleteRegKeyAndPath(registryKey + "\\" + registryPath, "", scope);
+    else
+        return false;
 
     return true;
+}
+
+bool
+WindowsStorage::deleteRegKeyAndPath(const std::string& key, const std::string& path, Scope scope) {
+    
+    HKEY hKey;
+    
+    LONG lRetVal = RegOpenKeyExA(getRegistryHandle(scope), key.c_str(), 0, KEY_SET_VALUE, &hKey);
+    
+    if (lRetVal  == ERROR_SUCCESS) {
+
+        lRetVal = RegDeleteValueA(hKey, path.c_str());
+        if (ERROR_SUCCESS != lRetVal)
+        {
+            BRANCH_LOG_D("RegDeleteValue failed." << key << path << "Windows system error code: " << lRetVal);
+        }
+        RegCloseKey(hKey);
+    }
+
+    return ((lRetVal == ERROR_SUCCESS) ? true : false);
+}
+
+void WindowsStorage::deleteRegKey(const std::string& key, Scope scope) {
+
+    LONG lRetVal = RegDeleteKeyA(getRegistryHandle(scope), key.c_str());
+    if (ERROR_SUCCESS != lRetVal){
+        BRANCH_LOG_D("RegDeleteKey failed." << key << "Windows system error code: " << lRetVal);
+    }
+    return;
 }
 
 IStorage&
@@ -200,24 +320,14 @@ WindowsStorage::clear(Scope scope) {
     if (scope == Default) scope = getDefaultScope();
     assert(scope != Default);
 
-    string registryKey;
-    switch (scope) {
-    case Host:
-        registryKey = HostRootPath;
-        break;
-    case User:
-        registryKey = UserRootPath;
-        break;
-    default:
-        return *this;
-    }
+    string registryKey = rootSubPath;
 
     string prefix = getPrefix();
     if (!prefix.empty()) {
         registryKey += string("\\") + prefix;
     }
 
-    WinRegistryKey(registryKey).deleteKey();
+    deleteRegKey(registryKey, scope);
     return *this;
 }
 

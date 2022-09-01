@@ -20,7 +20,7 @@ TEST_F(RequestTest, Send)
 
     Request request;
 
-    EXPECT_CALL(mClientSession, post("/v1/open", _, _, _)).Times(1).WillOnce(Return(true));
+    EXPECT_CALL(mClientSession, post("https://api2.branch.io/v1/open", _, _, _)).Times(1).WillOnce(Return(true));
 
     request.send(Defines::REGISTER_OPEN, JSONObject(), mCallback, &mClientSession);
 }

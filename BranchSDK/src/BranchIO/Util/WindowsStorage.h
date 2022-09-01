@@ -3,11 +3,10 @@
 #ifndef BRANCHIO_UTIL_WINDOWSSTORAGE_H_
 #define BRANCHIO_UTIL_WINDOWSSTORAGE_H_
 
-#include <Poco/Mutex.h>
-
 #include <string>
-
+#include <windows.h>
 #include "BranchIO/Util/IStorage.h"
+#include <mutex>
 
 namespace BranchIO {
 
@@ -17,15 +16,9 @@ namespace BranchIO {
 class WindowsStorage : public virtual IStorage {
  public:
     /**
-     * Root path for Host scope
-     * @todo(jdee): does this require admin?
+     * Root sub path 
      */
-    static constexpr const char* const HostRootPath = "HKEY_LOCAL_MACHINE\\SOFTWARE\\BranchIO";
-
-    /**
-     * Root path for User scope
-     */
-    static constexpr const char* const UserRootPath = "HKEY_CURRENT_USER\\Software\\BranchIO";
+    static constexpr const char* const rootSubPath = "SOFTWARE\\BranchIO";
 
     /**
      * Singleton accessor
@@ -99,7 +92,12 @@ class WindowsStorage : public virtual IStorage {
         std::string& registryKey,
         std::string& registryPath) const;
 
-    mutable Poco::Mutex _mutex;
+    HKEY getRegistryHandle(Scope scope) const;
+    bool registryKeyExists(const std::string registryKey, const std::string registryValue, Scope scope) const;
+    bool deleteRegKeyAndPath(const std::string& key, const std::string& path, Scope scope);
+    void deleteRegKey(const std::string& key, Scope scope);
+
+    mutable std::mutex _mutex;
     Scope _defaultScope;
     std::string _prefix;
 };

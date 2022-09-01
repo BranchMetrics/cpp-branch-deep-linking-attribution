@@ -2,9 +2,6 @@
 
 #include "RequestManager.h"
 
-#include <Poco/Net/PrivateKeyPassphraseHandler.h>
-#include <Poco/Net/SSLManager.h>
-#include <Poco/TaskNotification.h>
 #include <cassert>
 
 #include "BranchIO/Util/IClientSession.h"
@@ -13,26 +10,15 @@
 #include "BranchIO/Util/Log.h"
 #include "BranchIO/Util/Storage.h"
 
-using namespace Poco;
-using Poco::Net::Context;
 
 namespace BranchIO {
 
 RequestManager::RequestManager(IPackagingInfo& packagingInfo, IClientSession *clientSession) :
-    _thread("BranchIO:RequestManager"),
     _defaultCallback(nullptr),
     _packagingInfo(&packagingInfo),
     _clientSession(clientSession),
     _shuttingDown(false),
     _currentRequest(nullptr) {
-    /*
-     * Note that the following call will always generate an exception warning message in Visual Studio like:
-     * Exception thrown at 0x00007FF87DB8D759 in TestBed-Local.exe: Microsoft C++ exception: Poco::Net::NoCertificateException at memory location 0x000000FD251FC1F0.
-     * This is deliberately thrown by Poco internally when initializing a secure socket:
-     * https://github.com/pocoproject/poco/blob/poco-1.10.1/NetSSL_Win/src/SecureSocketImpl.cpp#L692.
-     * This is not a fatal error. API clients do not supply a cert for authentication.
-     */
-    Poco::Net::SSLManager::instance().initializeClient(nullptr, nullptr, new Context(Context::TLS_CLIENT_USE, "" /* no client cert required */));
 }
 
 RequestManager::~RequestManager() {
@@ -43,14 +29,14 @@ RequestManager::~RequestManager() {
 
 RequestManager&
 RequestManager::setDefaultCallback(IRequestCallback* callback) {
-    Mutex::ScopedLock _l(_mutex);
+    std::scoped_lock _l(_mutex);
     _defaultCallback = callback;
     return *this;
 }
 
 IRequestCallback*
 RequestManager::getDefaultCallback() const {
-    Mutex::ScopedLock _l(_mutex);
+    std::scoped_lock _l(_mutex);
     return _defaultCallback;
 }
 
@@ -61,36 +47,34 @@ RequestManager& RequestManager::enqueue(
     // Make a copy of the Request on the heap. This will throw if both
     // callback and getDefaultCallback() are NULL.
     RequestTask* task = new RequestTask(*this, event, callback ? callback : getDefaultCallback());
-    TaskNotification* notification = new TaskNotification(task);
-    Notification::Ptr notificationPtr = Notification::Ptr(notification);
 
     if (urgent) {
-        _queue.enqueueUrgentNotification(notificationPtr);
+        enqueueUrgentTask(task);
     } else {
-        _queue.enqueueNotification(notificationPtr);
+        enqueueTask(task);
     }
 
     return *this;
 }
 
 void RequestManager::start() {
-    // execute run() on this thread
-    _thread.start(*this);
+    // start background thread for sending events to server
+    _thread = std::thread(&RequestManager::run, this);
 }
 
 void RequestManager::stop() {
     if (getCurrentRequest()) getCurrentRequest()->cancel();
     if (getClientSession()) getClientSession()->stop();
 
-    if (!_thread.isRunning()) return;
+    if (!_thread.joinable()) return;
 
     // Stop the background thread
     {
-        Poco::Mutex::ScopedLock _l(_mutex);
+        std::scoped_lock _l(_mutex);
         _shuttingDown = true;
     }
 
-    _queue.wakeUpAll();
+    wakeUpAll();
 }
 
 void
@@ -99,14 +83,13 @@ RequestManager::waitTillFinished() {
 }
 
 bool RequestManager::isShuttingDown() const {
-    Mutex::ScopedLock _l(_mutex);
     return _shuttingDown;
 }
 
 void RequestManager::run() {
     try {
         while (!isShuttingDown()) {
-            Notification::Ptr notificationPtr = _queue.waitDequeueNotification();
+            RequestTask* requestTask = waitDequeueNotification();
             // wakeUpAll() from stop() will return us from here with or without
             // a notification.
             if (isShuttingDown()) {
@@ -115,23 +98,10 @@ void RequestManager::run() {
 
             // We have an indefinite wait, so the only way we can get here is
             // if we have a notification.
-            Notification* notification = notificationPtr.get();
-            assert(notification);
-
-            // We get away here with static_cast knowing everything is a
-            // TaskNotification. Otherwise, we'll need a dynamic_cast.
-            TaskNotification* taskNotification = static_cast<TaskNotification*>(notification);
-            Task* task = taskNotification->task();
-            RequestTask* requestTask = static_cast<RequestTask*>(task);
-
             setCurrentRequest(&requestTask->getRequest());
-            task->runTask();
+            requestTask->runTask();
             setCurrentRequest(nullptr);
         }
-    }
-    catch (Poco::Exception& e) {
-        // Poco exceptions
-        BRANCH_LOG_E("Exception in RequestManager thread [" << e.what() << "]: " << e.message());
     }
     catch (std::exception& e) {
         // Other STL exceptions
@@ -149,11 +119,10 @@ RequestManager::RequestTask::RequestTask(
     RequestManager& manager,
     const BaseEvent& event,
     IRequestCallback* callback) :
-        Poco::Task("request"),
         _manager(manager),
         _event(event),
         _callback(callback) {
-    if (!_callback) throw Poco::InvalidArgumentException("callback cannot be NULL.");
+    if (!_callback) throw std::exception("InvalidArgumentException - callback cannot be NULL.");
 }
 
 void
@@ -169,8 +138,8 @@ RequestManager::RequestTask::runTask() {
         payload.remove(Defines::JSONKEY_APP_IDENTITY);             // identity
         payload.remove(Defines::JSONKEY_DEVICE_LOCAL_IP_ADDRESS);  // local_ip
         payload.remove(Defines::JSONKEY_DEVICE_MAC_ADDRESS);       // mac_address
-        payload.remove(Defines::JSONKEY_SESSION_FINGERPRINT);      // device_fingerprint_id
-        payload.remove(Defines::JSONKEY_SESSION_IDENTITY);         // identity_id
+        payload.remove(Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN);      // randomized_device_token
+        payload.remove(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN);         // randomized_bundle_token
         payload.remove("advertising_ids");
     }
 
@@ -187,12 +156,49 @@ RequestManager::RequestTask::runTask() {
             result = _request.send(_event.getAPIEndpoint(), payload, *_callback, &clientSession);
             _manager.setClientSession(nullptr);
         }
-        catch (Poco::Exception& e) {
-            BRANCH_LOG_E("Connection failed. " << e.what() << ": " << e.message());
+        catch (winrt::hresult_error const& e) {
+            BRANCH_LOG_E("Connection failed. " << e.code() << ": " << e.message().c_str());
         }
     }
 
     _event.handleResult(result);
 }
+
+void RequestManager::enqueueTask(RequestTask* task)
+{
+    std::scoped_lock  lock(_mutex);
+    _queue.push_back(task);
+    _available.notify_one();
+}
+
+void RequestManager::enqueueUrgentTask(RequestTask* task)
+{
+    std::scoped_lock  lock(_mutex);
+    _queue.push_front(task);
+    _available.notify_one();
+}
+
+
+RequestManager::RequestTask* RequestManager::waitDequeueNotification()
+{
+    std::unique_lock<std::mutex>  lock(_mutex);
+
+    _available.wait(lock, [=] { return (!_queue.empty() ||(_shuttingDown == true));});
+
+    if (!_queue.empty()){
+        RequestManager::RequestTask* task = _queue.front();
+        _queue.pop_front();
+        return task;
+    } else {
+        return NULL;
+    }
+}
+
+void RequestManager::wakeUpAll()
+{
+    std::scoped_lock lock(_mutex);
+    _available.notify_all();
+}
+
 
 }  // namespace BranchIO

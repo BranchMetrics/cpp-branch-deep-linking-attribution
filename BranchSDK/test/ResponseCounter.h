@@ -1,9 +1,6 @@
 #ifndef __RESPONSE_COUNTER_H__
 #define __RESPONSE_COUNTER_H__
 
-#include <Poco/Clock.h>
-#include <Poco/Condition.h>
-#include <Poco/Mutex.h>
 
 #include <BranchIO/IRequestCallback.h>
 
@@ -35,15 +32,15 @@ struct ResponseCounter : public virtual BranchIO::IRequestCallback
 
     unsigned int getResponseCount() const
     {
-        Poco::Mutex::ScopedLock _l(mMutex);
+        std::scoped_lock _l(mMutex);
         return mResponseCount;
     }
 
     void incrementResponseCount()
     {
-        Poco::Mutex::ScopedLock _l(mMutex);
+        std::scoped_lock _l(mMutex);
         ++ mResponseCount;
-        mIncrementCondition.broadcast();
+        mIncrementCondition.notify_all();
     }
 
     /**
@@ -52,19 +49,23 @@ struct ResponseCounter : public virtual BranchIO::IRequestCallback
      */
     void waitForResponses(int expectedCount, long milliseconds) const
     {
-        Poco::Clock start;
+        std::chrono::steady_clock::time_point t_start = std::chrono::steady_clock::now();
         long remaining(milliseconds);
 
-        Poco::Mutex::ScopedLock _l(mMutex);
+        std::chrono::duration<int, std::milli> remainingDuration(remaining);
+
+        std::unique_lock _l(mMutex);
         while (mResponseCount < expectedCount && remaining > 0)
         {
-            mIncrementCondition.tryWait(mMutex, remaining);
-            remaining = milliseconds - static_cast<long>(start.elapsed() * 1.e-3);
+            mIncrementCondition.wait_for(_l, remainingDuration);
+            auto t_now = std::chrono::steady_clock::now();
+            double elapsed_time_ms = std::chrono::duration<double, std::milli>(t_now - t_start).count();
+            remaining = milliseconds - static_cast<int32_t>(elapsed_time_ms);
         }
     }
 
-    mutable Poco::Mutex mMutex;
-    mutable Poco::Condition mIncrementCondition;
+    mutable std::mutex mMutex;
+    mutable std::condition_variable mIncrementCondition;
     unsigned int volatile mResponseCount;
 };
 

@@ -11,7 +11,7 @@ class BranchioConan(ConanFile):
 
     # ----- Package metadata -----
     name = "BranchIO"
-    version = "1.2.4"
+    version = "1.2.3"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
@@ -38,11 +38,6 @@ class BranchioConan(ConanFile):
     exports_sources = "BranchIO"
 
     # ----- Package dependencies -----
-    # Pin to a specific version of Poco for stability of CI and other environments using
-    # Conan. Conan recently introduced lockfiles, which may be useful for this purpose
-    # as well. For now, this is consistent with transitive dependencies in Branch Maven
-    # packages, to avoid version drift.
-    requires = "poco/1.11.1"
     build_requires = "gtest/1.11.0"
 
     def validate(self):
@@ -71,9 +66,9 @@ class BranchioConan(ConanFile):
         #if self.should_install:
             # conan build --install
             #cmake.install()
-        #if self.should_test:
-            # conan build --test
-            #cmake.test() # run unit tests
+        if self.should_test:
+            #conan build --test
+            cmake.test() # run unit tests
 
     def test(self):
         # TODO(jdee): This isn't necessarily the right idea. The idea is to use a project

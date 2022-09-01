@@ -8,9 +8,12 @@
 #include "BranchIO/JSONObject.h"
 #include "BranchIO/SessionInfo.h"
 #include "BranchIO/AdvertiserInfo.h"
+#include <winrt/Windows.Data.Json.h>
+#include <winrt/Windows.Foundation.Collections.h>
 
-using Poco::Mutex;
 using namespace std;
+using namespace winrt::Windows::Data::Json;
+using namespace winrt::Windows::Foundation::Collections;
 
 namespace BranchIO {
 
@@ -21,6 +24,7 @@ static const char *JSONKEY_EVENT_DATA = "event_data";
 static const char *JSONKEY_USER_DATA = "user_data";
 static const char *JSONKEY_BRANCH_KEY = "branch_key";
 static const char *JSONKEY_ADVERTISING_IDS = "advertising_ids";
+static const char* JSONKEY_REQUEST_METADATA = "metadata";
 
 BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, JSONObject::Ptr jsonPtr) :
     mAPIEndpoint(apiEndpoint),
@@ -29,8 +33,12 @@ BaseEvent::BaseEvent(Defines::APIEndpoint apiEndpoint, const String& eventName, 
 
     if (jsonPtr.get()) {
         // Copy the key/values
-        for (JSONObject::ConstIterator it = jsonPtr->begin(); it != jsonPtr->end(); ++it) {
-            set(it->first, it->second);
+        IIterator<IKeyValuePair<winrt::hstring, IJsonValue>> it;
+        JsonObject sourceJObject = jsonPtr->getWinRTJsonObj();
+       
+        for (it = sourceJObject.First(); it.HasCurrent(); it.MoveNext()) {
+            IKeyValuePair< winrt::hstring, IJsonValue>  kvp = it.Current();
+            jObject.SetNamedValue(kvp.Key(), kvp.Value());
         }
     }
 }
@@ -59,26 +67,26 @@ BaseEvent::addEventProperty(const char *propertyName, double propertyValue) {
 
 BaseEvent&
 BaseEvent::addCustomDataProperty(const String &propertyName, const String &propertyValue) {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock  _l(mMutex);
     mCustomData.set(propertyName.str(), propertyValue.str());
     return *this;
 }
 
 JSONObject
 BaseEvent::getCustomData() const {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock _l(mMutex);
     return mCustomData;
 }
 
 std::string
 BaseEvent::name() const {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock _l(mMutex);
     return mEventName;
 }
 
 Defines::APIEndpoint
 BaseEvent::getAPIEndpoint() const {
-    Mutex::ScopedLock _l(mMutex);
+    scoped_lock _l(mMutex);
     return mAPIEndpoint;
 }
 
@@ -161,6 +169,11 @@ BaseEvent::package(IPackagingInfo &packagingInfo, JSONObject &jsonPackage) const
             packageRawEvent(jsonPackage);
             break;
     }
+
+    // Set Request MetaData
+    JSONObject reqMetaData = packagingInfo.getRequestMetaData();
+    if (!reqMetaData.isEmpty())
+        jsonPackage.set(JSONKEY_REQUEST_METADATA, reqMetaData);
 }
 
 

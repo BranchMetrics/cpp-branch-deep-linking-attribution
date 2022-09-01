@@ -3,10 +3,10 @@
 #ifndef BRANCHIO_UTIL_LOG_H__
 #define BRANCHIO_UTIL_LOG_H__
 
-#include <Poco/Logger.h>
-
 #include <string>
 #include <sstream>
+#include "LogChannel.h"
+#include "FileLogChannel.h"
 
 #include "BranchIO/dll.h"
 
@@ -139,7 +139,7 @@ class BRANCHIO_DLL_EXPORT Log {
 
  private:
     Log();
-    Log(const Log& o) : _logger(Poco::Logger::root()) {}
+    Log(const Log& o){}
     ~Log();
     Log& operator=(const Log& o) { return *this; }
 
@@ -149,22 +149,19 @@ class BRANCHIO_DLL_EXPORT Log {
     void debug(const std::string& message, const char* func, const char* file, int line);
     void verbose(const std::string& message, const char* func, const char* file, int line);
 
-    Poco::Logger& getLogger() {
-        return _logger;
-    }
-
     std::string buildMessage(Level level, const std::string& message, const char* func, const char* file, int line);
 
     static Level getDefaultLogLevel();
     static std::string getDefaultLogFile();
-    static Poco::Message::Priority getLoggerPriority(Level level);
     static std::string unescapeFormat(const std::string& text);
+    std::string getTimeStamp();
 
-    static Poco::Channel* makeFileLoggingChannel(const std::string& path);
-    static Poco::Channel* makeSystemLoggingChannel();
-    static Poco::Channel* makeConsoleLoggingChannel(bool enableColors = true);
+    static LogChannel* makeFileLoggingChannel(const std::string& path);
+    static LogChannel* makeSystemLoggingChannel();
+    static LogChannel* makeConsoleLoggingChannel(bool enableColors = true);
 
-    Poco::Logger& _logger;
+    static LogChannel*_channel;
+    static int _level;
 };
 
 }  // namespace BranchIO

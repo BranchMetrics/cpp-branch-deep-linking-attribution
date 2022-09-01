@@ -4,13 +4,14 @@
 #define BRANCHIO_PACKAGINGINFO_H_
 
 #include <string>
+#include <mutex>
 
 #include "BranchIO/AdvertiserInfo.h"
 #include "BranchIO/AppInfo.h"
 #include "BranchIO/DeviceInfo.h"
 #include "BranchIO/IPackagingInfo.h"
 #include "BranchIO/SessionInfo.h"
-#include "Poco/Mutex.h"
+
 
 namespace BranchIO {
 
@@ -111,8 +112,21 @@ class PackagingInfo : public virtual IPackagingInfo {
      */
     PackagingInfo& setAdvertiserInfo(const AdvertiserInfo& advertiserInfo);
 
+    /**
+    * Sets the setRequestMetaData.
+    * @param requestMetaDataJsonString json string contaning key-pairs of metadata
+    * @return *this
+    */
+    void setRequestMetaData(JSONObject requestMetaData);
+
+    /**
+   * Gets a reference to requestMetaData.
+   * @return *JSONObject containing metadata Key pair values
+   */
+    JSONObject& getRequestMetaData();
+
  private:
-    mutable Poco::Mutex _mutex;
+    mutable std::mutex _mutex;
 #pragma warning(push)
 #pragma warning(disable: 4251)
     std::string _branchKey;
@@ -121,6 +135,7 @@ class PackagingInfo : public virtual IPackagingInfo {
     AppInfo _appInfo;
     DeviceInfo _deviceInfo;
     SessionInfo _sessionInfo;
+    JSONObject _requestMetaData;
 };
 
 }  // namespace BranchIO

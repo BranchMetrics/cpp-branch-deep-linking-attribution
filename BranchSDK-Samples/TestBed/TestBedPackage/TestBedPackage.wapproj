@@ -116,5 +116,8 @@
   <ItemGroup>
     <ProjectReference Include="..\TestBed.vcxproj" />
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.CppWinRT" Version="2.0.220331.4" />
+  </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

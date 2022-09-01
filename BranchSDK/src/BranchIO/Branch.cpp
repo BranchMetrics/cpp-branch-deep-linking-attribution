@@ -47,26 +47,26 @@ class SessionCallback : public IRequestCallback {
             // If keys don't exist -- that effectively wipes out the state (on purpose).
             if (jsonResponse.has(Defines::JSONKEY_SESSION_ID)) {
                 if (!_context->getAdvertiserInfo().isTrackingDisabled()) {
-                    if (jsonResponse.has(Defines::JSONKEY_SESSION_FINGERPRINT)) {
-                        static const char* const key = Defines::JSONKEY_SESSION_FINGERPRINT;
-                        string deviceFingerprintId(jsonResponse.get(key).toString());
-                        _context->getSessionInfo().setFingerprintId(deviceFingerprintId);
+                    if (jsonResponse.has(Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN)) {
+                        static const char* const key = Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN;
+                        string randomizedDeviceToken(jsonResponse.getNamedString(key));
+                        _context->getSessionInfo().setDeviceToken(randomizedDeviceToken);
                     }
-                    if (jsonResponse.has(Defines::JSONKEY_SESSION_IDENTITY))
-                        _context->getSessionInfo().setIdentityId(jsonResponse.get(Defines::JSONKEY_SESSION_IDENTITY));
+                    if (jsonResponse.has(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN))
+                        _context->getSessionInfo().setBundleToken(jsonResponse.getNamedString(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN));
                 }
-                _context->getSessionInfo().setSessionId(jsonResponse.get(Defines::JSONKEY_SESSION_ID));
+                _context->getSessionInfo().setSessionId(jsonResponse.getNamedString(Defines::JSONKEY_SESSION_ID));
             }
 
             // Data comes back as String-encoded JSON...  let's fix that up
             if (jsonResponse.has("data")) {
                 try {
-                    string stringData = jsonResponse.get("data");
-                    JSONObject jsonData = JSONObject::parse(stringData);
-                    jsonResponse.set("data", jsonData);
+                    string stringData = jsonResponse.getNamedString("data");
+                    jsonResponse.set("data", stringData);
                 }
-                catch(Poco::Exception &) {
+                catch (...) {
                     // Error has already been logged.
+                    BRANCH_LOG_D("Error has already been logged");
                 }
             }
 
@@ -106,6 +106,8 @@ class SessionCallback : public IRequestCallback {
     IRequestCallback *_parentCallback;
 };
 
+JSONObject Branch::requestMetaDataJsonObj = JSONObject();
+
 Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     /*
      * For now, we should use user-level storage (~/.branchio on Unix,
@@ -124,7 +126,7 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     storage.setPrefix("");  // in case Branch::create called more than once.
     bool hasGlobalTrackingDisabled = storage.has("advertiser.trackingDisabled");
     bool isGlobalTrackingDisabled = storage.getBoolean("advertiser.trackingDisabled");
-    string globalDeviceFingerprintId = storage.getString("session.device_fingerprint_id");
+    string globalDeviceToken = storage.getString("session.randomized_device_token");
 
     // Remove global settings
     /*
@@ -146,8 +148,8 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
     if (hasGlobalTrackingDisabled && !storage.has("advertiser.trackingDisabled")) {
         storage.setBoolean("advertiser.trackingDisabled", isGlobalTrackingDisabled);
     }
-    if (!globalDeviceFingerprintId.empty() && !storage.has("session.device_fingerprint_id")) {
-        storage.setString("session.device_fingerprint_id", globalDeviceFingerprintId);
+    if (!globalDeviceToken.empty() && !storage.has("session.randomized_device_token")) {
+        storage.setString("session.randomized_device_token", globalDeviceToken);
     }
 
     if (pInfo) {
@@ -156,6 +158,14 @@ Branch *Branch::create(const String& branchKey, AppInfo* pInfo) {
 
     instance->_packagingInfo.setBranchKey(utf8key);
 
+    // Set RequestMetaData
+    bool hasRequestMetaData = storage.has("session.requestMetaData");
+    if (hasRequestMetaData){
+        string requestMetaDataJsonString = storage.getString("session.requestMetaData");
+        requestMetaDataJsonObj = JSONObject::parse(requestMetaDataJsonString);
+        instance->_packagingInfo.setRequestMetaData(requestMetaDataJsonObj);
+    }
+    
     instance->_requestManager = new RequestManager(instance->_packagingInfo);
     instance->_requestManager->start();
 
@@ -211,20 +221,20 @@ Branch::setIdentity(const String& userId, IRequestCallback* callback) {
         IdentityLoginEvent event(userId.str());
         event.setResultHandler([this, userId](const JSONObject& result) {
             /*
-             * Note that setIdentity just generates an error via sendEvent below
+             * Note that setBundleToken just generates an error via sendEvent below
              * if tracking is disabled. This callback is only invoked on successful
              * completion of the request.
              */
             IStorage& storage(Storage::instance());
             storage.setString("session.identity", userId.str());
             if (result.has(Defines::JSONKEY_SESSION_ID)) {
-                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                auto sessionId = result.getNamedString(Defines::JSONKEY_SESSION_ID);
                 getSessionInfo().setSessionId(sessionId);
             }
-            if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
-                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
-                getSessionInfo().setIdentityId(identityId);
-                storage.setString("session.identity_id", identityId);
+            if (result.has(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN)) {
+                auto bundleToken = result.getNamedString(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN);
+                getSessionInfo().setBundleToken(bundleToken);
+                storage.setString("session.randomized_bundle_token", bundleToken);
             }
         });
         sendEvent(event, callback);
@@ -243,13 +253,13 @@ Branch::logout(IRequestCallback *callback) {
             IStorage& storage(Storage::instance());
             storage.remove("session.identity");
             if (result.has(Defines::JSONKEY_SESSION_ID)) {
-                auto sessionId = result.get(Defines::JSONKEY_SESSION_ID).toString();
+                auto sessionId = result.getNamedString(Defines::JSONKEY_SESSION_ID);
                 getSessionInfo().setSessionId(sessionId);
             }
-            if (result.has(Defines::JSONKEY_SESSION_IDENTITY)) {
-                auto identityId = result.get(Defines::JSONKEY_SESSION_IDENTITY).toString();
-                getSessionInfo().setIdentityId(identityId);
-                storage.setString("session.identity_id", identityId);
+            if (result.has(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN)) {
+                auto bundleToken = result.getNamedString(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN);
+                getSessionInfo().setBundleToken(bundleToken);
+                storage.setString("session.randomized_bundle_token", bundleToken);
             }
         });
         sendEvent(event, callback);
@@ -280,45 +290,72 @@ Branch::waitTillFinished() {
     getRequestManager()->waitTillFinished();
 }
 
+void
+Branch::setRequestMetaData(std::string key, std::string value) {
+    
+    // Remove key if it already exists. No update function available.
+    if (requestMetaDataJsonObj.has(key))
+        requestMetaDataJsonObj.remove(key);
+    
+    // Return if either key or vlaue is empty.
+    if (key.empty() || value.empty())
+        return;
+    // Add 
+    requestMetaDataJsonObj.set(key, value);
+    
+    string requestMetaDataJsonString = requestMetaDataJsonObj.stringify();
+    Storage::instance().setString("session.requestMetaData", requestMetaDataJsonString);
+
+    _packagingInfo.setRequestMetaData(requestMetaDataJsonObj);
+}
+
+void
+Branch::clearRequestMetaData() {
+
+    requestMetaDataJsonObj.clear();
+    _packagingInfo.setRequestMetaData(requestMetaDataJsonObj);
+    Storage::instance().remove("session.requestMetaData");
+}
+
 const AppInfo &
 Branch::getAppInfo() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getAppInfo();
 }
 
 const DeviceInfo &
 Branch::getDeviceInfo() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getDeviceInfo();
 }
 
 SessionInfo &
 Branch::getSessionInfo() {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getSessionInfo();
 }
 
 SessionInfo const &
 Branch::getSessionInfo() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getSessionInfo();
 }
 
 AdvertiserInfo &
 Branch::getAdvertiserInfo() {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getAdvertiserInfo();
 }
 
 RequestManager *
 Branch::getRequestManager() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _requestManager;
 }
 
 string
 Branch::getBranchKey() const {
-    Poco::Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _packagingInfo.getBranchKey();
 }
 

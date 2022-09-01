@@ -1,18 +1,13 @@
 // Copyright (c) 2019-21 Branch Metrics, Inc.
 
 #include "BranchIO/LinkInfo.h"
-#include <Poco/URI.h>
-#include <Poco/Base64Encoder.h>
-#include <Poco/Util/Timer.h>
-
 #include "BranchIO/Util/APIClientSession.h"
 #include "BranchIO/Branch.h"
 #include "BranchIO/Defines.h"
 #include "BranchIO/Util/Log.h"
 #include "BranchIO/Util/StringUtils.h"
+#include <winrt/Windows.Foundation.h>
 
-using Poco::Mutex;
-using namespace Poco::Util;
 using namespace std;
 
 namespace BranchIO {
@@ -33,7 +28,6 @@ const char* const JSONKEY_URL = "url";
 
 LinkInfo::LinkInfo()
     : BaseEvent(Defines::APIEndpoint::URL, "LinkInfo"),
-    _thread("BranchIO:createUrl"),
     _complete(true),
     _canceled(false),
     _callback(nullptr),
@@ -47,34 +41,35 @@ LinkInfo::~LinkInfo() {
 
 bool
 LinkInfo::isComplete() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _complete;
 }
 
 bool
 LinkInfo::isCanceled() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _canceled;
 }
 
 void
 LinkInfo::waitTillComplete() const {
-    Mutex::ScopedLock _l(_mutex);
+
+    unique_lock<mutex> _l(_mutex);
     while (!_complete) {
-        _completeCondition.wait(_mutex);
+        _completeCondition.wait(_l);
     }
 }
 
 void
 LinkInfo::complete() {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _complete = true;
-    _completeCondition.broadcast();
+    _completeCondition.notify_all();
 }
 
 void
 LinkInfo::cancel() {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _canceled = true;
 
     if (!_clientSession) return;
@@ -83,31 +78,31 @@ LinkInfo::cancel() {
 
 void
 LinkInfo::setClientSession(IClientSession* clientSession) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _clientSession = clientSession;
 }
 
 IClientSession*
 LinkInfo::getClientSession() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _clientSession;
 }
 
 IRequestCallback*
 LinkInfo::getCallback() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _callback;
 }
 
 Branch*
 LinkInfo::getBranchInstance() const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     return _branch;
 }
 
 LinkInfo &
 LinkInfo::addControlParameter(const String& key, const String& value) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);;
     _controlParams.addProperty(key.str().c_str(), value.str());
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
@@ -115,7 +110,7 @@ LinkInfo::addControlParameter(const String& key, const String& value) {
 
 LinkInfo &
 LinkInfo::addControlParameter(const String& key, int value) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _controlParams.addProperty(key.str().c_str(), value);
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
@@ -123,7 +118,7 @@ LinkInfo::addControlParameter(const String& key, int value) {
 
 LinkInfo&
 LinkInfo::addControlParameter(const String& key, const PropertyManager& value) {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
     _controlParams.addProperty(key.str().c_str(), value);
     addProperty(JSONKEY_DATA, _controlParams);
     return *this;
@@ -131,8 +126,8 @@ LinkInfo::addControlParameter(const String& key, const PropertyManager& value) {
 
 LinkInfo&
 LinkInfo::addTag(const String& tag) {
-    Mutex::ScopedLock _l(_mutex);
-    _tagParams.add(tag.str());
+    scoped_lock _l(_mutex);
+    _tagParams.push_back(tag.str());
     addProperty(JSONKEY_TAGS, _tagParams);
     return *this;
 }
@@ -210,7 +205,7 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
     }
 
     {
-        Mutex::ScopedLock _l(_mutex);
+        scoped_lock _l(_mutex);
         _complete = false;
         _branch = branchInstance;
         _callback = callback;
@@ -219,13 +214,13 @@ LinkInfo::createUrl(Branch *branchInstance, IRequestCallback *callback) {
     /*
      * Start a thread to make the request. Executes LinkInfo::run().
      */
-    Poco::Runnable& runner = static_cast<Poco::Runnable&>(*this);
-    _thread.start(runner);
+    _thread = thread([this] { this->run(); });
+    _thread.join();
 }
 
 std::string
 LinkInfo::createLongUrl(Branch* branchInstance, const String& baseUrl) const {
-    Mutex::ScopedLock _l(_mutex);
+    scoped_lock _l(_mutex);
 
     // TODO(andyp): Handle response from setIdentity if there is a base URL in the response
 
@@ -234,51 +229,53 @@ LinkInfo::createLongUrl(Branch* branchInstance, const String& baseUrl) const {
     longUrl += (sBaseUrl.size() > 0 ? sBaseUrl : BASE_LONG_URL);
     longUrl += branchInstance->getBranchKey();
 
-    Poco::URI uri(longUrl);
+    string uri(longUrl);
+    string query;
 
-    for (JSONArray::ConstIterator it = _tagParams.begin(); it != _tagParams.end(); ++it) {
-        uri.addQueryParameter(JSONKEY_TAGS, it->convert<std::string>());
+    for (std::vector<std::string>::const_iterator it = _tagParams.begin(); it != _tagParams.end(); ++it) {
+        appendQueryParameters(query, JSONKEY_TAGS, it->c_str());
     }
 
     std::string alias = getAlias();
     if (alias.size() > 0) {
-        uri.addQueryParameter(JSONKEY_ALIAS, alias);
+        appendQueryParameters(query, JSONKEY_ALIAS, alias);
     }
 
     std::string channel = getChannel();
     if (channel.size() > 0) {
-        uri.addQueryParameter(JSONKEY_CHANNEL, channel);
+        appendQueryParameters(query, JSONKEY_CHANNEL, channel);
     }
 
     std::string feature = getFeature();
     if (feature.size() > 0) {
-        uri.addQueryParameter(JSONKEY_FEATURE, feature);
+        appendQueryParameters(query, JSONKEY_FEATURE, feature);
     }
 
     std::string stage = getStage();
     if (stage.size() > 0) {
-        uri.addQueryParameter(JSONKEY_STAGE, stage);
+        appendQueryParameters(query, JSONKEY_STAGE, stage);
     }
 
     std::string campaign = getCampaign();
     if (campaign.size() > 0) {
-        uri.addQueryParameter(JSONKEY_CAMPAIGN, campaign);
+        appendQueryParameters(query, JSONKEY_CAMPAIGN, campaign);
     }
 
     if (!_controlParams.isEmpty()) {
-        // https://gist.github.com/kidapu/0b9c2cbe98191a394c80
-        // Base64-encode control params as data query param
-        stringstream ss;
-        ss.str("");
-        Poco::Base64Encoder b64enc(ss);
-        b64enc.rdbuf()->setLineLength(0);
-        b64enc << _controlParams.toString();
-        b64enc.close();
-
-        uri.addQueryParameter(JSONKEY_DATA, ss.str());
+        const std::string ss = StringUtils::EncodeBase64(reinterpret_cast<const BYTE*>(_controlParams.toString().data()), _controlParams.toString().size());
+        appendQueryParameters(query, JSONKEY_DATA, ss);
     }
 
-    return uri.toString();
+    return uri.append(query);
+    }
+
+void LinkInfo::appendQueryParameters(string& query, const char* tag, string value) const
+{
+    if (query.empty())
+        query.append("?");
+    else
+        query.append("&");
+    query.append(StringUtils::UriEncode(string(tag)) + "=" + StringUtils::UriEncode(value));
 }
 
 LinkInfo&
@@ -379,9 +376,9 @@ LinkInfo::run() {
             setClientSession(nullptr);
         }
     }
-    catch (Poco::Exception& e) {
-        // Poco exceptions
-        BRANCH_LOG_E("Exception in LinkInfo thread [" << e.what() << "]: " << e.message());
+    catch (winrt::hresult_error const& ex) {
+        // WinRT Exceptions
+        BRANCH_LOG_E("Exception in LinkInfo thread [" << ex.code() << "]: " << ex.message().c_str());
     }
     catch (std::exception& e) {
         // Other STL exceptions

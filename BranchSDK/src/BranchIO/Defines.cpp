@@ -47,8 +47,10 @@ const char *Defines::JSONKEY_APP_USER_AGENT = "user_agent";
 const char *Defines::JSONKEY_APP_VERSION = "app_version";
 
 const char *Defines::JSONKEY_SESSION_FINGERPRINT = "device_fingerprint_id";
+const char* Defines::JSONKEY_SESSION_RANDOMIZED_DEVICE_TOKEN = "randomized_device_token";
 const char *Defines::JSONKEY_SESSION_ID = "session_id";
 const char *Defines::JSONKEY_SESSION_IDENTITY = "identity_id";
+const char* Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN = "randomized_bundle_token";
 const char *Defines::JSONKEY_TRACKING_DISABLED = "tracking_disabled";
 const char* Defines::JSONKEY_WINDOWS_ADVERTISING_ID = "windows_advertising_id";
 const char* Defines::JSONKEY_LINK_IDENTIFIER = "link_identifier";
