@@ -61,7 +61,8 @@ APIClientSession::post(
         // Construct the JSON to post.
         wstring requestBody = StringUtils::utf8_to_wstring(jsonPayload.stringify());
         HttpStringContent jsonContent( requestBody, UnicodeEncoding::Utf8, L"application/json");
-        BRANCH_LOG_V("Request body: " << jsonPayload.stringify());
+        BRANCH_LOG_D("URI: " << path);
+        BRANCH_LOG_D("Request body: " << jsonPayload.stringify());
         /* ----- Send the request and body ----- */
 
         // bail out immediately before and after any I/O, which can take
