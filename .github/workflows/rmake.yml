@@ -7,7 +7,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install cmake and conan
         working-directory: ${{env.GITHUB_WORKSPACE}}
@@ -24,7 +24,7 @@ jobs:
       # will update the cache any time it needs to rebuild Poco. This should only happen when the
       # conanfile.py changes as long as the recipe pins to a specific version of Poco.
       - name: Restore Conan cache, profiles, settings
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.conan/data
           key: ${{ runner.os }}-vs16-conan-data-${{ hashFiles('conanfile.py') }}
@@ -49,7 +49,7 @@ jobs:
           ..\doxygen\doxygen.exe
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: documentation
           path: BranchSDK/docs
