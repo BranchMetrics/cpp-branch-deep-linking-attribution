@@ -121,14 +121,9 @@ class BRANCHIO_DLL_EXPORT DeviceInfo : public PropertyManager {
     void init();
 
     /**
-     * Determine MAC Address.
+     * Determine MAC Address and the IP address that goes with the default MAC address.
      */
-    void initMACAddress();
-
-    /**
-     *  Determine and the IP address that goes with the default MAC address
-     */
-    void initIPAddress();
+    void initIPAndMacAddress();
 
     /**
      *  Determine OS Display Name
