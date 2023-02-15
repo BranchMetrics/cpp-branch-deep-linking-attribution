@@ -106,71 +106,14 @@ DeviceInfo::init() {
     // setModel()
     // setUserAgent();
 
-    initMACAddress();
-    initIPAddress();
+    initIPAndMacAddress();
 }
 
 void
-DeviceInfo::initMACAddress() {
+DeviceInfo::initIPAndMacAddress() {
+
     // Note that there are multiple MAC addresses to choose from, however we
-    // will use the address associated with the first adapter found.
-
-    char macAddress[18] = {0};
-    int macAddressLen = 6; // Mac Address Length is 6
-
-    PIP_ADAPTER_INFO pAdapterInfo;
-    ULONG ulOutBufLen = 0;
-    DWORD dwRetVal = 0;
-
-    // Call GetAdaptersInfo first to get the len for allocating pAdapterInfo
-    DWORD rc = GetAdaptersInfo(NULL, &ulOutBufLen);
-    if (rc == ERROR_BUFFER_OVERFLOW)
-    {
-        pAdapterInfo = reinterpret_cast<IP_ADAPTER_INFO*>(new char[ulOutBufLen]);
-
-        if ((dwRetVal = GetAdaptersInfo(pAdapterInfo, &ulOutBufLen)) == NO_ERROR)
-        {
-            PIP_ADAPTER_INFO tempAdapterInfo = pAdapterInfo;
-            bool found = false;
-            while (tempAdapterInfo && !found)
-            {
-                if (tempAdapterInfo->Type == MIB_IF_TYPE_ETHERNET && tempAdapterInfo->AddressLength == macAddressLen)
-                {
-                    found = true;
-                    sprintf(macAddress, "%02x:%02x:%02x:%02x:%02x:%02x",
-                        pAdapterInfo->Address[0], pAdapterInfo->Address[1],
-                        pAdapterInfo->Address[2], pAdapterInfo->Address[3],
-                        pAdapterInfo->Address[4], pAdapterInfo->Address[5]);
-                }
-                tempAdapterInfo = tempAdapterInfo->Next;
-
-            }
-
-            if(found)
-                setMACAddress(std::string(macAddress));
-        }
-        else
-        {
-            BRANCH_LOG_D("GetAdaptersInfo failed with error: " << dwRetVal);
-        }
-        delete[] reinterpret_cast<char*>(pAdapterInfo);
-    }
-    else
-    {
-        BRANCH_LOG_D("Couldn't get length for buffer. GetAdaptersInfo failed with error: " << dwRetVal);
-    }
-}
-
-void
-DeviceInfo::initIPAddress() {
-
-    // Note that there are multiple IP addresses to choose from, however we
-    // will use the address associated with the current MAC address
-
-    bool found = false;
-    std::string ipAddress;
-
-    string defaultMacAddress = getStringProperty(Defines::JSONKEY_DEVICE_MAC_ADDRESS);
+    // will use the MAC and IP address associated with the first adapter found.
 
     // Get all adapter addresses
     IP_ADAPTER_ADDRESSES* adapterAddresses(NULL);
@@ -213,96 +156,102 @@ DeviceInfo::initIPAddress() {
 
     if (dwRetVal == NO_ERROR) {
         
-        // If successful, fetch IP
+        // If successful, fetch MAC and IP
         currAdapterAddresses = adapterAddresses;
         
         bool found = false;
 
         while (currAdapterAddresses && !found) 
         {
-            // Skip loopback adapters
-            if (IF_TYPE_SOFTWARE_LOOPBACK == currAdapterAddresses->IfType)
+            if (((currAdapterAddresses->IfType == IF_TYPE_ETHERNET_CSMACD) || (currAdapterAddresses->IfType == IF_TYPE_IEEE80211))
+                && (currAdapterAddresses->PhysicalAddressLength == 6))
             {
-                continue;
-            }
+                char macAddress[18] = { 0 };
+                sprintf_s(macAddress, (currAdapterAddresses->PhysicalAddressLength * 3),
+                    "%02x:%02x:%02x:%02x:%02x:%02x",
+                    currAdapterAddresses->PhysicalAddress[0], currAdapterAddresses->PhysicalAddress[1],
+                    currAdapterAddresses->PhysicalAddress[2], currAdapterAddresses->PhysicalAddress[3],
+                    currAdapterAddresses->PhysicalAddress[4], currAdapterAddresses->PhysicalAddress[5]);
+                setMACAddress(std::string(macAddress));
 
-            // Compare Mac address - Skip if MAC address is not equal to default Mac Address.
-            if (!defaultMacAddress.compare(std::string(currAdapterAddresses->PhysicalAddress, currAdapterAddresses->PhysicalAddress + currAdapterAddresses->PhysicalAddressLength)))
-            {
-                continue;
-            }
-
-            // Parse all IPv4 and IPv6 addresses
-            for (
-                IP_ADAPTER_UNICAST_ADDRESS* address = currAdapterAddresses->FirstUnicastAddress;
-                NULL != address;
-                address = address->Next)
-            {
-                auto family = address->Address.lpSockaddr->sa_family;
-                if (AF_INET == family)
+                std::string ipAddress;
+                // Parse all IPv4 and IPv6 addresses
+                for (
+                    IP_ADAPTER_UNICAST_ADDRESS* address = currAdapterAddresses->FirstUnicastAddress;
+                    NULL != address;
+                    address = address->Next)
                 {
-                    // IPv4
-                    SOCKADDR_IN* ipv4 = reinterpret_cast<SOCKADDR_IN*>(address->Address.lpSockaddr);
-
-                    char str_buffer[INET_ADDRSTRLEN] = { 0 };
-                    inet_ntop(AF_INET, &(ipv4->sin_addr), str_buffer, INET_ADDRSTRLEN);
-                    ipAddress = string(str_buffer);
-                    found = true;
-                    break;
-                }
-                else if (AF_INET6 == family)
-                {
-                    // IPv6
-                    SOCKADDR_IN6* ipv6 = reinterpret_cast<SOCKADDR_IN6*>(address->Address.lpSockaddr);
-
-                    char str_buffer[INET6_ADDRSTRLEN] = { 0 };
-                    inet_ntop(AF_INET6, &(ipv6->sin6_addr), str_buffer, INET6_ADDRSTRLEN);
-
-                    std::string ipv6_str(str_buffer);
-
-                    // Detect and skip non-external addresses
-                    bool is_link_local(false);
-                    bool is_special_use(false);
-
-                    if (0 == ipv6_str.find("fe"))
+                    auto family = address->Address.lpSockaddr->sa_family;
+                    if (AF_INET == family)
                     {
-                        char c = ipv6_str[2];
-                        if (c == '8' || c == '9' || c == 'a' || c == 'b')
-                        {
-                            is_link_local = true;
-                        }
-                    }
-                    else if (0 == ipv6_str.find("2001:0:"))
-                    {
-                        is_special_use = true;
-                    }
+                        // IPv4
+                        SOCKADDR_IN* ipv4 = reinterpret_cast<SOCKADDR_IN*>(address->Address.lpSockaddr);
 
-                    if (!(is_link_local || is_special_use))
-                    {
-                        ipAddress = ipv6_str;
+                        char str_buffer[INET_ADDRSTRLEN] = { 0 };
+                        inet_ntop(AF_INET, &(ipv4->sin_addr), str_buffer, INET_ADDRSTRLEN);
+
+                        ipAddress = string(str_buffer);
                         found = true;
                         break;
                     }
+                    else if (AF_INET6 == family)
+                    {
+                        // IPv6
+                        SOCKADDR_IN6* ipv6 = reinterpret_cast<SOCKADDR_IN6*>(address->Address.lpSockaddr);
+
+                        char str_buffer[INET6_ADDRSTRLEN] = { 0 };
+                        inet_ntop(AF_INET6, &(ipv6->sin6_addr), str_buffer, INET6_ADDRSTRLEN);
+
+                        std::string ipv6_str(str_buffer);
+
+                        // Detect and skip non-external addresses
+                        bool is_link_local(false);
+                        bool is_special_use(false);
+
+                        if (0 == ipv6_str.find("fe"))
+                        {
+                            char c = ipv6_str[2];
+                            if (c == '8' || c == '9' || c == 'a' || c == 'b')
+                            {
+                                is_link_local = true;
+                            }
+                        }
+                        else if (0 == ipv6_str.find("2001:0:"))
+                        {
+                            is_special_use = true;
+                        }
+
+                        if (!(is_link_local || is_special_use))
+                        {
+                            ipAddress = ipv6_str;
+                            found = true;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        // Skip all other types of addresses
+                        continue;
+                    }
                 }
-                else
+                if (ipAddress.length() > 0)
                 {
-                    // Skip all other types of addresses
-                    continue;
+                    setIPAddress(ipAddress);
                 }
             }
-
             currAdapterAddresses = currAdapterAddresses->Next;
         }
     }
     else
     {
         // Unexpected error code
-        adapterAddresses = NULL;
         BRANCH_LOG_D("Call to GetAdaptersAddresses failed with error: " << dwRetVal);
         if (dwRetVal == ERROR_NO_DATA)
-            printf("No addresses were found for the requested parameters\n");
-        else {
-
+        {
+            BRANCH_LOG_D("No addresses were found for the requested parameters");
+        }
+        else 
+        {
             LPVOID lpMsgBuf = NULL;
 
             if (FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
@@ -318,11 +267,6 @@ DeviceInfo::initIPAddress() {
                 return;
             }
         }
-    }
-  
-    if (ipAddress.length() > 0) 
-    {
-        setIPAddress(ipAddress);
     }
 }
 
