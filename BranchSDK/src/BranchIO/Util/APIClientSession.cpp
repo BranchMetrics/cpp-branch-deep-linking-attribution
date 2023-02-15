@@ -73,7 +73,7 @@ APIClientSession::post(
         if (isShuttingDown()) return false;
 
         BRANCH_LOG_D("Request sent. Waiting for response.");
-        BRANCH_LOG_D("JSON Payload : " << jsonPayload.stringify());
+ 
         // Make sure the post succeeded, and write out the response.
         bool responseCode = processResponse(callback, result, httpResponseMessage);
 
