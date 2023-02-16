@@ -10,6 +10,7 @@
 #include "BranchIO/AdvertiserInfo.h"
 #include <winrt/Windows.Data.Json.h>
 #include <winrt/Windows.Foundation.Collections.h>
+#include "BranchIO/Util/Storage.h"
 
 using namespace std;
 using namespace winrt::Windows::Data::Json;
@@ -145,6 +146,10 @@ BaseEvent::packageV2Event(IPackagingInfo &packagingInfo, JSONObject &jsonObject)
         userData.set(JSONKEY_ADVERTISING_IDS, adInfo);
     }
     userData.set(Defines::JSONKEY_APP_LAT_V2, (isAdTrackingLimited ? 1 : 0));
+
+    std::string identity = Storage::instance().getString("session.identity");
+    if (!identity.empty())
+        userData.set(Defines::JSONKEY_APP_DEVELOPER_IDENTITY, identity);
 
     jsonObject.set(JSONKEY_USER_DATA, userData);
 }
