@@ -11,7 +11,7 @@ class BranchioConan(ConanFile):
 
     # ----- Package metadata -----
     name = "BranchIO"
-    version = "1.2.3"
+    version = "2.0.1"
     license = "MIT"
     description = "Branch Metrics deep linking and attribution analytics C++ SDK"
     topics = (
