@@ -1,3 +1,13 @@
+## 2023-02-16 Version 2.0.1
+  * INTENG-17565 - Added support for IEEE80211 networks adapters and improved code for searching network adapters and corresponding MAC and IP Addresses.
+  * INTENG-17552 - Added "userdata.developer_identity" in /v2/requests 
+
+## 2022-09-01 Version 2.0.0
+  * SDK-1143 - Removed dependency on Poco Library
+  * SDK-1375, SDK-1376 - Renamed device_fingerprint_id and identity_id to better reflect functionality. Fingerprinting was removed long ago.
+  * SDK-1290 - Added API Branch.setRequestMetadata()
+  * SDK-1531 - Added developer id in v1/open
+
 ## 2021-12-29 Version 1.2.4
   * Add support for MT and MTd builds
   * Fix MSI generation. Note the MSI install layout has changed.
