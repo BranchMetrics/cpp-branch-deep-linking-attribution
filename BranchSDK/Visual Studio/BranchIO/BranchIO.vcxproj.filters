@@ -93,9 +93,6 @@
     <ClInclude Include="..\..\src\BranchIO\Event\Event.h">
       <Filter>Header Files\BranchIO\Event</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\BranchIO\Event\IdentityEvent.h">
-      <Filter>Header Files\BranchIO\Event</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\BranchIO\Event\SessionEvent.h">
       <Filter>Header Files\BranchIO\Event</Filter>
     </ClInclude>
