@@ -55,6 +55,11 @@ SessionInfo::setSessionId(const std::string &sessionId) {
     return doAddProperty(Defines::JSONKEY_SESSION_ID, sessionId);
 }
 
+SessionInfo&
+SessionInfo::setLinkValue(const std::string& link) {
+    return doAddProperty(Defines::JSONKEY_LINK, link);
+}
+
 bool
 SessionInfo::hasSessionId() const {
     return has(Defines::JSONKEY_SESSION_ID);

@@ -45,6 +45,14 @@ class BRANCHIO_DLL_EXPORT SessionInfo : public PropertyManager {
      * @return true if there is a current session.
      */
     virtual bool hasSessionId() const;
+    
+    /**
+     * Set the link param value. This will be used by setIdentity function.
+     * @param link param returned from /v1/open
+     * @return This object for chaining builder methods
+     */
+    virtual SessionInfo& setLinkValue(const std::string& link);
+
 
  private:
     virtual SessionInfo& doAddProperty(const char *name, const std::string &value);
