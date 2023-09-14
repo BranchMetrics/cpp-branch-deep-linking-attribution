@@ -46,7 +46,6 @@
     <ClInclude Include="..\..\src\BranchIO\Event\BaseEvent.h" />
     <ClInclude Include="..\..\src\BranchIO\Event\CustomEvent.h" />
     <ClInclude Include="..\..\src\BranchIO\Event\Event.h" />
-    <ClInclude Include="..\..\src\BranchIO\Event\IdentityEvent.h" />
     <ClInclude Include="..\..\src\BranchIO\Event\SessionEvent.h" />
     <ClInclude Include="..\..\src\BranchIO\Event\StandardEvent.h" />
     <ClInclude Include="..\..\src\BranchIO\fwd.h" />

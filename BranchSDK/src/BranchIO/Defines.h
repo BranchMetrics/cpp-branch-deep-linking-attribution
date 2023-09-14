@@ -60,6 +60,7 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_TRACKING_DISABLED;        ///< Tracking Disabled
     static const char* JSONKEY_WINDOWS_ADVERTISING_ID;   ///< Windows Advertising ID
     static const char* JSONKEY_LINK_IDENTIFIER;          ///< link_click_id from inbound URI
+    static const char* JSONKEY_LINK;                     /// link param returned in /v1/open response
 
     // Branch Url Path
     static const char *BASE_PATH_V1;                     ///< V1 Base Path

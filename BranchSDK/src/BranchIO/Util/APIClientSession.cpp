@@ -122,7 +122,8 @@ APIClientSession::processResponse(IRequestCallback& callback, JSONObject& result
 
             std::wstring  httpResponseBody = httpResponseMessage.Content().ReadAsStringAsync().get().c_str();
             result = JSONObject::parse(to_string(httpResponseBody));
-            
+            if(!result.isEmpty())
+                BRANCH_LOG_D("Response : " << result.stringify());
             callback.onSuccess(0, result);
 
             return true;

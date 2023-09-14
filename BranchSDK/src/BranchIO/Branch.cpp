@@ -8,7 +8,6 @@ using namespace std;
 
 #include "BranchIO/DeviceInfo.h"
 #include "BranchIO/Event/Event.h"
-#include "BranchIO/Event/IdentityEvent.h"
 #include "BranchIO/Event/SessionEvent.h"
 #include "BranchIO/IRequestCallback.h"
 #include "BranchIO/Util/Log.h"
@@ -54,6 +53,8 @@ class SessionCallback : public IRequestCallback {
                     }
                     if (jsonResponse.has(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN))
                         _context->getSessionInfo().setBundleToken(jsonResponse.getNamedString(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN));
+                    if (jsonResponse.has(Defines::JSONKEY_LINK))
+                        _context->getSessionInfo().setLinkValue(jsonResponse.getNamedString(Defines::JSONKEY_LINK));
                 }
                 _context->getSessionInfo().setSessionId(jsonResponse.getNamedString(Defines::JSONKEY_SESSION_ID));
             }
@@ -218,26 +219,23 @@ Branch::sendEvent(const BaseEvent &event, IRequestCallback *callback) {
 void
 Branch::setIdentity(const String& userId, IRequestCallback* callback) {
     if (getSessionInfo().hasSessionId()) {
-        IdentityLoginEvent event(userId.str());
-        event.setResultHandler([this, userId](const JSONObject& result) {
-            /*
-             * Note that setBundleToken just generates an error via sendEvent below
-             * if tracking is disabled. This callback is only invoked on successful
-             * completion of the request.
-             */
-            IStorage& storage(Storage::instance());
-            storage.setString("session.identity", userId.str());
-            if (result.has(Defines::JSONKEY_SESSION_ID)) {
-                auto sessionId = result.getNamedString(Defines::JSONKEY_SESSION_ID);
-                getSessionInfo().setSessionId(sessionId);
+        if (getAdvertiserInfo().isTrackingDisabled()) {
+            if (callback) {
+                callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");
+                callback->onError(0, 0, "Tracking is disabled");
             }
-            if (result.has(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN)) {
-                auto bundleToken = result.getNamedString(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN);
-                getSessionInfo().setBundleToken(bundleToken);
-                storage.setString("session.randomized_bundle_token", bundleToken);
-            }
-        });
-        sendEvent(event, callback);
+            return;
+        }
+
+        IStorage& storage(Storage::instance());
+        storage.setString("session.identity", userId.str());
+
+        if (callback) {
+            JSONObject& result = JSONObject();
+            getIdentityCallbackReturnParams(result);
+            callback->onSuccess(0, result);
+        }
+
     } else {
         if (callback) {
             callback->onError(0, 0, "No Session has been started.");
@@ -248,21 +246,23 @@ Branch::setIdentity(const String& userId, IRequestCallback* callback) {
 void
 Branch::logout(IRequestCallback *callback) {
     if (getSessionInfo().hasSessionId()) {
-        IdentityLogoutEvent event;
-        event.setResultHandler([this](const JSONObject& result) {
-            IStorage& storage(Storage::instance());
-            storage.remove("session.identity");
-            if (result.has(Defines::JSONKEY_SESSION_ID)) {
-                auto sessionId = result.getNamedString(Defines::JSONKEY_SESSION_ID);
-                getSessionInfo().setSessionId(sessionId);
+        if (getAdvertiserInfo().isTrackingDisabled()) {
+            if (callback) {
+                callback->onStatus(0, 0, "Requested operation cannot be completed since tracking is disabled");
+                callback->onError(0, 0, "Tracking is disabled");
             }
-            if (result.has(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN)) {
-                auto bundleToken = result.getNamedString(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN);
-                getSessionInfo().setBundleToken(bundleToken);
-                storage.setString("session.randomized_bundle_token", bundleToken);
-            }
-        });
-        sendEvent(event, callback);
+            return;
+        }
+        
+        IStorage& storage(Storage::instance());
+        storage.remove("session.identity");
+
+        if (callback) {
+            JSONObject& result = JSONObject();
+            getIdentityCallbackReturnParams(result);
+            callback->onSuccess(0, result);
+        }
+            
     } else {
         if (callback) {
             callback->onError(0, 0, "No Session has been started.");
@@ -270,6 +270,24 @@ Branch::logout(IRequestCallback *callback) {
     }
 }
 
+ 
+void Branch::getIdentityCallbackReturnParams(JSONObject& identityParams)
+{
+    
+    std::string sessionID = getSessionInfo().getStringProperty(Defines::JSONKEY_SESSION_ID);
+    if (sessionID.length())
+        identityParams.set(Defines::JSONKEY_SESSION_ID, sessionID);
+
+    std::string bundleToken = getSessionInfo().getStringProperty(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN);
+    if (bundleToken.length())
+        identityParams.set(Defines::JSONKEY_SESSION_RANDOMIZED_BUNDLE_TOKEN, bundleToken);
+
+    std::string link = getSessionInfo().getStringProperty(Defines::JSONKEY_LINK);
+    if (link.length())
+        identityParams.set(Defines::JSONKEY_LINK, link);
+    
+   // return resultParams;
+}
 string
 Branch::getIdentity() {
     return Storage::instance().getString("session.identity");

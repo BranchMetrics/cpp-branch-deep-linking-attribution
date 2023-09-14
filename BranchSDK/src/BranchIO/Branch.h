@@ -175,6 +175,12 @@ class BRANCHIO_DLL_EXPORT Branch {
      */
     void waitTillFinished();
 
+    /**
+    * Returns a JSON object with SessionID, Randomized bundle Token and link.
+    * Its passed in callback in setIdentity and logout (to fake response from /v1/profile and v1/logout) 
+    */
+    //JSONObject & getIdentityCallbackReturnParams();
+    void getIdentityCallbackReturnParams(JSONObject& identityParams);
  protected:
     Branch();
 
