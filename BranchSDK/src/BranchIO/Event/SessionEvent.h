@@ -47,18 +47,6 @@ class BRANCHIO_DLL_EXPORT SessionOpenEvent : public SessionEvent {
     BaseEvent& setLinkUrl(const String& url);
 };
 
-/**
- * (Internal) Session Management Event -- View
- */
-class BRANCHIO_DLL_EXPORT SessionViewEvent: public SessionEvent {
- public:
-     /**
-      * Constructor.
-      */
-    explicit SessionViewEvent() :
-        SessionEvent(Defines::APIEndpoint::REGISTER_VIEW, "View") {}
-};
-
 }  // namespace BranchIO
 
 #endif  // BRANCHIO_EVENT_SESSIONEVENT_H__

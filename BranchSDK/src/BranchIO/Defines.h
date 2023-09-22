@@ -82,7 +82,6 @@ class BRANCHIO_DLL_EXPORT Defines {
         // V1 Endpoints
         REGISTER_OPEN,
         REGISTER_CLOSE,
-        REGISTER_VIEW,
         LOGOUT,
         URL,
 
