@@ -62,7 +62,6 @@ const char *PATH_GET_URL = "v1/url";
 const char *PATH_GET_APP = "v1/app-link-settings";
 const char *PATH_REGISTER_OPEN = "v1/open";
 const char *PATH_REGISTER_CLOSE = "v1/close";
-const char *PATH_REGISTER_VIEW = "v1/register-view";
 const char *PATH_LOGOUT = "v1/logout";
 const char *PATH_URL = "v1/url";
 
@@ -89,9 +88,6 @@ Defines::stringify(APIEndpoint apiEndpoint) {
             break;
         case REGISTER_CLOSE:
             ss << PATH_REGISTER_CLOSE;
-            break;
-        case REGISTER_VIEW:
-            ss << PATH_REGISTER_VIEW;
             break;
         case LOGOUT:
             ss << PATH_LOGOUT;
@@ -149,7 +145,6 @@ Defines::endpointType(APIEndpoint apiEndpoint) {
     switch (apiEndpoint) {
         case REGISTER_OPEN:
         case REGISTER_CLOSE:
-        case REGISTER_VIEW:
         case IDENTIFY_USER:
         case LOGOUT:
         case URL:

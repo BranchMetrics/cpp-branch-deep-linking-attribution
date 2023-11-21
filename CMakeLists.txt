@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(root VERSION 2.0.1 LANGUAGES CXX)
+project(root VERSION 2.1.0 LANGUAGES CXX)
 
 # Enable Unit Testing.
 # TODO: Investigate why this appears to be needed at the top level CMakeLists
