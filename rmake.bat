@@ -102,7 +102,7 @@ IF ERRORLEVEL 1 (
 )
 
 ECHO Setup Branch SDK with cmake and Visual Studio
-cmake ..\.. -G "Visual Studio 16 2019"^
+cmake ..\.. -G "Visual Studio 17 2022"^
   -A %CMAKE_TARGET_ARCH%^
   -DCMAKE_BUILD_TYPE=%BUILD_TYPE%^
   -DRUNTIME=%RUNTIME%^
