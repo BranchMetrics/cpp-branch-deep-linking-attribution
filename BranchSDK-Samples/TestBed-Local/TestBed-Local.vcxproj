@@ -132,6 +132,9 @@
       <AdditionalLibraryDirectories>.\x64\DebugMD\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>BranchIO.lib;Iphlpapi.lib;crypt32.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>$(ProjectDir)\app.manifest</AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -181,6 +184,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="app.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
