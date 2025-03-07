@@ -1,6 +1,7 @@
-## 2023-11-21 Version 2.1.0
+## 2025-03-07 Version 2.1.0
   * SDK-2041 - Stop calling /v1/profile and /v1/logout in setIdentity and logout APIs
   * SDK-2126 - Remove references to registerView event
+  * EMT-1740 - Added new fields os_platform_version and os_build_number in server requests to provide more granular OS information.
 
 ## 2023-02-16 Version 2.0.1
   * INTENG-17565 - Added support for IEEE80211 networks adapters and improved code for searching network adapters and corresponding MAC and IP Addresses.
