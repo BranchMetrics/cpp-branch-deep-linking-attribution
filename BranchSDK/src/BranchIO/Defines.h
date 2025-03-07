@@ -36,6 +36,8 @@ class BRANCHIO_DLL_EXPORT Defines {
     static const char *JSONKEY_DEVICE_MODEL;             ///< Device Model
     static const char *JSONKEY_DEVICE_OS;                ///< Device OS
     static const char *JSONKEY_DEVICE_OS_VERSION;        ///< Device Version
+    static const char* JSONKEY_DEVICE_OS_BUILD_NUMBER;   ///< Device OS Build Number
+    static const char* JSONKEY_DEVICE_OS_PLATFORM_VERSION;    ///< Device Platform Version as used by chromium (Windows.Foundation.UniversalApiContract Version )
     static const char *JSONKEY_DEVICE_SCREEN_DPI;        ///< Device Screen DPI
     static const char *JSONKEY_DEVICE_SCREEN_HEIGHT;     ///< Device Screen Height (pixels)
     static const char *JSONKEY_DEVICE_SCREEN_WIDTH;      ///< Device Screen Width (pixels)

@@ -73,6 +73,20 @@ class BRANCHIO_DLL_EXPORT DeviceInfo : public PropertyManager {
     virtual DeviceInfo& setOsVersion(const std::string &osVersion);
 
     /**
+    * (Internal) Used by Branch to add more granular OS Info to Server Requests - OS Build Number.
+    * @param osBuild Windows OS Version Build Number
+    * @return This object for chaining builder methods
+    */
+    virtual DeviceInfo& setOsBuildNumber(const std::string& osBuild);
+
+    /**
+    * (Internal) Used by Branch to add more granular OS Info to Server Requests - Version of UniversalApiContract.
+    * @param osPlatformVersion Windows.Foundation.UniversalApiContract Version
+    * @return This object for chaining builder methods
+    */
+    virtual DeviceInfo& setOsPlatformVersion(const std::string& osPlatformVersion);
+
+    /**
     * (Internal) Used by Branch to differentiate between SDKs, e.g. Android, iOS, Windows.
     * This is set by the system.  Overriding can lead to attribution errors.
     * @param sdk SDK Name
@@ -134,6 +148,24 @@ class BRANCHIO_DLL_EXPORT DeviceInfo : public PropertyManager {
      *  Determine OS Version
      */
     std::string osVersion();
+
+    /**
+     *  Determine OS Build Number
+     */
+    std::string osBuildNumber();
+
+    /**
+     *  Determine OS Platform Version. Its equal to the Highest of the Versions of UnivesalAPIContract available on the system.
+     *  Max is 30.
+     *  Latest Windows 11 Version has UnivesalAPIContract Version - 19.
+     *  TODO : This function will break after Major Version 30.
+     */
+    std::string osPlatformVersion();
+
+    /**
+     *  Get OS Version Info
+     */
+    bool getOSVersionInfo(OSVERSIONINFOEX& ver);
 };
 
 }  // namespace BranchIO

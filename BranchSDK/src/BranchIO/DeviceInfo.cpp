@@ -13,8 +13,10 @@
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
 
+#include <winrt/Windows.Foundation.Metadata.h>
 
 using namespace std;
+using namespace winrt::Windows::Foundation::Metadata;
 
 namespace BranchIO {
 
@@ -69,6 +71,16 @@ DeviceInfo::setOsVersion(const std::string &osVersion) {
 }
 
 DeviceInfo&
+DeviceInfo::setOsBuildNumber(const std::string& osBuild) {
+    return doAddProperty(Defines::JSONKEY_DEVICE_OS_BUILD_NUMBER, osBuild);
+}
+
+DeviceInfo&
+DeviceInfo::setOsPlatformVersion(const std::string& osPlatformVersion) {
+    return doAddProperty(Defines::JSONKEY_DEVICE_OS_PLATFORM_VERSION, osPlatformVersion);
+}
+
+DeviceInfo&
 DeviceInfo::setSDK(const std::string &sdk) {
     return doAddProperty(Defines::JSONKEY_APP_SDK, sdk);
 }
@@ -99,6 +111,8 @@ void
 DeviceInfo::init() {
     setOs(osDisplayName());
     setOsVersion(osVersion());
+    setOsBuildNumber(osBuildNumber());
+    setOsPlatformVersion(osPlatformVersion());
     setSDK("native");
     setSDKVersion(Branch::getVersion());
 
@@ -342,31 +356,61 @@ std::string DeviceInfo::osDisplayName()
     return "Unknown";
 }
 
-
-std::string DeviceInfo::osVersion()
+bool DeviceInfo::getOSVersionInfo(OSVERSIONINFOEX& ver)
 {
-    std::string osVersion;
-    std::ostringstream osVersionStream;
-    
-    OSVERSIONINFOEX ver;
     ver.dwOSVersionInfoSize = sizeof(ver);
 #pragma warning(suppress : 4996)
     if (GetVersionEx((OSVERSIONINFO*)&ver) == 0)
     {
         DWORD error = GetLastError();
         BRANCH_LOG_D("GetVersionEx failed with error: " << error);
+        return false;
     }
-    else
+    return true;
+}
+
+std::string DeviceInfo::osVersion()
+{
+    OSVERSIONINFOEX ver;
+    if (!getOSVersionInfo(ver))
     {
-        osVersionStream << ver.dwMajorVersion << "." << ver.dwMinorVersion << " (Build " << (ver.dwBuildNumber & 0xFFFF);
-        wstring ws(ver.szCSDVersion);
-        string csdVersion(StringUtils::wstring_to_utf8(ws));
-        if (!csdVersion.empty()) osVersionStream << ": " << csdVersion;
-        osVersionStream << ")";
+        return "Unknown";
     }
-   
+
+    std::ostringstream osVersionStream;
+    osVersionStream << ver.dwMajorVersion << "." << ver.dwMinorVersion;
     return osVersionStream.str();
 }
 
+std::string DeviceInfo::osBuildNumber()
+{
+    OSVERSIONINFOEX ver;
+    if (!getOSVersionInfo(ver))
+    {
+        return "Unknown";
+    }
+
+    std::ostringstream buildVersionStream;
+    buildVersionStream << (ver.dwBuildNumber & 0xFFFF);
+    return buildVersionStream.str();
+}
+
+std::string DeviceInfo::osPlatformVersion()
+{
+        int highestVersion = 0;
+        const int MAX_VERSION = 30;  // Max Version - Will fail for Versions after 30. Highest available Major version right now is 19
+
+        // Check all possible versions and return highest one
+        for (int version = 1; version <= MAX_VERSION; version++)
+        {
+            if (ApiInformation::IsApiContractPresent(L"Windows.Foundation.UniversalApiContract", version))
+            {
+                highestVersion = version; // Keep updating to the highest found version
+            }
+        }
+        BRANCH_LOG_D("Highest available UniversalApiContract version: " << highestVersion << std::endl;);
+
+        return (highestVersion > 0) ? std::to_string(highestVersion) : "Unknown";  
+}
 
 }  // namespace BranchIO
